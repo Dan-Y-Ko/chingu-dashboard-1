@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import TierDisplay from "@/components/assessment/ui/TierDisplay";
-import ButtonsController from "@/components/assessment/ui/ButtonsController";
-import ConfettiScreen from "@/components/assessment/ui/ConfettiScreen";
-import ResultsLoading from "@/components/assessment/ui/ResultsLoading";
+import TierDisplay from "@/app/(main)/assessment/ui/TierDisplay";
+import ButtonsController from "@/app/(main)/assessment/ui/ButtonsController";
+import ConfettiScreen from "@/app/(main)/assessment/ui/ConfettiScreen";
+import ResultsLoading from "@/app/(main)/assessment/ui/ResultsLoading";
 
 export default function AssessmentResultsPage() {
   const [showLoading, setShowLoading] = useState(true);

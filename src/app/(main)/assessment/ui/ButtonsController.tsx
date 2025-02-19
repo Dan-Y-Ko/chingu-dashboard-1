@@ -1,7 +1,7 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import Button from "@/components/Button";
-import QuizButton from "@/components/assessment/ui/QuizButton";
+import QuizButton from "@/app/(main)/assessment/ui/QuizButton";
 // import VoyagePageButton from "@/components/sidebar/VoyagePageButton";
 
 export default function ButtonsController() {

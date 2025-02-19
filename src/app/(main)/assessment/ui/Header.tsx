@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "@/components/Button";
-import AssessmentStepper from "@/components/assessment/ui/AssessmentStepper";
+import AssessmentStepper from "@/app/(main)/assessment/ui/AssessmentStepper";
 
 export default function Header() {
   const [currentStep, setCurrentStep] = useState(1);

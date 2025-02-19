@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
-import Header from "@/components/assessment/ui/Header";
+import Header from "@/app/(main)/assessment/ui/Header";
 import RadioGroupItem from "@/components/inputs/RadioGroup/RadioGroupItem";
 import Button from "@/components/Button";
 import { quiz } from "@/app/(main)/assessment/QuizData";
