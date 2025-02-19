@@ -10,20 +10,17 @@ export default function Header() {
   };
 
   return (
-    <div className="absolute left-[250px] top-[75px] flex w-full px-[24px]">
-      <div className="w-[163px] shrink-0">
-        <Button className="h-[40px] w-full gap-[8px] rounded-tl-[8px] border border-[#217A56] bg-[#F5F5F5] px-[20px] py-[12px] text-black">
-          Exit Assessment
-        </Button>
-      </div>
+    <div className="absolute left-0 top-0 flex w-full items-center justify-between gap-2 px-[24px]">
+      <Button variant="outline" className="whitespace-nowrap">
+        Exit Assessment
+      </Button>
 
-      <div className="flex flex-1 justify-center">
-        <AssessmentStepper
-          className="h-[80px] w-full max-w-[812px] items-center justify-center"
-          currentStep={currentStep}
-          goToStep={goToStep}
-        />
-      </div>
+      <AssessmentStepper
+        className="flex h-[80px] items-center justify-center"
+        currentStep={currentStep}
+        goToStep={goToStep}
+      />
+      <div className="text-sm text-neutral-focus">Last saved 4 minutes ago</div>
     </div>
   );
 }

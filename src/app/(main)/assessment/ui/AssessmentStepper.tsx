@@ -47,7 +47,7 @@ export default function AssessmentStepper({
 
   return (
     <div className={`flex justify-center text-black ${className || ""}`}>
-      <Stepper styleType="chips" stepperWidth="w-1/2" steppers={steppers} />
+      <Stepper styleType="chips" stepperWidth="w-fit" steppers={steppers} />
     </div>
   );
 }
