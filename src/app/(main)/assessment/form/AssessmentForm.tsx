@@ -8,10 +8,18 @@ import { quiz } from "@/app/(main)/assessment/QuizData";
 
 export default function AssessmentForm() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleNext = () => {
+    if (!selectedOption) {
+      setErrorMessage("Select an option before moving onto the next question");
+      return;
+    }
+    setErrorMessage("");
     if (currentIndex < quiz.length - 1) {
-      setCurrentIndex(currentIndex + 1);
+      setCurrentIndex((prevIndex) => prevIndex + 1);
+      setSelectedOption(null);
     }
   };
 
@@ -41,49 +49,33 @@ export default function AssessmentForm() {
           aria-label="radio-buttons"
           className="flex w-[650px] flex-col justify-center gap-[24px]"
         >
-          <RadioGroupItem
-            className="w-full gap-[16px] rounded-[8px] border border-[#9CA1AA] p-[16px] shadow-md shadow-[#4C515B0D]"
-            id="none"
-            label={
-              <div>
-                <strong>No Experience</strong>
-              </div>
-            }
-          />
-          <RadioGroupItem
-            className="w-full gap-[16px] rounded-[8px] border border-[#9CA1AA] p-[16px] shadow-md shadow-[#4C515B0D]"
-            id="beginner"
-            label={
-              <div>
-                <strong>Beginner</strong>
-                <p> {currentQuestion.beginner}</p>
-              </div>
-            }
-          />
-          <RadioGroupItem
-            className="w-full gap-[16px] rounded-[8px] border border-[#9CA1AA] p-[16px] shadow-md shadow-[#4C515B0D]"
-            id="intermediate"
-            label={
-              <div>
-                <strong>Intermediate</strong>
-                <p> {currentQuestion.intermediate}</p>
-              </div>
-            }
-          />
-          <RadioGroupItem
-            className="w-full gap-[16px] rounded-[8px] border border-[#9CA1AA] p-[16px] shadow-md shadow-[#4C515B0D]"
-            id="advanced"
-            label={
-              <div>
-                <strong>Advanced</strong>
-                <p>{currentQuestion.advanced}</p>
-              </div>
-            }
-          />
+          {["none", "beginner", "intermediate", "advanced"].map((level) => (
+            <RadioGroupItem
+              key={level}
+              className={`w-full gap-[16px] rounded-[8px] border p-[16px] shadow-md ${
+                selectedOption === level
+                  ? "border-[#217A56]"
+                  : "border-[#9CA1AA]"
+              }`}
+              id={level}
+              label={
+                <div>
+                  <strong>
+                    {level.charAt(0).toUpperCase() + level.slice(1)}
+                  </strong>
+                  <p>{currentQuestion[level]}</p>
+                </div>
+              }
+              checked={selectedOption === level}
+              onChange={() => setSelectedOption(level)}
+            />
+          ))}
         </div>
+
+        {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
       </div>
 
-      <div className="w-max-[812px] flex w-[386px] items-center justify-center gap-[40px]">
+      <div className="flex w-[386px] w-[812px] items-center justify-center gap-[40px]">
         <Button
           className="h-[60px] w-full rounded-[8px] border border-[#9CA1AA] !bg-[#F5F5F5]/70 px-[26px] py-[18px] text-black"
           disabled={currentIndex === 0}

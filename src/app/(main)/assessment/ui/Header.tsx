@@ -20,7 +20,7 @@ export default function Header() {
         currentStep={currentStep}
         goToStep={goToStep}
       />
-      <div className="text-sm text-neutral-focus">Last saved 4 minutes ago</div>
+      <div className="text-sm text-neutral">Last saved 4 minutes ago</div>
     </div>
   );
 }
