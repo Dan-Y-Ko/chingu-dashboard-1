@@ -36,7 +36,7 @@ export default function AssessmentForm() {
       <Header />
       <div
         aria-label="question-container"
-        className="mb-[42px] mt-[286px] w-full max-w-[812px] gap-[24px] rounded-[16px] bg-[#F5F5F5] p-[40px]"
+        className="mb-[42px] mt-[80px] w-full max-w-[812px] gap-[24px] rounded-[16px] bg-[#F5F5F5] p-[40px]"
       >
         <p
           aria-label="question"
@@ -63,7 +63,9 @@ export default function AssessmentForm() {
                   <strong>
                     {level.charAt(0).toUpperCase() + level.slice(1)}
                   </strong>
-                  <p>{currentQuestion[level]}</p>
+                  <p>
+                    {currentQuestion[level as keyof typeof currentQuestion]}
+                  </p>
                 </div>
               }
               checked={selectedOption === level}
@@ -75,7 +77,7 @@ export default function AssessmentForm() {
         {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
       </div>
 
-      <div className="flex w-[386px] w-[812px] items-center justify-center gap-[40px]">
+      <div className="flex w-[386px] items-center justify-center gap-[40px]">
         <Button
           className="h-[60px] w-full rounded-[8px] border border-[#9CA1AA] !bg-[#F5F5F5]/70 px-[26px] py-[18px] text-black"
           disabled={currentIndex === 0}
