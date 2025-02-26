@@ -56,10 +56,11 @@ export default function SprintWrapper({ params }: SprintWrapperProps) {
     router.push(routePaths.sprintsPage(teamId));
   }
 
-  const agendas = sprintMeetingAdapter.getSprintMeeting({
-    meeting: sprintMeeting,
-    meetingId,
-  })?.agendas;
+  const agendas =
+    sprintMeetingAdapter.getSprintMeeting({
+      meeting: sprintMeeting,
+      meetingId,
+    })?.agendas ?? [];
 
   const isVoyageProjectSubmitted =
     voyageTeamAdapter.getVoyageProjectSubmissionStatus({ user })!;
@@ -165,7 +166,7 @@ export default function SprintWrapper({ params }: SprintWrapperProps) {
         meetingLink={data.meetingLink!}
         description={data.description!}
       />
-      <Agendas params={params} topics={agendas!} />
+      <Agendas params={params} topics={agendas} />
       <Sections
         params={params}
         notes={data.notes}
