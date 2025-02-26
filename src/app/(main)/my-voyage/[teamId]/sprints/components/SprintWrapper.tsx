@@ -8,6 +8,7 @@ import { Forms } from "@chingu-x/modules/forms";
 import { useQuery } from "@tanstack/react-query";
 import { BannerContainer } from "@chingu-x/components/banner-container";
 import { Banner } from "@chingu-x/components/banner";
+import { Spinner } from "@chingu-x/components/spinner";
 import ProgressStepper from "./ProgressStepper";
 import MeetingOverview from "./meetingOverview/MeetingOverview";
 import Agendas from "./agenda/Agendas";
@@ -29,7 +30,6 @@ import {
   voyageTeamAdapter,
 } from "@/utils/adapters";
 import { CacheTag } from "@/utils/cacheTag";
-import Spinner from "@/components/Spinner";
 import { fetchMeeting } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import routePaths from "@/utils/routePaths";
 

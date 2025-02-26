@@ -9,12 +9,12 @@ import type {
   EditHoursClientRequestDto,
   EditHoursResponseDto,
 } from "@chingu-x/modules/my-team";
+import { Button } from "@chingu-x/components/button";
+import { Spinner } from "@chingu-x/components/spinner";
 import TextInput from "@/components/inputs/TextInput";
 import { validateTextInput } from "@/utils/form/validateInput";
 import { useAppDispatch, useUser } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import Spinner from "@/components/Spinner";
-import Button from "@/components/Button";
 import { myTeamAdapter } from "@/utils/adapters";
 import { editHours } from "@/store/features/my-team/myTeamSlice";
 
@@ -68,7 +68,6 @@ export default function EditHours({
       setIsEditing(false);
       dispatch(editHours({ user, hrPerSprint }));
     },
-    // TODO: update error handling
     onError: (error: Error) => {
       dispatch(
         onOpenModal({ type: "error", content: { message: error.message } }),

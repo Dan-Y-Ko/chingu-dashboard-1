@@ -14,11 +14,11 @@ import type {
   Meeting,
 } from "@chingu-x/modules/sprint-meeting";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Button from "@/components/Button";
+import { Button } from "@chingu-x/components/button";
+import { Spinner } from "@chingu-x/components/spinner";
 import DateTimePicker from "@/components/inputs/DateTimePicker";
 import TextInput from "@/components/inputs/TextInput";
 import Textarea from "@/components/inputs/Textarea";
-import Spinner from "@/components/Spinner";
 import {
   validateDateTimeInput,
   validateTextInput,

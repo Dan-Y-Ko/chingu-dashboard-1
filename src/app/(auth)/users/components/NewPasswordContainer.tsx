@@ -7,12 +7,12 @@ import type {
   ResetPasswordClientRequestDto,
   ResetPasswordResponseDto,
 } from "@chingu-x/modules/auth";
+import { Button } from "@chingu-x/components/button";
+import { Spinner } from "@chingu-x/components/spinner";
 import TextInput from "@/components/inputs/TextInput";
-import Button from "@/components/Button";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { useAppDispatch } from "@/store/hooks";
 import { validateTextInput } from "@/utils/form/validateInput";
-import Spinner from "@/components/Spinner";
 import { authAdapter } from "@/utils/adapters";
 
 const validationSchema = z.object({
@@ -44,7 +44,6 @@ function NewPasswordContainer({ onClick }: NewPasswordContainerProps) {
     onSuccess: () => {
       onClick();
     },
-    // TODO: update error handling
     onError: (error: Error) => {
       dispatch(
         onOpenModal({ type: "error", content: { message: error.message } }),

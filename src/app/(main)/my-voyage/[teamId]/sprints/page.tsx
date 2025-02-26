@@ -8,6 +8,7 @@ import type { Sprint } from "@chingu-x/modules/sprints";
 import { BannerContainer } from "@chingu-x/components/banner-container";
 import { Banner } from "@chingu-x/components/banner";
 import { useEffect } from "react";
+import { Spinner } from "@chingu-x/components/spinner";
 import VoyageSubmittedMessage from "./components/VoyageSubmittedMessage";
 import { currentDate } from "@/utils/getCurrentSprint";
 import { CacheTag } from "@/utils/cacheTag";
@@ -16,7 +17,6 @@ import ErrorComponent from "@/components/Error";
 import { useAppDispatch, useUser } from "@/store/hooks";
 import useCheckCurrentVoyageTeam from "@/hooks/useCheckCurrentVoyageTeam";
 import { sprintsAdapter, voyageTeamAdapter } from "@/utils/adapters";
-import Spinner from "@/components/Spinner";
 import { fetchSprints } from "@/store/features/sprint/sprintSlice";
 
 interface SprintsPageProps {

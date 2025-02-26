@@ -3,12 +3,12 @@
 import "reflect-metadata";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { Spinner } from "@chingu-x/components/spinner";
 import TeamMember from "./TeamMember";
 import { fetchTeamDirectory } from "@/store/features/my-team/myTeamSlice";
 import { CacheTag } from "@/utils/cacheTag";
 import { useAppDispatch, useMyTeam, useUser } from "@/store/hooks";
 import { myTeamAdapter } from "@/utils/adapters";
-import Spinner from "@/components/Spinner";
 import useCheckCurrentVoyageTeam from "@/hooks/useCheckCurrentVoyageTeam";
 import ErrorComponent from "@/components/Error";
 import { ErrorType } from "@/utils/error";

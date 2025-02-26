@@ -1,12 +1,21 @@
 import { useParams, useRouter } from "next/navigation";
+import { Button } from "@chingu-x/components/button";
+import { Spinner } from "@chingu-x/components/spinner";
 import { type FinalizedIdeation } from "./FinalizeIdeationList";
 import useServerAction from "@/hooks/useServerAction";
+<<<<<<< HEAD
 import Button from "@/components/Button";
 import routePaths from "@/utils/routePaths";
 import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import Spinner from "@/components/Spinner";
 import { finalizeIdeation } from "@/app/(main)/my-voyage/[teamId]/ideation/ideationService";
+=======
+import { finalizeIdeation } from "@/myVoyage/ideation/ideationService";
+import routePaths from "@/utils/routePaths";
+import { useAppDispatch } from "@/store/hooks";
+import { onOpenModal } from "@/store/features/modal/modalSlice";
+>>>>>>> dev
 
 interface ConfirmationButtonProps {
   finalizedIdeation: FinalizedIdeation;

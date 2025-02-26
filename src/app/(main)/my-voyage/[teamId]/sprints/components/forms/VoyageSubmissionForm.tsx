@@ -10,10 +10,10 @@ import type {
   SubmitVoyageProjectClientRequestDto,
   SubmitVoyageProjectResponseDto,
 } from "@chingu-x/modules/sprints";
+import { Button } from "@chingu-x/components/button";
+import { Spinner } from "@chingu-x/components/spinner";
 import BaseFormPage from "@/components/form/BaseFormPage";
 import FormInput from "@/components/form/FormInput";
-import Button from "@/components/Button";
-import Spinner from "@/components/Spinner";
 import { useAppDispatch, useUser } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { createValidationSchema } from "@/utils/form/createValidationSchema";

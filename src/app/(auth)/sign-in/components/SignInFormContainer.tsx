@@ -8,13 +8,13 @@ import type {
   LoginClientRequestDto,
   LoginResponseDto,
 } from "@chingu-x/modules/auth";
-import Button from "@/components/Button";
+import { Button } from "@chingu-x/components/button";
+import { Spinner } from "@chingu-x/components/spinner";
 import TextInput from "@/components/inputs/TextInput";
 import { validateTextInput } from "@/utils/form/validateInput";
 import { clientSignIn } from "@/store/features/auth/authSlice";
 import { useAppDispatch } from "@/store/hooks";
 import routePaths from "@/utils/routePaths";
-import Spinner from "@/components/Spinner";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { authAdapter } from "@/utils/adapters";
 
@@ -54,7 +54,6 @@ function SignInFormContainer({
       dispatch(clientSignIn());
       router.replace(routePaths.dashboardPage());
     },
-    // TODO: update error handling
     onError: (error: Error) => {
       dispatch(
         onOpenModal({ type: "error", content: { message: error.message } }),

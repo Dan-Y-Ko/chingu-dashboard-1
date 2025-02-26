@@ -6,10 +6,10 @@ import type {
 } from "@chingu-x/modules/auth";
 import { Banner } from "@chingu-x/components/banner";
 import Image from "next/image";
-import Button from "@/components/Button";
+import { Button } from "@chingu-x/components/button";
+import { Spinner } from "@chingu-x/components/spinner";
 import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import Spinner from "@/components/Spinner";
 import { authAdapter } from "@/utils/adapters";
 import { ContainerState } from "@/app/(auth)/sign-in/page";
 
@@ -30,7 +30,6 @@ function EmailCheckContainer({
     RequestResetPasswordClientRequestDto
   >({
     mutationFn: requestResetPasswordMutation,
-    // TODO: update error handling
     onError: (error: Error) => {
       dispatch(
         onOpenModal({ type: "error", content: { message: error.message } }),

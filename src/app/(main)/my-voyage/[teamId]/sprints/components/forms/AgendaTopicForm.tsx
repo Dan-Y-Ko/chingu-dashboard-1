@@ -16,18 +16,14 @@ import type {
   EditAgendaTopicClientRequestDto,
   EditAgendaTopicResponseDto,
 } from "@chingu-x/modules/sprint-meeting";
-import {
-  useMutation,
-  useQueryClient,
-  type UseMutateFunction,
-} from "@tanstack/react-query";
-import Button from "@/components/Button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@chingu-x/components/button";
+import { Spinner } from "@chingu-x/components/spinner";
 import TextInput from "@/components/inputs/TextInput";
 import Textarea from "@/components/inputs/Textarea";
 
 import { validateTextInput } from "@/utils/form/validateInput";
 import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
-import { deleteAgendaTopic } from "@/myVoyage/sprints/sprintsService";
 import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";
 import {
   addAgendaState,
@@ -35,7 +31,6 @@ import {
   editAgendaState,
 } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import routePaths from "@/utils/routePaths";
-import Spinner from "@/components/Spinner";
 import { persistor } from "@/store/store";
 import { sprintMeetingAdapter } from "@/utils/adapters";
 import { CacheTag } from "@/utils/cacheTag";

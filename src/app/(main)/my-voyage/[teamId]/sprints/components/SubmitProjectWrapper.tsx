@@ -4,6 +4,7 @@ import "reflect-metadata";
 import { useRouter } from "next/navigation";
 import type { Sprint } from "@chingu-x/modules/sprints";
 import { useQuery } from "@tanstack/react-query";
+import { Spinner } from "@chingu-x/components/spinner";
 import VoyageSubmissionForm from "./forms/VoyageSubmissionForm";
 import { ErrorType } from "@/utils/error";
 import ErrorComponent from "@/components/Error";
@@ -11,7 +12,6 @@ import { useSprint, useUser } from "@/store/hooks";
 import { formsAdapter, sprintsAdapter } from "@/utils/adapters";
 import { currentDate } from "@/utils/getCurrentSprint";
 import { CacheTag } from "@/utils/cacheTag";
-import Spinner from "@/components/Spinner";
 import useCheckCurrentVoyageTeam from "@/hooks/useCheckCurrentVoyageTeam";
 
 interface SubmitProjectWrapperProps {

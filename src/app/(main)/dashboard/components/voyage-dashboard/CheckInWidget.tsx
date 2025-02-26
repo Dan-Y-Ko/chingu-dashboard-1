@@ -7,7 +7,7 @@ import Link from "next/link";
 import { isSameDay, sub } from "date-fns";
 import { type User } from "@chingu-x/modules/user";
 import { Badge } from "@chingu-x/components/badge";
-import Button from "@/components/Button";
+import { Button } from "@chingu-x/components/button";
 import routePaths from "@/utils/routePaths";
 import { getSprintCheckinIsStatus } from "@/utils/getFormStatus";
 import { useSprint, useUser } from "@/store/hooks";

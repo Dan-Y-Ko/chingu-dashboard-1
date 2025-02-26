@@ -8,13 +8,13 @@ import type {
   RequestResetPasswordClientRequestDto,
   RequestResetPasswordResponseDto,
 } from "@chingu-x/modules/auth";
-import Button from "@/components/Button";
+import { Button } from "@chingu-x/components/button";
+import { Spinner } from "@chingu-x/components/spinner";
 import TextInput from "@/components/inputs/TextInput";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { useAppDispatch } from "@/store/hooks";
 import { validateTextInput } from "@/utils/form/validateInput";
 import routePaths from "@/utils/routePaths";
-import Spinner from "@/components/Spinner";
 import { authAdapter } from "@/utils/adapters";
 
 const validationSchema = z.object({
@@ -48,7 +48,6 @@ function ResetPasswordContainer({
       handleEmailCheck();
       setEmail(variables.email);
     },
-    // TODO: update error handling
     onError: (error: Error) => {
       dispatch(
         onOpenModal({ type: "error", content: { message: error.message } }),

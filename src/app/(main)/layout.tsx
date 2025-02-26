@@ -3,18 +3,19 @@
 import "reflect-metadata";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { Navbar } from "@chingu-x/components/navbar";
+import { Spinner } from "@chingu-x/components/spinner";
 import Sidebar from "@/components/sidebar/Sidebar";
-import Navbar from "@/components/navbar/Navbar";
 import ModeToggle from "@/components/ModeToggle";
 import AuthHeader from "@/components/navbar/AuthHeader";
 import { useAppDispatch } from "@/store/hooks";
 import { clientSignIn } from "@/store/features/auth/authSlice";
 import routePaths from "@/utils/routePaths";
 import { getUserState } from "@/store/features/user/userSlice";
-import Spinner from "@/components/Spinner";
 import { CacheTag } from "@/utils/cacheTag";
 import { userAdapter } from "@/utils/adapters";
 import { currentDate } from "@/utils/getCurrentSprint";
+import ChinguMenu from "@/components/navbar/ChinguMenu";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -45,7 +46,7 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="flex h-screen w-screen flex-col">
-      <Navbar>
+      <Navbar logo={<ChinguMenu />}>
         <>
           <ModeToggle />
           <>

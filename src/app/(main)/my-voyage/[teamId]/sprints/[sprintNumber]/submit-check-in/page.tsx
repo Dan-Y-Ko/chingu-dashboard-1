@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import type { TeamMemberForCheckbox } from "@chingu-x/modules/forms";
 import { useEffect } from "react";
 import type { Sprint } from "@chingu-x/modules/sprints";
+import { Spinner } from "@chingu-x/components/spinner";
+import WeeklyCheckInForm from "@/app/(main)/my-voyage/[teamId]/sprints/components/forms/WeeklyCheckInForm";
 import { CacheTag } from "@/utils/cacheTag";
 import routePaths from "@/utils/routePaths";
 import { currentDate } from "@/utils/getCurrentSprint";
@@ -18,8 +20,6 @@ import {
   sprintsAdapter,
   voyageTeamAdapter,
 } from "@/utils/adapters";
-import Spinner from "@/components/Spinner";
-import WeeklyCheckInForm from "@/app/(main)/my-voyage/[teamId]/sprints/components/forms/WeeklyCheckInForm";
 
 interface WeeklyCheckInPageProps {
   params: {
