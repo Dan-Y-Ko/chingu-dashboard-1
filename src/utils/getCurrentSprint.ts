@@ -3,7 +3,9 @@ import { isWithinInterval } from "date-fns";
 import { type Sprint } from "@/store/features/sprint/sprintSlice";
 
 export const currentDate =
-  process.env.NODE_ENV === "development" ? new Date(2024, 9, 14) : new Date();
+  process.env.NODE_ENV === "development"
+    ? new Date(2024, 9, 14)
+    : new Date(2024, 9, 14);
 
 export function getCurrentSprint(sprints: Sprint[]) {
   const currentSprint = sprints.find((sprint) =>
