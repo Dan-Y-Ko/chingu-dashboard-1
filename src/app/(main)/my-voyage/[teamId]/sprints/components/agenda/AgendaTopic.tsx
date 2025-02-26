@@ -6,7 +6,7 @@ import {
 import { CheckCircleIcon as CheckCircleIconSolid } from "@heroicons/react/24/solid";
 
 import { IconButton } from "@chingu-x/components/icon-button";
-import { type Agenda } from "@/app/(main)/my-voyage/[teamId]/sprints/components/fixtures/Meeting";
+import type { Agenda } from "@chingu-x/modules/sprint-meeting";
 import { cn } from "@/lib/utils";
 
 interface TopicProps {
