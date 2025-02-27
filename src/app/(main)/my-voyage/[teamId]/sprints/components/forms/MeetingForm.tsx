@@ -139,6 +139,20 @@ export default function MeetingForm() {
     },
   });
 
+  async function addMeetingMutation({
+    data,
+    teamId,
+    sprintNumber,
+    timezone,
+  }: AddMeetingClientRequestDto): Promise<AddMeetingResponseDto> {
+    return await sprintMeetingAdapter.addMeeting({
+      data,
+      teamId,
+      sprintNumber,
+      timezone,
+    });
+  }
+
   const { mutate: editMeeting, isPending: editMeetingPending } = useMutation<
     EditMeetingResponseDto,
     Error,
@@ -160,20 +174,6 @@ export default function MeetingForm() {
       );
     },
   });
-
-  async function addMeetingMutation({
-    data,
-    teamId,
-    sprintNumber,
-    timezone,
-  }: AddMeetingClientRequestDto): Promise<AddMeetingResponseDto> {
-    return await sprintMeetingAdapter.addMeeting({
-      data,
-      teamId,
-      sprintNumber,
-      timezone,
-    });
-  }
 
   async function editMeetingMutation({
     meetingId,

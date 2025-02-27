@@ -5,19 +5,21 @@ import { z } from "zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
-import type { Section } from "@chingu-x/modules/sprint-meeting";
+import type {
+  EditSprintMeetingSectionResponseDto,
+  EditSprintReviewSectionClientRequestDto,
+  Section,
+  SectionBody,
+} from "@chingu-x/modules/sprint-meeting";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Textarea from "@/components/inputs/Textarea";
 import { validateTextInput } from "@/utils/form/validateInput";
-import { ReviewQuestions, Forms } from "@/utils/form/formsEnums";
-import useServerAction from "@/hooks/useServerAction";
-import {
-  type EditSectionBody,
-  editSection,
-} from "@/myVoyage/sprints/sprintsService";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { useAppDispatch, useSprint } from "@/store/hooks";
+import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
+import { sprintMeetingAdapter } from "@/utils/adapters";
+import { CacheTag } from "@/utils/cacheTag";
 
 const validationSchema = z.object({
   what_right: validateTextInput({
@@ -44,67 +46,67 @@ export default function Review() {
     meetingId: string;
   }>();
 
-  const [sprintNumber, meetingId] = [
-    Number(params.sprintNumber),
-    Number(params.meetingId),
-  ];
+  const [meetingId] = [params.meetingId];
 
-  const { sprints } = useSprint();
+  const queryClient = useQueryClient();
+  const meeting = useSprintMeeting();
 
-  useEffect(() => {
-    const sprint = sprints[sprintNumber - 1];
-    if (sprint.teamMeetingsData && sprint.teamMeetingsData.length) {
-      setData(
-        sprint.teamMeetingsData[0].formResponseMeeting?.find(
-          (form) => form.form.id === Number(Forms.review),
-        ),
+  const currentMeeting = sprintMeetingAdapter.getSprintMeeting({
+    meeting,
+    meetingId,
+  });
+
+  const { what_right, what_to_improve, what_to_change } =
+    sprintMeetingAdapter.getSprintReviewQuestions({ meeting: currentMeeting! });
+
+  const {
+    mutate: editSprintReviewSection,
+    isPending: editSprintReviewSectionPending,
+  } = useMutation<
+    EditSprintMeetingSectionResponseDto,
+    Error,
+    EditSprintReviewSectionClientRequestDto
+  >({
+    mutationFn: editSprintReviewSectionMutation,
+    onSuccess: (data) => {
+      queryClient.removeQueries({
+        queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
+      });
+    },
+    onError: (error: Error) => {
+      dispatch(
+        onOpenModal({ type: "error", content: { message: error.message } }),
       );
-    }
-  }, [sprints, sprintNumber]);
+    },
+  });
 
-  const what_right = data?.responseGroup.responses.find(
-    (response) => response.question.id === Number(ReviewQuestions.what_right),
-  )?.text;
-  const what_to_improve = data?.responseGroup.responses.find(
-    (response) =>
-      response.question.id === Number(ReviewQuestions.what_to_improve),
-  )?.text;
-  const what_to_change = data?.responseGroup.responses.find(
-    (response) =>
-      response.question.id === Number(ReviewQuestions.what_to_change),
-  )?.text;
+  async function editSprintReviewSectionMutation({
+    meetingId,
+    data,
+  }: EditSprintReviewSectionClientRequestDto): Promise<EditSprintMeetingSectionResponseDto> {
+    return await sprintMeetingAdapter.editSprintReviewSection({
+      meetingId,
+      data,
+    });
+  }
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors, isDirty, isValid, dirtyFields },
   } = useForm<ValidationSchema>({
     mode: "onTouched",
     resolver: zodResolver(validationSchema),
   });
 
-  const {
-    runAction: editSectionAction,
-    isLoading: editSectionLoading,
-    setIsLoading: setEditSectionLoading,
-  } = useServerAction(editSection);
-
-  useEffect(() => {
-    reset({
-      what_right,
-      what_to_improve,
-      what_to_change,
-    });
-  }, [what_right, what_to_improve, what_to_change, reset]);
-
-  const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
+    console.log(data);
     // Get only modified data
-    interface MyObject extends EditSectionBody {
+    interface MyObject extends Partial<SectionBody> {
       [key: string]: unknown;
     }
 
-    const filteredData: MyObject = {};
+    const filteredData: MyObject = { responses: [] };
 
     for (const key in dirtyFields) {
       if (dirtyFields.hasOwnProperty(key)) {
@@ -112,41 +114,12 @@ export default function Review() {
       }
     }
 
-    // Create a necessary object
-    type ResponseType = { questionId: number; text: string }[];
-    const responses = [] as ResponseType;
+    console.log(filteredData);
 
-    for (const [key, value] of Object.entries(filteredData)) {
-      const question = key as keyof typeof ReviewQuestions;
-      const questionId: number = ReviewQuestions[question];
-      const text = value as string;
-      const response = {
-        questionId,
-        text,
-      };
-      responses.push(response);
-    }
-
-    const [res, error] = await editSectionAction({
-      responses,
-      meetingId,
-      sprintNumber,
-      formId: Number(Forms.review),
-    });
-
-    if (res) {
-      reset({ ...data });
-    }
-
-    if (error) {
-      dispatch(
-        onOpenModal({
-          type: "error",
-          content: { message: error.message },
-        }),
-      );
-    }
-    setEditSectionLoading(false);
+    // editSprintReviewSection({
+    //   meetingId,
+    //   data: { responses: filteredData.responses ?? [] },
+    // });
   };
 
   return (
@@ -186,9 +159,9 @@ export default function Review() {
         variant="outline"
         size="md"
         className="min-w-[75px] self-center"
-        disabled={!isDirty || !isValid || editSectionLoading}
+        disabled={!isDirty || !isValid || editSprintReviewSectionPending}
       >
-        {editSectionLoading ? <Spinner /> : "Save"}
+        {editSprintReviewSectionPending ? <Spinner /> : "Save"}
       </Button>
     </form>
   );
