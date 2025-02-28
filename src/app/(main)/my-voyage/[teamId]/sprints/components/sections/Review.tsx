@@ -20,6 +20,7 @@ import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
 import { sprintMeetingAdapter } from "@/utils/adapters";
 import { CacheTag } from "@/utils/cacheTag";
+import { editSprintReviewState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 
 const validationSchema = z.object({
   what_right: validateTextInput({
@@ -72,6 +73,8 @@ export default function Review() {
       queryClient.removeQueries({
         queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
+
+      dispatch(editSprintReviewState({ data, meetingId }));
     },
     onError: (error: Error) => {
       dispatch(
@@ -100,13 +103,12 @@ export default function Review() {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
-    console.log(data);
     // Get only modified data
     interface MyObject extends Partial<SectionBody> {
       [key: string]: unknown;
     }
 
-    const filteredData: MyObject = { responses: [] };
+    const filteredData: MyObject = {};
 
     for (const key in dirtyFields) {
       if (dirtyFields.hasOwnProperty(key)) {
@@ -114,12 +116,10 @@ export default function Review() {
       }
     }
 
-    console.log(filteredData);
-
-    // editSprintReviewSection({
-    //   meetingId,
-    //   data: { responses: filteredData.responses ?? [] },
-    // });
+    editSprintReviewSection({
+      meetingId,
+      data: filteredData,
+    });
   };
 
   return (

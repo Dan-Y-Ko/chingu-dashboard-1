@@ -5,10 +5,16 @@ import type {
   DeleteAgendaTopicResponseDto,
   EditAgendaTopicResponseDto,
   EditMeetingResponseDto,
+  EditSprintMeetingSectionResponseDto,
   Meeting,
 } from "@chingu-x/modules/sprint-meeting";
 
 const initialState: Meeting[] = [];
+
+interface EditSprintReviewStatePayload {
+  data: EditSprintMeetingSectionResponseDto;
+  meetingId: string;
+}
 
 export const sprintMeetingSlice = createSlice({
   name: "sprintMeeting",
@@ -76,6 +82,17 @@ export const sprintMeetingSlice = createSlice({
 
       meeting!.agendas = meeting?.agendas?.filter((agenda) => agenda.id !== id);
     },
+    editSprintReviewState: (
+      state,
+      action: PayloadAction<EditSprintReviewStatePayload>,
+    ) => {
+      const { data, meetingId } = action.payload;
+      const meeting = state.find((m) => m.id === Number(meetingId));
+
+      const responseMeetingIndex = meeting?.formResponseMeeting?.findIndex(
+        (meeting) => meeting.id === Number(meetingId),
+      );
+    },
   },
 });
 
@@ -86,6 +103,7 @@ export const {
   addAgendaState,
   editAgendaState,
   deleteAgendaState,
+  editSprintReviewState,
 } = sprintMeetingSlice.actions;
 
 export default sprintMeetingSlice.reducer;
