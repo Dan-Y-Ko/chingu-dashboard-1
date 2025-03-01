@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { z } from "zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,7 +7,6 @@ import { useParams } from "next/navigation";
 import type {
   EditSprintMeetingSectionResponseDto,
   EditSprintReviewSectionClientRequestDto,
-  Section,
   SectionBody,
 } from "@chingu-x/modules/sprint-meeting";
 import { Button } from "@chingu-x/components/button";
@@ -40,7 +38,6 @@ const validationSchema = z.object({
 export type ValidationSchema = z.infer<typeof validationSchema>;
 
 export default function Review() {
-  const [data, setData] = useState<Section>();
   const dispatch = useAppDispatch();
   const params = useParams<{
     sprintNumber: string;

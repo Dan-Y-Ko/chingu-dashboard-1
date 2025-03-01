@@ -89,9 +89,17 @@ export const sprintMeetingSlice = createSlice({
       const { data, meetingId } = action.payload;
       const meeting = state.find((m) => m.id === Number(meetingId));
 
-      const responseMeetingIndex = meeting?.formResponseMeeting?.findIndex(
-        (meeting) => meeting.id === Number(meetingId),
+      const responseMeeting = meeting!.formResponseMeeting!.find(
+        (m) => m.id === Number(meetingId),
       );
+
+      data.forEach((updatedResponse) => {
+        const response = responseMeeting!.responseGroup.responses.find(
+          (r) => r.question.id === updatedResponse.questionId,
+        );
+
+        response!.text = updatedResponse.text;
+      });
     },
   },
 });
