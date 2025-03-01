@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Textarea from "@/components/inputs/Textarea";
 import { validateTextInput } from "@/utils/form/validateInput";
 import { PlanningQuestions, Forms } from "@/utils/form/formsEnums";
@@ -19,6 +19,12 @@ import {
 import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { sprintMeetingAdapter } from "@/utils/adapters";
+import {
+  EditSprintMeetingSectionResponseDto,
+  EditSprintPlanningSectionClientRequestDto,
+  SectionBody,
+} from "@chingu-x/modules/sprint-meeting";
+import { CacheTag } from "@/utils/cacheTag";
 
 const validationSchema = z.object({
   goal: validateTextInput({
@@ -41,10 +47,7 @@ export default function Planning() {
     meetingId: string;
   }>();
 
-  const [sprintNumber, meetingId] = [
-    Number(params.sprintNumber),
-    params.meetingId,
-  ];
+  const [meetingId] = [params.meetingId];
 
   const queryClient = useQueryClient();
   const meeting = useSprintMeeting();
@@ -59,6 +62,39 @@ export default function Planning() {
   });
 
   const {
+    mutate: editSprintPlanningSection,
+    isPending: editSprintPlanningSectionPending,
+  } = useMutation<
+    EditSprintMeetingSectionResponseDto,
+    Error,
+    EditSprintPlanningSectionClientRequestDto
+  >({
+    mutationFn: editSprintPlanningSectionMutation,
+    onSuccess: (data) => {
+      queryClient.removeQueries({
+        queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
+      });
+
+      // dispatch(editSprintReviewState({ data, meetingId }));
+    },
+    onError: (error: Error) => {
+      dispatch(
+        onOpenModal({ type: "error", content: { message: error.message } }),
+      );
+    },
+  });
+
+  async function editSprintPlanningSectionMutation({
+    meetingId,
+    data,
+  }: EditSprintPlanningSectionClientRequestDto): Promise<EditSprintMeetingSectionResponseDto> {
+    return await sprintMeetingAdapter.editSprintPlanningSection({
+      meetingId,
+      data,
+    });
+  }
+
+  const {
     register,
     handleSubmit,
     reset,
@@ -68,12 +104,6 @@ export default function Planning() {
     resolver: zodResolver(validationSchema),
   });
 
-  const {
-    runAction: editSectionAction,
-    isLoading: editSectionLoading,
-    setIsLoading: setEditSectionLoading,
-  } = useServerAction(editSection);
-
   useEffect(() => {
     reset({
       goal,
@@ -81,9 +111,9 @@ export default function Planning() {
     });
   }, [goal, timeline, reset]);
 
-  const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     // Get only modified data
-    interface MyObject extends EditSectionBody {
+    interface MyObject extends Partial<SectionBody> {
       [key: string]: unknown;
     }
 
@@ -95,39 +125,10 @@ export default function Planning() {
       }
     }
 
-    // Create a necessary object
-    type ResponseType = { questionId: number; text: string }[];
-    const responses = [] as ResponseType;
-
-    for (const [key, value] of Object.entries(filteredData)) {
-      const question = key as keyof typeof PlanningQuestions;
-      const questionId: number = PlanningQuestions[question];
-      const text = value as string;
-      const response = {
-        questionId,
-        text,
-      };
-      responses.push(response);
-    }
-
-    const [res, error] = await editSectionAction({
-      responses,
+    editSprintPlanningSection({
       meetingId,
-      sprintNumber,
-      formId: Number(Forms.planning),
+      data: filteredData,
     });
-    if (res) {
-      reset({ ...data });
-    }
-    if (error) {
-      dispatch(
-        onOpenModal({
-          type: "error",
-          content: { message: error.message },
-        }),
-      );
-    }
-    setEditSectionLoading(false);
   };
 
   return (
@@ -158,9 +159,9 @@ export default function Planning() {
         variant="outline"
         size="md"
         className="min-w-[75px] self-center"
-        disabled={!isDirty || !isValid || editSectionLoading}
+        disabled={!isDirty || !isValid || editSprintPlanningSectionPending}
       >
-        {editSectionLoading ? <Spinner /> : "Save"}
+        {editSprintPlanningSectionPending ? <Spinner /> : "Save"}
       </Button>
     </form>
   );

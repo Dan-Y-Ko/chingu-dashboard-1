@@ -1576,7 +1576,7 @@ __metadata:
 
 "@chingu-x/modules@file:C:\\Users\\DK379\\Documents\\web_pages\\chingu_packages\\modules::locator=chingu_dashboard%40workspace%3A.":
   version: 0.7.0
-  resolution: "@chingu-x/modules@file:/C%3A/Users/DK379/Documents/web_pages/chingu_packages/modules#/C%3A/Users/DK379/Documents/web_pages/chingu_packages/modules::hash=8c6026&locator=chingu_dashboard%40workspace%3A."
+  resolution: "@chingu-x/modules@file:/C%3A/Users/DK379/Documents/web_pages/chingu_packages/modules#/C%3A/Users/DK379/Documents/web_pages/chingu_packages/modules::hash=2f2355&locator=chingu_dashboard%40workspace%3A."
   dependencies:
     axios: "npm:^1.7.9"
     date-fns: "npm:^4.1.0"
@@ -1584,7 +1584,7 @@ __metadata:
     dotenv: "npm:^16.4.7"
     reflect-metadata: "npm:^0.2.2"
     tsyringe: "npm:^4.8.0"
-  checksum: f13efe7cc796e1cef6559ccb07962559dfbf3cab6827f2092b495f6e4264a5b8c26ae301510a1dbf7a8714252cabf0fca658fb5a5fc9f145c729b0bab2b66733
+  checksum: 3bc057f449f8d7da80e14d160c86815253677071f72b0b0df6bbab02ebdeebbd13ffa182b4022b597c9a50386ad1bb93fcaa0a61b375e0a81265e4bdc48e6c9b
   languageName: node
   linkType: hard
 
