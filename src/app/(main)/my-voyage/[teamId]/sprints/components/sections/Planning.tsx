@@ -5,21 +5,20 @@ import { z } from "zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
-
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
+import { useQueryClient } from "@tanstack/react-query";
 import Textarea from "@/components/inputs/Textarea";
-
 import { validateTextInput } from "@/utils/form/validateInput";
-import { type Section } from "@/store/features/sprint/sprintSlice";
 import { PlanningQuestions, Forms } from "@/utils/form/formsEnums";
 import useServerAction from "@/hooks/useServerAction";
 import {
   editSection,
   type EditSectionBody,
 } from "@/myVoyage/sprints/sprintsService";
-import { useAppDispatch, useSprint } from "@/store/hooks";
+import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { sprintMeetingAdapter } from "@/utils/adapters";
 
 const validationSchema = z.object({
   goal: validateTextInput({
@@ -44,28 +43,20 @@ export default function Planning() {
 
   const [sprintNumber, meetingId] = [
     Number(params.sprintNumber),
-    Number(params.meetingId),
+    params.meetingId,
   ];
 
-  const { sprints } = useSprint();
+  const queryClient = useQueryClient();
+  const meeting = useSprintMeeting();
 
-  useEffect(() => {
-    const sprint = sprints[sprintNumber - 1];
-    if (sprint.teamMeetingsData && sprint.teamMeetingsData.length) {
-      setData(
-        sprint.teamMeetingsData[0].formResponseMeeting?.find(
-          (form) => form.form.id === Number(Forms.planning),
-        ),
-      );
-    }
-  }, [sprints, sprintNumber]);
+  const currentMeeting = sprintMeetingAdapter.getSprintMeeting({
+    meeting,
+    meetingId,
+  });
 
-  const goal = data?.responseGroup.responses.find(
-    (response) => response.question.id === Number(PlanningQuestions.goal),
-  )?.text;
-  const timeline = data?.responseGroup.responses.find(
-    (response) => response.question.id === Number(PlanningQuestions.timeline),
-  )?.text;
+  const { goal, timeline } = sprintMeetingAdapter.getSprintPlanningQuestions({
+    meeting: currentMeeting!,
+  });
 
   const {
     register,

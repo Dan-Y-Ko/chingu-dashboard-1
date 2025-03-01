@@ -101,6 +101,7 @@ export const sprintMeetingSlice = createSlice({
         response!.text = updatedResponse.text;
       });
     },
+    editSprintPlanningState: (state, action) => {},
   },
 });
 
@@ -112,6 +113,7 @@ export const {
   editAgendaState,
   deleteAgendaState,
   editSprintReviewState,
+  editSprintPlanningState,
 } = sprintMeetingSlice.actions;
 
 export default sprintMeetingSlice.reducer;
