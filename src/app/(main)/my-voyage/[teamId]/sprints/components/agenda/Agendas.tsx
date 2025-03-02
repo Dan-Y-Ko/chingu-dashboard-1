@@ -13,8 +13,9 @@ import routePaths from "@/utils/routePaths";
 import Divider from "@/myVoyage/sprints/components/Divider";
 import useServerAction from "@/hooks/useServerAction";
 import { changeAgendaTopicStatus } from "@/myVoyage/sprints/sprintsService";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { sprintMeetingAdapter } from "@/utils/adapters";
 
 interface AgendasProps {
   params: {
@@ -27,19 +28,34 @@ interface AgendasProps {
 
 export default function Agendas({ params, topics }: AgendasProps) {
   const [teamId, meetingId, sprintNumber] = [
-    Number(params.teamId),
-    Number(params.meetingId),
-    Number(params.sprintNumber),
+    params.teamId,
+    params.meetingId,
+    params.sprintNumber,
   ];
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const meeting = useSprintMeeting();
 
-  const [incompletedTopics, setIncompletedTopics] = useState(
-    topics.filter((topic) => topic.status === false),
-  );
-  const [completedTopics, setCompletedTopics] = useState(
-    topics.filter((topic) => topic.status === true),
-  );
+  const agendas =
+    sprintMeetingAdapter.getSprintMeeting({
+      meeting,
+      meetingId,
+    })?.agendas ?? [];
+
+  const incompletedTopics = sprintMeetingAdapter.getIncompleteTopics({
+    agendas,
+  });
+
+  const completedTopics = sprintMeetingAdapter.getCompletedTopics({
+    agendas,
+  });
+
+  // const [incompletedTopics, setIncompletedTopics] = useState(
+  //   topics.filter((topic) => topic.status === false),
+  // );
+  // const [completedTopics, setCompletedTopics] = useState(
+  //   topics.filter((topic) => topic.status === true),
+  // );
 
   const {
     runAction: changeAgendaTopicAction,
@@ -82,9 +98,9 @@ export default function Agendas({ params, topics }: AgendasProps) {
   const editTopic = (agendaTopicId: number) => {
     router.push(
       routePaths.editTopicPage(
-        teamId.toString(),
-        sprintNumber.toString(),
-        meetingId.toString(),
+        teamId,
+        sprintNumber,
+        meetingId,
         agendaTopicId.toString(),
       ),
     );

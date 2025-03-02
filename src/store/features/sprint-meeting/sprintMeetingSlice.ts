@@ -59,7 +59,11 @@ export const sprintMeetingSlice = createSlice({
 
       const meeting = state.find((m) => m.id === teamMeetingId);
 
-      meeting?.agendas?.push(action.payload);
+      if (!meeting?.agendas) {
+        meeting!.agendas = [];
+      }
+
+      meeting!.agendas.push(action.payload);
     },
     editAgendaState: (
       state,
