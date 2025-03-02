@@ -16,6 +16,11 @@ interface EditSprintReviewStatePayload {
   meetingId: string;
 }
 
+interface EditSprintPlanningStatePayload {
+  data: EditSprintMeetingSectionResponseDto;
+  meetingId: string;
+}
+
 export const sprintMeetingSlice = createSlice({
   name: "sprintMeeting",
   initialState,
@@ -89,6 +94,31 @@ export const sprintMeetingSlice = createSlice({
       const { data, meetingId } = action.payload;
       const meeting = state.find((m) => m.id === Number(meetingId));
 
+      data.forEach((updatedResponse) => {
+        const formMeetingIndex = meeting!.formResponseMeeting!.findIndex(
+          (formMeeting) =>
+            formMeeting.responseGroup.responses.some(
+              (r) => r.question.id === updatedResponse.questionId,
+            ),
+        );
+
+        const formMeeting = meeting!.formResponseMeeting![formMeetingIndex];
+
+        const responseIndex = formMeeting.responseGroup.responses.findIndex(
+          (r) => r.question.id === updatedResponse.questionId,
+        );
+
+        formMeeting.responseGroup.responses[responseIndex].text =
+          updatedResponse.text;
+      });
+    },
+    editSprintPlanningState: (
+      state,
+      action: PayloadAction<EditSprintPlanningStatePayload>,
+    ) => {
+      const { data, meetingId } = action.payload;
+      const meeting = state.find((m) => m.id === Number(meetingId));
+
       const responseMeeting = meeting!.formResponseMeeting!.find(
         (m) => m.id === Number(meetingId),
       );
@@ -101,7 +131,6 @@ export const sprintMeetingSlice = createSlice({
         response!.text = updatedResponse.text;
       });
     },
-    editSprintPlanningState: (state, action) => {},
   },
 });
 

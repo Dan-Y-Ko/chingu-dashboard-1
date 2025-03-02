@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { z } from "zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,23 +7,18 @@ import { useParams } from "next/navigation";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Textarea from "@/components/inputs/Textarea";
-import { validateTextInput } from "@/utils/form/validateInput";
-import { PlanningQuestions, Forms } from "@/utils/form/formsEnums";
-import useServerAction from "@/hooks/useServerAction";
-import {
-  editSection,
-  type EditSectionBody,
-} from "@/myVoyage/sprints/sprintsService";
-import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { sprintMeetingAdapter } from "@/utils/adapters";
-import {
+import type {
   EditSprintMeetingSectionResponseDto,
   EditSprintPlanningSectionClientRequestDto,
   SectionBody,
 } from "@chingu-x/modules/sprint-meeting";
+import Textarea from "@/components/inputs/Textarea";
+import { validateTextInput } from "@/utils/form/validateInput";
+import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
+import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { sprintMeetingAdapter } from "@/utils/adapters";
 import { CacheTag } from "@/utils/cacheTag";
+import { editSprintPlanningState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 
 const validationSchema = z.object({
   goal: validateTextInput({
@@ -40,7 +34,6 @@ const validationSchema = z.object({
 export type ValidationSchema = z.infer<typeof validationSchema>;
 
 export default function Planning() {
-  const [data, setData] = useState<Section>();
   const dispatch = useAppDispatch();
   const params = useParams<{
     sprintNumber: string;
@@ -75,7 +68,7 @@ export default function Planning() {
         queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
 
-      // dispatch(editSprintReviewState({ data, meetingId }));
+      dispatch(editSprintPlanningState({ data, meetingId }));
     },
     onError: (error: Error) => {
       dispatch(
@@ -97,19 +90,11 @@ export default function Planning() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors, isDirty, isValid, dirtyFields },
   } = useForm<ValidationSchema>({
     mode: "onTouched",
     resolver: zodResolver(validationSchema),
   });
-
-  useEffect(() => {
-    reset({
-      goal,
-      timeline,
-    });
-  }, [goal, timeline, reset]);
 
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     // Get only modified data
