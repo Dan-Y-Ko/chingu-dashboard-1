@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 interface TopicProps {
   topic: Agenda;
   editTopic: () => void;
-  changeStatus: (id: number, status: boolean) => void;
+  changeStatus: (id: string) => void;
   statusButtonDisabled: boolean;
 }
 
@@ -38,7 +38,7 @@ export default function AgendaTopic({
             <EllipsisVerticalIcon />
           </IconButton>
           <IconButton
-            onClick={() => changeStatus(topic.id, !topic.status)}
+            onClick={() => changeStatus(topic.id.toString())}
             ariaLabel="change status"
             disabled={statusButtonDisabled}
           >

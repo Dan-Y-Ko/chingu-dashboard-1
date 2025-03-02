@@ -1,21 +1,23 @@
 "use client";
 
-import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-
-import type { Agenda } from "@chingu-x/modules/sprint-meeting";
+import type {
+  Agenda,
+  ChangeAgendaTopicStatusClientRequestDto,
+  ChangeAgendaTopicStatusResponseDto,
+} from "@chingu-x/modules/sprint-meeting";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import NoAgendasState from "./NoAgendasState";
 import AgendaTopic from "./AgendaTopic";
 import AgendaHeader from "./AgendaHeader";
-
 import routePaths from "@/utils/routePaths";
 import Divider from "@/myVoyage/sprints/components/Divider";
-import useServerAction from "@/hooks/useServerAction";
-import { changeAgendaTopicStatus } from "@/myVoyage/sprints/sprintsService";
 import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { sprintMeetingAdapter } from "@/utils/adapters";
+import { CacheTag } from "@/utils/cacheTag";
+import { changeAgendaTopicStatusState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 
 interface AgendasProps {
   params: {
@@ -50,49 +52,51 @@ export default function Agendas({ params, topics }: AgendasProps) {
     agendas,
   });
 
-  // const [incompletedTopics, setIncompletedTopics] = useState(
-  //   topics.filter((topic) => topic.status === false),
-  // );
-  // const [completedTopics, setCompletedTopics] = useState(
-  //   topics.filter((topic) => topic.status === true),
-  // );
+  const queryClient = useQueryClient();
 
   const {
-    runAction: changeAgendaTopicAction,
-    isLoading: changeAgendaTopicLoading,
-    setIsLoading: setChangeAgendaTopicLoading,
-  } = useServerAction(changeAgendaTopicStatus);
+    mutate: changeAgendaTopicStatus,
+    isPending: changeAgendaTopicStatusPending,
+  } = useMutation<
+    ChangeAgendaTopicStatusResponseDto,
+    Error,
+    ChangeAgendaTopicStatusClientRequestDto
+  >({
+    mutationFn: changeAgendaTopicStatusMutation,
+    onSuccess: (data) => {
+      queryClient.removeQueries({
+        queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
+      });
 
-  const changeStatus = async (agendaId: number, status: boolean) => {
-    const [res, error] = await changeAgendaTopicAction({
-      status,
-      agendaId,
-      sprintNumber,
-    });
-    if (res) {
-      if (status === true) {
-        const topicIndex = incompletedTopics.findIndex(
-          (topic) => topic.id === agendaId,
-        );
-        const topic = { ...incompletedTopics[topicIndex], status: true };
-        setIncompletedTopics([...incompletedTopics].toSpliced(topicIndex, 1));
-        setCompletedTopics([...completedTopics, topic]);
-      } else {
-        const topicIndex = completedTopics.findIndex(
-          (topic) => topic.id === agendaId,
-        );
-        const topic = { ...completedTopics[topicIndex], status: false };
-        setCompletedTopics([...completedTopics].toSpliced(topicIndex, 1));
-        setIncompletedTopics([...incompletedTopics, topic]);
-      }
-      setChangeAgendaTopicLoading(false);
-    }
-    if (error) {
+      dispatch(changeAgendaTopicStatusState({ data, meetingId }));
+    },
+    onError: (error: Error) => {
       dispatch(
         onOpenModal({ type: "error", content: { message: error.message } }),
       );
-      setChangeAgendaTopicLoading(false);
-    }
+    },
+  });
+
+  async function changeAgendaTopicStatusMutation({
+    status,
+    agendaId,
+  }: ChangeAgendaTopicStatusClientRequestDto): Promise<ChangeAgendaTopicStatusResponseDto> {
+    return await sprintMeetingAdapter.changeAgendaTopicStatus({
+      status,
+      agendaId,
+    });
+  }
+
+  const changeStatus = (agendaId: string) => {
+    const agendaTopic = sprintMeetingAdapter.getAgendaById({
+      meeting,
+      meetingId,
+      agendaId,
+    });
+
+    const newStatus = !agendaTopic.status;
+
+    changeAgendaTopicStatus({ agendaId, status: newStatus });
   };
 
   const editTopic = (agendaTopicId: number) => {
@@ -124,7 +128,7 @@ export default function Agendas({ params, topics }: AgendasProps) {
             topic={topic}
             editTopic={() => editTopic(topic.id)}
             changeStatus={changeStatus}
-            statusButtonDisabled={changeAgendaTopicLoading}
+            statusButtonDisabled={changeAgendaTopicStatusPending}
           />
         ))}
       </ul>
@@ -144,7 +148,7 @@ export default function Agendas({ params, topics }: AgendasProps) {
             topic={topic}
             editTopic={() => editTopic(topic.id)}
             changeStatus={changeStatus}
-            statusButtonDisabled={changeAgendaTopicLoading}
+            statusButtonDisabled={changeAgendaTopicStatusPending}
           />
         ))}
       </ul>

@@ -2,6 +2,7 @@ import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 import type {
   AddAgendaTopicResponseDto,
   AddMeetingResponseDto,
+  ChangeAgendaTopicStatusResponseDto,
   DeleteAgendaTopicResponseDto,
   EditAgendaTopicResponseDto,
   EditMeetingResponseDto,
@@ -18,6 +19,11 @@ interface EditSprintReviewStatePayload {
 
 interface EditSprintPlanningStatePayload {
   data: EditSprintMeetingSectionResponseDto;
+  meetingId: string;
+}
+
+interface ChangeAgendaTopicStatusStatePayload {
+  data: ChangeAgendaTopicStatusResponseDto;
   meetingId: string;
 }
 
@@ -141,6 +147,19 @@ export const sprintMeetingSlice = createSlice({
           updatedResponse.text;
       });
     },
+    changeAgendaTopicStatusState: (
+      state,
+      action: PayloadAction<ChangeAgendaTopicStatusStatePayload>,
+    ) => {
+      const { data, meetingId } = action.payload;
+      const meeting = state.find((m) => m.id === Number(meetingId));
+
+      const agendaIndex = meeting?.agendas?.findIndex(
+        (agenda) => agenda.id === data.id,
+      );
+
+      meeting!.agendas![agendaIndex!].status = data.status;
+    },
   },
 });
 
@@ -153,6 +172,7 @@ export const {
   deleteAgendaState,
   editSprintReviewState,
   editSprintPlanningState,
+  changeAgendaTopicStatusState,
 } = sprintMeetingSlice.actions;
 
 export default sprintMeetingSlice.reducer;
