@@ -12,6 +12,11 @@ import type {
 
 const initialState: Meeting[] = [];
 
+interface EditAgendaStatePayload {
+  data: EditAgendaTopicResponseDto;
+  meetingId: string;
+}
+
 interface EditSprintReviewStatePayload {
   data: EditSprintMeetingSectionResponseDto;
   meetingId: string;
@@ -71,20 +76,17 @@ export const sprintMeetingSlice = createSlice({
 
       meeting!.agendas.push(action.payload);
     },
-    editAgendaState: (
-      state,
-      action: PayloadAction<EditAgendaTopicResponseDto>,
-    ) => {
-      const { id, teamMeetingId } = action.payload;
-      const meeting = state.find((m) => m.id === teamMeetingId);
+    editAgendaState: (state, action: PayloadAction<EditAgendaStatePayload>) => {
+      const { data, meetingId } = action.payload;
+      const meeting = state.find((m) => m.id === Number(meetingId));
 
       const agendaIndex = meeting?.agendas?.findIndex(
-        (agenda) => agenda.id === id && agenda.teamMeetingId === teamMeetingId,
+        (agenda) => agenda.id === data.id,
       );
 
       if (agendaIndex !== -1) {
         meeting!.agendas![agendaIndex!] = {
-          ...action.payload,
+          ...action.payload.data,
         };
       }
     },

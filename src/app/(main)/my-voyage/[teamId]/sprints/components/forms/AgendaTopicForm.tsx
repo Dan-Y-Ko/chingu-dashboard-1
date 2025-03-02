@@ -114,7 +114,7 @@ export default function AgendaTopicForm() {
         queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
 
-      dispatch(editAgendaState(data));
+      dispatch(editAgendaState({ data, meetingId }));
 
       router.push(routePaths.sprintWeekPage(teamId, sprintNumber, meetingId));
     },
