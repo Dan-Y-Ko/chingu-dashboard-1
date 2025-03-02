@@ -56,7 +56,9 @@ export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
   const currentSprintNumber = number;
 
   if (currentSprintNumber && currentSprintNumber !== sprintNumber) {
-    router.push(`/my-voyage/${teamId}/sprints/${currentSprintNumber}/`);
+    router.push(
+      routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
+    );
   }
 
   // Check if a checkin form for the current sprint has been submitted.
@@ -66,9 +68,7 @@ export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
   });
 
   if (sprintCheckinIsSubmitted) {
-    router.push(
-      routePaths.emptySprintPage(teamId.toString(), sprintNumber.toString()),
-    );
+    router.push(routePaths.emptySprintPage(teamId, sprintNumber.toString()));
   }
 
   const { isPending, isError, error, data } = useQuery({
