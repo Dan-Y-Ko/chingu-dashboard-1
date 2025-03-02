@@ -18,6 +18,7 @@ import { useAppDispatch, useUser } from "@/store/hooks";
 import useCheckCurrentVoyageTeam from "@/hooks/useCheckCurrentVoyageTeam";
 import { sprintsAdapter, voyageTeamAdapter } from "@/utils/adapters";
 import { fetchSprints } from "@/store/features/sprint/sprintSlice";
+import routePaths from "@/utils/routePaths";
 
 interface SprintsPageProps {
   params: {
@@ -112,9 +113,15 @@ export default function SprintsPage({ params }: SprintsPageProps) {
 
   if (teamMeetings.length !== 0) {
     router.push(
-      `/my-voyage/${teamId}/sprints/${currentSprintNumber}/meeting/${teamMeetings[0]}`,
+      routePaths.sprintWeekPage(
+        teamId,
+        currentSprintNumber.toString(),
+        teamMeetings[0].toString(),
+      ),
     );
   } else {
-    router.push(`/my-voyage/${teamId}/sprints/${currentSprintNumber}`);
+    router.push(
+      routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
+    );
   }
 }
