@@ -13,6 +13,7 @@ import { formsAdapter, sprintsAdapter } from "@/utils/adapters";
 import { currentDate } from "@/utils/getCurrentSprint";
 import { CacheTag } from "@/utils/cacheTag";
 import useCheckCurrentVoyageTeam from "@/hooks/useCheckCurrentVoyageTeam";
+import routePaths from "@/utils/routePaths";
 
 interface SubmitProjectWrapperProps {
   params: {
@@ -40,7 +41,9 @@ export default function SubmitProjectWrapper({
   const currentSprintNumber = number;
 
   if (currentSprintNumber && currentSprintNumber !== sprintNumber) {
-    router.push(`/my-voyage/${teamId}/sprints/${currentSprintNumber}/`);
+    router.push(
+      routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
+    );
   }
 
   const { isPending, isError, error, data } = useQuery({
