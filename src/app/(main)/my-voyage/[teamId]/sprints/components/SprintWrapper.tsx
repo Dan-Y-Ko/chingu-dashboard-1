@@ -66,7 +66,7 @@ export default function SprintWrapper({ params }: SprintWrapperProps) {
     voyageTeamAdapter.getVoyageProjectSubmissionStatus({ user })!;
 
   if (isVoyageProjectSubmitted) {
-    router.push(`/my-voyage/${teamId}/sprints/`);
+    router.push(routePaths.sprintsPage(teamId));
   }
 
   const { isPending, isError, error, data } = useQuery({
@@ -112,7 +112,9 @@ export default function SprintWrapper({ params }: SprintWrapperProps) {
 
   // Redirect if a user tries to access a sprint which hasn't started yet
   if (Number(sprintNumber) > currentSprintNumber) {
-    router.push(`/my-voyage/${teamId}/sprints/${currentSprintNumber}/`);
+    router.push(
+      routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
+    );
   }
 
   // Check if a checkin form for the current sprint has been submitted
