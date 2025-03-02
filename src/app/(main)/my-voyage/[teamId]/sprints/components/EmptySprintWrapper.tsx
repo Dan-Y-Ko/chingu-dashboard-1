@@ -17,6 +17,7 @@ import {
   sprintsAdapter,
   voyageTeamAdapter,
 } from "@/utils/adapters";
+import routePaths from "@/utils/routePaths";
 
 interface EmptySprintWrapperProps {
   params: {
@@ -40,7 +41,7 @@ export default function EmptySprintWrapper({
     voyageTeamAdapter.getVoyageProjectSubmissionStatus({ user })!;
 
   if (isVoyageProjectSubmitted) {
-    router.push(`/my-voyage/${teamId}/sprints/`);
+    router.push(routePaths.sprintsPage(teamId));
   }
 
   // Check if a meeting exists
@@ -59,12 +60,18 @@ export default function EmptySprintWrapper({
 
   // Redirect if a user tries to access a sprint which hasn't started yet
   if (sprintNumber > currentSprintNumber) {
-    router.push(`/my-voyage/${teamId}/sprints/${currentSprintNumber}/`);
+    router.push(
+      routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
+    );
     // If a user tries to access this page directly, check if the current sprint's meetingId exists.
     // If so, redirect to the existing meeting page.
   } else if (meetingId) {
     router.push(
-      `/my-voyage/${teamId}/sprints/${sprintNumber}/meeting/${meetingId}`,
+      routePaths.sprintWeekPage(
+        teamId,
+        sprintNumber.toString(),
+        meetingId.toString(),
+      ),
     );
   } else {
     // Check if a checkin form for the current sprint has been submitted
