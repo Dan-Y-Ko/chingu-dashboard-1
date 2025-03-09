@@ -7,7 +7,7 @@ import {
   ChevronUpIcon,
   PlusCircleIcon,
 } from "@heroicons/react/24/outline";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type {
   AddSprintMeetingSectionClientRequestDto,
   AddSprintMeetingSectionResponseDto,
@@ -21,6 +21,7 @@ import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { CacheTag } from "@/utils/cacheTag";
 import { sprintMeetingAdapter } from "@/utils/adapters";
+import { addSprintMeetingSectionState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 
 interface SectionBaseProps {
   params: {
@@ -92,10 +93,26 @@ export default function SectionBase({
     AddSprintMeetingSectionClientRequestDto
   >({
     mutationFn: addSprintMeetingSectionMutation,
-    onSuccess: () => {
+    onSuccess: async (data) => {
       queryClient.removeQueries({
         queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
+
+      try {
+        const sprintMeetingForm = await fetchSprintMeetingForm();
+        const responseData =
+          sprintMeetingAdapter.getSprintMeetingSectionResponses({
+            sprintMeetingForm,
+          });
+        dispatch(addSprintMeetingSectionState({ ...data, ...responseData }));
+      } catch (error) {
+        dispatch(
+          onOpenModal({
+            type: "error",
+            content: { message: (error as Error).message },
+          }),
+        );
+      }
 
       reorderSections && reorderSections(title);
       setIsOpen(true);
@@ -114,6 +131,18 @@ export default function SectionBase({
     return await sprintMeetingAdapter.addSprintMeetingSection({
       meetingId,
       formId,
+    });
+  }
+
+  const { isPending, isError, error, data } = useQuery({
+    queryKey: [],
+    queryFn: fetchSprintMeetingForm,
+  });
+
+  async function fetchSprintMeetingForm() {
+    return await sprintMeetingAdapter.fetchSprintMeetingForm({
+      meetingId,
+      formId: id,
     });
   }
 

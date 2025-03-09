@@ -2,6 +2,7 @@ import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 import type {
   AddAgendaTopicResponseDto,
   AddMeetingResponseDto,
+  AddSprintMeetingSectionResponseDto,
   ChangeAgendaTopicStatusResponseDto,
   DeleteAgendaTopicResponseDto,
   EditAgendaTopicResponseDto,
@@ -9,6 +10,7 @@ import type {
   EditSprintMeetingSectionResponseDto,
   Meeting,
 } from "@chingu-x/modules/sprint-meeting";
+import { Forms } from "@chingu-x/modules/forms";
 
 const initialState: Meeting[] = [];
 
@@ -31,6 +33,16 @@ interface ChangeAgendaTopicStatusStatePayload {
   data: ChangeAgendaTopicStatusResponseDto;
   meetingId: string;
 }
+
+type AddSprintMeetingSectionStatePayload =
+  AddSprintMeetingSectionResponseDto & {
+    responses: {
+      question: {
+        id: number;
+      };
+      text: string;
+    }[];
+  };
 
 export const sprintMeetingSlice = createSlice({
   name: "sprintMeeting",
@@ -98,6 +110,41 @@ export const sprintMeetingSlice = createSlice({
       const meeting = state.find((m) => m.id === teamMeetingId);
 
       meeting!.agendas = meeting?.agendas?.filter((agenda) => agenda.id !== id);
+    },
+    addSprintMeetingSectionState: (
+      state,
+      action: PayloadAction<AddSprintMeetingSectionStatePayload>,
+    ) => {
+      const { meetingId, id, formId, responses } = action.payload;
+
+      const meeting = state.find((m) => m.id === Number(meetingId));
+
+      if (meeting && !meeting?.formResponseMeeting) {
+        meeting.formResponseMeeting = [];
+      }
+
+      // const responses = responses.map((response) => ({
+      //   question: {
+      //     id: response.question.id,
+      //   },
+      //   text: "",
+      // }));
+
+      meeting?.formResponseMeeting?.push({
+        id,
+        form: {
+          id: formId,
+          title: "",
+        },
+        responseGroup: {
+          responses: responses.map((response) => ({
+            question: {
+              id: response.question.id,
+            },
+            text: "",
+          })),
+        },
+      });
     },
     editSprintReviewState: (
       state,
@@ -175,6 +222,7 @@ export const {
   editSprintReviewState,
   editSprintPlanningState,
   changeAgendaTopicStatusState,
+  addSprintMeetingSectionState,
 } = sprintMeetingSlice.actions;
 
 export default sprintMeetingSlice.reducer;
