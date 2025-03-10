@@ -123,8 +123,8 @@ export default function MeetingForm() {
     AddMeetingClientRequestDto
   >({
     mutationFn: addMeetingMutation,
-    onSuccess: (data) => {
-      queryClient.removeQueries({
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({
         queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
       dispatch(addMeetingState(data));
@@ -159,8 +159,8 @@ export default function MeetingForm() {
     EditMeetingClientRequestDto
   >({
     mutationFn: editMeetingMutation,
-    onSuccess: (data) => {
-      queryClient.removeQueries({
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({
         queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
       router.push(

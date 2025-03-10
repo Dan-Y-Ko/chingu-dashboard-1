@@ -75,8 +75,8 @@ export default function AgendaTopicForm() {
     AddAgendaTopicClientRequestDto
   >({
     mutationFn: addAgendaMutation,
-    onSuccess: (data) => {
-      queryClient.removeQueries({
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({
         queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
 
@@ -109,8 +109,8 @@ export default function AgendaTopicForm() {
     EditAgendaTopicClientRequestDto
   >({
     mutationFn: editAgendaMutation,
-    onSuccess: (data) => {
-      queryClient.removeQueries({
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({
         queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
 
@@ -143,8 +143,8 @@ export default function AgendaTopicForm() {
     DeleteAgendaTopicClientRequestDto
   >({
     mutationFn: deleteAgendaMutation,
-    onSuccess: (data) => {
-      queryClient.removeQueries({
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({
         queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
 

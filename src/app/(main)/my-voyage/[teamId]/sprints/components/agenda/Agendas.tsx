@@ -63,8 +63,8 @@ export default function Agendas({ params, topics }: AgendasProps) {
     ChangeAgendaTopicStatusClientRequestDto
   >({
     mutationFn: changeAgendaTopicStatusMutation,
-    onSuccess: (data) => {
-      queryClient.removeQueries({
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({
         queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
 

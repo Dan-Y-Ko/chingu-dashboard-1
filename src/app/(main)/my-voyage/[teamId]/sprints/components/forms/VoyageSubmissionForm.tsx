@@ -51,18 +51,13 @@ export default function VoyageSubmissionForm({
   >({
     mutationFn: submitVoyageProjectFormMutation,
     mutationKey: [CacheTag.submitVoyageProjectForm],
-    onSuccess: () => {
-      queryClient.removeQueries({
-        queryKey: [
-          CacheTag.sprints,
-          CacheTag.sprintMeetingId,
-          CacheTag.weeklyCheckInForm,
-        ],
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
       router.push(routePaths.emptySprintPage(teamId.toString(), sprintNumber));
       dispatch(submitVoyageProject({ teamId }));
     },
-    // TODO: update error handling
     onError: (error: Error) => {
       dispatch(
         onOpenModal({ type: "error", content: { message: error.message } }),

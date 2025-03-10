@@ -53,13 +53,9 @@ export default function WeeklyCheckingForm({
   >({
     mutationFn: submitWeeklyCheckinFormMutation,
     mutationKey: [CacheTag.submitWeeklyCheckinForm],
-    onSuccess: () => {
-      queryClient.removeQueries({
-        queryKey: [
-          CacheTag.sprints,
-          CacheTag.sprintMeetingId,
-          CacheTag.weeklyCheckInForm,
-        ],
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
       router.push(routePaths.emptySprintPage(teamId, sprintNumber));
       dispatch(submitWeeklyCheckin({ sprintId }));

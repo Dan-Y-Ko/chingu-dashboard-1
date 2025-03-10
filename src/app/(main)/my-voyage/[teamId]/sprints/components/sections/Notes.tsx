@@ -56,8 +56,8 @@ export default function Notes() {
     EditMeetingClientRequestDto
   >({
     mutationFn: editMeetingMutation,
-    onSuccess: (data) => {
-      queryClient.removeQueries({
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({
         queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
       dispatch(editMeetingState(data));

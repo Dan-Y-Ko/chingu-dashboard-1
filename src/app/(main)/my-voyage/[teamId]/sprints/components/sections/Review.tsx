@@ -71,7 +71,7 @@ export default function Review({ id }: ReviewProps) {
   >({
     mutationFn: editSprintReviewSectionMutation,
     onSuccess: async (data) => {
-      queryClient.removeQueries({
+      await queryClient.invalidateQueries({
         queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
 
