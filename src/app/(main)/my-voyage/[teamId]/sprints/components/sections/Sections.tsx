@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowPathRoundedSquareIcon,
   DocumentTextIcon,
@@ -70,9 +70,19 @@ export default function Sections({
       ...canBeAddedSections[sectionIndex],
       isAdded: true,
     };
-    setCanBeAddedSections([...canBeAddedSections].toSpliced(sectionIndex, 1));
-    setAddedSections([...addedSections, section]);
+    setCanBeAddedSections((prev) => [...prev].toSpliced(sectionIndex, 1));
+    setAddedSections((prev) => [...prev, section]);
   }
+
+  useEffect(() => {
+    setAddedSections(sectionTemplates.filter((template) => template.isAdded));
+    setCanBeAddedSections(
+      sectionTemplates.filter((template) => !template.isAdded),
+    );
+    // eslint wants sectionTempltes to be added but that's not correct. It's not needed
+    // and will cause infinite re-render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [planning, review, notes]);
 
   const dividerIsVisible = canBeAddedSections.length !== 0;
 

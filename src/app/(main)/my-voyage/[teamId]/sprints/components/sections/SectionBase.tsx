@@ -94,7 +94,7 @@ export default function SectionBase({
   >({
     mutationFn: addSprintMeetingSectionMutation,
     onSuccess: async (data) => {
-      queryClient.removeQueries({
+      await queryClient.invalidateQueries({
         queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
 
