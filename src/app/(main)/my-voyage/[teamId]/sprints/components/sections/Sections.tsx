@@ -41,17 +41,17 @@ export default function Sections({
     },
     {
       id: Forms.planning,
-      title: "sprint planning",
+      title: "Sprint Planning",
       icon: <LightBulbIcon aria-hidden="true" />,
       isAdded: planning !== undefined,
-      children: <Planning />,
+      children: <Planning id={Forms.planning} />,
     },
     {
       id: Forms.review,
-      title: "retrospective & review",
+      title: "Retrospective & Review",
       icon: <ArrowPathRoundedSquareIcon aria-hidden="true" />,
       isAdded: review !== undefined,
-      children: <Review />,
+      children: <Review id={Forms.review} />,
     },
   ];
 

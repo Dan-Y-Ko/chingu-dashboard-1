@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type {
   EditSprintMeetingSectionResponseDto,
   EditSprintPlanningSectionClientRequestDto,
@@ -18,7 +18,7 @@ import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { sprintMeetingAdapter } from "@/utils/adapters";
 import { CacheTag } from "@/utils/cacheTag";
-import { editSprintPlanningState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import { editSprintMeetingSectonState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 
 const validationSchema = z.object({
   goal: validateTextInput({
@@ -33,7 +33,11 @@ const validationSchema = z.object({
 
 export type ValidationSchema = z.infer<typeof validationSchema>;
 
-export default function Planning() {
+interface PlanningProps {
+  id: number;
+}
+
+export default function Planning({ id }: PlanningProps) {
   const dispatch = useAppDispatch();
   const params = useParams<{
     sprintNumber: string;
@@ -63,12 +67,28 @@ export default function Planning() {
     EditSprintPlanningSectionClientRequestDto
   >({
     mutationFn: editSprintPlanningSectionMutation,
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       queryClient.removeQueries({
         queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
 
-      dispatch(editSprintPlanningState({ data, meetingId }));
+      try {
+        const sprintMeetingForm = await fetchSprintMeetingForm();
+        const responseData =
+          sprintMeetingAdapter.getSprintMeetingSectionResponses({
+            sprintMeetingForm,
+          });
+        dispatch(
+          editSprintMeetingSectonState({ data, meetingId, responseData }),
+        );
+      } catch (error) {
+        dispatch(
+          onOpenModal({
+            type: "error",
+            content: { message: (error as Error).message },
+          }),
+        );
+      }
     },
     onError: (error: Error) => {
       dispatch(
@@ -76,6 +96,19 @@ export default function Planning() {
       );
     },
   });
+
+  useQuery({
+    queryKey: [],
+    queryFn: fetchSprintMeetingForm,
+    enabled: false,
+  });
+
+  async function fetchSprintMeetingForm() {
+    return await sprintMeetingAdapter.fetchSprintMeetingForm({
+      meetingId,
+      formId: id,
+    });
+  }
 
   async function editSprintPlanningSectionMutation({
     meetingId,

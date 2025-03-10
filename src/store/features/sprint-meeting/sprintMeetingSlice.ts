@@ -10,7 +10,6 @@ import type {
   EditSprintMeetingSectionResponseDto,
   Meeting,
 } from "@chingu-x/modules/sprint-meeting";
-import { Forms } from "@chingu-x/modules/forms";
 
 const initialState: Meeting[] = [];
 
@@ -19,14 +18,18 @@ interface EditAgendaStatePayload {
   meetingId: string;
 }
 
-interface EditSprintReviewStatePayload {
+interface EditSprintMeetingSectonStatePayload {
   data: EditSprintMeetingSectionResponseDto;
   meetingId: string;
-}
-
-interface EditSprintPlanningStatePayload {
-  data: EditSprintMeetingSectionResponseDto;
-  meetingId: string;
+  responseData: {
+    title: string;
+    responses: {
+      question: {
+        id: number;
+      };
+      text: string;
+    }[];
+  };
 }
 
 interface ChangeAgendaTopicStatusStatePayload {
@@ -36,6 +39,7 @@ interface ChangeAgendaTopicStatusStatePayload {
 
 type AddSprintMeetingSectionStatePayload =
   AddSprintMeetingSectionResponseDto & {
+    title: string;
     responses: {
       question: {
         id: number;
@@ -115,7 +119,7 @@ export const sprintMeetingSlice = createSlice({
       state,
       action: PayloadAction<AddSprintMeetingSectionStatePayload>,
     ) => {
-      const { meetingId, id, formId, responses } = action.payload;
+      const { meetingId, id, formId, responses, title } = action.payload;
 
       const meeting = state.find((m) => m.id === Number(meetingId));
 
@@ -123,18 +127,11 @@ export const sprintMeetingSlice = createSlice({
         meeting.formResponseMeeting = [];
       }
 
-      // const responses = responses.map((response) => ({
-      //   question: {
-      //     id: response.question.id,
-      //   },
-      //   text: "",
-      // }));
-
       meeting?.formResponseMeeting?.push({
         id,
         form: {
           id: formId,
-          title: "",
+          title,
         },
         responseGroup: {
           responses: responses.map((response) => ({
@@ -146,37 +143,27 @@ export const sprintMeetingSlice = createSlice({
         },
       });
     },
-    editSprintReviewState: (
+    editSprintMeetingSectonState: (
       state,
-      action: PayloadAction<EditSprintReviewStatePayload>,
+      action: PayloadAction<EditSprintMeetingSectonStatePayload>,
     ) => {
-      const { data, meetingId } = action.payload;
+      const { data, meetingId, responseData } = action.payload;
       const meeting = state.find((m) => m.id === Number(meetingId));
 
-      data.forEach((updatedResponse) => {
-        const formMeetingIndex = meeting!.formResponseMeeting!.findIndex(
-          (formMeeting) =>
-            formMeeting.responseGroup.responses.some(
-              (r) => r.question.id === updatedResponse.questionId,
-            ),
+      const formResponse = meeting?.formResponseMeeting?.find(
+        (meeting) => meeting.form.title === responseData.title,
+      );
+
+      if (formResponse?.responseGroup.responses.length === 0) {
+        formResponse.responseGroup.responses.push(
+          ...responseData.responses.map((response) => ({
+            question: {
+              id: response.question.id,
+            },
+            text: "",
+          })),
         );
-
-        const formMeeting = meeting!.formResponseMeeting![formMeetingIndex];
-
-        const responseIndex = formMeeting.responseGroup.responses.findIndex(
-          (r) => r.question.id === updatedResponse.questionId,
-        );
-
-        formMeeting.responseGroup.responses[responseIndex].text =
-          updatedResponse.text;
-      });
-    },
-    editSprintPlanningState: (
-      state,
-      action: PayloadAction<EditSprintPlanningStatePayload>,
-    ) => {
-      const { data, meetingId } = action.payload;
-      const meeting = state.find((m) => m.id === Number(meetingId));
+      }
 
       data.forEach((updatedResponse) => {
         const formMeetingIndex = meeting!.formResponseMeeting!.findIndex(
@@ -219,8 +206,7 @@ export const {
   addAgendaState,
   editAgendaState,
   deleteAgendaState,
-  editSprintReviewState,
-  editSprintPlanningState,
+  editSprintMeetingSectonState,
   changeAgendaTopicStatusState,
   addSprintMeetingSectionState,
 } = sprintMeetingSlice.actions;

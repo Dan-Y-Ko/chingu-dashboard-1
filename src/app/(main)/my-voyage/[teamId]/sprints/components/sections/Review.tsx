@@ -11,14 +11,14 @@ import type {
 } from "@chingu-x/modules/sprint-meeting";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Textarea from "@/components/inputs/Textarea";
 import { validateTextInput } from "@/utils/form/validateInput";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
 import { sprintMeetingAdapter } from "@/utils/adapters";
 import { CacheTag } from "@/utils/cacheTag";
-import { editSprintReviewState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import { editSprintMeetingSectonState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 
 const validationSchema = z.object({
   what_right: validateTextInput({
@@ -37,7 +37,11 @@ const validationSchema = z.object({
 
 export type ValidationSchema = z.infer<typeof validationSchema>;
 
-export default function Review() {
+interface ReviewProps {
+  id: number;
+}
+
+export default function Review({ id }: ReviewProps) {
   const dispatch = useAppDispatch();
   const params = useParams<{
     sprintNumber: string;
@@ -66,12 +70,28 @@ export default function Review() {
     EditSprintReviewSectionClientRequestDto
   >({
     mutationFn: editSprintReviewSectionMutation,
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       queryClient.removeQueries({
         queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
       });
 
-      dispatch(editSprintReviewState({ data, meetingId }));
+      try {
+        const sprintMeetingForm = await fetchSprintMeetingForm();
+        const responseData =
+          sprintMeetingAdapter.getSprintMeetingSectionResponses({
+            sprintMeetingForm,
+          });
+        dispatch(
+          editSprintMeetingSectonState({ data, meetingId, responseData }),
+        );
+      } catch (error) {
+        dispatch(
+          onOpenModal({
+            type: "error",
+            content: { message: (error as Error).message },
+          }),
+        );
+      }
     },
     onError: (error: Error) => {
       dispatch(
@@ -79,6 +99,19 @@ export default function Review() {
       );
     },
   });
+
+  useQuery({
+    queryKey: [],
+    queryFn: fetchSprintMeetingForm,
+    enabled: false,
+  });
+
+  async function fetchSprintMeetingForm() {
+    return await sprintMeetingAdapter.fetchSprintMeetingForm({
+      meetingId,
+      formId: id,
+    });
+  }
 
   async function editSprintReviewSectionMutation({
     meetingId,

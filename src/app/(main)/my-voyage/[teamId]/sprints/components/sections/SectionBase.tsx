@@ -105,6 +105,9 @@ export default function SectionBase({
             sprintMeetingForm,
           });
         dispatch(addSprintMeetingSectionState({ ...data, ...responseData }));
+
+        reorderSections && reorderSections(responseData.title);
+        setIsOpen(true);
       } catch (error) {
         dispatch(
           onOpenModal({
@@ -113,9 +116,6 @@ export default function SectionBase({
           }),
         );
       }
-
-      reorderSections && reorderSections(title);
-      setIsOpen(true);
     },
     onError: (error: Error) => {
       dispatch(
@@ -134,9 +134,10 @@ export default function SectionBase({
     });
   }
 
-  const { isPending, isError, error, data } = useQuery({
+  useQuery({
     queryKey: [],
     queryFn: fetchSprintMeetingForm,
+    enabled: false,
   });
 
   async function fetchSprintMeetingForm() {
