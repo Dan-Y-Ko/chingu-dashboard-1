@@ -9,7 +9,6 @@ import { fetchTeamDirectory } from "@/store/features/my-team/myTeamSlice";
 import { CacheTag } from "@/utils/cacheTag";
 import { useAppDispatch, useMyTeam, useUser } from "@/store/hooks";
 import { myTeamAdapter } from "@/utils/adapters";
-import useCheckCurrentVoyageTeam from "@/hooks/useCheckCurrentVoyageTeam";
 import ErrorComponent from "@/components/Error";
 import { ErrorType } from "@/utils/error";
 
@@ -35,8 +34,6 @@ export default function DirectoryComponentWrapper({
   async function getMyTeamQuery() {
     return await myTeamAdapter.getMyTeam({ teamId, user });
   }
-
-  useCheckCurrentVoyageTeam({ user, teamId });
 
   useEffect(() => {
     if (data) {

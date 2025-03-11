@@ -1,4 +1,3 @@
-import type { User } from "@chingu-x/modules/user";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { voyageTeamAdapter } from "@/utils/adapters";
@@ -6,12 +5,10 @@ import routePaths from "@/utils/routePaths";
 import { useCurrentVoyageTeam } from "@/store/hooks";
 
 interface UseCheckCurrentVoyageTeamProps {
-  user: User;
   teamId: string;
 }
 
 export default function useCheckCurrentVoyageTeam({
-  user,
   teamId,
 }: UseCheckCurrentVoyageTeamProps) {
   const router = useRouter();
@@ -26,5 +23,5 @@ export default function useCheckCurrentVoyageTeam({
     if (!currentTeam) {
       router.push(routePaths.dashboardPage());
     }
-  }, [router, teamId, user, currentVoyageTeam]);
+  }, [router, teamId, currentVoyageTeam]);
 }
