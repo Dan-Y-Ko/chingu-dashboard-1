@@ -5,7 +5,6 @@ import { Button } from "@chingu-x/components/button";
 import { type PageProperty } from "./Sidebar";
 import { cn } from "@/lib/utils";
 import { useCurrentVoyageTeam } from "@/store/hooks";
-import { current } from "@reduxjs/toolkit";
 
 interface PageButtonProps {
   element: PageProperty;

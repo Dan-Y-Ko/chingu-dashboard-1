@@ -13,16 +13,6 @@ import Textarea from "@/components/inputs/Textarea";
 import { validateTextInput } from "@/utils/form/validateInput";
 import { useAppDispatch, useIdeation } from "@/store/hooks";
 import { type IdeationData } from "@/store/features/ideation/ideationSlice";
-<<<<<<< HEAD
-import Spinner from "@/components/Spinner";
-=======
-import {
-  editIdeation,
-  type EditIdeationProps,
-  addIdeation,
-  deleteIdeation,
-} from "@/app/(main)/my-voyage/[teamId]/ideation/ideationService";
->>>>>>> dev
 import useServerAction from "@/hooks/useServerAction";
 import { persistor } from "@/store/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
