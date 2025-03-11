@@ -23,7 +23,6 @@ import {
   useSprintMeeting,
   useUser,
 } from "@/store/hooks";
-import useCheckCurrentVoyageTeam from "@/hooks/useCheckCurrentVoyageTeam";
 import {
   sprintMeetingAdapter,
   sprintsAdapter,
@@ -50,16 +49,15 @@ export default function SprintWrapper({ params }: SprintWrapperProps) {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  useCheckCurrentVoyageTeam({ user, teamId });
-
   if (sprints.sprints.length < 1) {
     router.push(routePaths.sprintsPage(teamId));
   }
 
-  const agendas = sprintMeetingAdapter.getSprintMeeting({
-    meeting: sprintMeeting,
-    meetingId,
-  })?.agendas ?? [];
+  const agendas =
+    sprintMeetingAdapter.getSprintMeeting({
+      meeting: sprintMeeting,
+      meetingId,
+    })?.agendas ?? [];
 
   const isVoyageProjectSubmitted =
     voyageTeamAdapter.getVoyageProjectSubmissionStatus({ user })!;

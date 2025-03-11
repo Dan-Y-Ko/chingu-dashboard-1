@@ -14,7 +14,6 @@ import { currentDate } from "@/utils/getCurrentSprint";
 import { ErrorType } from "@/utils/error";
 import ErrorComponent from "@/components/Error";
 import { useMyTeam, useSprint, useUser } from "@/store/hooks";
-import useCheckCurrentVoyageTeam from "@/hooks/useCheckCurrentVoyageTeam";
 import {
   formsAdapter,
   sprintsAdapter,
@@ -37,8 +36,6 @@ export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
   const router = useRouter();
   let teamMembers = [] as TeamMemberForCheckbox[];
   const voyageTeamMemberId = voyageTeamAdapter.getCurrentVoyageUserId({ user });
-
-  useCheckCurrentVoyageTeam({ user, teamId });
 
   useEffect(() => {
     if (sprints.sprints.length === 0 || myTeam.voyageTeamMembers.length === 0) {

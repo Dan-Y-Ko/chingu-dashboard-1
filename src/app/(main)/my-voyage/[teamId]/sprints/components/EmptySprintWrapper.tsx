@@ -11,7 +11,6 @@ import EmptySprintState from "./EmptySprintState";
 import SprintActions from "./SprintActions";
 import { currentDate } from "@/utils/getCurrentSprint";
 import { useSprint, useUser } from "@/store/hooks";
-import useCheckCurrentVoyageTeam from "@/hooks/useCheckCurrentVoyageTeam";
 import {
   sprintMeetingAdapter,
   sprintsAdapter,
@@ -34,8 +33,6 @@ export default function EmptySprintWrapper({
   const user = useUser();
   const sprints = useSprint();
   const router = useRouter();
-
-  useCheckCurrentVoyageTeam({ user, teamId });
 
   const isVoyageProjectSubmitted =
     voyageTeamAdapter.getVoyageProjectSubmissionStatus({ user })!;

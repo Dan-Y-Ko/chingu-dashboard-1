@@ -15,7 +15,6 @@ import { CacheTag } from "@/utils/cacheTag";
 import { ErrorType } from "@/utils/error";
 import ErrorComponent from "@/components/Error";
 import { useAppDispatch, useUser } from "@/store/hooks";
-import useCheckCurrentVoyageTeam from "@/hooks/useCheckCurrentVoyageTeam";
 import { sprintsAdapter, voyageTeamAdapter } from "@/utils/adapters";
 import { fetchSprints } from "@/store/features/sprint/sprintSlice";
 import routePaths from "@/utils/routePaths";
@@ -32,8 +31,6 @@ export default function SprintsPage({ params }: SprintsPageProps) {
   const user = useUser();
   const router = useRouter();
   const dispatch = useAppDispatch();
-
-  useCheckCurrentVoyageTeam({ user, teamId });
 
   const { isPending, isError, error, data } = useQuery({
     queryKey: [CacheTag.sprints, { teamId, user: `${user.id}` }],

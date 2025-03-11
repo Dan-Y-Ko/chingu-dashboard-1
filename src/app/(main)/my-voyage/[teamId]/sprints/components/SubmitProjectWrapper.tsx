@@ -12,7 +12,6 @@ import { useSprint, useUser } from "@/store/hooks";
 import { formsAdapter, sprintsAdapter } from "@/utils/adapters";
 import { currentDate } from "@/utils/getCurrentSprint";
 import { CacheTag } from "@/utils/cacheTag";
-import useCheckCurrentVoyageTeam from "@/hooks/useCheckCurrentVoyageTeam";
 import routePaths from "@/utils/routePaths";
 
 interface SubmitProjectWrapperProps {
@@ -30,8 +29,6 @@ export default function SubmitProjectWrapper({
   const user = useUser();
   const sprints = useSprint();
   const router = useRouter();
-
-  useCheckCurrentVoyageTeam({ user, teamId });
 
   const { number } = sprintsAdapter.getCurrentSprint({
     currentDate,
