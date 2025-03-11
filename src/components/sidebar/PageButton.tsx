@@ -2,8 +2,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { Tooltip } from "@chingu-x/components/tooltip";
 import { Button } from "@chingu-x/components/button";
-import { MainPages, type PageProperty } from "./Sidebar";
+import { type PageProperty } from "./Sidebar";
 import { cn } from "@/lib/utils";
+import { useCurrentVoyageTeam } from "@/store/hooks";
+import { current } from "@reduxjs/toolkit";
 
 interface PageButtonProps {
   element: PageProperty;
@@ -13,6 +15,7 @@ interface PageButtonProps {
   link: string;
   setHoveredButton: (element: string | null) => void;
   ariaLabel: string;
+  myVoyageDisplayName: string;
 }
 
 export default function PageButton({
@@ -23,23 +26,35 @@ export default function PageButton({
   link,
   setHoveredButton,
   ariaLabel,
+  myVoyageDisplayName,
 }: PageButtonProps) {
   const isActive = selectedButton.includes(link);
+  const currentVoyageTeam = useCurrentVoyageTeam();
 
-  const getButtonText = (page: string) => (isOpen ? page : "");
+  const getButtonText = (page: string) => {
+    if (!isOpen) return "";
+
+    if (page === myVoyageDisplayName) {
+      return (
+        <div className="flex flex-col items-start justify-center">
+          <span className="text-base font-semibold leading-4 text-base-300">
+            {myVoyageDisplayName}
+          </span>
+          <span className="text-[10px] font-medium leading-[10px] text-base-300">
+            {currentVoyageTeam[0]?.voyageRole.name}
+          </span>
+        </div>
+      );
+    }
+
+    return page;
+  };
 
   const [tooltipHovered, setTooltipHovered] = useState(false);
 
   return (
     <li>
-      <Link
-        href={element.name !== MainPages.myVoyage ? link : "#"}
-        className={
-          element.name === MainPages.myVoyage && isOpen
-            ? "pointer-events-none cursor-default"
-            : ""
-        }
-      >
+      <Link href={link}>
         <Tooltip
           content={element.name}
           position="right"

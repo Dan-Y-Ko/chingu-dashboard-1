@@ -4,6 +4,9 @@ const routePaths = {
   dashboardPage() {
     return "/dashboard";
   },
+  VoyageDashboardPage(teamId: string) {
+    return `/my-voyage/${teamId}/voyage-dashboard`;
+  },
   VoyageMemberDashboardPage(teamId: string) {
     return `/dashboard/${teamId}`;
   },
