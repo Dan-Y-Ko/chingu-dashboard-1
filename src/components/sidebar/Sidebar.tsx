@@ -92,32 +92,32 @@ export default function Sidebar() {
     isAuthenticated,
   });
 
-  const teamId = currentTeam[0].voyageTeamId;
+  const teamId = currentTeam[0]?.voyageTeamId;
 
   const voyagePages: VoyagePageProperty[] = [
     {
       name: VoyagePages.myTeam,
-      link: routePaths.MyTeamPage(teamId.toString()),
+      link: routePaths.MyTeamPage(teamId?.toString()),
     },
     {
       name: VoyagePages.techStack,
-      link: routePaths.techStackPage(teamId.toString()),
+      link: routePaths.techStackPage(teamId?.toString()),
     },
     {
       name: VoyagePages.ideation,
-      link: routePaths.ideationPage(teamId.toString()),
+      link: routePaths.ideationPage(teamId?.toString()),
     },
     {
       name: VoyagePages.features,
-      link: routePaths.featuresPage(teamId.toString()),
+      link: routePaths.featuresPage(teamId?.toString()),
     },
     {
       name: VoyagePages.sprints,
-      link: routePaths.sprintsPage(teamId.toString()),
+      link: routePaths.sprintsPage(teamId?.toString()),
     },
     {
       name: VoyagePages.resources,
-      link: routePaths.voyageResourcesPage(teamId.toString()),
+      link: routePaths.voyageResourcesPage(teamId?.toString()),
     },
   ];
 
