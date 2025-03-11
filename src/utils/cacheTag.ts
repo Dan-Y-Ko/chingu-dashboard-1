@@ -9,6 +9,7 @@ export enum CacheTag {
   features = "features",
   resources = "resources",
   techStack = "tech-stack",
+  fetchAllSprints = "fetchAllSprints",
   sprints = "sprints",
   sprintMeetingId = "sprintMeetingId",
   sprint1 = "sprint-1",

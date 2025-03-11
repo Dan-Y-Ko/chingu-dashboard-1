@@ -13,9 +13,14 @@ import { clientSignIn } from "@/store/features/auth/authSlice";
 import routePaths from "@/utils/routePaths";
 import { getUserState } from "@/store/features/user/userSlice";
 import { CacheTag } from "@/utils/cacheTag";
-import { userAdapter } from "@/utils/adapters";
+import {
+  sprintsAdapter,
+  userAdapter,
+  voyageTeamAdapter,
+} from "@/utils/adapters";
 import { currentDate } from "@/utils/getCurrentSprint";
 import ChinguMenu from "@/components/navbar/ChinguMenu";
+import { onOpenModal } from "@/store/features/modal/modalSlice";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -25,23 +30,58 @@ export default function Layout({ children }: LayoutProps) {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const { isPending, isError, data } = useQuery({
+  const {
+    isPending: fetchCurrentUserPending,
+    isError: isfetchCurrentUserError,
+    data: currentUser,
+  } = useQuery({
     queryKey: [CacheTag.me],
     queryFn: getUserQuery,
     staleTime: 1000 * 60 * 30, // This sets it to 30 minutes, which is how long the access token lasts
+  });
+
+  const {
+    isPending: fetchAllSprintsPending,
+    error: fetchAllSprintsError,
+    isError: isfetchAllSprintsError,
+    data: allSprints,
+  } = useQuery({
+    queryKey: [CacheTag.fetchAllSprints],
+    queryFn: getAllSprintsQuery,
   });
 
   async function getUserQuery() {
     return await userAdapter.fetchUser({ currentDate });
   }
 
-  if (isError) {
+  async function getAllSprintsQuery() {
+    return await sprintsAdapter.fetchAllSprints();
+  }
+
+  if (isfetchCurrentUserError) {
     router.push(routePaths.signIn());
   }
 
-  if (data) {
+  if (isfetchAllSprintsError) {
+    dispatch(
+      onOpenModal({
+        type: "error",
+        content: { message: fetchAllSprintsError.message },
+      }),
+    );
+  }
+
+  if (currentUser) {
     dispatch(clientSignIn());
-    dispatch(getUserState(data));
+    dispatch(getUserState(currentUser));
+  }
+
+  if (currentUser && allSprints) {
+    const currentTeam = voyageTeamAdapter.getCurrentVoyageTeam({
+      user: currentUser,
+      sprints: allSprints,
+      currentDate: currentDate,
+    });
   }
 
   return (
@@ -58,7 +98,7 @@ export default function Layout({ children }: LayoutProps) {
         <Sidebar />
         <main className="flex w-full flex-1 flex-col items-center overflow-y-auto p-10">
           <div className="flex w-full max-w-[1500px] flex-col gap-y-10">
-            {isPending ? (
+            {fetchCurrentUserPending || fetchAllSprintsPending ? (
               <div className="flex min-h-screen items-center justify-center">
                 <Spinner />
               </div>
