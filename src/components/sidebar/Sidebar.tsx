@@ -20,7 +20,6 @@ export enum MainPages {
   dashboard = "Dashboard",
   assessment = "Assessment",
   resources = "Resources",
-  myVoyage = "My Voyage",
 }
 
 export enum VoyagePages {

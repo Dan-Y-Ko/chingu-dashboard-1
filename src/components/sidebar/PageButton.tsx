@@ -56,9 +56,13 @@ export default function PageButton({
     <li>
       <Link href={link}>
         <Tooltip
-          content={element.name}
+          content={
+            element.name === myVoyageDisplayName
+              ? "Voyage Dashboard"
+              : element.name
+          }
           position="right"
-          tooltipWidth="small"
+          tooltipWidth="medium"
           isDisplay={!isOpen}
           hovered={tooltipHovered}
         >
