@@ -12,7 +12,7 @@ import {
 import PageButton from "./PageButton";
 import VoyagePageButton from "./VoyagePageButton";
 import ExpandButton from "./ExpandButton";
-import { useAuth, useUser } from "@/store/hooks";
+import { useAuth, useCurrentVoyageTeam, useUser } from "@/store/hooks";
 import routePaths from "@/utils/routePaths";
 import { voyageTeamAdapter } from "@/utils/adapters";
 
@@ -85,38 +85,39 @@ export default function Sidebar() {
 
   const { isAuthenticated } = useAuth();
   const user = useUser();
+  const currentTeam = useCurrentVoyageTeam();
 
   const isVoyageStarted = voyageTeamAdapter.hasVoyageStarted({
     user,
     isAuthenticated,
   });
 
-  const teamId = voyageTeamAdapter.getVoyageTeamId({ user });
+  const teamId = currentTeam[0].voyageTeamId;
 
   const voyagePages: VoyagePageProperty[] = [
     {
       name: VoyagePages.myTeam,
-      link: routePaths.MyTeamPage(teamId!),
+      link: routePaths.MyTeamPage(teamId.toString()),
     },
     {
       name: VoyagePages.techStack,
-      link: routePaths.techStackPage(teamId!),
+      link: routePaths.techStackPage(teamId.toString()),
     },
     {
       name: VoyagePages.ideation,
-      link: routePaths.ideationPage(teamId!),
+      link: routePaths.ideationPage(teamId.toString()),
     },
     {
       name: VoyagePages.features,
-      link: routePaths.featuresPage(teamId!),
+      link: routePaths.featuresPage(teamId.toString()),
     },
     {
       name: VoyagePages.sprints,
-      link: routePaths.sprintsPage(teamId!),
+      link: routePaths.sprintsPage(teamId.toString()),
     },
     {
       name: VoyagePages.resources,
-      link: routePaths.voyageResourcesPage(teamId!),
+      link: routePaths.voyageResourcesPage(teamId.toString()),
     },
   ];
 

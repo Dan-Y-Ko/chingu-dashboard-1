@@ -21,6 +21,7 @@ import {
 import { currentDate } from "@/utils/getCurrentSprint";
 import ChinguMenu from "@/components/navbar/ChinguMenu";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { setCurrentVoyageTeam } from "@/store/features/current-voyage-team/currentVoyageTeamSlice";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -82,6 +83,8 @@ export default function Layout({ children }: LayoutProps) {
       sprints: allSprints,
       currentDate: currentDate,
     });
+
+    dispatch(setCurrentVoyageTeam(currentTeam));
   }
 
   return (
