@@ -19,6 +19,7 @@ import { ErrorType } from "@/utils/error";
 import ErrorComponent from "@/components/Error";
 import {
   useAppDispatch,
+  useCurrentVoyageTeam,
   useSprint,
   useSprintMeeting,
   useUser,
@@ -46,6 +47,7 @@ export default function SprintWrapper({ params }: SprintWrapperProps) {
   const user = useUser();
   const sprints = useSprint();
   const sprintMeeting = useSprintMeeting();
+  const currentVoyageTeam = useCurrentVoyageTeam();
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -60,7 +62,10 @@ export default function SprintWrapper({ params }: SprintWrapperProps) {
     })?.agendas ?? [];
 
   const isVoyageProjectSubmitted =
-    voyageTeamAdapter.getVoyageProjectSubmissionStatus({ user })!;
+    voyageTeamAdapter.getVoyageProjectSubmissionStatus({
+      currentVoyageTeam,
+      teamId,
+    });
 
   if (isVoyageProjectSubmitted) {
     router.push(routePaths.sprintsPage(teamId));

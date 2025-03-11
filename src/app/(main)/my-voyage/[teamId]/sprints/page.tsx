@@ -14,7 +14,7 @@ import { currentDate } from "@/utils/getCurrentSprint";
 import { CacheTag } from "@/utils/cacheTag";
 import { ErrorType } from "@/utils/error";
 import ErrorComponent from "@/components/Error";
-import { useAppDispatch, useUser } from "@/store/hooks";
+import { useAppDispatch, useCurrentVoyageTeam, useUser } from "@/store/hooks";
 import { sprintsAdapter, voyageTeamAdapter } from "@/utils/adapters";
 import { fetchSprints } from "@/store/features/sprint/sprintSlice";
 import routePaths from "@/utils/routePaths";
@@ -29,6 +29,7 @@ interface SprintsPageProps {
 export default function SprintsPage({ params }: SprintsPageProps) {
   const { teamId } = params;
   const user = useUser();
+  const currentVoyageTeam = useCurrentVoyageTeam();
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -64,7 +65,12 @@ export default function SprintsPage({ params }: SprintsPageProps) {
     );
   }
 
-  if (voyageTeamAdapter.getVoyageProjectSubmissionStatus({ user })) {
+  if (
+    voyageTeamAdapter.getVoyageProjectSubmissionStatus({
+      currentVoyageTeam,
+      teamId,
+    })
+  ) {
     return (
       <div className="flex w-full flex-col gap-y-10">
         <BannerContainer

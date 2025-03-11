@@ -10,7 +10,7 @@ import ProgressStepper from "./ProgressStepper";
 import EmptySprintState from "./EmptySprintState";
 import SprintActions from "./SprintActions";
 import { currentDate } from "@/utils/getCurrentSprint";
-import { useSprint, useUser } from "@/store/hooks";
+import { useCurrentVoyageTeam, useSprint, useUser } from "@/store/hooks";
 import {
   sprintMeetingAdapter,
   sprintsAdapter,
@@ -31,11 +31,15 @@ export default function EmptySprintWrapper({
   const { teamId } = params;
   const sprintNumber = Number(params.sprintNumber);
   const user = useUser();
+  const currentVoyageTeam = useCurrentVoyageTeam();
   const sprints = useSprint();
   const router = useRouter();
 
   const isVoyageProjectSubmitted =
-    voyageTeamAdapter.getVoyageProjectSubmissionStatus({ user })!;
+    voyageTeamAdapter.getVoyageProjectSubmissionStatus({
+      currentVoyageTeam,
+      teamId,
+    });
 
   if (isVoyageProjectSubmitted) {
     router.push(routePaths.sprintsPage(teamId));

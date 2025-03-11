@@ -14,7 +14,7 @@ import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import BaseFormPage from "@/components/form/BaseFormPage";
 import FormInput from "@/components/form/FormInput";
-import { useAppDispatch, useUser } from "@/store/hooks";
+import { useAppDispatch, useCurrentVoyageTeam } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { createValidationSchema } from "@/utils/form/createValidationSchema";
 import routePaths from "@/utils/routePaths";
@@ -22,7 +22,7 @@ import { sprintsAdapter, voyageTeamAdapter } from "@/utils/adapters";
 import { CacheTag } from "@/utils/cacheTag";
 import { submitWeeklyCheckin } from "@/store/features/sprint/sprintSlice";
 
-interface WeeklyCheckingFormProps {
+interface WeeklyCheckinFormProps {
   params: {
     teamId: string;
     sprintNumber: string;
@@ -33,17 +33,17 @@ interface WeeklyCheckingFormProps {
   sprintId: number;
 }
 
-export default function WeeklyCheckingForm({
+export default function WeeklyCheckinForm({
   params,
   description,
   questions,
   teamMembers,
   sprintId,
-}: WeeklyCheckingFormProps) {
+}: WeeklyCheckinFormProps) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
-  const user = useUser();
+  const currentVoyageTeam = useCurrentVoyageTeam();
   const [teamId, sprintNumber] = [params.teamId, params.sprintNumber];
 
   const { mutate, isPending } = useMutation<
@@ -98,8 +98,10 @@ export default function WeeklyCheckingForm({
 
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     const voyageTeamMemberId = voyageTeamAdapter.getCurrentVoyageUserId({
-      user,
-    })!;
+      currentVoyageTeam,
+      teamId,
+    });
+
     mutate({ data, questions, voyageTeamMemberId, sprintId });
   };
 

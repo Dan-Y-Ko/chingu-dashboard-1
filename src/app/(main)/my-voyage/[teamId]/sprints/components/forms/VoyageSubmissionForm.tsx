@@ -14,12 +14,12 @@ import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import BaseFormPage from "@/components/form/BaseFormPage";
 import FormInput from "@/components/form/FormInput";
-import { useAppDispatch, useUser } from "@/store/hooks";
+import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { createValidationSchema } from "@/utils/form/createValidationSchema";
 import routePaths from "@/utils/routePaths";
 import { CacheTag } from "@/utils/cacheTag";
-import { sprintsAdapter, voyageTeamAdapter } from "@/utils/adapters";
+import { sprintsAdapter } from "@/utils/adapters";
 import { submitVoyageProject } from "@/store/features/sprint/sprintSlice";
 
 interface VoyageSubmissionFormProps {
@@ -41,7 +41,6 @@ export default function VoyageSubmissionForm({
   const router = useRouter();
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
-  const user = useUser();
   const [teamId, sprintNumber] = [Number(params.teamId), params.sprintNumber];
 
   const { mutate, isPending } = useMutation<
@@ -90,7 +89,6 @@ export default function VoyageSubmissionForm({
   }
 
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
-    // const voyageTeamId = Number(voyageTeamAdapter.getVoyageTeamId({ user }));
     mutate({ data, questions, voyageTeamId: teamId });
   };
 

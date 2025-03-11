@@ -13,7 +13,12 @@ import routePaths from "@/utils/routePaths";
 import { currentDate } from "@/utils/getCurrentSprint";
 import { ErrorType } from "@/utils/error";
 import ErrorComponent from "@/components/Error";
-import { useMyTeam, useSprint, useUser } from "@/store/hooks";
+import {
+  useCurrentVoyageTeam,
+  useMyTeam,
+  useSprint,
+  useUser,
+} from "@/store/hooks";
 import {
   formsAdapter,
   sprintsAdapter,
@@ -32,10 +37,14 @@ export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
   const { teamId } = params;
   const sprints = useSprint();
   const user = useUser();
+  const currentVoyageTeam = useCurrentVoyageTeam();
   const myTeam = useMyTeam();
   const router = useRouter();
   let teamMembers = [] as TeamMemberForCheckbox[];
-  const voyageTeamMemberId = voyageTeamAdapter.getCurrentVoyageUserId({ user });
+  const voyageTeamMemberId = voyageTeamAdapter.getCurrentVoyageUserId({
+    currentVoyageTeam,
+    teamId,
+  });
 
   useEffect(() => {
     if (sprints.sprints.length === 0 || myTeam.voyageTeamMembers.length === 0) {
@@ -82,9 +91,9 @@ export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
     });
 
     const currentUserVoyageRole = voyageTeamAdapter.getCurrentUserVoyageRole({
-      user,
-      voyageTeam: myTeam,
-    })!;
+      currentVoyageTeam,
+      teamId,
+    });
 
     return await formsAdapter.fetchWeeklyCheckinForm({
       voyageTeamRoles,
