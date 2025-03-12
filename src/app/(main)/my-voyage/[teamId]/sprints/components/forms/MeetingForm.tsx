@@ -6,15 +6,12 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import { format } from "date-fns-tz";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { LinkIcon } from "@heroicons/react/24/outline";
-
-import Button from "@/components/Button";
+import { Button } from "@chingu-x/components/button";
 import DateTimePicker from "@/components/inputs/DateTimePicker";
 import TextInput from "@/components/inputs/TextInput";
 import Textarea from "@/components/inputs/Textarea";
 import Spinner from "@/components/Spinner";
-
 import {
   validateDateTimeInput,
   validateTextInput,
@@ -120,10 +117,10 @@ export default function MeetingForm() {
       data.meetingLink === ""
         ? { description: data.description, title: data.title }
         : {
-          description: data.description,
-          title: data.title,
-          meetingLink: data.meetingLink,
-        };
+            description: data.description,
+            title: data.title,
+            meetingLink: data.meetingLink,
+          };
 
     if (editMode) {
       const [res, error] = await editMeetingAction({
