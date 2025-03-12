@@ -1,5 +1,5 @@
+import { Button } from "@chingu-x/components/button";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
-import Button from "@/components/Button";
 
 interface EditMenuProps {
   handleClick: () => void;
