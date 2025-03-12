@@ -6,11 +6,9 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TrashIcon } from "@heroicons/react/20/solid";
-
-import Button from "@/components/Button";
+import { Button } from "@chingu-x/components/button";
 import TextInput from "@/components/inputs/TextInput";
 import Textarea from "@/components/inputs/Textarea";
-
 import { validateTextInput } from "@/utils/form/validateInput";
 import { useSprint, useAppDispatch } from "@/store/hooks";
 import { type Agenda } from "@/store/features/sprint/sprintSlice";
