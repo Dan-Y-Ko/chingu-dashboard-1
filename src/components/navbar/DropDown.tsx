@@ -2,7 +2,7 @@
 
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import Button from "@/components/Button";
+import { Button } from "@chingu-x/components/button";
 import { useAppDispatch, useUser } from "@/store/hooks";
 import { clientSignOut } from "@/store/features/auth/authSlice";
 import { serverSignOut } from "@/app/(auth)/authService";
@@ -17,11 +17,11 @@ export default function DropDown({ openState }: { openState?: boolean }) {
 
   const currentVoyage = activeVoyage?.voyageTeam.name
     ? `Team - Tier ${activeVoyage.voyageTeam.name
-      .split("-")[1]
-      .split("tier")[1]
-      .toUpperCase()} ${activeVoyage.voyageTeam.name
-      .split("-")[0]
-      .toUpperCase()}`
+        .split("-")[1]
+        .split("tier")[1]
+        .toUpperCase()} ${activeVoyage.voyageTeam.name
+        .split("-")[0]
+        .toUpperCase()}`
     : "Please join a voyage to see your status information.";
   const closed = "hidden";
   const open =
