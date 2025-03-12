@@ -11,7 +11,7 @@ import {
   RocketLaunchIcon as SolidRocketLaunchIcon,
 } from "@heroicons/react/24/solid";
 
-import { Button } from "@chingu-x/components/button";
+import Button from "@/components/Button";
 import routePaths from "@/utils/routePaths";
 
 interface SprintActionsProps {

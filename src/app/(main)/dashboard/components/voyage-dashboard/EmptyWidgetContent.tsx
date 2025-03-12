@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { Banner } from "@chingu-x/components/banner";
 import Image from "next/image";
-import { Button } from "@chingu-x/components/button";
+import Button from "@/components/Button";
 
 interface EmptyWidgetContentProps {
   title: string;

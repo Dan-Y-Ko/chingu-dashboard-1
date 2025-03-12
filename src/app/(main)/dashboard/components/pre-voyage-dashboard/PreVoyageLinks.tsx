@@ -1,7 +1,7 @@
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import React from "react";
-import { Button } from "@chingu-x/components/button";
+import Button from "@/components/Button";
 
 function PreVoyageLinks() {
   return (

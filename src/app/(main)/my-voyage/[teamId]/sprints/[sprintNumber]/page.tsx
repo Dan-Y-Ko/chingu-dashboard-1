@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Spinner } from "@chingu-x/components/spinner";
+import Spinner from "@/components/Spinner";
 import EmptySprintWrapper from "@/myVoyage/sprints/components/EmptySprintWrapper";
 
 interface EmptySprintPageProps {

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Button } from "@chingu-x/components/button";
+import Button from "@/components/Button";
 import routePaths from "@/utils/routePaths";
 
 export default function AddProjectIdeaButton() {

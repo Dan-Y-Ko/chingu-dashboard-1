@@ -1,6 +1,6 @@
 import { Banner } from "@chingu-x/components/banner";
 import Image from "next/image";
-import { Button } from "@chingu-x/components/button";
+import Button from "@/components/Button";
 
 function ConfirmationMailContainer() {
   return (
