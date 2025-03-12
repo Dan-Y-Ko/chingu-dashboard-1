@@ -1,5 +1,5 @@
+import { Button } from "@chingu-x/components/button";
 import Image from "next/image";
-import Button from "@/components/Button";
 
 function SocialLoginButtonsContainer() {
   return (
