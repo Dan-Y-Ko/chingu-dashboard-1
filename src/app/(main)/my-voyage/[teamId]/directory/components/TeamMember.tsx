@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { cn } from "@chingu-x/components/tw-merge";
 import TeamMemberDataItemWrapper from "./TeamMemberDataItemWrapper";
 import EditHours from "./EditHours";
-import { cn } from "@/lib/utils";
 import { type VoyageTeam } from "@/store/features/directory/directorySlice";
 import { useUser } from "@/store/hooks";
 

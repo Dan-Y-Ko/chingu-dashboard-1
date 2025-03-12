@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@chingu-x/components/tw-merge";
 
 interface IconButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {

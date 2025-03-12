@@ -2,8 +2,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { Tooltip } from "@chingu-x/components/tooltip";
 import { Button } from "@chingu-x/components/button";
+import { cn } from "@chingu-x/components/tw-merge";
 import { MainPages, type PageProperty } from "./Sidebar";
-import { cn } from "@/lib/utils";
 
 interface PageButtonProps {
   element: PageProperty;

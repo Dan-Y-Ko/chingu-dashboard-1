@@ -1,11 +1,10 @@
 "use client";
 
+import { cn } from "@chingu-x/components/tw-merge";
 import {
   QuestionMarkCircleIcon,
   ExclamationCircleIcon,
 } from "@heroicons/react/20/solid";
-
-import { cn } from "@/lib/utils";
 
 interface FieldMessageProps {
   id: string;

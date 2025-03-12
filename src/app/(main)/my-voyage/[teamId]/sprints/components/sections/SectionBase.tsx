@@ -7,7 +7,7 @@ import {
   ChevronUpIcon,
   PlusCircleIcon,
 } from "@heroicons/react/24/outline";
-import { cn } from "@/lib/utils";
+import { cn } from "@chingu-x/components/tw-merge";
 import useServerAction from "@/hooks/useServerAction";
 import { addSection, editMeeting } from "@/myVoyage/sprints/sprintsService";
 import { useAppDispatch } from "@/store/hooks";

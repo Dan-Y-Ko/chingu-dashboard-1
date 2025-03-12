@@ -1522,15 +1522,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.23.5":
-  version: 7.23.6
-  resolution: "@babel/runtime@npm:7.23.6"
-  dependencies:
-    regenerator-runtime: "npm:^0.14.0"
-  checksum: d886954e985ef8e421222f7a2848884d96a752e0020d3078b920dd104e672fdf23bcc6f51a44313a048796319f1ac9d09c2c88ec8cbb4e1f09174bcd3335b9ff
-  languageName: node
-  linkType: hard
-
 "@babel/template@npm:^7.22.15, @babel/template@npm:^7.3.3":
   version: 7.22.15
   resolution: "@babel/template@npm:7.22.15"
@@ -1607,9 +1598,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chingu-x/components@npm:^0.10.3":
-  version: 0.10.3
-  resolution: "@chingu-x/components@npm:0.10.3"
+"@chingu-x/components@file:C:\\Users\\DK379\\Documents\\web_pages\\chingu_packages\\components::locator=chingu_dashboard%40workspace%3A.":
+  version: 0.10.5
+  resolution: "@chingu-x/components@file:/C%3A/Users/DK379/Documents/web_pages/chingu_packages/components#/C%3A/Users/DK379/Documents/web_pages/chingu_packages/components::hash=1325dd&locator=chingu_dashboard%40workspace%3A."
   dependencies:
     "@heroicons/react": "npm:^2.2.0"
     class-variance-authority: "npm:^0.7.1"
@@ -1621,7 +1612,7 @@ __metadata:
     react: ^18.0.0
     react-dom: ^18.0.0
     tailwindcss: ^3.0.0
-  checksum: 62c8d3a8eb19e8f6bc6a8269d4e2aeaf52c87e2b47f6677dc9121acba2e57d7e73ad2126b1707d25f70db0af7e8d167a24a6e52495f6cde55a2a73da8ed49ba4
+  checksum: 8aa88420d3d743615c59084028069ce63e31f0046ff33abebdc4b78f201a8f1e3b51017b9225fc238d45a1b3c5a7a59c8b3616874135ce83cd1aaf905d390a24
   languageName: node
   linkType: hard
 
@@ -7678,7 +7669,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "chingu_dashboard@workspace:."
   dependencies:
-    "@chingu-x/components": "npm:^0.10.3"
+    "@chingu-x/components": "file:C:\\Users\\DK379\\Documents\\web_pages\\chingu_packages\\components"
     "@commitlint/cli": "npm:^19.6.1"
     "@commitlint/config-conventional": "npm:^19.6.0"
     "@hello-pangea/dnd": "npm:^16.3.0"
@@ -7707,7 +7698,6 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^6.2.1"
     "@typescript-eslint/parser": "npm:^6.2.1"
     autoprefixer: "npm:10.4.14"
-    class-variance-authority: "npm:^0.7.0"
     cypress: "npm:^12.17.3"
     date-fns: "npm:^3.6.0"
     date-fns-tz: "npm:^3.1.3"
@@ -7737,7 +7727,6 @@ __metadata:
     redux-persist: "npm:^6.0.0"
     semantic-release: "npm:^24.2.1"
     storybook: "npm:^7.6.4"
-    tailwind-merge: "npm:^2.0.0"
     tailwindcss: "npm:3.3.3"
     tsconfig-paths-webpack-plugin: "npm:^4.1.0"
     typescript: "npm:5.3.3"
@@ -7829,15 +7818,6 @@ __metadata:
   version: 1.2.3
   resolution: "cjs-module-lexer@npm:1.2.3"
   checksum: 0de9a9c3fad03a46804c0d38e7b712fb282584a9c7ef1ed44cae22fb71d9bb600309d66a9711ac36a596fd03422f5bb03e021e8f369c12a39fa1786ae531baab
-  languageName: node
-  linkType: hard
-
-"class-variance-authority@npm:^0.7.0":
-  version: 0.7.0
-  resolution: "class-variance-authority@npm:0.7.0"
-  dependencies:
-    clsx: "npm:2.0.0"
-  checksum: e11c57edf4bf50ef1c97bae41d68885afbaaedba26c48b7cc5dfb033390fed7012147e9532168d8c4f3497fce4dff15e20e6e60b8c9c9a4b0fe26b0e804513db
   languageName: node
   linkType: hard
 
@@ -8004,13 +7984,6 @@ __metadata:
   version: 1.0.4
   resolution: "clone@npm:1.0.4"
   checksum: 2176952b3649293473999a95d7bebfc9dc96410f6cbd3d2595cf12fd401f63a4bf41a7adbfd3ab2ff09ed60cb9870c58c6acdd18b87767366fabfc163700f13b
-  languageName: node
-  linkType: hard
-
-"clsx@npm:2.0.0":
-  version: 2.0.0
-  resolution: "clsx@npm:2.0.0"
-  checksum: c09f43b3144a0b7826b6b11b6a111b2c7440831004eecc02d333533c5e58ef0aa5f2dce071d3b25fbb8c8ea97b45df96c74bcc1d51c8c2027eb981931107b0cd
   languageName: node
   linkType: hard
 
@@ -18747,15 +18720,6 @@ __metadata:
   version: 6.2.0
   resolution: "tabbable@npm:6.2.0"
   checksum: ced8b38f05f2de62cd46836d77c2646c42b8c9713f5bd265daf0e78ff5ac73d3ba48a7ca45f348bafeef29b23da7187c72250742d37627883ef89cbd7fa76898
-  languageName: node
-  linkType: hard
-
-"tailwind-merge@npm:^2.0.0":
-  version: 2.1.0
-  resolution: "tailwind-merge@npm:2.1.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.23.5"
-  checksum: 8a8a7fc7fd480e2ecfc6f5f1450d3cb73ef409d90c1be8ced9ea51ed957af9573e13e01e09e3ae0fa8b5eb58c83157b09e25e499a9a60d633e78d85771690f84
   languageName: node
   linkType: hard
 

@@ -16,12 +16,11 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@chingu-x/components": "^0.10.3",
+    "@chingu-x/components": "file:C:\\Users\\DK379\\Documents\\web_pages\\chingu_packages\\components",
     "@hello-pangea/dnd": "^16.3.0",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.1",
     "@reduxjs/toolkit": "^1.9.5",
-    "class-variance-authority": "^0.7.0",
     "date-fns": "^3.6.0",
     "date-fns-tz": "^3.1.3",
     "framer-motion": "^10.16.4",
@@ -34,7 +33,6 @@
     "react-hook-form": "^7.46.2",
     "react-redux": "^8.1.2",
     "redux-persist": "^6.0.0",
-    "tailwind-merge": "^2.0.0",
     "zod": "^3.22.2"
   },
   "devDependencies": {

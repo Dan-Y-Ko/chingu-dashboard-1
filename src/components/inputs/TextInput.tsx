@@ -4,10 +4,10 @@ import React, { type ChangeEvent, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
 import { Button } from "@chingu-x/components/button";
+import { cn } from "@chingu-x/components/tw-merge";
 import Label from "./Label";
 import FieldMessage from "./FieldMessage";
 import IconButton from "@/components/IconButton";
-import { cn } from "@/lib/utils";
 
 interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   id: string;

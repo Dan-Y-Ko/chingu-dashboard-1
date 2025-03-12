@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { AnimatePresence, type Variants, motion } from "framer-motion";
 import { XMarkIcon } from "@heroicons/react/20/solid";
-import { cn } from "@/lib/utils";
+import { cn } from "@chingu-x/components/tw-merge";
 import IconButton from "@/components/IconButton";
 
 interface ModalProps {

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Button } from "@chingu-x/components/button";
-import { cn } from "@/lib/utils";
+import { cn } from "@chingu-x/components/tw-merge";
 
 type StepperStyle = "chips" | "icons";
 type StepperStatus = "completed" | "current" | "remaining";
