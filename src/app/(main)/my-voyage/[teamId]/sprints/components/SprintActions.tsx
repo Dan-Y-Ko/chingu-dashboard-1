@@ -10,8 +10,7 @@ import {
   CheckCircleIcon,
   RocketLaunchIcon as SolidRocketLaunchIcon,
 } from "@heroicons/react/24/solid";
-
-import Button from "@/components/Button";
+import { Button } from "@chingu-x/components/button";
 import routePaths from "@/utils/routePaths";
 
 interface SprintActionsProps {

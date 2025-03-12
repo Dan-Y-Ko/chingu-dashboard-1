@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Button from "@/components/Button";
+import { Button } from "@chingu-x/components/button";
 import { cn } from "@/lib/utils";
 
 type StepperStyle = "chips" | "icons";
