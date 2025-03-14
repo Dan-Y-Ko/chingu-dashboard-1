@@ -1,7 +1,6 @@
 import { Suspense } from "react";
-
+import { Spinner } from "@chingu-x/components/spinner";
 import WeeklyCheckInWrapper from "@/myVoyage/sprints/components/WeeklyCheckInWrapper";
-import Spinner from "@/components/Spinner";
 
 interface WeeklyCheckInPageProps {
   params: {
