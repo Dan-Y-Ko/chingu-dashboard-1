@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import { ModeToggleButton } from "@chingu-x/components/mode-toggle-button";
 
 export default function ModeToggle() {
   const [mounted, setMounted] = useState(false);
