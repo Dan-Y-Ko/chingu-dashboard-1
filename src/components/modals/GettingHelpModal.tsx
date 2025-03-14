@@ -1,10 +1,8 @@
 "use client";
 
 import { useCallback } from "react";
-
 import Link from "next/link";
-import Modal from "@/components/modals/Modal";
-
+import { Modal } from "@chingu-x/components/modal";
 import { onCloseModal } from "@/store/features/modal/modalSlice";
 import { useAppDispatch, useModal } from "@/store/hooks";
 
