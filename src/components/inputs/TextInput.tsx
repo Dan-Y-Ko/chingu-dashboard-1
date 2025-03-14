@@ -5,9 +5,9 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
 import { Button } from "@chingu-x/components/button";
 import { cn } from "@chingu-x/components/tw-merge";
+import { IconButton } from "@chingu-x/components/icon-button";
 import Label from "./Label";
 import FieldMessage from "./FieldMessage";
-import IconButton from "@/components/IconButton";
 
 interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   id: string;
