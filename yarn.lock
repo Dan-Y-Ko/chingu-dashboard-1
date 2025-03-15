@@ -471,19 +471,18 @@ __metadata:
 
 "@chingu-x/components@file:C:\\Users\\DK379\\Documents\\web_pages\\chingu_packages\\components::locator=chingu_dashboard%40workspace%3A.":
   version: 0.11.0
-  resolution: "@chingu-x/components@file:/C%3A/Users/DK379/Documents/web_pages/chingu_packages/components#/C%3A/Users/DK379/Documents/web_pages/chingu_packages/components::hash=2c9f57&locator=chingu_dashboard%40workspace%3A."
+  resolution: "@chingu-x/components@file:/C%3A/Users/DK379/Documents/web_pages/chingu_packages/components#/C%3A/Users/DK379/Documents/web_pages/chingu_packages/components::hash=a87958&locator=chingu_dashboard%40workspace%3A."
   dependencies:
     "@heroicons/react": "npm:^2.2.0"
     class-variance-authority: "npm:^0.7.1"
     clsx: "npm:^2.1.1"
     framer-motion: "npm:^11.17.0"
-    react-datepicker: "npm:^6.1.0"
     tailwind-merge: "npm:^2.5.5"
   peerDependencies:
     react: ^18.0.0
     react-dom: ^18.0.0
     tailwindcss: ^3.0.0
-  checksum: 4dbb280fc19666a5001216ca90226657333976ed697028a93bc10b92a0b8899aedda86267f9c0d2dff6d3d42cad0b38f5edaed347001414c6a0da1c2a5110207
+  checksum: 3468a99811c2b1c26c24bac830700a4f3f0f36be4aaa7757763b1d8f42f212e7341f825b819923f9640fad021222ca438e3e3c31e5c062e89e36155e98c17a2a
   languageName: node
   linkType: hard
 
