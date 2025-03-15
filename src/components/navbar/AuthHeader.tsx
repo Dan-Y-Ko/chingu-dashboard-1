@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Avatar } from "@chingu-x/components/avatar";
 import Image from "next/image";
 import { Button } from "@chingu-x/components/button";
+import { Bell } from "@chingu-x/components/navbar";
 import { useAuth, useUser } from "@/store/hooks";
-import Bell from "@/components/navbar/Bell";
 import DropDown from "@/components/navbar/DropDown";
 import routePaths from "@/utils/routePaths";
 
