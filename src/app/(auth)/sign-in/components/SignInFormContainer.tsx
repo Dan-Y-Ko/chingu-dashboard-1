@@ -10,7 +10,7 @@ import type {
 } from "@chingu-x/modules/auth";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
-import TextInput from "@/components/inputs/TextInput";
+import { TextInput } from "@chingu-x/components/inputs";
 import { validateTextInput } from "@/utils/form/validateInput";
 import { clientSignIn } from "@/store/features/auth/authSlice";
 import { useAppDispatch } from "@/store/hooks";
