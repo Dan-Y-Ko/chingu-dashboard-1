@@ -2,7 +2,6 @@
 
 import { format, isSameDay, getUnixTime, getMonth, getYear } from "date-fns";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
-
 import { Button } from "@chingu-x/components/button";
 import { useCalendarLogic } from "./Calendar.logic";
 import { useEventsLogic } from "./Events.logic";

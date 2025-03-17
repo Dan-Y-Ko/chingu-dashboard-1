@@ -16,7 +16,7 @@ import type {
 } from "@chingu-x/modules/sprint-meeting";
 import { Forms } from "@chingu-x/modules/forms";
 import { Spinner } from "@chingu-x/components/spinner";
-import { cn } from "@/lib/utils";
+import { cn } from "@chingu-x/components/tw-merge";
 import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { CacheTag } from "@/utils/cacheTag";

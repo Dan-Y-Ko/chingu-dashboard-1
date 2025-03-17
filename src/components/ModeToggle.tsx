@@ -21,9 +21,9 @@ export default function ModeToggle() {
   const activeTheme =
     theme === "system" && resolvedTheme ? resolvedTheme : theme;
 
-  const toggleTheme = () => {
+  function toggleTheme() {
     setTheme(activeTheme === "light" ? "dark" : "light");
-  };
+  }
 
   return (
     <ModeToggleButton

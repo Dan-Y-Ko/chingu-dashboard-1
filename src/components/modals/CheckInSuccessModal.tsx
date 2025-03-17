@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { Modal } from "@chingu-x/components/modal";
 import checkmarkLight from "@/public/lotties/checkmark_light.json";
 import checkmarkDark from "@/public/lotties/checkmark_dark.json";
-
 import { useAppDispatch, useModal } from "@/store/hooks";
 import { onCloseModal } from "@/store/features/modal/modalSlice";
 

@@ -4,10 +4,9 @@ import {
   EllipsisVerticalIcon,
 } from "@heroicons/react/24/outline";
 import { CheckCircleIcon as CheckCircleIconSolid } from "@heroicons/react/24/solid";
-
+import { cn } from "@chingu-x/components/tw-merge";
 import { IconButton } from "@chingu-x/components/icon-button";
 import type { Agenda } from "@chingu-x/modules/sprint-meeting";
-import { cn } from "@/lib/utils";
 
 interface TopicProps {
   topic: Agenda;

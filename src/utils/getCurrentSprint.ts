@@ -1,6 +1,4 @@
 // TODO: remove when architecture refactor is finished
-
-import type { Sprints } from "@chingu-x/modules/sprints";
 import { isWithinInterval } from "date-fns";
 
 export const currentDate =

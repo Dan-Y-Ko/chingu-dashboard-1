@@ -6,7 +6,6 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TrashIcon } from "@heroicons/react/20/solid";
-
 import type {
   AddAgendaTopicClientRequestDto,
   AddAgendaTopicResponseDto,
@@ -21,7 +20,6 @@ import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import TextInput from "@/components/inputs/TextInput";
 import Textarea from "@/components/inputs/Textarea";
-
 import { validateTextInput } from "@/utils/form/validateInput";
 import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
 import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";

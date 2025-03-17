@@ -7,9 +7,9 @@ import { Badge } from "@chingu-x/components/badge";
 import Image from "next/image";
 import { Avatar } from "@chingu-x/components/avatar";
 import { Button } from "@chingu-x/components/button";
+import { cn } from "@chingu-x/components/tw-merge";
 import { type VoyageMember } from "@/store/features/ideation/ideationSlice";
 import { useUser } from "@/store/hooks";
-import { cn } from "@/lib/utils";
 import routePaths from "@/utils/routePaths";
 
 interface ContributionCardPropsBase {

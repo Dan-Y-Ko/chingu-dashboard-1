@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@chingu-x/components/tw-merge";
 
 export interface LabelProps
   extends React.LabelHTMLAttributes<HTMLLabelElement> {}

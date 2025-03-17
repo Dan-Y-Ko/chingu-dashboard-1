@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
+import { cn } from "@chingu-x/components/tw-merge";
 import Label from "@/components/inputs/Label";
-import { cn } from "@/lib/utils";
 
 type groupLayoutTypes = "vertical" | "horizontal" | "rating";
 

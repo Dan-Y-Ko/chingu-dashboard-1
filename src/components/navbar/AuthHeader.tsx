@@ -6,8 +6,8 @@ import Image from "next/image";
 import { Button } from "@chingu-x/components/button";
 import { Bell } from "@chingu-x/components/navbar";
 import { useAuth, useUser } from "@/store/hooks";
+import UserDropDown from "@/components/navbar/UserDropdown";
 import routePaths from "@/utils/routePaths";
-import UserDropDown from "@/components/navbar/UserDropDown";
 
 const notificationCount = 4;
 

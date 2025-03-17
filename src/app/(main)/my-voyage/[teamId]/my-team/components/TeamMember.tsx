@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { CurrentVoyageTeamMember } from "@chingu-x/modules/voyage-team";
+import { cn } from "@chingu-x/components/tw-merge";
 import TeamMemberDataItemWrapper from "./TeamMemberDataItemWrapper";
 import EditHours from "./EditHours";
-import { cn } from "@/lib/utils";
 import { useUser } from "@/store/hooks";
 
 interface TeamMemberProps {

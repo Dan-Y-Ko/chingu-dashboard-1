@@ -8,10 +8,9 @@ import React, {
   useState,
 } from "react";
 
+import { cn } from "@chingu-x/components/tw-merge";
 import Label from "./Label";
 import FieldMessage from "./FieldMessage";
-
-import { cn } from "@/lib/utils";
 
 export interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {

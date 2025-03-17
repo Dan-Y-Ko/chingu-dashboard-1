@@ -6,13 +6,13 @@ import Image from "next/image";
 import { AvatarGroup } from "@chingu-x/components/avatar-group";
 import { Tooltip } from "@chingu-x/components/tooltip";
 import { Button } from "@chingu-x/components/button";
+import { cn } from "@chingu-x/components/tw-merge";
 import { Spinner } from "@chingu-x/components/spinner";
 import {
   type ProjectIdeaVotes,
   setProjectIdeasLoadingTrue,
 } from "@/store/features/ideation/ideationSlice";
 import { useAppDispatch, useIdeation, useModal, useUser } from "@/store/hooks";
-import { cn } from "@/lib/utils";
 import useServerAction from "@/hooks/useServerAction";
 import {
   addIdeationVote,

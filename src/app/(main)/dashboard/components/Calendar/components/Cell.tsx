@@ -1,6 +1,6 @@
 import { getDate } from "date-fns";
 import { RocketLaunchIcon } from "@heroicons/react/24/solid";
-import { cn } from "@/lib/utils";
+import { cn } from "@chingu-x/components/tw-merge";
 import { type CalendarEvent } from "@/dashboard/components/Calendar/types/types";
 
 type CellProps = {
