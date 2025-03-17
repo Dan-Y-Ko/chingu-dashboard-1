@@ -3,10 +3,9 @@
 import React from "react";
 import DatePicker, { type ReactDatePickerProps } from "react-datepicker";
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
+import { TextInput } from "@chingu-x/components/inputs";
 
 import "react-datepicker/dist/react-datepicker.css";
-
-import TextInput from "./TextInput";
 
 export interface DatePickerInputProps extends ReactDatePickerProps {
   id: string;
@@ -16,7 +15,10 @@ export interface DatePickerInputProps extends ReactDatePickerProps {
   errorMessage?: string | undefined;
 }
 
-const DateTimePicker = React.forwardRef<DatePicker, DatePickerInputProps>(
+const DateTimePicker = React.forwardRef<
+  InstanceType<typeof DatePicker>,
+  DatePickerInputProps
+>(
   (
     {
       id,
@@ -36,29 +38,35 @@ const DateTimePicker = React.forwardRef<DatePicker, DatePickerInputProps>(
     };
     return (
       <div className="flex w-full flex-col">
-        <DatePicker
-          id={id}
-          selected={selectedValue}
-          placeholderText={placeholder}
-          showTimeSelect
-          filterTime={filterPassedTime}
-          dateFormat="MMMM d, yyyy h:mm aa"
-          timeIntervals={15}
-          popperClassName="ml-1"
-          popperPlacement="bottom-start"
-          customInput={
-            <TextInput
-              id={id}
-              label={label}
-              placeholder=""
-              inputGroupContent={<CalendarDaysIcon />}
-              errorMessage={errorMessage}
-              className={className}
-            />
-          }
-          ref={ref}
-          {...props}
-        />
+        {
+          // Ignore the TypeScript error related to ref
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+
+          <DatePicker
+            id={id}
+            selected={selectedValue}
+            placeholderText={placeholder}
+            showTimeSelect
+            filterTime={filterPassedTime}
+            dateFormat="MMMM d, yyyy h:mm aa"
+            timeIntervals={15}
+            popperClassName="ml-1"
+            popperPlacement="bottom-start"
+            customInput={
+              <TextInput
+                id={id}
+                label={label}
+                placeholder=""
+                inputGroupContent={<CalendarDaysIcon />}
+                errorMessage={errorMessage}
+                className={className}
+              />
+            }
+            ref={ref}
+            {...props}
+          />
+        }
       </div>
     );
   },
