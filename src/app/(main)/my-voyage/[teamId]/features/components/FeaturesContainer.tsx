@@ -1,17 +1,13 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { DragDropContext, type DropResult } from "@hello-pangea/dnd";
-
-// import { FeaturesList } from "./fixtures/Features";
+import { type FeaturesList } from "@chingu-x/modules/features";
 import List from "./List";
-import { type FeaturesList } from "@/store/features/features/featuresSlice";
 import { saveOrder } from "@/myVoyage/features/featuresService";
 import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 
 interface FeaturesContainerProps {
-  data: FeaturesList[];
+  data: FeaturesList;
 }
 
 export default function FeaturesContainer({ data }: FeaturesContainerProps) {

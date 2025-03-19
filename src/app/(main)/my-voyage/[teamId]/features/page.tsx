@@ -5,10 +5,14 @@ import { Banner } from "@chingu-x/components/banner";
 import Image from "next/image";
 import { BannerContainer } from "@chingu-x/components/banner-container";
 import { useQuery } from "@tanstack/react-query";
+import { Spinner } from "@chingu-x/components/spinner";
+import { type FeaturesList } from "@chingu-x/modules/features";
 import FeaturesContainer from "./components/FeaturesContainer";
 import ErrorComponent from "@/components/Error";
 import { CacheTag } from "@/utils/cacheTag";
 import { ErrorType } from "@/utils/error";
+import { featuresAdapter } from "@/utils/adapters";
+import { useEffect } from "react";
 
 interface FeaturesPageProps {
   params: {
@@ -17,8 +21,6 @@ interface FeaturesPageProps {
 }
 
 export default function FeaturesPage({ params }: FeaturesPageProps) {
-  let features = [];
-
   const { teamId } = params;
 
   const { isPending, isError, error, data } = useQuery({
@@ -27,18 +29,18 @@ export default function FeaturesPage({ params }: FeaturesPageProps) {
   });
 
   async function getFeaturesQuery() {
-    return await myTeamAdapter.getMyTeam({ teamId, user });
+    return (await featuresAdapter.fetchFeatures({ teamId })) as FeaturesList;
   }
 
-  useEffect(() => {
-    if (data) {
-      dispatch(fetchTeamDirectory(data));
-    }
-  }, [data, dispatch]);
+  // useEffect(() => {
+  //   if (data) {
+  //     dispatch(fetchTeamDirectory(data));
+  //   }
+  // }, [data, dispatch]);
 
   if (isError) {
     <ErrorComponent
-      errorType={ErrorType.FETCH_MY_TEAM}
+      errorType={ErrorType.FETCH_FEATURES}
       message={error.message}
     />;
   }
@@ -82,7 +84,7 @@ export default function FeaturesPage({ params }: FeaturesPageProps) {
           width="w-[276px]"
         />
       </BannerContainer>
-      <FeaturesContainer data={features} />
+      <FeaturesContainer data={data ?? []} />
     </>
   );
 }
