@@ -7,11 +7,16 @@ import { useParams } from "next/navigation";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type {
+  AddFeatureClientRequestDto,
+  AddFeatureClientResponseDto,
+} from "@chingu-x/modules/features";
 import { validateTextInput } from "@/utils/form/validateInput";
 import { useAppDispatch } from "@/store/hooks";
-import useServerAction from "@/hooks/useServerAction";
-import { addFeature } from "@/myVoyage/features/featuresService";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { CacheTag } from "@/utils/cacheTag";
+import { featuresAdapter } from "@/utils/adapters";
 
 interface AddFeaturesInputProps {
   handleClick: () => void;
@@ -36,14 +41,9 @@ export default function AddFeaturesInput({
   id,
 }: AddFeaturesInputProps) {
   const params = useParams<{ teamId: string }>();
-  const teamId = Number(params.teamId);
+  const { teamId } = params;
   const dispatch = useAppDispatch();
-
-  const {
-    runAction: addFeatureAction,
-    isLoading: addFeatureLoading,
-    setIsLoading: setAddFeatureLoading,
-  } = useServerAction(addFeature);
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -56,6 +56,38 @@ export default function AddFeaturesInput({
     resolver: zodResolver(validationSchema),
   });
 
+  const { mutate: addFeature, isPending: addFeaturePending } = useMutation<
+    AddFeatureClientResponseDto,
+    Error,
+    AddFeatureClientRequestDto
+  >({
+    mutationFn: addFeatureMutation,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [CacheTag.features],
+      });
+
+      setIsEditing(false);
+    },
+    onError: (error: Error) => {
+      dispatch(
+        onOpenModal({ type: "error", content: { message: error.message } }),
+      );
+    },
+  });
+
+  async function addFeatureMutation({
+    teamId,
+    description,
+    featureCategoryId,
+  }: AddFeatureClientRequestDto): Promise<AddFeatureClientResponseDto> {
+    return await featuresAdapter.addFeature({
+      teamId,
+      description,
+      featureCategoryId,
+    });
+  }
+
   function handleClearInputAction() {
     reset({ description: "" });
   }
@@ -66,23 +98,10 @@ export default function AddFeaturesInput({
     }
   }, [isEditing, setFocus]);
 
-  const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     const { description } = data;
 
-    const [, error] = await addFeatureAction({
-      teamId,
-      description,
-      featureCategoryId: id,
-    });
-
-    if (error) {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    }
-
-    setAddFeatureLoading(false);
-    setIsEditing(false);
+    addFeature({ teamId, description, featureCategoryId: id });
   };
 
   return isEditing ? (
@@ -93,7 +112,7 @@ export default function AddFeaturesInput({
         {...register("description")}
         errorMessage={errors.description?.message}
         placeholder="Add Feature"
-        submitButtonText={addFeatureLoading ? <Spinner /> : "Save"}
+        submitButtonText={addFeaturePending ? <Spinner /> : "Save"}
         buttonDisabled={!isDirty || !isValid}
       />
     </form>

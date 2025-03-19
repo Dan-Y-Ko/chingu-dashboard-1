@@ -61,18 +61,18 @@ export default function FeaturesContainer({ data }: FeaturesContainerProps) {
       sourceList.features = reorderedCards;
       setOrderedData(newOrderedData);
 
-      const [, error] = await saveOrder({
-        featureId: removed.id,
-        order: removed.order,
-        featureCategoryId: removed.category.id,
-      });
+      // const [, error] = await saveOrder({
+      //   featureId: removed.id,
+      //   order: removed.order,
+      //   featureCategoryId: removed.category.id,
+      // });
 
-      if (error) {
-        setOrderedData(data);
-        dispatch(
-          onOpenModal({ type: "error", content: { message: error.message } }),
-        );
-      }
+      // if (error) {
+      //   setOrderedData(data);
+      //   dispatch(
+      //     onOpenModal({ type: "error", content: { message: error.message } }),
+      //   );
+      // }
     }
 
     // moving cards from one column to another
@@ -97,18 +97,18 @@ export default function FeaturesContainer({ data }: FeaturesContainerProps) {
 
       setOrderedData(newOrderedData);
 
-      const [, error] = await saveOrder({
-        featureId: movedCard.id,
-        order: movedCard.order,
-        featureCategoryId: movedCard.category.id,
-      });
+      // const [, error] = await saveOrder({
+      //   featureId: movedCard.id,
+      //   order: movedCard.order,
+      //   featureCategoryId: movedCard.category.id,
+      // });
 
-      if (error) {
-        setOrderedData(data);
-        dispatch(
-          onOpenModal({ type: "error", content: { message: error.message } }),
-        );
-      }
+      // if (error) {
+      //   setOrderedData(data);
+      //   dispatch(
+      //     onOpenModal({ type: "error", content: { message: error.message } }),
+      //   );
+      // }
     }
   };
 

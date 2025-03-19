@@ -4,13 +4,18 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
+import type {
+  EditFeatureClientRequestDto,
+  EditFeatureClientResponseDto,
+  Features,
+} from "@chingu-x/modules/features";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Card from "./Card";
 import { validateTextInput } from "@/utils/form/validateInput";
-import { type Features } from "@/store/features/features/featuresSlice";
-import useServerAction from "@/hooks/useServerAction";
-import { editFeature } from "@/myVoyage/features/featuresService";
 import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { CacheTag } from "@/utils/cacheTag";
+import { featuresAdapter } from "@/utils/adapters";
 
 const validationSchema = z.object({
   description: validateTextInput({
@@ -30,13 +35,8 @@ export default function ListItem({ feature, index }: ListItemProps) {
   const [editMode, setEditMode] = useState<boolean>(false);
   const listItemRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
   const { id, description, teamMemberId } = feature;
-
-  const {
-    runAction: editFeatureAction,
-    isLoading: editFeatureLoading,
-    setIsLoading: setEditFeatureLoading,
-  } = useServerAction(editFeature);
 
   const {
     register,
@@ -49,23 +49,46 @@ export default function ListItem({ feature, index }: ListItemProps) {
     resolver: zodResolver(validationSchema),
   });
 
-  const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
+  const { mutate: editFeature, isPending: editFeaturePending } = useMutation<
+    EditFeatureClientResponseDto,
+    Error,
+    EditFeatureClientRequestDto
+  >({
+    mutationFn: editFeatureMutation,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [CacheTag.features],
+      });
+
+      setEditMode(false);
+    },
+    onError: (error: Error) => {
+      dispatch(
+        onOpenModal({ type: "error", content: { message: error.message } }),
+      );
+    },
+  });
+
+  async function editFeatureMutation({
+    featureId,
+    teamMemberId,
+    description,
+  }: EditFeatureClientRequestDto): Promise<EditFeatureClientResponseDto> {
+    return await featuresAdapter.editFeature({
+      featureId,
+      teamMemberId,
+      description,
+    });
+  }
+
+  const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     const { description } = data;
 
-    const [, error] = await editFeatureAction({
+    editFeature({
       featureId: id,
       description,
       teamMemberId,
     });
-
-    if (error) {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    }
-
-    setEditFeatureLoading(false);
-    setEditMode(false);
   };
 
   function handleClearInputAction() {
@@ -115,7 +138,7 @@ export default function ListItem({ feature, index }: ListItemProps) {
               errorMessage={errors.description?.message}
               placeholder="Edit your feature"
               defaultValue={description}
-              submitButtonText={editFeatureLoading ? <Spinner /> : "Save"}
+              submitButtonText={editFeaturePending ? <Spinner /> : "Save"}
               buttonDisabled={!isDirty || !isValid}
             />
           </div>

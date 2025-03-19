@@ -5,10 +5,9 @@ import {
 } from "@hello-pangea/dnd";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-// import { Feature } from "./fixtures/Features";
+import type { Features } from "@chingu-x/modules/features";
 import AddFeaturesInput from "./AddFeaturesInput";
 import ListItem from "./ListItem";
-import { type Features } from "@/store/features/features/featuresSlice";
 
 interface ListProps {
   id: number;
