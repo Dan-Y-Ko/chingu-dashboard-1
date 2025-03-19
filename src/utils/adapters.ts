@@ -8,6 +8,7 @@ import type { SprintsClientAdapter } from "@chingu-x/modules/sprints";
 import type { SprintMeetingClientAdapter } from "@chingu-x/modules/sprint-meeting";
 import type { FormsClientAdapter } from "@chingu-x/modules/forms";
 import type { TimezoneClientAdapter } from "@chingu-x/modules/timezone";
+import type { FeaturesClientAdapter } from "@chingu-x/modules/features";
 
 export const authAdapter = resolve<AuthClientAdapter>(TYPES.AuthClientAdapter);
 
@@ -35,4 +36,8 @@ export const formsAdapter = resolve<FormsClientAdapter>(
 
 export const timezoneAdapter = resolve<TimezoneClientAdapter>(
   TYPES.TimezoneClientAdapter,
+);
+
+export const featuresAdapter = resolve<FeaturesClientAdapter>(
+  TYPES.FeaturesClientAdapter,
 );
