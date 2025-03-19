@@ -7,12 +7,14 @@ import { BannerContainer } from "@chingu-x/components/banner-container";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@chingu-x/components/spinner";
 import { type FeaturesList } from "@chingu-x/modules/features";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import FeaturesContainer from "./components/FeaturesContainer";
 import ErrorComponent from "@/components/Error";
 import { CacheTag } from "@/utils/cacheTag";
 import { ErrorType } from "@/utils/error";
 import { featuresAdapter } from "@/utils/adapters";
-import { useEffect } from "react";
+import { fetchFeatures } from "@/store/features/features/featuresSlice";
 
 interface FeaturesPageProps {
   params: {
@@ -22,6 +24,7 @@ interface FeaturesPageProps {
 
 export default function FeaturesPage({ params }: FeaturesPageProps) {
   const { teamId } = params;
+  const dispatch = useDispatch();
 
   const { isPending, isError, error, data } = useQuery({
     queryKey: [CacheTag.features, { teamId }],
@@ -32,11 +35,11 @@ export default function FeaturesPage({ params }: FeaturesPageProps) {
     return (await featuresAdapter.fetchFeatures({ teamId })) as FeaturesList;
   }
 
-  // useEffect(() => {
-  //   if (data) {
-  //     dispatch(fetchTeamDirectory(data));
-  //   }
-  // }, [data, dispatch]);
+  useEffect(() => {
+    if (data) {
+      dispatch(fetchFeatures(data));
+    }
+  }, [data, dispatch]);
 
   if (isError) {
     <ErrorComponent
