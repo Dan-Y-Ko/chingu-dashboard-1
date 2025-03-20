@@ -20,7 +20,7 @@ import { createValidationSchema } from "@/shared/utils/form/createValidationSche
 import routePaths from "@/shared/utils/routePaths";
 import { sprintsAdapter, voyageTeamAdapter } from "@/shared/utils/adapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
-import { submitWeeklyCheckin } from "@/store/features/sprint/sprintSlice";
+import { submitWeeklyCheckin } from "@/features/sprints/store/sprintSlice";
 
 interface WeeklyCheckinFormProps {
   params: {

@@ -18,7 +18,7 @@ import { type Event, getDashboardData } from "./getDashboardData";
 import VoyageSupport from "@/app/(main)/dashboard/components/shared/VoyageSupport";
 // import EmptySprintProvider from "@/app/(main)/my-voyage/[teamId]/sprints/providers/EmptySprintProvider";
 import { getUser } from "@/utils/getUser";
-import type { Sprint, Voyage } from "@/store/features/sprint/sprintSlice";
+import type { Sprint, Voyage } from "@/features/sprints/store/sprintSlice";
 import { type FeaturesList } from "@/store/features/features/featuresSlice";
 import { type IdeationData } from "@/store/features/ideation/ideationSlice";
 import { type TechStackData } from "@/store/features/techStack/techStackSlice";

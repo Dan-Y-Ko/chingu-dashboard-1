@@ -3,7 +3,7 @@
 import { Provider } from "react-redux";
 import { type ReactNode } from "react";
 import { PersistGate } from "redux-persist/integration/react";
-import { store, persistor } from "@/store/store";
+import { store, persistor } from "@/shared/store";
 
 function StoreProvider({ children }: { children: ReactNode }) {
   return (

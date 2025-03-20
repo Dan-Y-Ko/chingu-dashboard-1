@@ -4,7 +4,7 @@ import { clientSignOut } from "@/store/features/auth/authSlice";
 import {
   submitWeeklyCheckin,
   type SubmitWeeklyCheckinPayload,
-} from "@/store/features/sprint/sprintSlice";
+} from "@/features/sprints/store/sprintSlice";
 
 const initialState: User = {
   id: "",

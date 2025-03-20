@@ -2,7 +2,7 @@ import { isSameDay, isBefore, format } from "date-fns";
 
 import { type CalendarEvent } from "./types/types";
 import type { Event } from "@/dashboard/components/voyage-dashboard/getDashboardData";
-import type { Sprint } from "@/store/features/sprint/sprintSlice";
+import type { Sprint } from "@/features/sprints/store/sprintSlice";
 import { useUser } from "@/store/hooks";
 import convertStringToDate from "@/utils/convertStringToDate";
 import routePaths from "@/utils/routePaths";

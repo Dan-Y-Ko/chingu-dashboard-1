@@ -9,7 +9,7 @@ import Cell from "./components/Cell";
 import EventItem from "./components/EventItem";
 import Legend from "./components/Legend";
 import type { Event } from "@/dashboard/components/voyage-dashboard/getDashboardData";
-import type { Sprint } from "@/store/features/sprint/sprintSlice";
+import type { Sprint } from "@/features/sprints/store/sprintSlice";
 
 interface CalendarProps {
   currentSprintNumber?: number | null;

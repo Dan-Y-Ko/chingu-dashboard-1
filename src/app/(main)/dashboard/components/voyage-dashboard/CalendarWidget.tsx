@@ -1,7 +1,7 @@
 import React from "react";
 import type { Event } from "./getDashboardData";
 import Calendar from "@/app/(main)/dashboard/components/Calendar/Calendar";
-import type { Sprint } from "@/store/features/sprint/sprintSlice";
+import type { Sprint } from "@/features/sprints/store/sprintSlice";
 
 interface CalendarWidgetProps {
   sprintsData?: Sprint[];

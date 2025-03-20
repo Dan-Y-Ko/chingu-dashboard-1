@@ -7,12 +7,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { LogoutResponseDto } from "@chingu-x/modules/auth";
 import { Button } from "@chingu-x/components/button";
 import { DropDown } from "@chingu-x/components/navbar";
-import { useAppDispatch, useUser } from "@/store/hooks";
+import { useUser } from "@/store/hooks";
 import { clientSignOut } from "@/store/features/auth/authSlice";
 import routePaths from "@/shared/utils/routePaths";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { authAdapter } from "@/shared/utils/adapters";
+import { useAppDispatch } from "@/shared/store";
 
 interface DropdownProps {
   openState?: boolean;

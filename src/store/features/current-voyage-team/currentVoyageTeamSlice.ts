@@ -3,7 +3,7 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import {
   submitVoyageProject,
   type SubmitVoyageProjectPayload,
-} from "@/store/features/sprint/sprintSlice";
+} from "@/features/sprints/store/sprintSlice";
 
 const initialState: UserVoyageTeamMember[] = [];
 

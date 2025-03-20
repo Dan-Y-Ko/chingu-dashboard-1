@@ -16,7 +16,7 @@ import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
 import { useAppDispatch, useCurrentVoyageTeam, useUser } from "@/store/hooks";
 import { sprintsAdapter, voyageTeamAdapter } from "@/shared/utils/adapters";
-import { fetchSprints } from "@/store/features/sprint/sprintSlice";
+import { fetchSprints } from "@/features/sprints/store/sprintSlice";
 import routePaths from "@/shared/utils/routePaths";
 
 interface SprintsPageProps {
@@ -28,7 +28,7 @@ interface SprintsPageProps {
 
 export default function SprintsPage({ params }: SprintsPageProps) {
   const { teamId } = params;
-  const user = useUser();
+
   const currentVoyageTeam = useCurrentVoyageTeam();
   const router = useRouter();
   const dispatch = useAppDispatch();

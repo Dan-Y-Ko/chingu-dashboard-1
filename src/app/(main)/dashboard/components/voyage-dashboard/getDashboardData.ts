@@ -1,7 +1,7 @@
 import { type User } from "@chingu-x/modules/user";
 import { fetchSprints } from "@/myVoyage/sprints/components/RedirectToCurrentSprintWrapper";
 import { fetchMeeting } from "@/myVoyage/sprints/components/SprintWrapper";
-import type { Sprint, Voyage } from "@/store/features/sprint/sprintSlice";
+import type { Sprint, Voyage } from "@/features/sprints/store/sprintSlice";
 import { type AppError } from "@/shared/types/types";
 import { type AsyncActionResponse } from "@/utils/handleAsync";
 import { getCurrentSprint } from "@/utils/getCurrentDate";

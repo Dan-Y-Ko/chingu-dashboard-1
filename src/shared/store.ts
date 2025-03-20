@@ -1,17 +1,22 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
-import modalReducer from "./features/modal/modalSlice";
-import authReducer from "./features/auth/authSlice";
-import ideationReducer from "./features/ideation/ideationSlice";
-import resourceReducer from "./features/resources/resourcesSlice";
-import userReducer from "./features/user/userSlice";
-import myTeamReducer from "./features/my-team/myTeamSlice";
-import sprintReducer from "./features/sprint/sprintSlice";
-import featuresReducer from "./features/features/featuresSlice";
-import techStackReducer from "./features/techStack/techStackSlice";
-import sprintMeetingReducer from "./features/sprint-meeting/sprintMeetingSlice";
-import currentVoyageTeamReducer from "./features/current-voyage-team/currentVoyageTeamSlice";
+import {
+  type TypedUseSelectorHook,
+  useDispatch,
+  useSelector,
+} from "react-redux";
+import ideationReducer from "@/store/features/ideation/ideationSlice";
+import authReducer from "@/store/features/auth/authSlice";
+import resourceReducer from "@/store/features/resources/resourcesSlice";
+import userReducer from "@/store/features/user/userSlice";
+import myTeamReducer from "@/store/features/my-team/myTeamSlice";
+import sprintReducer from "@/features/sprints/store/sprintSlice";
+import featuresReducer from "@/store/features/features/featuresSlice";
+import techStackReducer from "@/store/features/techStack/techStackSlice";
+import sprintMeetingReducer from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import currentVoyageTeamReducer from "@/store/features/current-voyage-team/currentVoyageTeamSlice";
+import modalReducer from "@/store/features/modal/modalSlice";
 
 const createNoopStorage = () => ({
   getItem() {
@@ -66,3 +71,6 @@ export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

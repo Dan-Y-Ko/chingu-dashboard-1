@@ -20,7 +20,7 @@ import { createValidationSchema } from "@/shared/utils/form/createValidationSche
 import routePaths from "@/shared/utils/routePaths";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { sprintsAdapter } from "@/shared/utils/adapters";
-import { submitVoyageProject } from "@/store/features/sprint/sprintSlice";
+import { submitVoyageProject } from "@/features/sprints/store/sprintSlice";
 
 interface VoyageSubmissionFormProps {
   params: {
