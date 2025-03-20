@@ -90,7 +90,7 @@ export default function FeaturesContainer() {
       destList.features.splice(destination.index, 0, updatedMovedCard);
       dispatch(saveOrderStateDifferentCategory({ sourceList, destList }));
       saveOrder({
-        featureId: 999999,
+        featureId: updatedMovedCard.id,
         order: destination.index + 1,
         featureCategoryId: updatedMovedCard.category.id,
       });
