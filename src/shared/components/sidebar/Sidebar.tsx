@@ -9,13 +9,13 @@ import {
   BookmarkSquareIcon,
   RocketLaunchIcon,
 } from "@heroicons/react/24/solid";
-import PageButton from "../../components/sidebar/PageButton";
-import VoyagePageButton from "../../components/sidebar/VoyagePageButton";
-import ExpandButton from "../../components/sidebar/ExpandButton";
+import { cn } from "@chingu-x/components/tw-merge";
+import ExpandButton from "./ExpandButton";
+import PageButton from "./PageButton";
+import VoyagePageButton from "./VoyagePageButton";
 import { useAuth, useCurrentVoyageTeam, useUser } from "@/store/hooks";
 import routePaths from "@/utils/routePaths";
 import { voyageTeamAdapter } from "@/utils/adapters";
-import { cn } from "@chingu-x/components/tw-merge";
 
 export enum MainPages {
   dashboard = "Dashboard",

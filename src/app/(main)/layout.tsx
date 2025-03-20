@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@chingu-x/components/navbar";
 import { Spinner } from "@chingu-x/components/spinner";
-import Sidebar from "@/shared/components/Sidebar";
 import ModeToggle from "@/components/ModeToggle";
 import AuthHeader from "@/components/navbar/AuthHeader";
 import { useAppDispatch } from "@/store/hooks";
@@ -22,6 +21,7 @@ import { currentDate } from "@/utils/getCurrentSprint";
 import ChinguMenu from "@/components/navbar/ChinguMenu";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { setCurrentVoyageTeam } from "@/store/features/current-voyage-team/currentVoyageTeamSlice";
+import Sidebar from "@/shared/components/sidebar/Sidebar";
 
 interface LayoutProps {
   children: React.ReactNode;
