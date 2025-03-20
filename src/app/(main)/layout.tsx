@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@chingu-x/components/navbar";
 import { Spinner } from "@chingu-x/components/spinner";
-import Sidebar from "@/components/sidebar/Sidebar";
+import Sidebar from "@/shared/components/Sidebar";
 import ModeToggle from "@/components/ModeToggle";
 import AuthHeader from "@/components/navbar/AuthHeader";
 import { useAppDispatch } from "@/store/hooks";

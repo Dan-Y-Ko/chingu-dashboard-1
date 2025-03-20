@@ -9,12 +9,13 @@ import {
   BookmarkSquareIcon,
   RocketLaunchIcon,
 } from "@heroicons/react/24/solid";
-import PageButton from "./PageButton";
-import VoyagePageButton from "./VoyagePageButton";
-import ExpandButton from "./ExpandButton";
+import PageButton from "../../components/sidebar/PageButton";
+import VoyagePageButton from "../../components/sidebar/VoyagePageButton";
+import ExpandButton from "../../components/sidebar/ExpandButton";
 import { useAuth, useCurrentVoyageTeam, useUser } from "@/store/hooks";
 import routePaths from "@/utils/routePaths";
 import { voyageTeamAdapter } from "@/utils/adapters";
+import { cn } from "@chingu-x/components/tw-merge";
 
 export enum MainPages {
   dashboard = "Dashboard",
@@ -81,7 +82,7 @@ export default function Sidebar() {
     },
     {
       name: MainPages.resources,
-      marginBottom: "mb-[3.75rem]",
+      marginBottom: "mb-4",
       icon: <BookmarkSquareIcon className="h-[1.125rem]" />,
       link: "/resources",
       "aria-label": "Resources Page",
@@ -139,14 +140,19 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`${
-        isOpenSidebar ? "w-[15.626rem]" : "w-auto"
-      } flex h-full flex-col justify-between border-r border-base-100 bg-base-200 text-center shadow-md`}
+      className={cn(
+        `${
+          isOpenSidebar ? "w-64" : "w-auto"
+        } flex h-full flex-col justify-between border-r border-base-100 bg-base-200 text-center shadow-md`,
+      )}
     >
+      <div className="h-6" />
       <div
-        className={`flex flex-col ${
-          isOpenSidebar ? "items-start px-6 pt-6" : "items-center"
-        } px-5 pt-6`}
+        className={cn(
+          `flex flex-col ${
+            isOpenSidebar ? "items-start px-6 pt-6" : "items-center"
+          } h-full px-5 pt-6`,
+        )}
       >
         <ul className="w-full">
           {pagesProperties.map((element) => (
@@ -180,7 +186,8 @@ export default function Sidebar() {
           </ul>
         )}
       </div>
-      <div className="flex min-h-[80px] flex-col items-end justify-start border-t border-base-100 pr-6 pt-4">
+      <hr className="bg-base-100" />
+      <div className="flex justify-end p-4">
         <ExpandButton isOpen={isOpenSidebar} onClick={setIsOpenSidebar} />
       </div>
     </aside>

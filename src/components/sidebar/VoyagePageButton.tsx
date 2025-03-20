@@ -2,7 +2,10 @@ import { ArrowRightCircleIcon } from "@heroicons/react/20/solid";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { cn } from "@chingu-x/components/tw-merge";
-import { type PageProperty, type VoyagePageProperty } from "./Sidebar";
+import {
+  type PageProperty,
+  type VoyagePageProperty,
+} from "../../shared/components/Sidebar";
 
 interface VoyagePageButtonProps {
   element: VoyagePageProperty;
