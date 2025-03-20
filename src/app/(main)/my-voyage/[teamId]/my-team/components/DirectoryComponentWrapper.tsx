@@ -6,11 +6,11 @@ import { useEffect } from "react";
 import { Spinner } from "@chingu-x/components/spinner";
 import TeamMember from "./TeamMember";
 import { fetchTeamDirectory } from "@/store/features/my-team/myTeamSlice";
-import { CacheTag } from "@/utils/cacheTag";
+import { CacheTag } from "@/shared/utils/cacheTag";
 import { useAppDispatch, useMyTeam, useUser } from "@/store/hooks";
-import { myTeamAdapter } from "@/utils/adapters";
+import { myTeamAdapter } from "@/shared/utils/adapters";
 import ErrorComponent from "@/shared/components/Error";
-import { ErrorType } from "@/utils/error";
+import { ErrorType } from "@/shared/utils/error";
 
 interface TeamDirectoryProps {
   params: {

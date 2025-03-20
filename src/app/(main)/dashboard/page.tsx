@@ -1,8 +1,4 @@
-import { redirect } from "next/navigation";
-import { getUser } from "@/utils/getUser";
-import routePaths from "@/utils/routePaths";
-
-async function DashboardPage() {
+function DashboardPage() {
   // const [user] = await getUser();
 
   // const teamMember = user?.voyageTeamMembers.find(

@@ -12,8 +12,8 @@ import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { useAppDispatch } from "@/store/hooks";
-import { validateTextInput } from "@/utils/form/validateInput";
-import { authAdapter } from "@/utils/adapters";
+import { validateTextInput } from "@/shared/utils/form/validateInput";
+import { authAdapter } from "@/shared/utils/adapters";
 
 const validationSchema = z.object({
   password: validateTextInput({

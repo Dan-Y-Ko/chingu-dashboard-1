@@ -14,8 +14,8 @@ import ExpandButton from "./ExpandButton";
 import PageButton from "./PageButton";
 import VoyagePageButton from "./VoyagePageButton";
 import { useAuth, useCurrentVoyageTeam, useUser } from "@/store/hooks";
-import routePaths from "@/utils/routePaths";
-import { voyageTeamAdapter } from "@/utils/adapters";
+import routePaths from "@/shared/utils/routePaths";
+import { voyageTeamAdapter } from "@/shared/utils/adapters";
 
 export enum MainPages {
   dashboard = "Dashboard",

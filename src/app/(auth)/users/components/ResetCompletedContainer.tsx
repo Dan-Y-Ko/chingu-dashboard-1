@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Banner } from "@chingu-x/components/banner";
 import Image from "next/image";
 import { Button } from "@chingu-x/components/button";
-import routePaths from "@/utils/routePaths";
+import routePaths from "@/shared/utils/routePaths";
 
 function ResetCompletedContainer() {
   return (

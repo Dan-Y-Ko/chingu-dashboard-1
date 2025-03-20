@@ -1,7 +1,7 @@
 "use client";
 
 import "reflect-metadata";
-import useCheckCurrentVoyageTeam from "@/hooks/useCheckCurrentVoyageTeam";
+import useCheckCurrentVoyageTeam from "@/shared/hooks/useCheckCurrentVoyageTeam";
 
 interface LayoutProps {
   params: {

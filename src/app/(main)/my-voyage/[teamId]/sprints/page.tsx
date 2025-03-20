@@ -10,14 +10,14 @@ import { Banner } from "@chingu-x/components/banner";
 import { useEffect } from "react";
 import { Spinner } from "@chingu-x/components/spinner";
 import VoyageSubmittedMessage from "./components/VoyageSubmittedMessage";
-import { currentDate } from "@/utils/getCurrentDate";
-import { CacheTag } from "@/utils/cacheTag";
-import { ErrorType } from "@/utils/error";
+import { currentDate } from "@/shared/utils/getCurrentDate";
+import { CacheTag } from "@/shared/utils/cacheTag";
+import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
 import { useAppDispatch, useCurrentVoyageTeam, useUser } from "@/store/hooks";
-import { sprintsAdapter, voyageTeamAdapter } from "@/utils/adapters";
+import { sprintsAdapter, voyageTeamAdapter } from "@/shared/utils/adapters";
 import { fetchSprints } from "@/store/features/sprint/sprintSlice";
-import routePaths from "@/utils/routePaths";
+import routePaths from "@/shared/utils/routePaths";
 
 interface SprintsPageProps {
   params: {

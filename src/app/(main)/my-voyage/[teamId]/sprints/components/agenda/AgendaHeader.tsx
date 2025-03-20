@@ -4,7 +4,7 @@ import {
   PlusIcon,
 } from "@heroicons/react/24/outline";
 import { Button } from "@chingu-x/components/button";
-import routePaths from "@/utils/routePaths";
+import routePaths from "@/shared/utils/routePaths";
 
 interface AgendaHeaderProps {
   teamId: string;

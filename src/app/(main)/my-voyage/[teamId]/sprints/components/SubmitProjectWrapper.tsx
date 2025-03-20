@@ -6,13 +6,13 @@ import type { Sprint } from "@chingu-x/modules/sprints";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@chingu-x/components/spinner";
 import VoyageSubmissionForm from "./forms/VoyageSubmissionForm";
-import { ErrorType } from "@/utils/error";
+import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
 import { useSprint, useUser } from "@/store/hooks";
-import { formsAdapter, sprintsAdapter } from "@/utils/adapters";
-import { currentDate } from "@/utils/getCurrentDate";
-import { CacheTag } from "@/utils/cacheTag";
-import routePaths from "@/utils/routePaths";
+import { formsAdapter, sprintsAdapter } from "@/shared/utils/adapters";
+import { currentDate } from "@/shared/utils/getCurrentDate";
+import { CacheTag } from "@/shared/utils/cacheTag";
+import routePaths from "@/shared/utils/routePaths";
 
 interface SubmitProjectWrapperProps {
   params: {

@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-import GettingHelpModal from "@/components/modals/GettingHelpModal";
-import ErrorModal from "@/components/modals/ErrorModal";
-import DeleteConfirmationModal from "@/components/modals/DeleteConfirmationModal";
-import ViewModal from "@/components/modals/ViewModal";
-import CheckInSuccessModal from "@/components/modals/CheckInSuccessModal";
+import GettingHelpModal from "@/shared/components/modals/GettingHelpModal";
+import ErrorModal from "@/shared/components/modals/ErrorModal";
+import DeleteConfirmationModal from "@/shared/components/modals/DeleteConfirmationModal";
+import ViewModal from "@/shared/components/modals/ViewModal";
+import CheckInSuccessModal from "@/shared/components/modals/CheckInSuccessModal";
 import { useModal } from "@/store/hooks";
 
 export default function ModalProvider() {

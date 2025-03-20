@@ -9,10 +9,10 @@ import { Button } from "@chingu-x/components/button";
 import { DropDown } from "@chingu-x/components/navbar";
 import { useAppDispatch, useUser } from "@/store/hooks";
 import { clientSignOut } from "@/store/features/auth/authSlice";
-import routePaths from "@/utils/routePaths";
+import routePaths from "@/shared/utils/routePaths";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { CacheTag } from "@/utils/cacheTag";
-import { authAdapter } from "@/utils/adapters";
+import { CacheTag } from "@/shared/utils/cacheTag";
+import { authAdapter } from "@/shared/utils/adapters";
 
 interface DropdownProps {
   openState?: boolean;

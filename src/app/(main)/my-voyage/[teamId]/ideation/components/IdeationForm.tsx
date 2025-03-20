@@ -13,7 +13,7 @@ import Textarea from "@/components/inputs/Textarea";
 import { validateTextInput } from "@/utils/form/validateInput";
 import { useAppDispatch, useIdeation } from "@/store/hooks";
 import { type IdeationData } from "@/store/features/ideation/ideationSlice";
-import useServerAction from "@/hooks/useServerAction";
+import useServerAction from "@/shared/hooks/useServerAction";
 import { persistor } from "@/store/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import routePaths from "@/utils/routePaths";

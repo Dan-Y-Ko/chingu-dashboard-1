@@ -8,10 +8,10 @@ import { useEffect } from "react";
 import type { Sprint } from "@chingu-x/modules/sprints";
 import { Spinner } from "@chingu-x/components/spinner";
 import WeeklyCheckInForm from "@/app/(main)/my-voyage/[teamId]/sprints/components/forms/WeeklyCheckInForm";
-import { CacheTag } from "@/utils/cacheTag";
-import routePaths from "@/utils/routePaths";
-import { currentDate } from "@/utils/getCurrentDate";
-import { ErrorType } from "@/utils/error";
+import { CacheTag } from "@/shared/utils/cacheTag";
+import routePaths from "@/shared/utils/routePaths";
+import { currentDate } from "@/shared/utils/getCurrentDate";
+import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
 import {
   useCurrentVoyageTeam,
@@ -23,7 +23,7 @@ import {
   formsAdapter,
   sprintsAdapter,
   voyageTeamAdapter,
-} from "@/utils/adapters";
+} from "@/shared/utils/adapters";
 
 interface WeeklyCheckInPageProps {
   params: {

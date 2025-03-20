@@ -19,8 +19,8 @@ import { Spinner } from "@chingu-x/components/spinner";
 import { cn } from "@chingu-x/components/tw-merge";
 import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { CacheTag } from "@/utils/cacheTag";
-import { sprintMeetingAdapter } from "@/utils/adapters";
+import { CacheTag } from "@/shared/utils/cacheTag";
+import { sprintMeetingAdapter } from "@/shared/utils/adapters";
 import { addSprintMeetingSectionState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 
 interface SectionBaseProps {

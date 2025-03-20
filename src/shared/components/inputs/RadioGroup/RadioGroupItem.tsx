@@ -2,7 +2,7 @@
 
 import React from "react";
 import { cn } from "@chingu-x/components/tw-merge";
-import Label from "@/components/inputs/Label";
+import Label from "@/shared/components/inputs/Label";
 
 type groupLayoutTypes = "vertical" | "horizontal" | "rating";
 

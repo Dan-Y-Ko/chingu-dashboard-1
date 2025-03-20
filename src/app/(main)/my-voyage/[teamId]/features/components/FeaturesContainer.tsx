@@ -9,13 +9,13 @@ import { useParams } from "next/navigation";
 import List from "./List";
 import { useAppDispatch, useFeatures } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { featuresAdapter } from "@/utils/adapters";
+import { featuresAdapter } from "@/shared/utils/adapters";
 import {
   rollbackOrderState,
   saveOrderStateDifferentCategory,
   saveOrderStateSameCategory,
 } from "@/store/features/features/featuresSlice";
-import { CacheTag } from "@/utils/cacheTag";
+import { CacheTag } from "@/shared/utils/cacheTag";
 
 export default function FeaturesContainer() {
   const features = useFeatures();

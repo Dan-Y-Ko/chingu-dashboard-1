@@ -5,8 +5,8 @@ import { Avatar } from "@chingu-x/components/avatar";
 import Image from "next/image";
 import { Button } from "@chingu-x/components/button";
 import { useAuth, useUser } from "@/store/hooks";
-import UserDropDown from "@/components/navbar/UserDropdown";
-import routePaths from "@/utils/routePaths";
+import UserDropDown from "@/shared/components/navbar/UserDropdown";
+import routePaths from "@/shared/utils/routePaths";
 
 export default function AuthHeader() {
   const { isAuthenticated } = useAuth();

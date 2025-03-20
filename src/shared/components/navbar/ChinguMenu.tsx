@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import chinguLogo from "@/public/img/chingu_logo.png";
-import routePaths from "@/utils/routePaths";
+import routePaths from "@/shared/utils/routePaths";
 
 export default function ChinguMenu() {
   return (

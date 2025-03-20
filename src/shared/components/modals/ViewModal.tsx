@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { Button } from "@chingu-x/components/button";
 import { Modal } from "@chingu-x/components/modal";
 import ModalSection from "@/app/(main)/my-voyage/[teamId]/voyage-resources/components/ModalSection";
-import { CheckboxGroupItem } from "@/components/inputs/CheckBoxGroup/CheckboxGroupItem";
+import { CheckboxGroupItem } from "@/shared/components/inputs/CheckBoxGroup/CheckboxGroupItem";
 import { onCloseModal } from "@/store/features/modal/modalSlice";
 import { useAppDispatch, useModal, useResource } from "@/store/hooks";
 

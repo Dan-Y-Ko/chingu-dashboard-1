@@ -9,14 +9,14 @@ import Image from "next/image";
 import ProgressStepper from "./ProgressStepper";
 import EmptySprintState from "./EmptySprintState";
 import SprintActions from "./SprintActions";
-import { currentDate } from "@/utils/getCurrentDate";
+import { currentDate } from "@/shared/utils/getCurrentDate";
 import { useCurrentVoyageTeam, useSprint, useUser } from "@/store/hooks";
 import {
   sprintMeetingAdapter,
   sprintsAdapter,
   voyageTeamAdapter,
-} from "@/utils/adapters";
-import routePaths from "@/utils/routePaths";
+} from "@/shared/utils/adapters";
+import routePaths from "@/shared/utils/routePaths";
 
 interface EmptySprintWrapperProps {
   params: {

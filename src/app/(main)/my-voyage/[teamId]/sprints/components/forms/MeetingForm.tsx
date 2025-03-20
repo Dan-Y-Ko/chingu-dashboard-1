@@ -17,12 +17,12 @@ import { useMutation } from "@tanstack/react-query";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
-import DateTimePicker from "@/components/inputs/DateTimePicker";
-import Textarea from "@/components/inputs/Textarea";
+import DateTimePicker from "@/shared/components/inputs/DateTimePicker";
+import Textarea from "@/shared/components/inputs/Textarea";
 import {
   validateDateTimeInput,
   validateTextInput,
-} from "@/utils/form/validateInput";
+} from "@/shared/utils/form/validateInput";
 import {
   useSprint,
   useAppDispatch,
@@ -30,9 +30,9 @@ import {
   useSprintMeeting,
 } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import routePaths from "@/utils/routePaths";
+import routePaths from "@/shared/utils/routePaths";
 import { persistor } from "@/store/store";
-import { sprintMeetingAdapter, timezoneAdapter } from "@/utils/adapters";
+import { sprintMeetingAdapter, timezoneAdapter } from "@/shared/utils/adapters";
 import {
   addMeetingState,
   editMeetingState,

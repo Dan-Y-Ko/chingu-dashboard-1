@@ -13,7 +13,7 @@ import {
   setProjectIdeasLoadingTrue,
 } from "@/store/features/ideation/ideationSlice";
 import { useAppDispatch, useIdeation, useModal, useUser } from "@/store/hooks";
-import useServerAction from "@/hooks/useServerAction";
+import useServerAction from "@/shared/hooks/useServerAction";
 import {
   addIdeationVote,
   removeIdeationVote,

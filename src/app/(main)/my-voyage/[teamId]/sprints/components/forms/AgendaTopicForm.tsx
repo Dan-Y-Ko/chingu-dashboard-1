@@ -19,8 +19,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
-import Textarea from "@/components/inputs/Textarea";
-import { validateTextInput } from "@/utils/form/validateInput";
+import Textarea from "@/shared/components/inputs/Textarea";
+import { validateTextInput } from "@/shared/utils/form/validateInput";
 import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
 import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";
 import {
@@ -28,10 +28,10 @@ import {
   deleteAgendaState,
   editAgendaState,
 } from "@/store/features/sprint-meeting/sprintMeetingSlice";
-import routePaths from "@/utils/routePaths";
+import routePaths from "@/shared/utils/routePaths";
 import { persistor } from "@/store/store";
-import { sprintMeetingAdapter } from "@/utils/adapters";
-import { CacheTag } from "@/utils/cacheTag";
+import { sprintMeetingAdapter } from "@/shared/utils/adapters";
+import { CacheTag } from "@/shared/utils/cacheTag";
 
 const validationSchema = z.object({
   title: validateTextInput({

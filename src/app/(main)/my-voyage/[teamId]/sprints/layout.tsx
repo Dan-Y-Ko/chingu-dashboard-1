@@ -7,9 +7,9 @@ import { Spinner } from "@chingu-x/components/spinner";
 import ErrorComponent from "@/shared/components/Error";
 import { fetchTeamDirectory } from "@/store/features/my-team/myTeamSlice";
 import { useAppDispatch, useUser } from "@/store/hooks";
-import { myTeamAdapter } from "@/utils/adapters";
-import { CacheTag } from "@/utils/cacheTag";
-import { ErrorType } from "@/utils/error";
+import { myTeamAdapter } from "@/shared/utils/adapters";
+import { CacheTag } from "@/shared/utils/cacheTag";
+import { ErrorType } from "@/shared/utils/error";
 
 interface LayoutProps {
   children: React.ReactNode;

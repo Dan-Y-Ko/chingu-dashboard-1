@@ -4,8 +4,8 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@chingu-x/components/button";
 import { TextInput } from "@chingu-x/components/inputs";
-import { validateTextInput } from "@/utils/form/validateInput";
-import routePaths from "@/utils/routePaths";
+import { validateTextInput } from "@/shared/utils/form/validateInput";
+import routePaths from "@/shared/utils/routePaths";
 
 const validationSchema = z.object({
   email: validateTextInput({

@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { voyageTeamAdapter } from "@/utils/adapters";
-import routePaths from "@/utils/routePaths";
+import { voyageTeamAdapter } from "@/shared/utils/adapters";
+import routePaths from "@/shared/utils/routePaths";
 import { useCurrentVoyageTeam } from "@/store/hooks";
 
 interface UseCheckCurrentVoyageTeamProps {

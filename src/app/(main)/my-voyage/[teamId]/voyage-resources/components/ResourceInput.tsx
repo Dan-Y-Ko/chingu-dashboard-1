@@ -10,7 +10,7 @@ import { useAppDispatch } from "@/store/hooks";
 import { validateTextInput } from "@/utils/form/validateInput";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { addResource } from "@/app/(main)/my-voyage/[teamId]/voyage-resources/resourcesService";
-import useServerAction from "@/hooks/useServerAction";
+import useServerAction from "@/shared/hooks/useServerAction";
 
 const validationSchema = z.object({
   url: validateTextInput({

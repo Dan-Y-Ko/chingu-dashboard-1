@@ -11,10 +11,10 @@ import type {
 } from "@chingu-x/modules/features";
 import { useMutation } from "@tanstack/react-query";
 import Card from "./Card";
-import { validateTextInput } from "@/utils/form/validateInput";
+import { validateTextInput } from "@/shared/utils/form/validateInput";
 import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { featuresAdapter } from "@/utils/adapters";
+import { featuresAdapter } from "@/shared/utils/adapters";
 import { editFeatureState } from "@/store/features/features/featuresSlice";
 
 const validationSchema = z.object({

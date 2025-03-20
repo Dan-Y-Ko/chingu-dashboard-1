@@ -9,7 +9,7 @@ import {
 } from "@/app/(main)/my-voyage/[teamId]/tech-stack/techStackService";
 import type { ConfirmationButtonProps } from "@/app/(main)/my-voyage/[teamId]/tech-stack/finalize/types";
 import { useAppDispatch } from "@/store/hooks";
-import useServerAction from "@/hooks/useServerAction";
+import useServerAction from "@/shared/hooks/useServerAction";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import routePaths from "@/utils/routePaths";
 

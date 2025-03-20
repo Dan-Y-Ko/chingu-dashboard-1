@@ -11,12 +11,12 @@ import type {
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
-import { validateTextInput } from "@/utils/form/validateInput";
+import { validateTextInput } from "@/shared/utils/form/validateInput";
 import { clientSignIn } from "@/store/features/auth/authSlice";
 import { useAppDispatch } from "@/store/hooks";
-import routePaths from "@/utils/routePaths";
+import routePaths from "@/shared/utils/routePaths";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { authAdapter } from "@/utils/adapters";
+import { authAdapter } from "@/shared/utils/adapters";
 
 const validationSchema = z.object({
   email: validateTextInput({

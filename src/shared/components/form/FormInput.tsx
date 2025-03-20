@@ -11,8 +11,14 @@ import RadioGroupVertical from "@/shared/components/inputs/RadioGroup/RadioGroup
 import CheckboxGroupVertical from "@/shared/components/inputs/CheckBoxGroup/CheckboxGroupVertical";
 import RadioGroupHorizontal from "@/shared/components/inputs/RadioGroup/RadioGroupHorizontal";
 import RadioGroupRating from "@/shared/components/inputs/RadioGroup/RadioGroupRating";
-import { getOptions, getTextInCurlyBrackets } from "@/utils/form/helpers";
-import { type Question, type TeamMemberForCheckbox } from "@/utils/form/types";
+import {
+  getOptions,
+  getTextInCurlyBrackets,
+} from "@/shared/utils/form/helpers";
+import {
+  type Question,
+  type TeamMemberForCheckbox,
+} from "@/shared/utils/form/types";
 
 interface FormInputProps {
   question: Question;

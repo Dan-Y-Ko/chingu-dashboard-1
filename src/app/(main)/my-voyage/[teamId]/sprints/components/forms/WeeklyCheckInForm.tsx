@@ -16,10 +16,10 @@ import BaseFormPage from "@/shared/components/form/BaseFormPage";
 import FormInput from "@/shared/components/form/FormInput";
 import { useAppDispatch, useCurrentVoyageTeam } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { createValidationSchema } from "@/utils/form/createValidationSchema";
-import routePaths from "@/utils/routePaths";
-import { sprintsAdapter, voyageTeamAdapter } from "@/utils/adapters";
-import { CacheTag } from "@/utils/cacheTag";
+import { createValidationSchema } from "@/shared/utils/form/createValidationSchema";
+import routePaths from "@/shared/utils/routePaths";
+import { sprintsAdapter, voyageTeamAdapter } from "@/shared/utils/adapters";
+import { CacheTag } from "@/shared/utils/cacheTag";
 import { submitWeeklyCheckin } from "@/store/features/sprint/sprintSlice";
 
 interface WeeklyCheckinFormProps {

@@ -1,9 +1,8 @@
 import { redirect } from "next/navigation";
 import VoyageDashboardPage from "@/app/(main)/dashboard/components/voyage-dashboard/VoyageDashboardPage";
 import PreVoyageDashboard from "@/app/(main)/dashboard/components/pre-voyage-dashboard/PreVoyageDashboard";
-import { getUser } from "@/utils/getUser";
-import { getCurrentVoyageTeam } from "@/utils/getCurrentVoyageTeam";
-import routePaths from "@/utils/routePaths";
+import { getCurrentVoyageTeam } from "@/shared/utils/getCurrentVoyageTeam";
+import routePaths from "@/shared/utils/routePaths";
 
 interface VoyageMemberDashboardPageProps {
   params: {

@@ -9,15 +9,15 @@ import ModeToggle from "@/shared/components/ModeToggle";
 import AuthHeader from "@/shared/components/navbar/AuthHeader";
 import { useAppDispatch } from "@/store/hooks";
 import { clientSignIn } from "@/store/features/auth/authSlice";
-import routePaths from "@/utils/routePaths";
+import routePaths from "@/shared/utils/routePaths";
 import { getUserState } from "@/store/features/user/userSlice";
-import { CacheTag } from "@/utils/cacheTag";
+import { CacheTag } from "@/shared/utils/cacheTag";
 import {
   sprintsAdapter,
   userAdapter,
   voyageTeamAdapter,
-} from "@/utils/adapters";
-import { currentDate } from "@/utils/getCurrentDate";
+} from "@/shared/utils/adapters";
+import { currentDate } from "@/shared/utils/getCurrentDate";
 import ChinguMenu from "@/shared/components/navbar/ChinguMenu";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { setCurrentVoyageTeam } from "@/store/features/current-voyage-team/currentVoyageTeamSlice";

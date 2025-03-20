@@ -3,7 +3,7 @@
 import React from "react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { cn } from "@chingu-x/components/tw-merge";
-import Label from "@/components/inputs/Label";
+import Label from "@/shared/components/inputs/Label";
 
 export interface CheckboxGroupItemProps
   extends React.InputHTMLAttributes<HTMLInputElement> {

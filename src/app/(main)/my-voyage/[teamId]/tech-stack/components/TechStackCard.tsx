@@ -23,7 +23,7 @@ import {
 import getTechCategory from "@/myVoyage/tech-stack/components/getTechCategory";
 import type { TechStackItem } from "@/store/features/techStack/techStackSlice";
 import { useUser, useAppDispatch, useAppSelector } from "@/store/hooks";
-import useServerAction from "@/hooks/useServerAction";
+import useServerAction from "@/shared/hooks/useServerAction";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { getCurrentVoyageTeam } from "@/utils/getCurrentVoyageTeam";
 import { validateTextInput } from "@/utils/form/validateInput";

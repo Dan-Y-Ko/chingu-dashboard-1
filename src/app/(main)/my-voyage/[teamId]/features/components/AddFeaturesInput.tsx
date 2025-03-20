@@ -12,11 +12,11 @@ import type {
   AddFeatureClientRequestDto,
   AddFeatureClientResponseDto,
 } from "@chingu-x/modules/features";
-import { validateTextInput } from "@/utils/form/validateInput";
+import { validateTextInput } from "@/shared/utils/form/validateInput";
 import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { CacheTag } from "@/utils/cacheTag";
-import { featuresAdapter } from "@/utils/adapters";
+import { CacheTag } from "@/shared/utils/cacheTag";
+import { featuresAdapter } from "@/shared/utils/adapters";
 import { addFeatureState } from "@/store/features/features/featuresSlice";
 
 interface AddFeaturesInputProps {

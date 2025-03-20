@@ -12,10 +12,10 @@ import type {
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
-import { validateTextInput } from "@/utils/form/validateInput";
+import { validateTextInput } from "@/shared/utils/form/validateInput";
 import { useAppDispatch, useUser } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { myTeamAdapter } from "@/utils/adapters";
+import { myTeamAdapter } from "@/shared/utils/adapters";
 import { editHours } from "@/store/features/my-team/myTeamSlice";
 
 interface EditHoursProps {

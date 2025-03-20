@@ -12,12 +12,12 @@ import type {
   EditSprintPlanningSectionClientRequestDto,
   SectionBody,
 } from "@chingu-x/modules/sprint-meeting";
-import Textarea from "@/components/inputs/Textarea";
-import { validateTextInput } from "@/utils/form/validateInput";
+import Textarea from "@/shared/components/inputs/Textarea";
+import { validateTextInput } from "@/shared/utils/form/validateInput";
 import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { sprintMeetingAdapter } from "@/utils/adapters";
-import { CacheTag } from "@/utils/cacheTag";
+import { sprintMeetingAdapter } from "@/shared/utils/adapters";
+import { CacheTag } from "@/shared/utils/cacheTag";
 import { editSprintMeetingSectonState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 
 const validationSchema = z.object({

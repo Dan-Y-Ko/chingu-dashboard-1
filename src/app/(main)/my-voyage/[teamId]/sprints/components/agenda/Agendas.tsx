@@ -11,12 +11,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import NoAgendasState from "./NoAgendasState";
 import AgendaTopic from "./AgendaTopic";
 import AgendaHeader from "./AgendaHeader";
-import routePaths from "@/utils/routePaths";
+import routePaths from "@/shared/utils/routePaths";
 import Divider from "@/myVoyage/sprints/components/Divider";
 import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { sprintMeetingAdapter } from "@/utils/adapters";
-import { CacheTag } from "@/utils/cacheTag";
+import { sprintMeetingAdapter } from "@/shared/utils/adapters";
+import { CacheTag } from "@/shared/utils/cacheTag";
 import { changeAgendaTopicStatusState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 
 interface AgendasProps {

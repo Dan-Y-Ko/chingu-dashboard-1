@@ -3,7 +3,7 @@ import { type Question } from "./types";
 import {
   validateMultipleChoiceInput,
   validateTextInput,
-} from "@/utils/form/validateInput";
+} from "@/shared/utils/form/validateInput";
 
 interface IField {
   [key: string]:

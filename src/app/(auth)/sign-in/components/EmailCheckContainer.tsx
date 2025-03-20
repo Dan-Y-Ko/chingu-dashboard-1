@@ -10,7 +10,7 @@ import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { authAdapter } from "@/utils/adapters";
+import { authAdapter } from "@/shared/utils/adapters";
 import { ContainerState } from "@/app/(auth)/sign-in/page";
 
 type ResendEmailContainerProp = {

@@ -2,7 +2,7 @@
 
 import Icon from "./Icon";
 
-import { getTextInCurlyBrackets } from "@/utils/form/helpers";
+import { getTextInCurlyBrackets } from "@/shared/utils/form/helpers";
 
 interface CustomLabelProps {
   text: string;

@@ -14,8 +14,8 @@ import MeetingOverview from "./meetingOverview/MeetingOverview";
 import Agendas from "./agenda/Agendas";
 import Sections from "./sections/Sections";
 import SprintActions from "./SprintActions";
-import { currentDate } from "@/utils/getCurrentDate";
-import { ErrorType } from "@/utils/error";
+import { currentDate } from "@/shared/utils/getCurrentDate";
+import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
 import {
   useAppDispatch,
@@ -28,10 +28,10 @@ import {
   sprintMeetingAdapter,
   sprintsAdapter,
   voyageTeamAdapter,
-} from "@/utils/adapters";
-import { CacheTag } from "@/utils/cacheTag";
+} from "@/shared/utils/adapters";
+import { CacheTag } from "@/shared/utils/cacheTag";
 import { fetchMeeting } from "@/store/features/sprint-meeting/sprintMeetingSlice";
-import routePaths from "@/utils/routePaths";
+import routePaths from "@/shared/utils/routePaths";
 
 interface SprintWrapperProps {
   params: {

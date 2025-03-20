@@ -6,9 +6,9 @@ import {
   type TeamMemberForCheckbox,
 } from "./types";
 
-import { type RadioGroupItemProps } from "@/components/inputs/RadioGroup/RadioGroupItem";
-import { type CheckboxGroupItemProps } from "@/components/inputs/CheckBoxGroup/CheckboxGroupItem";
+import { type RadioGroupItemProps } from "@/shared/components/inputs/RadioGroup/RadioGroupItem";
 import { LabelContent } from "@/shared/components/form/LabelContent";
+import type { CheckboxGroupItemProps } from "@/shared/components/inputs/CheckBoxGroup/CheckboxGroupItem";
 
 export function getTextInCurlyBrackets(text: string) {
   const regExp = /[^{\}]+(?=})/g;
