@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Navbar } from "@chingu-x/components/navbar";
 import { Spinner } from "@chingu-x/components/spinner";
 import ModeToggle from "@/shared/components/ModeToggle";
-import AuthHeader from "@/components/navbar/AuthHeader";
+import AuthHeader from "@/shared/components/navbar/AuthHeader";
 import { useAppDispatch } from "@/store/hooks";
 import { clientSignIn } from "@/store/features/auth/authSlice";
 import routePaths from "@/utils/routePaths";
@@ -18,7 +18,7 @@ import {
   voyageTeamAdapter,
 } from "@/utils/adapters";
 import { currentDate } from "@/utils/getCurrentDate";
-import ChinguMenu from "@/components/navbar/ChinguMenu";
+import ChinguMenu from "@/shared/components/navbar/ChinguMenu";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { setCurrentVoyageTeam } from "@/store/features/current-voyage-team/currentVoyageTeamSlice";
 import Sidebar from "@/shared/components/sidebar/Sidebar";
