@@ -9,13 +9,13 @@ import type {
   EditFeatureClientResponseDto,
   Features,
 } from "@chingu-x/modules/features";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import Card from "./Card";
 import { validateTextInput } from "@/utils/form/validateInput";
 import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { CacheTag } from "@/utils/cacheTag";
 import { featuresAdapter } from "@/utils/adapters";
+import { editFeatureState } from "@/store/features/features/featuresSlice";
 
 const validationSchema = z.object({
   description: validateTextInput({
@@ -35,7 +35,6 @@ export default function ListItem({ feature, index }: ListItemProps) {
   const [editMode, setEditMode] = useState<boolean>(false);
   const listItemRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
-  const queryClient = useQueryClient();
   const { id, description, teamMemberId } = feature;
 
   const {
