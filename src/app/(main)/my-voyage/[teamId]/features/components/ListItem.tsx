@@ -7,7 +7,7 @@ import { TextInput } from "@chingu-x/components/inputs";
 import type {
   EditFeatureClientRequestDto,
   EditFeatureClientResponseDto,
-  Features,
+  Feature,
 } from "@chingu-x/modules/features";
 import { useMutation } from "@tanstack/react-query";
 import Card from "./Card";
@@ -27,7 +27,7 @@ const validationSchema = z.object({
 type ValidationSchema = z.infer<typeof validationSchema>;
 
 interface ListItemProps {
-  feature: Features;
+  feature: Feature;
   index: number;
 }
 

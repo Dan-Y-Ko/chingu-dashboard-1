@@ -4,7 +4,7 @@ import type {
   DeleteAgendaTopicClientRequestDto,
   DeleteAgendaTopicResponseDto,
 } from "@chingu-x/modules/sprint-meeting";
-import {
+import type {
   DeleteFeatureClientRequestDto,
   DeleteFeatureClientResponseDto,
 } from "@chingu-x/modules/features";

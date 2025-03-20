@@ -5,14 +5,14 @@ import {
 } from "@hello-pangea/dnd";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import type { Features } from "@chingu-x/modules/features";
+import type { Feature } from "@chingu-x/modules/features";
 import AddFeaturesInput from "./AddFeaturesInput";
 import ListItem from "./ListItem";
 
 interface ListProps {
   id: number;
   title: string;
-  features: Features[];
+  features: Feature[];
 }
 
 export default function List({ id, title, features }: ListProps) {

@@ -1,14 +1,20 @@
-import { useEffect, useState } from "react";
 import { DragDropContext, type DropResult } from "@hello-pangea/dnd";
-import { type FeaturesList } from "@chingu-x/modules/features";
+import type {
+  SaveOrderClientRequestDto,
+  SaveOrderClientResponseDto,
+} from "@chingu-x/modules/features";
+import { useMutation } from "@tanstack/react-query";
 import List from "./List";
-import { saveOrder } from "@/myVoyage/features/featuresService";
 import { useAppDispatch, useFeatures } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { featuresAdapter } from "@/utils/adapters";
+import {
+  saveOrderStateDifferentCategory,
+  saveOrderStateSameCategory,
+} from "@/store/features/features/featuresSlice";
 
 export default function FeaturesContainer() {
   const features = useFeatures();
-  const [orderedData, setOrderedData] = useState(features);
   const dispatch = useAppDispatch();
 
   const onDragEnd = (result: DropResult) => {
@@ -27,7 +33,7 @@ export default function FeaturesContainer() {
       return;
     }
 
-    const newOrderedData = orderedData.map((list) => ({
+    const newOrderedData = features.map((list) => ({
       ...list,
       features: [...list.features],
     }));
@@ -51,46 +57,68 @@ export default function FeaturesContainer() {
       const [removed] = reorderedCards.splice(source.index, 1);
       reorderedCards.splice(destination.index, 0, removed);
 
-      reorderedCards.forEach((card, idx) => {
-        card.order = idx + 1;
+      dispatch(saveOrderStateSameCategory(reorderedCards));
+      saveOrder({
+        featureId: removed.id,
+        order: destination.index + 1,
+        featureCategoryId: removed.category.id,
       });
-
-      sourceList.features = reorderedCards;
-      setOrderedData(newOrderedData);
     }
 
     // moving cards from one column to another
     if (source.droppableId !== destination.droppableId) {
       // Remove card from the source list
       const [movedCard] = sourceList.features.splice(source.index, 1);
+      const category = features.find(
+        (c) => c.categoryId === Number(destination.droppableId),
+      );
+      const newCategory = {
+        id: Number(destination.droppableId),
+        name: category!.categoryName,
+      };
+      // // Assign the new categoryId to the moved card
+      const updatedMovedCard = { ...movedCard, category: newCategory };
 
-      // Assign the new categoryId to the moved card
-      movedCard.category.id = +destination.droppableId;
-
-      // Add card to the destination list
-      destList.features.splice(destination.index, 0, movedCard);
-
-      sourceList.features.forEach((card, idx) => {
-        card.order = idx + 1;
+      // // Add card to the destination list
+      destList.features.splice(destination.index, 0, updatedMovedCard);
+      dispatch(saveOrderStateDifferentCategory({ sourceList, destList }));
+      saveOrder({
+        featureId: updatedMovedCard.id,
+        order: destination.index + 1,
+        featureCategoryId: updatedMovedCard.category.id,
       });
-
-      // Update the order for each card in the destination list
-      destList.features.forEach((card, idx) => {
-        card.order = idx + 1;
-      });
-
-      setOrderedData(newOrderedData);
     }
   };
 
-  useEffect(() => {
-    setOrderedData(features);
-  }, [features]);
+  const { mutate: saveOrder } = useMutation<
+    SaveOrderClientResponseDto,
+    Error,
+    SaveOrderClientRequestDto
+  >({
+    mutationFn: saveOrderMutation,
+    onError: (error: Error) => {
+      dispatch(
+        onOpenModal({ type: "error", content: { message: error.message } }),
+      );
+    },
+  });
+
+  async function saveOrderMutation({
+    featureId,
+    order,
+    featureCategoryId,
+  }: SaveOrderClientRequestDto): Promise<SaveOrderClientResponseDto> {
+    return await featuresAdapter.saveOrder({
+      featureId,
+      order,
+      featureCategoryId,
+    });
+  }
 
   return (
     <div className="grid grid-cols-3 items-start gap-x-10">
       <DragDropContext onDragEnd={onDragEnd}>
-        {orderedData.map((list) => (
+        {features.map((list) => (
           <List
             id={list.categoryId}
             key={list.categoryId}
