@@ -9,7 +9,7 @@ import Image from "next/image";
 import ProgressStepper from "./ProgressStepper";
 import EmptySprintState from "./EmptySprintState";
 import SprintActions from "./SprintActions";
-import { currentDate } from "@/utils/getCurrentSprint";
+import { currentDate } from "@/utils/getCurrentDate";
 import { useCurrentVoyageTeam, useSprint, useUser } from "@/store/hooks";
 import {
   sprintMeetingAdapter,

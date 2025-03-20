@@ -3,7 +3,7 @@
 import { useState } from "react";
 import SignUpFormContainer from "./components/SignUpFormContainer";
 import ConfirmationMailContainer from "./components/ConfirmationMailContainer";
-import SocialLoginButtonsContainer from "@/components/socialLoginButtonsContainer/SocialLoginButtonsContainer";
+import SocialLoginButtonsContainer from "@/shared/components/socialLoginButtonsContainer/SocialLoginButtonsContainer";
 
 function SignUpContainer() {
   const [showConfirmationContainer, setShowConfirmationContainer] =

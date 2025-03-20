@@ -1,5 +1,5 @@
 import SignInFormContainer from "./SignInFormContainer";
-import SocialLoginButtonsContainer from "@/components/socialLoginButtonsContainer/SocialLoginButtonsContainer";
+import SocialLoginButtonsContainer from "@/shared/components/socialLoginButtonsContainer/SocialLoginButtonsContainer";
 
 interface SignInBlockProps {
   handleResetPassword: () => void;

@@ -10,9 +10,9 @@ import { Spinner } from "@chingu-x/components/spinner";
 import WeeklyCheckInForm from "@/app/(main)/my-voyage/[teamId]/sprints/components/forms/WeeklyCheckInForm";
 import { CacheTag } from "@/utils/cacheTag";
 import routePaths from "@/utils/routePaths";
-import { currentDate } from "@/utils/getCurrentSprint";
+import { currentDate } from "@/utils/getCurrentDate";
 import { ErrorType } from "@/utils/error";
-import ErrorComponent from "@/components/Error";
+import ErrorComponent from "@/shared/components/Error";
 import {
   useCurrentVoyageTeam,
   useMyTeam,

@@ -4,7 +4,7 @@ import "reflect-metadata";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Spinner } from "@chingu-x/components/spinner";
-import ErrorComponent from "@/components/Error";
+import ErrorComponent from "@/shared/components/Error";
 import { fetchTeamDirectory } from "@/store/features/my-team/myTeamSlice";
 import { useAppDispatch, useUser } from "@/store/hooks";
 import { myTeamAdapter } from "@/utils/adapters";

@@ -7,10 +7,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@chingu-x/components/spinner";
 import VoyageSubmissionForm from "./forms/VoyageSubmissionForm";
 import { ErrorType } from "@/utils/error";
-import ErrorComponent from "@/components/Error";
+import ErrorComponent from "@/shared/components/Error";
 import { useSprint, useUser } from "@/store/hooks";
 import { formsAdapter, sprintsAdapter } from "@/utils/adapters";
-import { currentDate } from "@/utils/getCurrentSprint";
+import { currentDate } from "@/utils/getCurrentDate";
 import { CacheTag } from "@/utils/cacheTag";
 import routePaths from "@/utils/routePaths";
 

@@ -14,9 +14,9 @@ import MeetingOverview from "./meetingOverview/MeetingOverview";
 import Agendas from "./agenda/Agendas";
 import Sections from "./sections/Sections";
 import SprintActions from "./SprintActions";
-import { currentDate } from "@/utils/getCurrentSprint";
+import { currentDate } from "@/utils/getCurrentDate";
 import { ErrorType } from "@/utils/error";
-import ErrorComponent from "@/components/Error";
+import ErrorComponent from "@/shared/components/Error";
 import {
   useAppDispatch,
   useCurrentVoyageTeam,

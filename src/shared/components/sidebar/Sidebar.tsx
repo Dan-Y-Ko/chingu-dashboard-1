@@ -142,7 +142,7 @@ export default function Sidebar() {
     <aside
       className={cn(
         `${
-          isOpenSidebar ? "w-52" : "w-auto"
+          isOpenSidebar ? "w-[250px]" : "w-auto"
         } flex h-full flex-col justify-between border-r border-base-100 bg-base-200 text-center shadow-md`,
       )}
     >

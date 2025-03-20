@@ -13,7 +13,7 @@ import { getUser } from "@/utils/getUser";
 import type { TechStackData } from "@/store/features/techStack/techStackSlice";
 import routePaths from "@/utils/routePaths";
 import { ErrorType } from "@/utils/error";
-import ErrorComponent from "@/components/Error";
+import ErrorComponent from "@/shared/components/Error";
 
 interface FetchTechStackProps {
   teamId: number;

@@ -1,5 +1,5 @@
 import { Navbar } from "@chingu-x/components/navbar";
-import ModeToggle from "@/components/ModeToggle";
+import ModeToggle from "@/shared/components/ModeToggle";
 import AuthBannerContainer from "@/app/(auth)/components/AuthBannerContainer";
 import ChinguMenu from "@/components/navbar/ChinguMenu";
 

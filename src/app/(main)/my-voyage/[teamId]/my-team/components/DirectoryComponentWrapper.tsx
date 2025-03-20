@@ -9,7 +9,7 @@ import { fetchTeamDirectory } from "@/store/features/my-team/myTeamSlice";
 import { CacheTag } from "@/utils/cacheTag";
 import { useAppDispatch, useMyTeam, useUser } from "@/store/hooks";
 import { myTeamAdapter } from "@/utils/adapters";
-import ErrorComponent from "@/components/Error";
+import ErrorComponent from "@/shared/components/Error";
 import { ErrorType } from "@/utils/error";
 
 interface TeamDirectoryProps {

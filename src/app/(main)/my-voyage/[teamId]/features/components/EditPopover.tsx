@@ -6,7 +6,7 @@ import type {
 } from "@chingu-x/modules/features";
 import { useAppDispatch } from "@/store/hooks";
 import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";
-import EditMenu from "@/components/EditMenu";
+import EditMenu from "@/shared/components/EditMenu";
 import { featuresAdapter } from "@/utils/adapters";
 import { deleteFeatureState } from "@/store/features/features/featuresSlice";
 

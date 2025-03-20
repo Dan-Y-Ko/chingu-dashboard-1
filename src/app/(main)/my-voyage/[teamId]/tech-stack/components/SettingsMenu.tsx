@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { deleteTechItem } from "@/myVoyage/tech-stack/techStackService";
 import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import EditMenu from "@/components/EditMenu";
+import EditMenu from "@/shared/components/EditMenu";
 
 interface SettingsMenuProps {
   onClose: () => void;

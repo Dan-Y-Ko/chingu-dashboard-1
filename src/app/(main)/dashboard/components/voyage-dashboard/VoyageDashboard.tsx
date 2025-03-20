@@ -29,7 +29,7 @@ import IdeationProvider from "@/app/(main)/my-voyage/[teamId]/ideation/component
 import TechStackProvider from "@/app/(main)/my-voyage/[teamId]/tech-stack/components/TechStackProvider";
 import routePaths from "@/utils/routePaths";
 import { type ErrorType } from "@/utils/error";
-import ErrorComponent from "@/components/Error";
+import ErrorComponent from "@/shared/components/Error";
 
 interface VoyageDashboardProps {
   teamId?: string;

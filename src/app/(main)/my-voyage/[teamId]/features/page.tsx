@@ -10,7 +10,7 @@ import { type FeaturesList } from "@chingu-x/modules/features";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import FeaturesContainer from "./components/FeaturesContainer";
-import ErrorComponent from "@/components/Error";
+import ErrorComponent from "@/shared/components/Error";
 import { CacheTag } from "@/utils/cacheTag";
 import { ErrorType } from "@/utils/error";
 import { featuresAdapter } from "@/utils/adapters";

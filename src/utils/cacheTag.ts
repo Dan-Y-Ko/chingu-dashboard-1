@@ -1,5 +1,4 @@
 // add cache tags here
-// used for revalidating tags
 
 export enum CacheTag {
   myTeam = "myTeam",

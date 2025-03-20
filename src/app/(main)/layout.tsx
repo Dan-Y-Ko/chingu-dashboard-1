@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@chingu-x/components/navbar";
 import { Spinner } from "@chingu-x/components/spinner";
-import ModeToggle from "@/components/ModeToggle";
+import ModeToggle from "@/shared/components/ModeToggle";
 import AuthHeader from "@/components/navbar/AuthHeader";
 import { useAppDispatch } from "@/store/hooks";
 import { clientSignIn } from "@/store/features/auth/authSlice";
@@ -17,7 +17,7 @@ import {
   userAdapter,
   voyageTeamAdapter,
 } from "@/utils/adapters";
-import { currentDate } from "@/utils/getCurrentSprint";
+import { currentDate } from "@/utils/getCurrentDate";
 import ChinguMenu from "@/components/navbar/ChinguMenu";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { setCurrentVoyageTeam } from "@/store/features/current-voyage-team/currentVoyageTeamSlice";

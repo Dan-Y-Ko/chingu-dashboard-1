@@ -9,7 +9,7 @@ import IdeationContainer from "./IdeationContainer";
 import IdeationProvider from "./IdeationProvider";
 import VoteCard from "./VoteCard";
 import { type FetchIdeationsProps } from "@/app/(main)/my-voyage/[teamId]/ideation/ideationService";
-import ErrorComponent from "@/components/Error";
+import ErrorComponent from "@/shared/components/Error";
 
 import { type IdeationData } from "@/store/features/ideation/ideationSlice";
 import { CacheTag } from "@/utils/cacheTag";
