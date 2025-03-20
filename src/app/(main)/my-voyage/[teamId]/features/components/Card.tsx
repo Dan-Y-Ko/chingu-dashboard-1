@@ -7,7 +7,6 @@ import {
   useRef,
   useState,
 } from "react";
-
 import Image from "next/image";
 import { Avatar } from "@chingu-x/components/avatar";
 import { type Feature } from "./fixtures/Features";
