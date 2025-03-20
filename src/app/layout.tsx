@@ -4,10 +4,10 @@ import "@chingu-x/components/styles";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import StoreProvider from "@/components/providers/StoreProvider";
-import ThemeProvider from "@/components/providers/ThemeProvider";
-import ModalProvider from "@/components/providers/ModalProvider";
-import { TanstackQueryProvider } from "@/components/providers/TanstackQueryProvider";
+import StoreProvider from "@/shared/components/providers/StoreProvider";
+import ThemeProvider from "@/shared/components/providers/ThemeProvider";
+import ModalProvider from "@/shared/components/providers/ModalProvider";
+import { TanstackQueryProvider } from "@/shared/components/providers/TanstackQueryProvider";
 
 export const metadata: Metadata = {
   title: "Chingu Dashboard",

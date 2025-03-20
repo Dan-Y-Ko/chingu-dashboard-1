@@ -1,7 +1,7 @@
 import { Navbar } from "@chingu-x/components/navbar";
 import ModeToggle from "@/shared/components/ModeToggle";
 import AuthBannerContainer from "@/app/(auth)/components/AuthBannerContainer";
-import ChinguMenu from "@/components/navbar/ChinguMenu";
+import ChinguMenu from "@/shared/components/navbar/ChinguMenu";
 
 interface LayoutProps {
   children: React.ReactNode;
