@@ -4,6 +4,10 @@ import type {
   DeleteAgendaTopicClientRequestDto,
   DeleteAgendaTopicResponseDto,
 } from "@chingu-x/modules/sprint-meeting";
+import {
+  DeleteFeatureClientRequestDto,
+  DeleteFeatureClientResponseDto,
+} from "@chingu-x/modules/features";
 
 export type ModalType =
   | "error"
@@ -52,18 +56,29 @@ export interface DeletePayload {
   deleteFunction?: DeleteFunctionTypes;
 }
 
-export type DeleteProps = DeleteAgendaTopicProps;
+export type DeleteProps = DeleteAgendaTopicProps | DeleteFeatureProps;
 
 interface DeleteAgendaTopicProps {
   agendaId: string;
 }
 
-type DeleteFunctionTypes = UseMutateFunction<
-  DeleteAgendaTopicResponseDto,
-  Error,
-  DeleteAgendaTopicClientRequestDto,
-  unknown
->;
+interface DeleteFeatureProps {
+  featureId: number;
+}
+
+type DeleteFunctionTypes =
+  | UseMutateFunction<
+      DeleteAgendaTopicResponseDto,
+      Error,
+      DeleteAgendaTopicClientRequestDto,
+      unknown
+    >
+  | UseMutateFunction<
+      DeleteFeatureClientResponseDto,
+      Error,
+      DeleteFeatureClientRequestDto,
+      unknown
+    >;
 
 export type ModalOpenActionPayload =
   | BaseModalOpenActionPayload
