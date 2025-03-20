@@ -6,6 +6,7 @@ module.exports = {
   presets: [chinguTheme],
   content: [
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/shared/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@chingu-x/components/**/*.{js,ts,jsx,tsx}",
   ],

@@ -142,11 +142,10 @@ export default function Sidebar() {
     <aside
       className={cn(
         `${
-          isOpenSidebar ? "w-64" : "w-auto"
+          isOpenSidebar ? "w-52" : "w-auto"
         } flex h-full flex-col justify-between border-r border-base-100 bg-base-200 text-center shadow-md`,
       )}
     >
-      <div className="h-6" />
       <div
         className={cn(
           `flex flex-col ${

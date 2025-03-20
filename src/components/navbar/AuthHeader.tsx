@@ -4,12 +4,9 @@ import Link from "next/link";
 import { Avatar } from "@chingu-x/components/avatar";
 import Image from "next/image";
 import { Button } from "@chingu-x/components/button";
-import { Bell } from "@chingu-x/components/navbar";
 import { useAuth, useUser } from "@/store/hooks";
 import UserDropDown from "@/components/navbar/UserDropdown";
 import routePaths from "@/utils/routePaths";
-
-const notificationCount = 4;
 
 export default function AuthHeader() {
   const { isAuthenticated } = useAuth();
@@ -37,7 +34,6 @@ export default function AuthHeader() {
 
   return isAuthenticated ? (
     <>
-      <Bell notificationCount={notificationCount} />
       <div
         ref={menuRef}
         data-cy="nav-dropdown-menu"
