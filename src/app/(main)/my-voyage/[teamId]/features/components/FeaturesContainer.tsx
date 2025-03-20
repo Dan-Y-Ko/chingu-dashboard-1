@@ -1,21 +1,27 @@
 import { DragDropContext, type DropResult } from "@hello-pangea/dnd";
 import type {
+  FeaturesList,
   SaveOrderClientRequestDto,
   SaveOrderClientResponseDto,
 } from "@chingu-x/modules/features";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
 import List from "./List";
 import { useAppDispatch, useFeatures } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { featuresAdapter } from "@/utils/adapters";
 import {
+  rollbackOrderState,
   saveOrderStateDifferentCategory,
   saveOrderStateSameCategory,
 } from "@/store/features/features/featuresSlice";
+import { CacheTag } from "@/utils/cacheTag";
 
 export default function FeaturesContainer() {
   const features = useFeatures();
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
+  const { teamId } = useParams();
 
   const onDragEnd = (result: DropResult) => {
     const { destination, source } = result;
@@ -76,6 +82,7 @@ export default function FeaturesContainer() {
         id: Number(destination.droppableId),
         name: category!.categoryName,
       };
+
       // // Assign the new categoryId to the moved card
       const updatedMovedCard = { ...movedCard, category: newCategory };
 
@@ -83,7 +90,7 @@ export default function FeaturesContainer() {
       destList.features.splice(destination.index, 0, updatedMovedCard);
       dispatch(saveOrderStateDifferentCategory({ sourceList, destList }));
       saveOrder({
-        featureId: updatedMovedCard.id,
+        featureId: 999999,
         order: destination.index + 1,
         featureCategoryId: updatedMovedCard.category.id,
       });
@@ -97,6 +104,12 @@ export default function FeaturesContainer() {
   >({
     mutationFn: saveOrderMutation,
     onError: (error: Error) => {
+      const previousData = queryClient.getQueryData([
+        CacheTag.features,
+        { teamId },
+      ]);
+
+      dispatch(rollbackOrderState(previousData as FeaturesList));
       dispatch(
         onOpenModal({ type: "error", content: { message: error.message } }),
       );

@@ -3,7 +3,6 @@ import type {
   EditFeatureClientResponseDto,
   Feature,
   FeaturesList,
-  SaveOrderClientRequestDto,
 } from "@chingu-x/modules/features";
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 
