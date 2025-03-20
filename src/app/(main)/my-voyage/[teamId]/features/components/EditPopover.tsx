@@ -8,6 +8,7 @@ import { useAppDispatch } from "@/store/hooks";
 import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";
 import EditMenu from "@/components/EditMenu";
 import { featuresAdapter } from "@/utils/adapters";
+import { deleteFeatureState } from "@/store/features/features/featuresSlice";
 
 interface EditPopoverProps {
   setEditMode: Dispatch<SetStateAction<boolean>>;
@@ -28,8 +29,8 @@ export default function EditPopover({
     DeleteFeatureClientRequestDto
   >({
     mutationFn: deleteFeatureMutation,
-    onSuccess: (data) => {
-      // dispatch(deleteAgendaState(data));
+    onSuccess: () => {
+      dispatch(deleteFeatureState({ featureId }));
       dispatch(onCloseModal());
     },
     onError: (error: Error) => {

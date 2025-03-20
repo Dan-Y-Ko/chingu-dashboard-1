@@ -1,6 +1,7 @@
 import type {
+  DeleteFeatureClientRequestDto,
   EditFeatureClientResponseDto,
-  Features,
+  Feature,
   FeaturesList,
 } from "@chingu-x/modules/features";
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
@@ -12,7 +13,7 @@ export const featuresSlice = createSlice({
   initialState,
   reducers: {
     fetchFeatures: (_, action: PayloadAction<FeaturesList>) => action.payload,
-    addFeatureState: (state, action: PayloadAction<Features>) => {
+    addFeatureState: (state, action: PayloadAction<Feature>) => {
       const featureIndex = state.findIndex(
         (feature) => feature.categoryId === action.payload.category.id,
       );
@@ -34,10 +35,24 @@ export const featuresSlice = createSlice({
       feature!.description = action.payload.description;
       feature!.updatedAt = action.payload.updatedAt;
     },
+    deleteFeatureState: (
+      state,
+      action: PayloadAction<DeleteFeatureClientRequestDto>,
+    ) =>
+      state.map((category) => ({
+        ...category,
+        features: category.features.filter(
+          (feature) => feature.id !== action.payload.featureId,
+        ),
+      })),
   },
 });
 
-export const { fetchFeatures, addFeatureState, editFeatureState } =
-  featuresSlice.actions;
+export const {
+  fetchFeatures,
+  addFeatureState,
+  editFeatureState,
+  deleteFeatureState,
+} = featuresSlice.actions;
 
 export default featuresSlice.reducer;
