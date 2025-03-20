@@ -87,7 +87,7 @@ export default function FeaturesPage({ params }: FeaturesPageProps) {
           width="w-[276px]"
         />
       </BannerContainer>
-      <FeaturesContainer data={data ?? []} />
+      <FeaturesContainer />
     </>
   );
 }

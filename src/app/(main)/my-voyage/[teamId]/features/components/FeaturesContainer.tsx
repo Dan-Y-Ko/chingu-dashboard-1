@@ -3,18 +3,15 @@ import { DragDropContext, type DropResult } from "@hello-pangea/dnd";
 import { type FeaturesList } from "@chingu-x/modules/features";
 import List from "./List";
 import { saveOrder } from "@/myVoyage/features/featuresService";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useFeatures } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 
-interface FeaturesContainerProps {
-  data: FeaturesList;
-}
-
-export default function FeaturesContainer({ data }: FeaturesContainerProps) {
-  const [orderedData, setOrderedData] = useState(data);
+export default function FeaturesContainer() {
+  const features = useFeatures();
+  const [orderedData, setOrderedData] = useState(features);
   const dispatch = useAppDispatch();
 
-  const onDragEnd = async (result: DropResult) => {
+  const onDragEnd = (result: DropResult) => {
     const { destination, source } = result;
 
     // dropped nowhere
@@ -60,19 +57,6 @@ export default function FeaturesContainer({ data }: FeaturesContainerProps) {
 
       sourceList.features = reorderedCards;
       setOrderedData(newOrderedData);
-
-      // const [, error] = await saveOrder({
-      //   featureId: removed.id,
-      //   order: removed.order,
-      //   featureCategoryId: removed.category.id,
-      // });
-
-      // if (error) {
-      //   setOrderedData(data);
-      //   dispatch(
-      //     onOpenModal({ type: "error", content: { message: error.message } }),
-      //   );
-      // }
     }
 
     // moving cards from one column to another
@@ -96,25 +80,12 @@ export default function FeaturesContainer({ data }: FeaturesContainerProps) {
       });
 
       setOrderedData(newOrderedData);
-
-      // const [, error] = await saveOrder({
-      //   featureId: movedCard.id,
-      //   order: movedCard.order,
-      //   featureCategoryId: movedCard.category.id,
-      // });
-
-      // if (error) {
-      //   setOrderedData(data);
-      //   dispatch(
-      //     onOpenModal({ type: "error", content: { message: error.message } }),
-      //   );
-      // }
     }
   };
 
   useEffect(() => {
-    setOrderedData(data);
-  }, [data]);
+    setOrderedData(features);
+  }, [features]);
 
   return (
     <div className="grid grid-cols-3 items-start gap-x-10">

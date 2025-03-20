@@ -55,11 +55,8 @@ export default function ListItem({ feature, index }: ListItemProps) {
     EditFeatureClientRequestDto
   >({
     mutationFn: editFeatureMutation,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [CacheTag.features],
-      });
-
+    onSuccess: (data) => {
+      dispatch(editFeatureState(data));
       setEditMode(false);
     },
     onError: (error: Error) => {

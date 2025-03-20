@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
   AddFeatureClientRequestDto,
   AddFeatureClientResponseDto,
@@ -17,6 +17,7 @@ import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { CacheTag } from "@/utils/cacheTag";
 import { featuresAdapter } from "@/utils/adapters";
+import { addFeatureState } from "@/store/features/features/featuresSlice";
 
 interface AddFeaturesInputProps {
   handleClick: () => void;
@@ -43,7 +44,6 @@ export default function AddFeaturesInput({
   const params = useParams<{ teamId: string }>();
   const { teamId } = params;
   const dispatch = useAppDispatch();
-  const queryClient = useQueryClient();
 
   const {
     register,
@@ -62,12 +62,20 @@ export default function AddFeaturesInput({
     AddFeatureClientRequestDto
   >({
     mutationFn: addFeatureMutation,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [CacheTag.features],
-      });
-
-      setIsEditing(false);
+    onSuccess: async (data) => {
+      try {
+        const feature = await getFeatureQuery(data.id);
+        dispatch(addFeatureState(feature));
+      } catch (error) {
+        dispatch(
+          onOpenModal({
+            type: "error",
+            content: { message: (error as Error).message },
+          }),
+        );
+      } finally {
+        setIsEditing(false);
+      }
     },
     onError: (error: Error) => {
       dispatch(
@@ -86,6 +94,16 @@ export default function AddFeaturesInput({
       description,
       featureCategoryId,
     });
+  }
+
+  useQuery({
+    queryKey: [CacheTag.feature, id],
+    queryFn: () => getFeatureQuery(id),
+    enabled: false,
+  });
+
+  async function getFeatureQuery(featureId: number) {
+    return await featuresAdapter.fetchFeature({ featureId });
   }
 
   function handleClearInputAction() {

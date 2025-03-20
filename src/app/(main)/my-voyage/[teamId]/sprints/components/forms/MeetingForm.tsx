@@ -13,7 +13,7 @@ import type {
   EditMeetingResponseDto,
   Meeting,
 } from "@chingu-x/modules/sprint-meeting";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
@@ -33,7 +33,6 @@ import { onOpenModal } from "@/store/features/modal/modalSlice";
 import routePaths from "@/utils/routePaths";
 import { persistor } from "@/store/store";
 import { sprintMeetingAdapter, timezoneAdapter } from "@/utils/adapters";
-import { CacheTag } from "@/utils/cacheTag";
 import {
   addMeetingState,
   editMeetingState,
@@ -53,7 +52,6 @@ export default function MeetingForm() {
   ];
 
   const dispatch = useAppDispatch();
-  const queryClient = useQueryClient();
   const { sprints } = useSprint();
   const sprintMeeting = useSprintMeeting();
   const { timezone } = useUser();
@@ -123,10 +121,7 @@ export default function MeetingForm() {
     AddMeetingClientRequestDto
   >({
     mutationFn: addMeetingMutation,
-    onSuccess: async (data) => {
-      await queryClient.invalidateQueries({
-        queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
-      });
+    onSuccess: (data) => {
       dispatch(addMeetingState(data));
       router.push(
         routePaths.sprintWeekPage(teamId, sprintNumber, data.id.toString()),
@@ -159,10 +154,7 @@ export default function MeetingForm() {
     EditMeetingClientRequestDto
   >({
     mutationFn: editMeetingMutation,
-    onSuccess: async (data) => {
-      await queryClient.invalidateQueries({
-        queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
-      });
+    onSuccess: (data) => {
       router.push(
         routePaths.sprintWeekPage(teamId, sprintNumber, data.id.toString()),
       );
