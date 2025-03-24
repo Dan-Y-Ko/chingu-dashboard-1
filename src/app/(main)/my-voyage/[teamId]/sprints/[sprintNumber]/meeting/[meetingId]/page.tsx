@@ -20,11 +20,7 @@ import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintM
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { fetchMeeting } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import routePaths from "@/shared/utils/routePaths";
-import {
-  useIsVoyageProjectSubmittedStatus,
-  voyageTeamAdapter,
-} from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
-import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
+import { useIsVoyageProjectSubmittedStatus } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import VoyageSubmittedMessage from "@/features/sprints/components/VoyageSubmittedMessage";
 import ProgressStepper from "@/features/sprints/components/ProgressStepper";
 import SprintActions from "@/features/sprints/components/SprintActions";
@@ -48,7 +44,6 @@ export default function SprintPage({ params }: SprintPageProps) {
   const user = useUser();
   const sprints = useSprintStateSelector();
   const sprintMeeting = useSprintMeetingStateSelector();
-  const currentVoyageTeam = useCurrentVoyageTeamStateSelector();
   const dispatch = useAppDispatch();
   const router = useRouter();
 

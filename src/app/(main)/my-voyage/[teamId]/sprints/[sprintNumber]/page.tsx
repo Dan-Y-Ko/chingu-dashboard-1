@@ -11,11 +11,7 @@ import { currentDate } from "@/shared/utils/getCurrentDate";
 import { useUser } from "@/store/hooks";
 import { sprintsAdapter } from "@/shared/utils/adapters";
 import routePaths from "@/shared/utils/routePaths";
-import {
-  useIsVoyageProjectSubmittedStatus,
-  voyageTeamAdapter,
-} from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
-import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
+import { useIsVoyageProjectSubmittedStatus } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import VoyageSubmittedMessage from "@/features/sprints/components/VoyageSubmittedMessage";
 import ProgressStepper from "@/features/sprints/components/ProgressStepper";
 import SprintActions from "@/features/sprints/components/SprintActions";
@@ -34,7 +30,6 @@ export default function EmptySprintPage({ params }: EmptySprintPageProps) {
   const { teamId } = params;
   const sprintNumber = Number(params.sprintNumber);
   const user = useUser();
-  // const currentVoyageTeam = useCurrentVoyageTeamStateSelector();
   const sprints = useSprintStateSelector();
   const router = useRouter();
 
