@@ -9,17 +9,16 @@ import { useEffect } from "react";
 import ModeToggle from "@/shared/components/ModeToggle";
 import AuthHeader from "@/shared/components/navbar/AuthHeader";
 import { useAppDispatch } from "@/shared/store";
-import { clientSignIn } from "@/features/auth/store/authSlice";
 import routePaths from "@/shared/utils/routePaths";
-import { getUserState } from "@/features/user/store/userSlice";
 import { CacheTag } from "@/shared/utils/cacheTag";
-import { sprintsAdapter, userAdapter } from "@/shared/utils/adapters";
+import { sprintsAdapter } from "@/shared/utils/adapters";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import ChinguMenu from "@/shared/components/navbar/ChinguMenu";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { setCurrentVoyageTeam } from "@/store/features/current-voyage-team/currentVoyageTeamSlice";
 import Sidebar from "@/shared/components/sidebar/Sidebar";
 import { useGetCurrentVoyageTeam } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
+import { useFetchUserQuery } from "@/features/user/hooks/useFetchUserQuery";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -30,15 +29,8 @@ export default function Layout({ children }: LayoutProps) {
   const router = useRouter();
   const { getCurrentVoyageTeam } = useGetCurrentVoyageTeam();
 
-  const {
-    isPending: fetchCurrentUserPending,
-    isError: isfetchCurrentUserError,
-    data: currentUser,
-  } = useQuery({
-    queryKey: [CacheTag.me],
-    queryFn: getUserQuery,
-    staleTime: 1000 * 60 * 30, // This sets it to 30 minutes, which is how long the access token lasts
-  });
+  const { isFetchCurrentUserPending, isfetchCurrentUserError, currentUser } =
+    useFetchUserQuery();
 
   const {
     isPending: fetchAllSprintsPending,
@@ -49,10 +41,6 @@ export default function Layout({ children }: LayoutProps) {
     queryKey: [CacheTag.fetchAllSprints],
     queryFn: getAllSprintsQuery,
   });
-
-  async function getUserQuery() {
-    return await userAdapter.fetchUser({ currentDate });
-  }
 
   async function getAllSprintsQuery() {
     return await sprintsAdapter.fetchAllSprints();
@@ -70,13 +58,6 @@ export default function Layout({ children }: LayoutProps) {
       }),
     );
   }
-
-  useEffect(() => {
-    if (currentUser) {
-      dispatch(clientSignIn());
-      dispatch(getUserState(currentUser));
-    }
-  }, [currentUser, dispatch]);
 
   useEffect(() => {
     if (currentUser && allSprints) {
@@ -104,7 +85,7 @@ export default function Layout({ children }: LayoutProps) {
         <Sidebar />
         <main className="flex w-full flex-1 flex-col items-center overflow-y-auto p-10">
           <div className="flex w-full max-w-[1500px] flex-col gap-y-10">
-            {fetchCurrentUserPending || fetchAllSprintsPending ? (
+            {isFetchCurrentUserPending || fetchAllSprintsPending ? (
               <div className="flex min-h-screen items-center justify-center">
                 <Spinner />
               </div>

@@ -37,5 +37,6 @@ export function useFetchUserQuery() {
     isFetchCurrentUserPending,
     isfetchCurrentUserError,
     fetchCurrentUserError,
+    currentUser,
   };
 }
