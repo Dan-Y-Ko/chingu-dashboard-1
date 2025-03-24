@@ -3,10 +3,7 @@ import type {
   EditMeetingResponseDto,
 } from "@chingu-x/modules/sprint-meeting";
 import { useMutation } from "@tanstack/react-query";
-import {
-  sprintMeetingAdapter,
-  //   useEditMeetingNotes,
-} from "./useSprintMeetingAdapters";
+import { useEditMeetingNotes } from "./useSprintMeetingAdapters";
 import { useAppDispatch } from "@/shared/store";
 import { editMeetingState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
@@ -14,7 +11,7 @@ import { onOpenModal } from "@/store/features/modal/modalSlice";
 export function useEditMeetingNotesMutation() {
   const dispatch = useAppDispatch();
 
-  //   const { editMeetingNotes } = useEditMeetingNotes({ meetingId, data });
+  const { editMeetingNotes } = useEditMeetingNotes();
 
   const {
     mutate: editMeetingNotesMutation,
@@ -35,8 +32,7 @@ export function useEditMeetingNotesMutation() {
     meetingId,
     ...data
   }: EditMeetingClientRequestDto): Promise<EditMeetingResponseDto> {
-    // return editMeetingNotes;
-    return await sprintMeetingAdapter.editMeeting({ meetingId, ...data });
+    return await editMeetingNotes({ meetingId, ...data });
   }
 
   return {
