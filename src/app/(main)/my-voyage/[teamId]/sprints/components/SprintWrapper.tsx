@@ -9,11 +9,13 @@ import { useQuery } from "@tanstack/react-query";
 import { BannerContainer } from "@chingu-x/components/banner-container";
 import { Banner } from "@chingu-x/components/banner";
 import { Spinner } from "@chingu-x/components/spinner";
+import { useEffect } from "react";
 import ProgressStepper from "./ProgressStepper";
 import MeetingOverview from "./meetingOverview/MeetingOverview";
 import Agendas from "./agenda/Agendas";
 import Sections from "./sections/Sections";
 import SprintActions from "./SprintActions";
+import VoyageSubmittedMessage from "./VoyageSubmittedMessage";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
@@ -28,7 +30,6 @@ import { CacheTag } from "@/shared/utils/cacheTag";
 import { fetchMeeting } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import routePaths from "@/shared/utils/routePaths";
 import { useSprint } from "@/features/sprints/hooks/useSprint";
-import { useEffect } from "react";
 
 interface SprintWrapperProps {
   params: {
@@ -66,10 +67,6 @@ export default function SprintWrapper({ params }: SprintWrapperProps) {
       currentVoyageTeam,
       teamId,
     });
-
-  if (isVoyageProjectSubmitted) {
-    router.push(routePaths.sprintsPage(teamId));
-  }
 
   const { isPending, isError, error, data } = useQuery({
     queryKey: [
@@ -124,6 +121,48 @@ export default function SprintWrapper({ params }: SprintWrapperProps) {
     user,
     sprintId: id,
   });
+
+  if (
+    voyageTeamAdapter.getVoyageProjectSubmissionStatus({
+      currentVoyageTeam,
+      teamId,
+    })
+  ) {
+    return (
+      <div className="flex w-full flex-col gap-y-10">
+        <BannerContainer
+          title="Sprints"
+          description="A sprint agenda helps the team stay on track, communicate well, and improve. Basically, it's like speed dating for developers. Except we're not looking for a soulmate, we're just trying to get some quality work done."
+        >
+          <Banner
+            imageLight={
+              <Image
+                src="/img/sprints_banner_light.png"
+                alt="Light sprints banner"
+                fill={true}
+                sizes="276px"
+                priority
+                style={{ objectFit: "contain" }}
+              />
+            }
+            imageDark={
+              <Image
+                src="/img/sprints_banner_dark.png"
+                alt="Dark sprints banner"
+                fill={true}
+                sizes="276px"
+                priority
+                style={{ objectFit: "contain" }}
+              />
+            }
+            height="h-[200px]"
+            width="w-[276px]"
+          />
+        </BannerContainer>
+        <VoyageSubmittedMessage />
+      </div>
+    );
+  }
 
   return (
     <div className="flex w-full flex-col gap-y-10">

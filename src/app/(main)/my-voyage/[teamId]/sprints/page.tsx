@@ -2,23 +2,19 @@
 
 import "reflect-metadata";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import type { Sprint } from "@chingu-x/modules/sprints";
-import { BannerContainer } from "@chingu-x/components/banner-container";
-import { Banner } from "@chingu-x/components/banner";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Spinner } from "@chingu-x/components/spinner";
-import VoyageSubmittedMessage from "./components/VoyageSubmittedMessage";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
-import { useCurrentVoyageTeam, useUser } from "@/store/hooks";
 import { useAppDispatch } from "@/shared/store";
-import { sprintsAdapter, voyageTeamAdapter } from "@/shared/utils/adapters";
+import { sprintsAdapter } from "@/shared/utils/adapters";
 import { fetchSprints } from "@/features/sprints/store/sprintSlice";
 import routePaths from "@/shared/utils/routePaths";
+import { useUser } from "@/store/hooks";
 
 interface SprintsPageProps {
   params: {
@@ -31,9 +27,10 @@ export default function SprintsPage({ params }: SprintsPageProps) {
   const { teamId } = params;
 
   const user = useUser();
-  const currentVoyageTeam = useCurrentVoyageTeam();
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [sprintsData, setSprintsData] = useState<Sprint>();
+  const [currentSprintNumber, setCurrentSprintNumber] = useState<number>(0);
 
   const { isPending, isError, error, data } = useQuery({
     queryKey: [CacheTag.sprints, { teamId, user: `${user.id}` }],
@@ -50,6 +47,39 @@ export default function SprintsPage({ params }: SprintsPageProps) {
     }
   }, [data, dispatch]);
 
+  useEffect(() => {
+    if (data) {
+      const sprintsData = sprintsAdapter.getCurrentSprint({
+        sprints: data.sprints,
+        currentDate,
+      });
+
+      setSprintsData(sprintsData);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (sprintsData) {
+      setCurrentSprintNumber(sprintsData.number);
+    }
+  }, [sprintsData]);
+
+  useEffect(() => {
+    if (sprintsData && sprintsData.teamMeetings.length !== 0) {
+      router.push(
+        routePaths.sprintWeekPage(
+          teamId,
+          currentSprintNumber.toString(),
+          sprintsData.teamMeetings[0].toString(),
+        ),
+      );
+    }
+
+    router.push(
+      routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
+    );
+  }, [currentSprintNumber, router, teamId, sprintsData]);
+
   if (isPending) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -64,69 +94,6 @@ export default function SprintsPage({ params }: SprintsPageProps) {
         errorType={ErrorType.FETCH_SPRINT}
         message={error.message}
       />
-    );
-  }
-
-  if (
-    voyageTeamAdapter.getVoyageProjectSubmissionStatus({
-      currentVoyageTeam,
-      teamId,
-    })
-  ) {
-    return (
-      <div className="flex w-full flex-col gap-y-10">
-        <BannerContainer
-          title="Sprints"
-          description="A sprint agenda helps the team stay on track, communicate well, and improve. Basically, it's like speed dating for developers. Except we're not looking for a soulmate, we're just trying to get some quality work done."
-        >
-          <Banner
-            imageLight={
-              <Image
-                src="/img/sprints_banner_light.png"
-                alt="Light sprints banner"
-                fill={true}
-                sizes="276px"
-                priority
-                style={{ objectFit: "contain" }}
-              />
-            }
-            imageDark={
-              <Image
-                src="/img/sprints_banner_dark.png"
-                alt="Dark sprints banner"
-                fill={true}
-                sizes="276px"
-                priority
-                style={{ objectFit: "contain" }}
-              />
-            }
-            height="h-[200px]"
-            width="w-[276px]"
-          />
-        </BannerContainer>
-        <VoyageSubmittedMessage />
-      </div>
-    );
-  }
-
-  const { teamMeetings, number } = sprintsAdapter.getCurrentSprint({
-    sprints: data.sprints,
-    currentDate,
-  }) as Sprint;
-
-  const currentSprintNumber = number;
-
-  if (teamMeetings.length !== 0) {
-    router.push(
-      routePaths.sprintWeekPage(
-        teamId,
-        currentSprintNumber.toString(),
-        teamMeetings[0].toString(),
-      ),
-    );
-  } else {
-    router.push(
-      routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
     );
   }
 }
