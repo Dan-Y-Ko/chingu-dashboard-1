@@ -5,21 +5,13 @@ import { z } from "zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type {
-  EditMeetingClientRequestDto,
-  EditMeetingResponseDto,
-} from "@chingu-x/modules/sprint-meeting";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import Textarea from "@/shared/components/inputs/Textarea";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { useAppDispatch } from "@/shared/store";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
-import { CacheTag } from "@/shared/utils/cacheTag";
-import { editMeetingState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
+import { useEditMeetingNotesMutation } from "@/features/sprint-meeting/hooks/useEditMeetingNotesMutation";
 
 const validationSchema = z.object({
   notes: validateTextInput({
@@ -32,15 +24,12 @@ export type ValidationSchema = z.infer<typeof validationSchema>;
 
 export default function Notes() {
   const [data, setData] = useState<string>();
-  const dispatch = useAppDispatch();
-  const params = useParams<{
-    sprintNumber: string;
+  const { meetingId } = useParams<{
     meetingId: string;
   }>();
-  const queryClient = useQueryClient();
-
-  const [meetingId] = [params.meetingId];
   const meeting = useSprintMeetingStateSelector();
+  const { isEditMeetingNotesPending, editMeetingNotesMutation } =
+    useEditMeetingNotesMutation();
 
   useEffect(() => {
     const meetingNote = sprintMeetingAdapter.getSprintMeeting({
@@ -50,35 +39,6 @@ export default function Notes() {
 
     setData(meetingNote);
   }, [meeting, meetingId]);
-
-  const { mutate: editMeeting, isPending: editMeetingPending } = useMutation<
-    EditMeetingResponseDto,
-    Error,
-    EditMeetingClientRequestDto
-  >({
-    mutationFn: editMeetingMutation,
-    onSuccess: async (data) => {
-      await queryClient.invalidateQueries({
-        queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
-      });
-      dispatch(editMeetingState(data));
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
-
-  async function editMeetingMutation({
-    meetingId,
-    ...data
-  }: EditMeetingClientRequestDto): Promise<EditMeetingResponseDto> {
-    return await sprintMeetingAdapter.editMeeting({
-      meetingId,
-      ...data,
-    });
-  }
 
   const {
     register,
@@ -90,7 +50,7 @@ export default function Notes() {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
-    editMeeting({ meetingId, ...data });
+    editMeetingNotesMutation({ meetingId, ...data });
   };
 
   return (
@@ -111,9 +71,9 @@ export default function Notes() {
         variant="outline"
         size="md"
         className="min-w-[75px] self-center"
-        disabled={!isDirty || !isValid || editMeetingPending}
+        disabled={!isDirty || !isValid || isEditMeetingNotesPending}
       >
-        {editMeetingPending ? <Spinner /> : "Save"}
+        {isEditMeetingNotesPending ? <Spinner /> : "Save"}
       </Button>
     </form>
   );
