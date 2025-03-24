@@ -94,3 +94,16 @@ export function useAddSprintMeetingPlanningReviewSection() {
 
   return { addSprintMeetingPlanningReviewSection };
 }
+
+export function useAddSprintMeetingNotesSection() {
+  const addSprintMeetingNotesSection = async ({
+    meetingId,
+    notes,
+  }: EditMeetingClientRequestDto) =>
+    await sprintMeetingAdapter.editMeeting({
+      meetingId,
+      notes,
+    });
+
+  return { addSprintMeetingNotesSection };
+}

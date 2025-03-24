@@ -46,12 +46,12 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const { number, id } = sprintsAdapter.getCurrentSprint({
+  const currentSprint = sprintsAdapter.getCurrentSprint({
     currentDate,
     sprints: sprints.sprints,
   }) as Sprint;
 
-  const currentSprintNumber = number;
+  const currentSprintNumber = currentSprint?.number;
 
   const agendas =
     sprintMeetingAdapter.getSprintMeeting({
@@ -114,7 +114,7 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
   // Check if a checkin form for the current sprint has been submitted
   const sprintCheckinIsSubmitted = sprintsAdapter.getSprintCheckinStatus({
     user,
-    sprintId: id,
+    sprintId: currentSprint?.id,
   });
 
   if (isVoyageProjectSubmitted) {
