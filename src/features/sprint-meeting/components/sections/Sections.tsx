@@ -13,7 +13,7 @@ import Notes from "./Notes";
 import Planning from "./Planning";
 import Review from "./Review";
 import SectionBase from "./SectionBase";
-import Divider from "@/app/(main)/my-voyage/[teamId]/sprints/components/Divider";
+import Divider from "@/features/sprint-meeting/components/Divider";
 
 interface SectionsProps {
   params: {

@@ -12,7 +12,7 @@ import NoAgendasState from "./NoAgendasState";
 import AgendaTopic from "./AgendaTopic";
 import AgendaHeader from "./AgendaHeader";
 import routePaths from "@/shared/utils/routePaths";
-import Divider from "@/myVoyage/sprints/components/Divider";
+import Divider from "@/features/sprint-meeting/components/Divider";
 import { useSprintMeeting } from "@/store/hooks";
 import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";

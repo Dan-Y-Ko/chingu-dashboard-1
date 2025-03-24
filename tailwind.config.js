@@ -7,6 +7,7 @@ module.exports = {
   content: [
     "./src/shared/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/features/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@chingu-x/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
