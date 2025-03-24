@@ -12,7 +12,7 @@ import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { clientSignIn } from "@/store/features/auth/authSlice";
+import { clientSignIn } from "@/features/auth/store/authSlice";
 import routePaths from "@/shared/utils/routePaths";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { authAdapter } from "@/shared/utils/adapters";

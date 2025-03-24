@@ -1,7 +1,7 @@
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { PURGE } from "redux-persist";
-import { clientSignOut } from "@/store/features/auth/authSlice";
+import { clientSignOut } from "@/features/auth/store/authSlice";
 
 export interface VoyageMember {
   id: string;

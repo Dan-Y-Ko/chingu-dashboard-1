@@ -1,7 +1,6 @@
 import { useAppSelector } from "@/shared/store";
 
 export const useModal = () => useAppSelector((state) => state.modal);
-export const useAuth = () => useAppSelector((state) => state.auth);
 export const useIdeation = () => useAppSelector((state) => state.ideation);
 export const useFinalizedIdeation = () =>
   useAppSelector((state) =>

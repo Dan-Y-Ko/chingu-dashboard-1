@@ -7,7 +7,7 @@ import storage from "redux-persist/lib/storage";
 import { PURGE } from "redux-persist";
 import type { VoyageSprint } from "@chingu-x/modules/sprints";
 import type { AddMeetingResponseDto } from "@chingu-x/modules/sprint-meeting";
-import { clientSignOut } from "@/store/features/auth/authSlice";
+import { clientSignOut } from "@/features/auth/store/authSlice";
 import { addMeetingState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 
 const initialState: VoyageSprint = {

@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import ModeToggle from "@/shared/components/ModeToggle";
 import AuthHeader from "@/shared/components/navbar/AuthHeader";
 import { useAppDispatch } from "@/shared/store";
-import { clientSignIn } from "@/store/features/auth/authSlice";
+import { clientSignIn } from "@/features/auth/store/authSlice";
 import routePaths from "@/shared/utils/routePaths";
 import { getUserState } from "@/features/user/store/userSlice";
 import { CacheTag } from "@/shared/utils/cacheTag";

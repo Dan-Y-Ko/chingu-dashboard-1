@@ -7,7 +7,7 @@ import {
   useSelector,
 } from "react-redux";
 import ideationReducer from "@/store/features/ideation/ideationSlice";
-import authReducer from "@/store/features/auth/authSlice";
+import authReducer from "@/features/auth/store/authSlice";
 import resourceReducer from "@/store/features/resources/resourcesSlice";
 import userReducer from "@/features/user/store/userSlice";
 import myTeamReducer from "@/store/features/my-team/myTeamSlice";
