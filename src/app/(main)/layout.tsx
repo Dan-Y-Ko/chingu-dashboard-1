@@ -50,7 +50,6 @@ export default function Layout({ children }: LayoutProps) {
   } = useQuery({
     queryKey: [CacheTag.fetchAllSprints],
     queryFn: getAllSprintsQuery,
-    staleTime: 1000 * 60 * 30,
   });
 
   async function getUserQuery() {

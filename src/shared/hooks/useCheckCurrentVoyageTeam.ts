@@ -20,7 +20,7 @@ export default function useCheckCurrentVoyageTeam({
       teamId,
     });
 
-    if (!currentTeam) {
+    if (currentVoyageTeam.length > 1 && !currentTeam) {
       router.push(routePaths.dashboardPage());
     }
   }, [router, teamId, currentVoyageTeam]);

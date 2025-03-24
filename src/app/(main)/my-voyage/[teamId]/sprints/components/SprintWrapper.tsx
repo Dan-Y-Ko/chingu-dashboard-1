@@ -28,6 +28,7 @@ import { CacheTag } from "@/shared/utils/cacheTag";
 import { fetchMeeting } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import routePaths from "@/shared/utils/routePaths";
 import { useSprint } from "@/features/sprints/hooks/useSprint";
+import { useEffect } from "react";
 
 interface SprintWrapperProps {
   params: {
@@ -47,9 +48,12 @@ export default function SprintWrapper({ params }: SprintWrapperProps) {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  if (sprints.sprints.length < 1) {
-    router.push(routePaths.sprintsPage(teamId));
-  }
+  const { number, id } = sprintsAdapter.getCurrentSprint({
+    currentDate,
+    sprints: sprints.sprints,
+  }) as Sprint;
+
+  const currentSprintNumber = number;
 
   const agendas =
     sprintMeetingAdapter.getSprintMeeting({
@@ -79,9 +83,17 @@ export default function SprintWrapper({ params }: SprintWrapperProps) {
     return await sprintMeetingAdapter.fetchMeeting({ meetingId });
   }
 
-  if (data) {
-    dispatch(fetchMeeting(data));
-  }
+  useEffect(() => {
+    if (data) {
+      dispatch(fetchMeeting(data));
+    }
+  }, [data, dispatch]);
+
+  useEffect(() => {
+    if (sprints.sprints.length < 1) {
+      router.push(routePaths.sprintsPage(teamId));
+    }
+  }, [router, sprints.sprints.length, teamId]);
 
   if (isPending) {
     return (
@@ -99,14 +111,6 @@ export default function SprintWrapper({ params }: SprintWrapperProps) {
       />
     );
   }
-
-  // Get current sprint number
-  const { number, id } = sprintsAdapter.getCurrentSprint({
-    currentDate,
-    sprints: sprints.sprints,
-  }) as Sprint;
-
-  const currentSprintNumber = number;
 
   // Redirect if a user tries to access a sprint which hasn't started yet
   if (Number(sprintNumber) > currentSprintNumber) {
