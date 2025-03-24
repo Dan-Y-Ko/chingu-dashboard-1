@@ -11,7 +11,7 @@ import AuthHeader from "@/shared/components/navbar/AuthHeader";
 import { useAppDispatch } from "@/shared/store";
 import { clientSignIn } from "@/store/features/auth/authSlice";
 import routePaths from "@/shared/utils/routePaths";
-import { getUserState } from "@/store/features/user/userSlice";
+import { getUserState } from "@/features/user/store/userSlice";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { sprintsAdapter, userAdapter } from "@/shared/utils/adapters";
 import { currentDate } from "@/shared/utils/getCurrentDate";

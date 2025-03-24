@@ -9,7 +9,7 @@ import {
 import ideationReducer from "@/store/features/ideation/ideationSlice";
 import authReducer from "@/store/features/auth/authSlice";
 import resourceReducer from "@/store/features/resources/resourcesSlice";
-import userReducer from "@/store/features/user/userSlice";
+import userReducer from "@/features/user/store/userSlice";
 import myTeamReducer from "@/store/features/my-team/myTeamSlice";
 import sprintReducer from "@/features/sprints/store/sprintSlice";
 import featuresReducer from "@/store/features/features/featuresSlice";
