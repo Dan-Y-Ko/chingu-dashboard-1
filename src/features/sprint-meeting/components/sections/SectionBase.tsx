@@ -7,10 +7,8 @@ import {
   ChevronUpIcon,
   PlusCircleIcon,
 } from "@heroicons/react/24/outline";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import type {
-  AddSprintMeetingSectionClientRequestDto,
-  AddSprintMeetingSectionResponseDto,
   EditMeetingClientRequestDto,
   EditMeetingResponseDto,
 } from "@chingu-x/modules/sprint-meeting";
@@ -19,9 +17,8 @@ import { Spinner } from "@chingu-x/components/spinner";
 import { cn } from "@chingu-x/components/tw-merge";
 import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { CacheTag } from "@/shared/utils/cacheTag";
 import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
-import { addSprintMeetingSectionState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import { useAddSprintMeetingPlanningReviewSectionMutation } from "@/features/sprint-meeting/hooks/useAddSprintMeetingPlanningReviewSectionMutation";
 
 interface SectionBaseProps {
   params: {
@@ -46,7 +43,6 @@ export default function SectionBase({
   reorderSections,
 }: SectionBaseProps) {
   const [meetingId] = [params.meetingId];
-  const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -57,11 +53,7 @@ export default function SectionBase({
     EditMeetingClientRequestDto
   >({
     mutationFn: editMeetingMutation,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
-      });
-
+    onSuccess: () => {
       reorderSections && reorderSections(title);
       setIsOpen(true);
     },
@@ -85,67 +77,14 @@ export default function SectionBase({
 
   // Planning & Retrospective&Review Sections
   const {
-    mutate: addSprintMeetingSection,
-    isPending: addSprintMeetingSectionPending,
-  } = useMutation<
-    AddSprintMeetingSectionResponseDto,
-    Error,
-    AddSprintMeetingSectionClientRequestDto
-  >({
-    mutationFn: addSprintMeetingSectionMutation,
-    onSuccess: async (data) => {
-      await queryClient.invalidateQueries({
-        queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
-      });
-
-      try {
-        const sprintMeetingForm = await fetchSprintMeetingForm();
-        const responseData =
-          sprintMeetingAdapter.getSprintMeetingSectionResponses({
-            sprintMeetingForm,
-          });
-        dispatch(addSprintMeetingSectionState({ ...data, ...responseData }));
-
-        reorderSections && reorderSections(responseData.title);
-        setIsOpen(true);
-      } catch (error) {
-        dispatch(
-          onOpenModal({
-            type: "error",
-            content: { message: (error as Error).message },
-          }),
-        );
-      }
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
-
-  async function addSprintMeetingSectionMutation({
+    isAddSprintMeetingReviewSectionPending,
+    addSprintMeetingReviewSectionMutation,
+  } = useAddSprintMeetingPlanningReviewSectionMutation({
+    id,
     meetingId,
-    formId,
-  }: AddSprintMeetingSectionClientRequestDto): Promise<AddSprintMeetingSectionResponseDto> {
-    return await sprintMeetingAdapter.addSprintMeetingSection({
-      meetingId,
-      formId,
-    });
-  }
-
-  useQuery({
-    queryKey: [],
-    queryFn: fetchSprintMeetingForm,
-    enabled: false,
+    reorderSections,
+    setIsOpen,
   });
-
-  async function fetchSprintMeetingForm() {
-    return await sprintMeetingAdapter.fetchSprintMeetingForm({
-      meetingId,
-      formId: id,
-    });
-  }
 
   useEffect(() => {
     if (isAdded) setIsOpen(true);
@@ -153,7 +92,7 @@ export default function SectionBase({
 
   const handleAddSection = () => {
     if (id !== Number(Forms.notes)) {
-      addSprintMeetingSection({ formId: id, meetingId });
+      addSprintMeetingReviewSectionMutation({ formId: id, meetingId });
     } else {
       editMeeting({ meetingId });
     }
@@ -164,7 +103,7 @@ export default function SectionBase({
   };
 
   function renderButtonContent() {
-    if (addSprintMeetingSectionPending || editMeetingPending) {
+    if (isAddSprintMeetingReviewSectionPending || editMeetingPending) {
       return <Spinner />;
     }
 
@@ -226,7 +165,9 @@ export default function SectionBase({
             type="button"
             onClick={handleAddSection}
             aria-label="add section"
-            disabled={addSprintMeetingSectionPending || editMeetingPending}
+            disabled={
+              isAddSprintMeetingReviewSectionPending || editMeetingPending
+            }
           >
             {renderButtonContent()}
           </button>

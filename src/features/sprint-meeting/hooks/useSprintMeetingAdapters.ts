@@ -1,8 +1,10 @@
 import { resolve } from "@chingu-x/modules/resolver";
 import { TYPES } from "@chingu-x/modules/di-types";
 import type {
+  AddSprintMeetingSectionClientRequestDto,
   EditMeetingClientRequestDto,
   FetchSprintMeetingFormClientRequestDto,
+  GetSprintMeetingSectionResponsesClientRequestDto,
   SprintMeetingClientAdapter,
 } from "@chingu-x/modules/sprint-meeting";
 import { useSprintMeetingStateSelector } from "./useSprintMeetingStateSelector";
@@ -67,4 +69,28 @@ export function useGetSprintMeetingNotes({
   }).notes;
 
   return { meetingNotes };
+}
+
+export function useGetSprintMeetingSectionResponses() {
+  const getSprintMeetingSectionResponses = ({
+    sprintMeetingForm,
+  }: GetSprintMeetingSectionResponsesClientRequestDto) =>
+    sprintMeetingAdapter.getSprintMeetingSectionResponses({
+      sprintMeetingForm,
+    });
+
+  return { getSprintMeetingSectionResponses };
+}
+
+export function useAddSprintMeetingPlanningReviewSection() {
+  const addSprintMeetingPlanningReviewSection = async ({
+    meetingId,
+    formId,
+  }: AddSprintMeetingSectionClientRequestDto) =>
+    await sprintMeetingAdapter.addSprintMeetingSection({
+      meetingId,
+      formId,
+    });
+
+  return { addSprintMeetingPlanningReviewSection };
 }
