@@ -9,8 +9,7 @@ import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import Textarea from "@/shared/components/inputs/Textarea";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
-import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
+import { useGetSprintMeetingNotes } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { useEditMeetingNotesMutation } from "@/features/sprint-meeting/hooks/useEditMeetingNotesMutation";
 
 const validationSchema = z.object({
@@ -27,18 +26,15 @@ export default function Notes() {
   const { meetingId } = useParams<{
     meetingId: string;
   }>();
-  const meeting = useSprintMeetingStateSelector();
   const { isEditMeetingNotesPending, editMeetingNotesMutation } =
     useEditMeetingNotesMutation();
+  const { meetingNotes } = useGetSprintMeetingNotes({ meetingId });
 
   useEffect(() => {
-    const meetingNote = sprintMeetingAdapter.getSprintMeeting({
-      meeting,
-      meetingId,
-    })?.notes;
-
-    setData(meetingNote);
-  }, [meeting, meetingId]);
+    if (meetingNotes) {
+      setData(meetingNotes);
+    }
+  }, [meetingNotes, meetingId]);
 
   const {
     register,

@@ -5,6 +5,7 @@ import type {
   FetchSprintMeetingFormClientRequestDto,
   SprintMeetingClientAdapter,
 } from "@chingu-x/modules/sprint-meeting";
+import { useSprintMeetingStateSelector } from "./useSprintMeetingStateSelector";
 
 export const sprintMeetingAdapter = resolve<SprintMeetingClientAdapter>(
   TYPES.SprintMeetingClientAdapter,
@@ -34,4 +35,36 @@ export function useEditMeetingNotes() {
     });
 
   return { editMeetingNotes };
+}
+
+interface UseGetSprintMeetingProps {
+  meetingId: string;
+}
+
+export function useGetSprintMeeting({ meetingId }: UseGetSprintMeetingProps) {
+  const sprintMeeting = useSprintMeetingStateSelector();
+
+  const meeting = sprintMeetingAdapter.getSprintMeeting({
+    meeting: sprintMeeting,
+    meetingId,
+  });
+
+  return { meeting };
+}
+
+interface UseGetSprintMeetingNotesProps {
+  meetingId: string;
+}
+
+export function useGetSprintMeetingNotes({
+  meetingId,
+}: UseGetSprintMeetingNotesProps) {
+  const sprintMeeting = useSprintMeetingStateSelector();
+
+  const meetingNotes = sprintMeetingAdapter.getSprintMeeting({
+    meeting: sprintMeeting,
+    meetingId,
+  }).notes;
+
+  return { meetingNotes };
 }
