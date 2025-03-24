@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import { useUser } from "@/store/hooks";
 import { useSprint } from "@/features/sprints/hooks/useSprint";
-import { sprintMeetingAdapter, sprintsAdapter } from "@/shared/utils/adapters";
+import { sprintsAdapter } from "@/shared/utils/adapters";
 import routePaths from "@/shared/utils/routePaths";
 import { voyageTeamAdapter } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
@@ -18,6 +18,7 @@ import VoyageSubmittedMessage from "@/features/sprints/components/VoyageSubmitte
 import ProgressStepper from "@/features/sprints/components/ProgressStepper";
 import SprintActions from "@/features/sprints/components/SprintActions";
 import EmptySprintState from "@/features/sprints/components/EmptySprintState";
+import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 
 interface EmptySprintPageProps {
   params: {

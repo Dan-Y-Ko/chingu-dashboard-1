@@ -14,12 +14,12 @@ import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import Textarea from "@/shared/components/inputs/Textarea";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { useSprintMeeting } from "@/store/hooks";
 import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { sprintMeetingAdapter } from "@/shared/utils/adapters";
+import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { editMeetingState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
 
 const validationSchema = z.object({
   notes: validateTextInput({
@@ -40,7 +40,7 @@ export default function Notes() {
   const queryClient = useQueryClient();
 
   const [meetingId] = [params.meetingId];
-  const meeting = useSprintMeeting();
+  const meeting = useSprintMeetingStateSelector();
 
   useEffect(() => {
     const meetingNote = sprintMeetingAdapter.getSprintMeeting({

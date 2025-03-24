@@ -23,16 +23,18 @@ import {
   validateDateTimeInput,
   validateTextInput,
 } from "@/shared/utils/form/validateInput";
-import { useUser, useSprintMeeting } from "@/store/hooks";
+import { useUser } from "@/store/hooks";
 import { persistor, useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import routePaths from "@/shared/utils/routePaths";
-import { sprintMeetingAdapter, timezoneAdapter } from "@/shared/utils/adapters";
+import { timezoneAdapter } from "@/shared/utils/adapters";
+import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import {
   addMeetingState,
   editMeetingState,
 } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import { useSprint } from "@/features/sprints/hooks/useSprint";
+import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
 
 export default function MeetingForm() {
   const router = useRouter();
@@ -49,7 +51,7 @@ export default function MeetingForm() {
 
   const dispatch = useAppDispatch();
   const { sprints } = useSprint();
-  const sprintMeeting = useSprintMeeting();
+  const sprintMeeting = useSprintMeetingStateSelector();
   const { timezone } = useUser();
   const [editMode, setEditMode] = useState<boolean>(false);
   const [meetingData, setMeetingData] = useState<Meeting>();

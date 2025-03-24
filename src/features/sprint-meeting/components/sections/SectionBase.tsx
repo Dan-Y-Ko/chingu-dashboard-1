@@ -20,7 +20,7 @@ import { cn } from "@chingu-x/components/tw-merge";
 import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { CacheTag } from "@/shared/utils/cacheTag";
-import { sprintMeetingAdapter } from "@/shared/utils/adapters";
+import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { addSprintMeetingSectionState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 
 interface SectionBaseProps {

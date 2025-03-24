@@ -13,9 +13,10 @@ import { useEffect } from "react";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
-import { useSprintMeeting, useUser } from "@/store/hooks";
+import { useUser } from "@/store/hooks";
 import { useAppDispatch } from "@/shared/store";
-import { sprintMeetingAdapter, sprintsAdapter } from "@/shared/utils/adapters";
+import { sprintsAdapter } from "@/shared/utils/adapters";
+import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { fetchMeeting } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import routePaths from "@/shared/utils/routePaths";
@@ -28,6 +29,7 @@ import SprintActions from "@/features/sprints/components/SprintActions";
 import MeetingOverview from "@/features/sprint-meeting/components/meetingOverview/MeetingOverview";
 import Agendas from "@/features/sprint-meeting/components/agenda/Agendas";
 import Sections from "@/features/sprint-meeting/components/sections/Sections";
+import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
 
 interface SprintPageProps {
   params: {
@@ -42,7 +44,7 @@ export default function SprintPage({ params }: SprintPageProps) {
   const { sprintNumber, meetingId } = params;
   const user = useUser();
   const sprints = useSprint();
-  const sprintMeeting = useSprintMeeting();
+  const sprintMeeting = useSprintMeetingStateSelector();
   const currentVoyageTeam = useCurrentVoyageTeamStateSelector();
   const dispatch = useAppDispatch();
   const router = useRouter();

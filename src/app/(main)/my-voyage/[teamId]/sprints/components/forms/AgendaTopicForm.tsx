@@ -21,7 +21,7 @@ import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
 import Textarea from "@/shared/components/inputs/Textarea";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { useSprintMeeting } from "@/store/hooks";
+import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
 import { persistor, useAppDispatch } from "@/shared/store";
 import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";
 import {
@@ -30,7 +30,7 @@ import {
   editAgendaState,
 } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import routePaths from "@/shared/utils/routePaths";
-import { sprintMeetingAdapter } from "@/shared/utils/adapters";
+import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
 
 const validationSchema = z.object({
@@ -63,7 +63,7 @@ export default function AgendaTopicForm() {
 
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
-  const sprintMeeting = useSprintMeeting();
+  const sprintMeeting = useSprintMeetingStateSelector();
   const [editMode, setEditMode] = useState<boolean>(false);
   const [topicData, setTopicData] = useState<Agenda>();
 

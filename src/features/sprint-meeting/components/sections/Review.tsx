@@ -15,11 +15,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Textarea from "@/shared/components/inputs/Textarea";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { useSprintMeeting } from "@/store/hooks";
 import { useAppDispatch } from "@/shared/store";
-import { sprintMeetingAdapter } from "@/shared/utils/adapters";
+import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { editSprintMeetingSectonState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
 
 const validationSchema = z.object({
   what_right: validateTextInput({
@@ -52,7 +52,7 @@ export default function Review({ id }: ReviewProps) {
   const [meetingId] = [params.meetingId];
 
   const queryClient = useQueryClient();
-  const meeting = useSprintMeeting();
+  const meeting = useSprintMeetingStateSelector();
 
   const currentMeeting = sprintMeetingAdapter.getSprintMeeting({
     meeting,

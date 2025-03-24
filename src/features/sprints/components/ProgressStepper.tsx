@@ -5,7 +5,7 @@ import { RocketLaunchIcon } from "@heroicons/react/24/outline";
 import { Stepper, type SteppersItem } from "@chingu-x/components/stepper";
 import { useSprint } from "@/features/sprints/hooks/useSprint";
 import routePaths from "@/shared/utils/routePaths";
-import { sprintMeetingAdapter } from "@/shared/utils/adapters";
+import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 
 function getStatus(sprintNumber: number, currentSprintNumber: number) {
   if (sprintNumber < currentSprintNumber) {

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type {
   EditSprintMeetingSectionResponseDto,
   EditSprintPlanningSectionClientRequestDto,
@@ -14,12 +14,13 @@ import type {
 } from "@chingu-x/modules/sprint-meeting";
 import Textarea from "@/shared/components/inputs/Textarea";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { useSprintMeeting } from "@/store/hooks";
 import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { sprintMeetingAdapter } from "@/shared/utils/adapters";
+import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { editSprintMeetingSectonState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
+import { useFetchSprintMeetingFormQuery } from "@/features/sprint-meeting/hooks/useFetchSprintMeetingFormQuery";
 
 const validationSchema = z.object({
   goal: validateTextInput({
@@ -40,15 +41,12 @@ interface PlanningProps {
 
 export default function Planning({ id }: PlanningProps) {
   const dispatch = useAppDispatch();
-  const params = useParams<{
-    sprintNumber: string;
+  const { meetingId } = useParams<{
     meetingId: string;
   }>();
 
-  const [meetingId] = [params.meetingId];
-
   const queryClient = useQueryClient();
-  const meeting = useSprintMeeting();
+  const meeting = useSprintMeetingStateSelector();
 
   const currentMeeting = sprintMeetingAdapter.getSprintMeeting({
     meeting,
@@ -57,6 +55,11 @@ export default function Planning({ id }: PlanningProps) {
 
   const { goal, timeline } = sprintMeetingAdapter.getSprintPlanningQuestions({
     meeting: currentMeeting,
+  });
+
+  const { fetchSprintMeetingFormFn } = useFetchSprintMeetingFormQuery({
+    id,
+    meetingId,
   });
 
   const {
@@ -74,7 +77,7 @@ export default function Planning({ id }: PlanningProps) {
       });
 
       try {
-        const sprintMeetingForm = await fetchSprintMeetingForm();
+        const sprintMeetingForm = await fetchSprintMeetingFormFn();
         const responseData =
           sprintMeetingAdapter.getSprintMeetingSectionResponses({
             sprintMeetingForm,
@@ -97,19 +100,6 @@ export default function Planning({ id }: PlanningProps) {
       );
     },
   });
-
-  useQuery({
-    queryKey: [],
-    queryFn: fetchSprintMeetingForm,
-    enabled: false,
-  });
-
-  async function fetchSprintMeetingForm() {
-    return await sprintMeetingAdapter.fetchSprintMeetingForm({
-      meetingId,
-      formId: id,
-    });
-  }
 
   async function editSprintPlanningSectionMutation({
     meetingId,
