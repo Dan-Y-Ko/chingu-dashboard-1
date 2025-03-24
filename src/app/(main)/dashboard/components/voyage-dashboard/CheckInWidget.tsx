@@ -10,8 +10,9 @@ import { Badge } from "@chingu-x/components/badge";
 import { Button } from "@chingu-x/components/button";
 import routePaths from "@/utils/routePaths";
 import { getSprintCheckinIsStatus } from "@/utils/getFormStatus";
-import { useSprint, useUser } from "@/store/hooks";
+import { useUser } from "@/store/hooks";
 import convertStringToDate from "@/utils/convertStringToDate";
+import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 
 interface CheckInWidgetProps {
   user: User | null;
@@ -24,7 +25,7 @@ function CheckInWidget({
   teamId,
 }: CheckInWidgetProps) {
   const { timezone, currentDateInUserTimezone } = useUser();
-  const sprintsData = useSprint();
+  const sprintsData = useSprintStateSelector();
   const userDate = currentDateInUserTimezone ?? new Date();
 
   const sprintCheckinIsSubmitted = getSprintCheckinIsStatus(

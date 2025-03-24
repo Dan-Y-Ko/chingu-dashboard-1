@@ -15,9 +15,9 @@ import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
 import { useMyTeam, useUser } from "@/store/hooks";
 import { formsAdapter, sprintsAdapter } from "@/shared/utils/adapters";
-import { useSprint } from "@/features/sprints/hooks/useSprint";
 import { voyageTeamAdapter } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
+import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 
 interface WeeklyCheckInPageProps {
   params: {
@@ -29,7 +29,7 @@ interface WeeklyCheckInPageProps {
 export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
   const sprintNumber = Number(params.sprintNumber);
   const { teamId } = params;
-  const sprints = useSprint();
+  const sprints = useSprintStateSelector();
   const user = useUser();
   const currentVoyageTeam = useCurrentVoyageTeamStateSelector();
   const myTeam = useMyTeam();

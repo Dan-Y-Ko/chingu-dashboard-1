@@ -33,8 +33,8 @@ import {
   addMeetingState,
   editMeetingState,
 } from "@/store/features/sprint-meeting/sprintMeetingSlice";
-import { useSprint } from "@/features/sprints/hooks/useSprint";
 import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
+import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 
 export default function MeetingForm() {
   const router = useRouter();
@@ -50,7 +50,7 @@ export default function MeetingForm() {
   ];
 
   const dispatch = useAppDispatch();
-  const { sprints } = useSprint();
+  const { sprints } = useSprintStateSelector();
   const sprintMeeting = useSprintMeetingStateSelector();
   const { timezone } = useUser();
   const [editMode, setEditMode] = useState<boolean>(false);

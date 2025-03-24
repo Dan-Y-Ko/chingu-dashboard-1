@@ -9,11 +9,11 @@ import VoyageSubmissionForm from "./forms/VoyageSubmissionForm";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
 import { useUser } from "@/store/hooks";
-import { useSprint } from "@/features/sprints/hooks/useSprint";
 import { formsAdapter, sprintsAdapter } from "@/shared/utils/adapters";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import routePaths from "@/shared/utils/routePaths";
+import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 
 interface SubmitProjectWrapperProps {
   params: {
@@ -28,7 +28,7 @@ export default function SubmitProjectWrapper({
   const { teamId } = params;
   const sprintNumber = Number(params.sprintNumber);
   const user = useUser();
-  const sprints = useSprint();
+  const sprints = useSprintStateSelector();
   const router = useRouter();
 
   const { number } = sprintsAdapter.getCurrentSprint({

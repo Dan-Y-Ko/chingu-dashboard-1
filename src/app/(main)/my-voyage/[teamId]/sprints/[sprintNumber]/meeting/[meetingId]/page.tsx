@@ -20,8 +20,10 @@ import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintM
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { fetchMeeting } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import routePaths from "@/shared/utils/routePaths";
-import { useSprint } from "@/features/sprints/hooks/useSprint";
-import { voyageTeamAdapter } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
+import {
+  useIsVoyageProjectSubmittedStatus,
+  voyageTeamAdapter,
+} from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
 import VoyageSubmittedMessage from "@/features/sprints/components/VoyageSubmittedMessage";
 import ProgressStepper from "@/features/sprints/components/ProgressStepper";
@@ -30,6 +32,7 @@ import MeetingOverview from "@/features/sprint-meeting/components/meetingOvervie
 import Agendas from "@/features/sprint-meeting/components/agenda/Agendas";
 import Sections from "@/features/sprint-meeting/components/sections/Sections";
 import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
+import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 
 interface SprintPageProps {
   params: {
@@ -43,7 +46,7 @@ export default function SprintPage({ params }: SprintPageProps) {
   const { teamId } = params;
   const { sprintNumber, meetingId } = params;
   const user = useUser();
-  const sprints = useSprint();
+  const sprints = useSprintStateSelector();
   const sprintMeeting = useSprintMeetingStateSelector();
   const currentVoyageTeam = useCurrentVoyageTeamStateSelector();
   const dispatch = useAppDispatch();
@@ -62,11 +65,9 @@ export default function SprintPage({ params }: SprintPageProps) {
       meetingId,
     })?.agendas ?? [];
 
-  const isVoyageProjectSubmitted =
-    voyageTeamAdapter.getVoyageProjectSubmissionStatus({
-      currentVoyageTeam,
-      teamId,
-    });
+  const { isVoyageProjectSubmitted } = useIsVoyageProjectSubmittedStatus({
+    teamId,
+  });
 
   const { isPending, isError, error, data } = useQuery({
     queryKey: [

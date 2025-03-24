@@ -9,16 +9,19 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import { useUser } from "@/store/hooks";
-import { useSprint } from "@/features/sprints/hooks/useSprint";
 import { sprintsAdapter } from "@/shared/utils/adapters";
 import routePaths from "@/shared/utils/routePaths";
-import { voyageTeamAdapter } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
+import {
+  useIsVoyageProjectSubmittedStatus,
+  voyageTeamAdapter,
+} from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
 import VoyageSubmittedMessage from "@/features/sprints/components/VoyageSubmittedMessage";
 import ProgressStepper from "@/features/sprints/components/ProgressStepper";
 import SprintActions from "@/features/sprints/components/SprintActions";
 import EmptySprintState from "@/features/sprints/components/EmptySprintState";
 import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
+import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 
 interface EmptySprintPageProps {
   params: {
@@ -31,15 +34,13 @@ export default function EmptySprintPage({ params }: EmptySprintPageProps) {
   const { teamId } = params;
   const sprintNumber = Number(params.sprintNumber);
   const user = useUser();
-  const currentVoyageTeam = useCurrentVoyageTeamStateSelector();
-  const sprints = useSprint();
+  // const currentVoyageTeam = useCurrentVoyageTeamStateSelector();
+  const sprints = useSprintStateSelector();
   const router = useRouter();
 
-  const isVoyageProjectSubmitted =
-    voyageTeamAdapter.getVoyageProjectSubmissionStatus({
-      currentVoyageTeam,
-      teamId,
-    });
+  const { isVoyageProjectSubmitted } = useIsVoyageProjectSubmittedStatus({
+    teamId,
+  });
 
   // Check if a meeting exists
   const meetingId = sprintMeetingAdapter.getSprintMeetingId({
