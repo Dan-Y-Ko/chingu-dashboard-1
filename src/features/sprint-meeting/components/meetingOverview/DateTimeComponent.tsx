@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { CalendarDaysIcon, ClockIcon } from "@heroicons/react/24/outline";
-import { useUser } from "@/store/hooks";
 import { timezoneAdapter } from "@/shared/utils/adapters";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 interface DateTimeComponentWrapper {
   dateTime: string;
@@ -11,7 +11,7 @@ export default function DateTimeComponent({
   dateTime,
 }: DateTimeComponentWrapper) {
   const [isMounted, setIsMounted] = useState<boolean>(false);
-  const { timezone } = useUser();
+  const { timezone } = useUserStateSelector();
 
   const getMeetingDate = timezoneAdapter.getMeetingDate({ dateTime, timezone });
 

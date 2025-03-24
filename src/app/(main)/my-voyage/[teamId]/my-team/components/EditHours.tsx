@@ -13,11 +13,11 @@ import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { useUser } from "@/store/hooks";
 import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { myTeamAdapter } from "@/shared/utils/adapters";
 import { editHours } from "@/store/features/my-team/myTeamSlice";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 interface EditHoursProps {
   hrPerSprint: number;
@@ -45,7 +45,7 @@ export default function EditHours({
   const params = useParams<{ teamId: string }>();
   const { teamId } = params;
   const dispatch = useAppDispatch();
-  const user = useUser();
+  const user = useUserStateSelector();
 
   const {
     register,

@@ -11,7 +11,7 @@ import Image from "next/image";
 import { Avatar } from "@chingu-x/components/avatar";
 import { type Feature } from "./fixtures/Features";
 import EditPopover from "./EditPopover";
-import { useUser } from "@/store/hooks";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 interface CardProps {
   feature: Feature;
@@ -22,7 +22,7 @@ interface CardProps {
 export default function Card({ feature, index, setEditMode }: CardProps) {
   const [showPopover, setShowPopover] = useState<boolean>(false);
   const cardRef = useRef<HTMLDivElement>(null);
-  const userId = useUser().id;
+  const userId = useUserStateSelector().id;
   const {
     id,
     addedBy: {

@@ -1,9 +1,9 @@
-import { useUser } from "@/store/hooks";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 interface UseFetchSprintsProps {
   teamId: string;
 }
 
 export async function useFetchSprintsProps({ teamId }: UseFetchSprintsProps) {
-  const user = useUser();
+  const user = useUserStateSelector();
 }

@@ -5,14 +5,14 @@ import type { CurrentVoyageTeamMember } from "@chingu-x/modules/voyage-team";
 import { cn } from "@chingu-x/components/tw-merge";
 import TeamMemberDataItemWrapper from "./TeamMemberDataItemWrapper";
 import EditHours from "./EditHours";
-import { useUser } from "@/store/hooks";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 interface TeamMemberProps {
   teamMember: CurrentVoyageTeamMember;
 }
 
 export default function TeamMember({ teamMember }: TeamMemberProps) {
-  const user = useUser().voyageTeamMembers;
+  const user = useUserStateSelector().voyageTeamMembers;
   const { firstName, lastName, oAuthProfiles, currentTime } = teamMember.member;
   const { id, hrPerSprint, voyageRole } = teamMember;
   const isCurrentUser = user.some((user) => user.id === id);

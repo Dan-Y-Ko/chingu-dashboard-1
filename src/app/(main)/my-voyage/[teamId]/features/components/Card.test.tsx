@@ -4,8 +4,8 @@ import { Provider } from "react-redux";
 import React from "react";
 import Card from "./Card";
 import { type Feature, features } from "./fixtures/Features";
-import { rootReducer } from "@/store/store";
-import { useUser } from "@/store/hooks";
+import { rootReducer } from "@/shared/store";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 jest.mock("./EditPopover", () => <div>mock child component</div>);
 jest.mock("@/store/hooks", () => ({
@@ -58,7 +58,7 @@ const renderWithStore = (feature: Feature, userId: string) => {
     reducer: rootReducer,
   });
 
-  (useUser as jest.Mock).mockReturnValue({ id: userId });
+  (useUserStateSelector as jest.Mock).mockReturnValue({ id: userId });
 
   return render(
     <Provider store={store}>

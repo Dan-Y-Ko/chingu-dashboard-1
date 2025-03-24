@@ -13,7 +13,6 @@ import { useEffect } from "react";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
-import { useUser } from "@/store/hooks";
 import { useAppDispatch } from "@/shared/store";
 import { sprintsAdapter } from "@/shared/utils/adapters";
 import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
@@ -28,6 +27,7 @@ import Agendas from "@/features/sprint-meeting/components/agenda/Agendas";
 import Sections from "@/features/sprint-meeting/components/sections/Sections";
 import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
 import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 interface SprintWeekPageProps {
   params: {
@@ -40,7 +40,7 @@ interface SprintWeekPageProps {
 export default function SprintWeekPage({ params }: SprintWeekPageProps) {
   const { teamId } = params;
   const { sprintNumber, meetingId } = params;
-  const user = useUser();
+  const user = useUserStateSelector();
   const sprints = useSprintStateSelector();
   const sprintMeeting = useSprintMeetingStateSelector();
   const dispatch = useAppDispatch();

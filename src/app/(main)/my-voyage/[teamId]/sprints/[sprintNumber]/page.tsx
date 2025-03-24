@@ -8,7 +8,6 @@ import { Banner } from "@chingu-x/components/banner";
 import Image from "next/image";
 import { useEffect } from "react";
 import { currentDate } from "@/shared/utils/getCurrentDate";
-import { useUser } from "@/store/hooks";
 import { sprintsAdapter } from "@/shared/utils/adapters";
 import routePaths from "@/shared/utils/routePaths";
 import { useIsVoyageProjectSubmittedStatus } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
@@ -17,6 +16,7 @@ import SprintActions from "@/features/sprints/components/SprintActions";
 import EmptySprintState from "@/features/sprints/components/EmptySprintState";
 import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 interface EmptySprintPageProps {
   params: {
@@ -28,7 +28,7 @@ interface EmptySprintPageProps {
 export default function EmptySprintPage({ params }: EmptySprintPageProps) {
   const { teamId } = params;
   const sprintNumber = Number(params.sprintNumber);
-  const user = useUser();
+  const user = useUserStateSelector();
   const sprints = useSprintStateSelector();
   const router = useRouter();
 

@@ -13,10 +13,11 @@ import { cn } from "@chingu-x/components/tw-merge";
 import ExpandButton from "./ExpandButton";
 import PageButton from "./PageButton";
 import VoyagePageButton from "./VoyagePageButton";
-import { useAuth, useUser } from "@/store/hooks";
 import routePaths from "@/shared/utils/routePaths";
 import { voyageTeamAdapter } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
+import { useAuthStateSelector } from "@/features/auth/hooks/useAuthStateSelector";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 export enum MainPages {
   dashboard = "Dashboard",
@@ -53,8 +54,8 @@ export default function Sidebar() {
   const [selectedButton, setSelectedButton] = useState<string>(currentPath);
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
 
-  const { isAuthenticated } = useAuth();
-  const user = useUser();
+  const { isAuthenticated } = useAuthStateSelector();
+  const user = useUserStateSelector();
   const currentTeam = useCurrentVoyageTeamStateSelector();
 
   const isVoyageStarted = voyageTeamAdapter.hasVoyageStarted({

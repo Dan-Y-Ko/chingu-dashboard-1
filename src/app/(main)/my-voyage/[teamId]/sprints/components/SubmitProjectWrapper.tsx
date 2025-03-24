@@ -8,12 +8,12 @@ import { Spinner } from "@chingu-x/components/spinner";
 import VoyageSubmissionForm from "./forms/VoyageSubmissionForm";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
-import { useUser } from "@/store/hooks";
 import { formsAdapter, sprintsAdapter } from "@/shared/utils/adapters";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import routePaths from "@/shared/utils/routePaths";
 import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 interface SubmitProjectWrapperProps {
   params: {
@@ -27,7 +27,7 @@ export default function SubmitProjectWrapper({
 }: SubmitProjectWrapperProps) {
   const { teamId } = params;
   const sprintNumber = Number(params.sprintNumber);
-  const user = useUser();
+  const user = useUserStateSelector();
   const sprints = useSprintStateSelector();
   const router = useRouter();
 

@@ -7,13 +7,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { LogoutResponseDto } from "@chingu-x/modules/auth";
 import { Button } from "@chingu-x/components/button";
 import { DropDown } from "@chingu-x/components/navbar";
-import { useUser } from "@/store/hooks";
 import { clientSignOut } from "@/features/auth/store/authSlice";
 import routePaths from "@/shared/utils/routePaths";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { authAdapter } from "@/shared/utils/adapters";
 import { useAppDispatch } from "@/shared/store";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 interface DropdownProps {
   openState?: boolean;
@@ -23,7 +23,7 @@ export default function UserDropDown({ openState }: DropdownProps) {
   const queryClient = useQueryClient();
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const allVoyages = useUser().voyageTeamMembers;
+  const allVoyages = useUserStateSelector().voyageTeamMembers;
   const activeVoyage = allVoyages?.find(
     (item) => item.voyageTeam.voyage.status.name === "Active",
   );

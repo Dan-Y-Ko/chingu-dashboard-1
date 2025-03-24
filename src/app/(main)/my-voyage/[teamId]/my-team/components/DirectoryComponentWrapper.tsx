@@ -7,10 +7,12 @@ import { Spinner } from "@chingu-x/components/spinner";
 import TeamMember from "./TeamMember";
 import { fetchTeamDirectory } from "@/store/features/my-team/myTeamSlice";
 import { CacheTag } from "@/shared/utils/cacheTag";
-import { useAppDispatch, useMyTeam, useUser } from "@/store/hooks";
+import { useMyTeam } from "@/store/hooks";
 import { myTeamAdapter } from "@/shared/utils/adapters";
 import ErrorComponent from "@/shared/components/Error";
 import { ErrorType } from "@/shared/utils/error";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import { useAppDispatch } from "@/shared/store";
 
 interface TeamDirectoryProps {
   params: {
@@ -21,7 +23,7 @@ interface TeamDirectoryProps {
 export default function DirectoryComponentWrapper({
   params,
 }: TeamDirectoryProps) {
-  const user = useUser();
+  const user = useUserStateSelector();
   const myTeam = useMyTeam();
   const dispatch = useAppDispatch();
   const { teamId } = params;
@@ -32,7 +34,7 @@ export default function DirectoryComponentWrapper({
   });
 
   async function getMyTeamQuery() {
-    return await myTeamAdapter.getMyTeam({ teamId, user });
+    return await myTeamAdapter.fetchMyTeam({ teamId, user });
   }
 
   useEffect(() => {

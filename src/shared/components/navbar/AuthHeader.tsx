@@ -4,13 +4,14 @@ import Link from "next/link";
 import { Avatar } from "@chingu-x/components/avatar";
 import Image from "next/image";
 import { Button } from "@chingu-x/components/button";
-import { useAuth, useUser } from "@/store/hooks";
 import UserDropDown from "@/shared/components/navbar/UserDropdown";
 import routePaths from "@/shared/utils/routePaths";
+import { useAuthStateSelector } from "@/features/auth/hooks/useAuthStateSelector";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 export default function AuthHeader() {
-  const { isAuthenticated } = useAuth();
-  const { avatar } = useUser();
+  const { isAuthenticated } = useAuthStateSelector();
+  const { avatar } = useUserStateSelector();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement>(null);
 

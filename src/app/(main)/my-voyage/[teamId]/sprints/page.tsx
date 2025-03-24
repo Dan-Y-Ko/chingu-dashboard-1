@@ -17,9 +17,9 @@ import { useAppDispatch } from "@/shared/store";
 import { sprintsAdapter } from "@/shared/utils/adapters";
 import { fetchSprints } from "@/features/sprints/store/sprintSlice";
 import routePaths from "@/shared/utils/routePaths";
-import { useUser } from "@/store/hooks";
 import VoyageSubmittedMessage from "@/features/sprints/components/VoyageSubmittedMessage";
 import { useIsVoyageProjectSubmittedStatus } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 interface SprintsPageProps {
   params: {
@@ -30,7 +30,7 @@ interface SprintsPageProps {
 
 export default function SprintsPage({ params }: SprintsPageProps) {
   const { teamId } = params;
-  const user = useUser();
+  const user = useUserStateSelector();
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [sprintsData, setSprintsData] = useState<Sprint>();

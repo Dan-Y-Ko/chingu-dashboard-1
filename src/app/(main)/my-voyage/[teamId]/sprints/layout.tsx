@@ -6,11 +6,11 @@ import { useEffect } from "react";
 import { Spinner } from "@chingu-x/components/spinner";
 import ErrorComponent from "@/shared/components/Error";
 import { fetchTeamDirectory } from "@/store/features/my-team/myTeamSlice";
-import { useUser } from "@/store/hooks";
 import { useAppDispatch } from "@/shared/store";
 import { myTeamAdapter } from "@/shared/utils/adapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { ErrorType } from "@/shared/utils/error";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -20,7 +20,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ children, params }: LayoutProps) {
-  const user = useUser();
+  const user = useUserStateSelector();
   const dispatch = useAppDispatch();
   const { teamId } = params;
 
