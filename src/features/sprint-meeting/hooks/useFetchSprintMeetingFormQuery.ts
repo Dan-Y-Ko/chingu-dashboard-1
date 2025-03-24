@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
+import { useFetchSprintMeetingForm } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 
 interface UseFetchSprintMeetingFormQueryProps {
   id: number;
@@ -10,10 +10,7 @@ export function useFetchSprintMeetingFormQuery({
   id,
   meetingId,
 }: UseFetchSprintMeetingFormQueryProps) {
-  //   const { fetchSprintMeetingForm } = useFetchSprintMeetingForm({
-  //     meetingId,
-  //     formId: id,
-  //   });
+  const { fetchSprintMeetingForm } = useFetchSprintMeetingForm();
 
   useQuery({
     queryKey: [],
@@ -22,10 +19,7 @@ export function useFetchSprintMeetingFormQuery({
   });
 
   async function fetchSprintMeetingFormFn() {
-    return await sprintMeetingAdapter.fetchSprintMeetingForm({
-      meetingId,
-      formId: id,
-    });
+    return await fetchSprintMeetingForm({ meetingId, formId: id });
   }
 
   return {
