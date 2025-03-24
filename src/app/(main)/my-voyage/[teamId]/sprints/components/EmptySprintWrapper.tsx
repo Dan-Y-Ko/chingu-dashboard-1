@@ -10,7 +10,8 @@ import ProgressStepper from "./ProgressStepper";
 import EmptySprintState from "./EmptySprintState";
 import SprintActions from "./SprintActions";
 import { currentDate } from "@/shared/utils/getCurrentDate";
-import { useCurrentVoyageTeam, useSprint, useUser } from "@/store/hooks";
+import { useCurrentVoyageTeam, useUser } from "@/store/hooks";
+import { useSprint } from "@/features/sprints/hooks/useSprint";
 import {
   sprintMeetingAdapter,
   sprintsAdapter,

@@ -17,13 +17,8 @@ import SprintActions from "./SprintActions";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
-import {
-  useAppDispatch,
-  useCurrentVoyageTeam,
-  useSprint,
-  useSprintMeeting,
-  useUser,
-} from "@/store/hooks";
+import { useCurrentVoyageTeam, useSprintMeeting, useUser } from "@/store/hooks";
+import { useAppDispatch } from "@/shared/store";
 import {
   sprintMeetingAdapter,
   sprintsAdapter,
@@ -32,6 +27,7 @@ import {
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { fetchMeeting } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import routePaths from "@/shared/utils/routePaths";
+import { useSprint } from "@/features/sprints/hooks/useSprint";
 
 interface SprintWrapperProps {
   params: {

@@ -14,7 +14,8 @@ import { currentDate } from "@/shared/utils/getCurrentDate";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
-import { useAppDispatch, useCurrentVoyageTeam, useUser } from "@/store/hooks";
+import { useCurrentVoyageTeam, useUser } from "@/store/hooks";
+import { useAppDispatch } from "@/shared/store";
 import { sprintsAdapter, voyageTeamAdapter } from "@/shared/utils/adapters";
 import { fetchSprints } from "@/features/sprints/store/sprintSlice";
 import routePaths from "@/shared/utils/routePaths";
@@ -29,6 +30,7 @@ interface SprintsPageProps {
 export default function SprintsPage({ params }: SprintsPageProps) {
   const { teamId } = params;
 
+  const user = useUser();
   const currentVoyageTeam = useCurrentVoyageTeam();
   const router = useRouter();
   const dispatch = useAppDispatch();

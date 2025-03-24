@@ -7,7 +7,7 @@ import { Navbar } from "@chingu-x/components/navbar";
 import { Spinner } from "@chingu-x/components/spinner";
 import ModeToggle from "@/shared/components/ModeToggle";
 import AuthHeader from "@/shared/components/navbar/AuthHeader";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch } from "@/shared/store";
 import { clientSignIn } from "@/store/features/auth/authSlice";
 import routePaths from "@/shared/utils/routePaths";
 import { getUserState } from "@/store/features/user/userSlice";
@@ -49,6 +49,7 @@ export default function Layout({ children }: LayoutProps) {
   } = useQuery({
     queryKey: [CacheTag.fetchAllSprints],
     queryFn: getAllSprintsQuery,
+    staleTime: 1000 * 60 * 30,
   });
 
   async function getUserQuery() {

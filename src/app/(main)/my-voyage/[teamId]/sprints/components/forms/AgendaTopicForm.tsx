@@ -21,7 +21,8 @@ import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
 import Textarea from "@/shared/components/inputs/Textarea";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
+import { useSprintMeeting } from "@/store/hooks";
+import { persistor, useAppDispatch } from "@/shared/store";
 import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";
 import {
   addAgendaState,
@@ -29,7 +30,6 @@ import {
   editAgendaState,
 } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import routePaths from "@/shared/utils/routePaths";
-import { persistor } from "@/store/store";
 import { sprintMeetingAdapter } from "@/shared/utils/adapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
 

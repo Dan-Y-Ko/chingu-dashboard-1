@@ -13,17 +13,13 @@ import routePaths from "@/shared/utils/routePaths";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
-import {
-  useCurrentVoyageTeam,
-  useMyTeam,
-  useSprint,
-  useUser,
-} from "@/store/hooks";
+import { useCurrentVoyageTeam, useMyTeam, useUser } from "@/store/hooks";
 import {
   formsAdapter,
   sprintsAdapter,
   voyageTeamAdapter,
 } from "@/shared/utils/adapters";
+import { useSprint } from "@/features/sprints/hooks/useSprint";
 
 interface WeeklyCheckInPageProps {
   params: {

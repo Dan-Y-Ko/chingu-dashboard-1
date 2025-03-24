@@ -3,7 +3,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { RocketLaunchIcon } from "@heroicons/react/24/outline";
 import { Stepper, type SteppersItem } from "@chingu-x/components/stepper";
-import { useSprint } from "@/store/hooks";
+import { useSprint } from "@/features/sprints/hooks/useSprint";
 import routePaths from "@/shared/utils/routePaths";
 import { sprintMeetingAdapter } from "@/shared/utils/adapters";
 

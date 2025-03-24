@@ -6,7 +6,8 @@ import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { Modal } from "@chingu-x/components/modal";
 import { onCloseModal } from "@/store/features/modal/modalSlice";
-import { useAppDispatch, useModal } from "@/store/hooks";
+import { useModal } from "@/store/hooks";
+import { useAppDispatch } from "@/shared/store";
 
 export default function DeleteConfirmationModal() {
   const { isOpen, payload } = useModal();

@@ -14,7 +14,8 @@ import type {
 } from "@chingu-x/modules/sprint-meeting";
 import Textarea from "@/shared/components/inputs/Textarea";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { useAppDispatch, useSprintMeeting } from "@/store/hooks";
+import { useSprintMeeting } from "@/store/hooks";
+import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { sprintMeetingAdapter } from "@/shared/utils/adapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
@@ -55,7 +56,7 @@ export default function Planning({ id }: PlanningProps) {
   });
 
   const { goal, timeline } = sprintMeetingAdapter.getSprintPlanningQuestions({
-    meeting: currentMeeting!,
+    meeting: currentMeeting,
   });
 
   const {

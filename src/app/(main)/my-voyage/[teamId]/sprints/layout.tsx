@@ -6,7 +6,8 @@ import { useEffect } from "react";
 import { Spinner } from "@chingu-x/components/spinner";
 import ErrorComponent from "@/shared/components/Error";
 import { fetchTeamDirectory } from "@/store/features/my-team/myTeamSlice";
-import { useAppDispatch, useUser } from "@/store/hooks";
+import { useUser } from "@/store/hooks";
+import { useAppDispatch } from "@/shared/store";
 import { myTeamAdapter } from "@/shared/utils/adapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { ErrorType } from "@/shared/utils/error";
@@ -29,7 +30,7 @@ export default function Layout({ children, params }: LayoutProps) {
   });
 
   async function getMyTeamQuery() {
-    return await myTeamAdapter.getMyTeam({ teamId, user });
+    return await myTeamAdapter.fetchMyTeam({ teamId, user });
   }
 
   useEffect(() => {
