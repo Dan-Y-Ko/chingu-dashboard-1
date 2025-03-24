@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@chingu-x/components/navbar";
 import { Spinner } from "@chingu-x/components/spinner";
+import { useEffect } from "react";
 import ModeToggle from "@/shared/components/ModeToggle";
 import AuthHeader from "@/shared/components/navbar/AuthHeader";
 import { useAppDispatch } from "@/shared/store";
@@ -73,20 +74,24 @@ export default function Layout({ children }: LayoutProps) {
     );
   }
 
-  if (currentUser) {
-    dispatch(clientSignIn());
-    dispatch(getUserState(currentUser));
-  }
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(clientSignIn());
+      dispatch(getUserState(currentUser));
+    }
+  }, [currentUser, dispatch]);
 
-  if (currentUser && allSprints) {
-    const currentTeam = voyageTeamAdapter.getCurrentVoyageTeam({
-      user: currentUser,
-      sprints: allSprints,
-      currentDate: currentDate,
-    });
+  useEffect(() => {
+    if (currentUser && allSprints) {
+      const currentTeam = voyageTeamAdapter.getCurrentVoyageTeam({
+        user: currentUser,
+        sprints: allSprints,
+        currentDate: currentDate,
+      });
 
-    dispatch(setCurrentVoyageTeam(currentTeam));
-  }
+      dispatch(setCurrentVoyageTeam(currentTeam));
+    }
+  }, [allSprints, currentUser, dispatch]);
 
   return (
     <div className="flex h-screen w-screen flex-col">

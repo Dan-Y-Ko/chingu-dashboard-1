@@ -15,8 +15,9 @@ export default function AuthHeader() {
   const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen((prev) => !prev);
   };
+
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
