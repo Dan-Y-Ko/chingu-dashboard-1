@@ -14,14 +14,15 @@ import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import BaseFormPage from "@/shared/components/form/BaseFormPage";
 import FormInput from "@/shared/components/form/FormInput";
-import { useCurrentVoyageTeam } from "@/store/hooks";
 import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { createValidationSchema } from "@/shared/utils/form/createValidationSchema";
 import routePaths from "@/shared/utils/routePaths";
-import { sprintsAdapter, voyageTeamAdapter } from "@/shared/utils/adapters";
+import { sprintsAdapter } from "@/shared/utils/adapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { submitWeeklyCheckin } from "@/features/sprints/store/sprintSlice";
+import { voyageTeamAdapter } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
+import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
 
 interface WeeklyCheckinFormProps {
   params: {
@@ -44,7 +45,7 @@ export default function WeeklyCheckinForm({
   const router = useRouter();
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
-  const currentVoyageTeam = useCurrentVoyageTeam();
+  const currentVoyageTeam = useCurrentVoyageTeamStateSelector();
   const [teamId, sprintNumber] = [params.teamId, params.sprintNumber];
 
   const { mutate, isPending } = useMutation<

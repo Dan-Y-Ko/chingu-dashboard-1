@@ -13,13 +13,11 @@ import routePaths from "@/shared/utils/routePaths";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
-import { useCurrentVoyageTeam, useMyTeam, useUser } from "@/store/hooks";
-import {
-  formsAdapter,
-  sprintsAdapter,
-  voyageTeamAdapter,
-} from "@/shared/utils/adapters";
+import { useMyTeam, useUser } from "@/store/hooks";
+import { formsAdapter, sprintsAdapter } from "@/shared/utils/adapters";
 import { useSprint } from "@/features/sprints/hooks/useSprint";
+import { voyageTeamAdapter } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
+import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
 
 interface WeeklyCheckInPageProps {
   params: {
@@ -33,7 +31,7 @@ export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
   const { teamId } = params;
   const sprints = useSprint();
   const user = useUser();
-  const currentVoyageTeam = useCurrentVoyageTeam();
+  const currentVoyageTeam = useCurrentVoyageTeamStateSelector();
   const myTeam = useMyTeam();
   const router = useRouter();
   let teamMembers = [] as TeamMemberForCheckbox[];

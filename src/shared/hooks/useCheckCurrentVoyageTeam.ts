@@ -1,8 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { voyageTeamAdapter } from "@/shared/utils/adapters";
+import { useIsCurrentTeam } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import routePaths from "@/shared/utils/routePaths";
-import { useCurrentVoyageTeam } from "@/store/hooks";
 
 interface UseCheckCurrentVoyageTeamProps {
   teamId: string;
@@ -12,16 +11,11 @@ export default function useCheckCurrentVoyageTeam({
   teamId,
 }: UseCheckCurrentVoyageTeamProps) {
   const router = useRouter();
-  const currentVoyageTeam = useCurrentVoyageTeam();
+  const { isCurrentTeam, currentVoyageTeam } = useIsCurrentTeam({ teamId });
 
   useEffect(() => {
-    const currentTeam = voyageTeamAdapter.isCurrentVoyageTeam({
-      currentVoyageTeam,
-      teamId,
-    });
-
-    if (currentVoyageTeam.length > 1 && !currentTeam) {
+    if (currentVoyageTeam.length > 1 && !isCurrentTeam) {
       router.push(routePaths.dashboardPage());
     }
-  }, [router, teamId, currentVoyageTeam]);
+  }, [router, teamId, isCurrentTeam, currentVoyageTeam]);
 }

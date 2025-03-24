@@ -14,5 +14,3 @@ export const useSprintMeeting = () =>
 export const useResource = () => useAppSelector((state) => state.resources);
 export const useFeatures = () => useAppSelector((state) => state.features);
 export const useTechStack = () => useAppSelector((state) => state.techStack);
-export const useCurrentVoyageTeam = () =>
-  useAppSelector((state) => state.currentVoyageTeam);

@@ -4,7 +4,7 @@ import { Tooltip } from "@chingu-x/components/tooltip";
 import { Button } from "@chingu-x/components/button";
 import { cn } from "@chingu-x/components/tw-merge";
 import { type PageProperty } from "./Sidebar";
-import { useCurrentVoyageTeam } from "@/store/hooks";
+import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
 
 interface PageButtonProps {
   element: PageProperty;
@@ -28,7 +28,7 @@ export default function PageButton({
   myVoyageDisplayName,
 }: PageButtonProps) {
   const isActive = selectedButton.includes(link);
-  const currentVoyageTeam = useCurrentVoyageTeam();
+  const currentVoyageTeam = useCurrentVoyageTeamStateSelector();
 
   const getButtonText = (page: string) => {
     if (!isOpen) return "";

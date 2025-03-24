@@ -25,7 +25,6 @@ interface SprintsPageProps {
 
 export default function SprintsPage({ params }: SprintsPageProps) {
   const { teamId } = params;
-
   const user = useUser();
   const router = useRouter();
   const dispatch = useAppDispatch();

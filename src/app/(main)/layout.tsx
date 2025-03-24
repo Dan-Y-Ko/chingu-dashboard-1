@@ -13,16 +13,13 @@ import { clientSignIn } from "@/store/features/auth/authSlice";
 import routePaths from "@/shared/utils/routePaths";
 import { getUserState } from "@/store/features/user/userSlice";
 import { CacheTag } from "@/shared/utils/cacheTag";
-import {
-  sprintsAdapter,
-  userAdapter,
-  voyageTeamAdapter,
-} from "@/shared/utils/adapters";
+import { sprintsAdapter, userAdapter } from "@/shared/utils/adapters";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import ChinguMenu from "@/shared/components/navbar/ChinguMenu";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { setCurrentVoyageTeam } from "@/store/features/current-voyage-team/currentVoyageTeamSlice";
 import Sidebar from "@/shared/components/sidebar/Sidebar";
+import { useGetCurrentVoyageTeam } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -31,6 +28,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const { getCurrentVoyageTeam } = useGetCurrentVoyageTeam();
 
   const {
     isPending: fetchCurrentUserPending,
@@ -82,7 +80,7 @@ export default function Layout({ children }: LayoutProps) {
 
   useEffect(() => {
     if (currentUser && allSprints) {
-      const currentTeam = voyageTeamAdapter.getCurrentVoyageTeam({
+      const currentTeam = getCurrentVoyageTeam({
         user: currentUser,
         sprints: allSprints,
         currentDate: currentDate,
@@ -90,7 +88,7 @@ export default function Layout({ children }: LayoutProps) {
 
       dispatch(setCurrentVoyageTeam(currentTeam));
     }
-  }, [allSprints, currentUser, dispatch]);
+  }, [allSprints, currentUser, dispatch, getCurrentVoyageTeam]);
 
   return (
     <div className="flex h-screen w-screen flex-col">

@@ -19,17 +19,15 @@ import VoyageSubmittedMessage from "./VoyageSubmittedMessage";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
-import { useCurrentVoyageTeam, useSprintMeeting, useUser } from "@/store/hooks";
+import { useSprintMeeting, useUser } from "@/store/hooks";
 import { useAppDispatch } from "@/shared/store";
-import {
-  sprintMeetingAdapter,
-  sprintsAdapter,
-  voyageTeamAdapter,
-} from "@/shared/utils/adapters";
+import { sprintMeetingAdapter, sprintsAdapter } from "@/shared/utils/adapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { fetchMeeting } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import routePaths from "@/shared/utils/routePaths";
 import { useSprint } from "@/features/sprints/hooks/useSprint";
+import { voyageTeamAdapter } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
+import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
 
 interface SprintWrapperProps {
   params: {
@@ -45,7 +43,7 @@ export default function SprintWrapper({ params }: SprintWrapperProps) {
   const user = useUser();
   const sprints = useSprint();
   const sprintMeeting = useSprintMeeting();
-  const currentVoyageTeam = useCurrentVoyageTeam();
+  const currentVoyageTeam = useCurrentVoyageTeamStateSelector();
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -122,12 +120,7 @@ export default function SprintWrapper({ params }: SprintWrapperProps) {
     sprintId: id,
   });
 
-  if (
-    voyageTeamAdapter.getVoyageProjectSubmissionStatus({
-      currentVoyageTeam,
-      teamId,
-    })
-  ) {
+  if (isVoyageProjectSubmitted) {
     return (
       <div className="flex w-full flex-col gap-y-10">
         <BannerContainer
