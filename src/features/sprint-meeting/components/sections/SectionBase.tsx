@@ -7,18 +7,11 @@ import {
   ChevronUpIcon,
   PlusCircleIcon,
 } from "@heroicons/react/24/outline";
-import { useMutation } from "@tanstack/react-query";
-import type {
-  EditMeetingClientRequestDto,
-  EditMeetingResponseDto,
-} from "@chingu-x/modules/sprint-meeting";
 import { Forms } from "@chingu-x/modules/forms";
 import { Spinner } from "@chingu-x/components/spinner";
 import { cn } from "@chingu-x/components/tw-merge";
-import { useAppDispatch } from "@/shared/store";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { useAddSprintMeetingPlanningReviewSectionMutation } from "@/features/sprint-meeting/hooks/useAddSprintMeetingPlanningReviewSectionMutation";
+import { useAddSprintMeetingNotesSectionMutation } from "@/features/sprint-meeting/hooks/useAddSprintMeetingNotesSectionMutation";
 
 interface SectionBaseProps {
   params: {
@@ -43,37 +36,17 @@ export default function SectionBase({
   reorderSections,
 }: SectionBaseProps) {
   const [meetingId] = [params.meetingId];
-  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
   // notes section
-  const { mutate: editMeeting, isPending: editMeetingPending } = useMutation<
-    EditMeetingResponseDto,
-    Error,
-    EditMeetingClientRequestDto
-  >({
-    mutationFn: editMeetingMutation,
-    onSuccess: () => {
-      reorderSections && reorderSections(title);
-      setIsOpen(true);
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
+  const {
+    isaddSprintMeetingNotesSectionPending,
+    addSprintMeetingNotesSectionMutation,
+  } = useAddSprintMeetingNotesSectionMutation({
+    reorderSections,
+    title,
+    setIsOpen,
   });
-
-  async function editMeetingMutation({
-    meetingId,
-  }: EditMeetingClientRequestDto): Promise<EditMeetingResponseDto> {
-    const notes = "";
-
-    return await sprintMeetingAdapter.editMeeting({
-      meetingId,
-      notes,
-    });
-  }
 
   // Planning & Retrospective&Review Sections
   const {
@@ -94,16 +67,19 @@ export default function SectionBase({
     if (id !== Number(Forms.notes)) {
       addSprintMeetingReviewSectionMutation({ formId: id, meetingId });
     } else {
-      editMeeting({ meetingId });
+      addSprintMeetingNotesSectionMutation({ meetingId });
     }
   };
 
   const handleToggle = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((isOpen) => !isOpen);
   };
 
   function renderButtonContent() {
-    if (isAddSprintMeetingReviewSectionPending || editMeetingPending) {
+    if (
+      isAddSprintMeetingReviewSectionPending ||
+      isaddSprintMeetingNotesSectionPending
+    ) {
       return <Spinner />;
     }
 
@@ -166,7 +142,8 @@ export default function SectionBase({
             onClick={handleAddSection}
             aria-label="add section"
             disabled={
-              isAddSprintMeetingReviewSectionPending || editMeetingPending
+              isAddSprintMeetingReviewSectionPending ||
+              isaddSprintMeetingNotesSectionPending
             }
           >
             {renderButtonContent()}
