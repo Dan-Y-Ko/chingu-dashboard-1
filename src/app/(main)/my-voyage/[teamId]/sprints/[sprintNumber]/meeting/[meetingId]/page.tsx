@@ -21,7 +21,6 @@ import { CacheTag } from "@/shared/utils/cacheTag";
 import { fetchMeeting } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import routePaths from "@/shared/utils/routePaths";
 import { useIsVoyageProjectSubmittedStatus } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
-import VoyageSubmittedMessage from "@/features/sprints/components/VoyageSubmittedMessage";
 import ProgressStepper from "@/features/sprints/components/ProgressStepper";
 import SprintActions from "@/features/sprints/components/SprintActions";
 import MeetingOverview from "@/features/sprint-meeting/components/meetingOverview/MeetingOverview";
@@ -30,7 +29,7 @@ import Sections from "@/features/sprint-meeting/components/sections/Sections";
 import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
 import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 
-interface SprintPageProps {
+interface SprintWeekPageProps {
   params: {
     teamId: string;
     sprintNumber: string;
@@ -38,7 +37,7 @@ interface SprintPageProps {
   };
 }
 
-export default function SprintPage({ params }: SprintPageProps) {
+export default function SprintWeekPage({ params }: SprintWeekPageProps) {
   const { teamId } = params;
   const { sprintNumber, meetingId } = params;
   const user = useUser();
@@ -119,40 +118,7 @@ export default function SprintPage({ params }: SprintPageProps) {
   });
 
   if (isVoyageProjectSubmitted) {
-    return (
-      <div className="flex w-full flex-col gap-y-10">
-        <BannerContainer
-          title="Sprints"
-          description="A sprint agenda helps the team stay on track, communicate well, and improve. Basically, it's like speed dating for developers. Except we're not looking for a soulmate, we're just trying to get some quality work done."
-        >
-          <Banner
-            imageLight={
-              <Image
-                src="/img/sprints_banner_light.png"
-                alt="Light sprints banner"
-                fill={true}
-                sizes="276px"
-                priority
-                style={{ objectFit: "contain" }}
-              />
-            }
-            imageDark={
-              <Image
-                src="/img/sprints_banner_dark.png"
-                alt="Dark sprints banner"
-                fill={true}
-                sizes="276px"
-                priority
-                style={{ objectFit: "contain" }}
-              />
-            }
-            height="h-[200px]"
-            width="w-[276px]"
-          />
-        </BannerContainer>
-        <VoyageSubmittedMessage />
-      </div>
-    );
+    router.push(routePaths.sprintsPage(teamId));
   }
 
   return (
