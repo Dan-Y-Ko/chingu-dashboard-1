@@ -33,30 +33,6 @@ type NewPasswordContainerProps = {
 function NewPasswordContainer({ onClick }: NewPasswordContainerProps) {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  const dispatch = useAppDispatch();
-
-  const { mutate, isPending } = useMutation<
-    ResetPasswordResponseDto,
-    Error,
-    ResetPasswordClientRequestDto
-  >({
-    mutationFn: resetPasswordMutation,
-    onSuccess: () => {
-      onClick();
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
-
-  async function resetPasswordMutation({
-    password,
-    token,
-  }: ResetPasswordClientRequestDto): Promise<ResetPasswordResponseDto> {
-    return await authAdapter.resetPassword({ password, token });
-  }
 
   function renderButtonContent() {
     return isPending ? <Spinner /> : "Update New Password";
