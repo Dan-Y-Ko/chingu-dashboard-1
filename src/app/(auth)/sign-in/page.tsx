@@ -2,9 +2,9 @@
 
 import "reflect-metadata";
 import { useState } from "react";
-import ResetPasswordContainer from "./components/ResetPasswordContainer";
-import SignInBlock from "./components/SignInBlock";
-import EmailCheckContainer from "./components/EmailCheckContainer";
+import ResetPasswordContainer from "@/features/auth/components/sign-in/ResetPasswordContainer";
+import SignInBlock from "@/features/auth/components/sign-in/SignInBlock";
+import EmailCheckContainer from "@/features/auth/components/sign-in/EmailCheckContainer";
 
 export enum ContainerState {
   SignIn,
