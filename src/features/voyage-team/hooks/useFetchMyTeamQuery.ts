@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { myTeamAdapter } from "./useMyTeamAdapters";
+import { useFetchMyTeam } from "./useMyTeamAdapters";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 import { useAppDispatch } from "@/shared/store";
 import { CacheTag } from "@/shared/utils/cacheTag";
@@ -13,6 +13,7 @@ interface UseFetchMyTeamQueryProps {
 export function useFetchMyTeamQuery({ teamId }: UseFetchMyTeamQueryProps) {
   const user = useUserStateSelector();
   const dispatch = useAppDispatch();
+  const { fetchMyTeam } = useFetchMyTeam();
 
   const {
     isPending: isFetchMyTeamPending,
@@ -25,7 +26,7 @@ export function useFetchMyTeamQuery({ teamId }: UseFetchMyTeamQueryProps) {
   });
 
   async function getMyTeamQuery() {
-    return await myTeamAdapter.fetchMyTeam({ teamId, user });
+    return await fetchMyTeam({ teamId, user });
   }
 
   useEffect(() => {
