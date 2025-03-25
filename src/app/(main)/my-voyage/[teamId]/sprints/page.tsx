@@ -25,7 +25,7 @@ interface SprintsPageProps {
 export default function SprintsPage({ params }: SprintsPageProps) {
   const { teamId } = params;
   const router = useRouter();
-  const { sprintsState } = useGetCurrentSprint();
+  const { currentSprint } = useGetCurrentSprint();
   const { isFetchSprintsPending, isFetchSprintsError, fetchSprintsError } =
     useFetchSprintsQuery({
       teamId,
@@ -33,17 +33,17 @@ export default function SprintsPage({ params }: SprintsPageProps) {
   const { isVoyageProjectSubmitted } = useIsVoyageProjectSubmittedStatus({
     teamId,
   });
-  const currentSprintNumber = sprintsState?.number;
+  const currentSprintNumber = currentSprint?.number;
 
   useEffect(() => {
     if (!isVoyageProjectSubmitted) {
-      if (sprintsState) {
-        if (sprintsState.teamMeetings.length !== 0) {
+      if (currentSprint) {
+        if (currentSprint.teamMeetings.length !== 0) {
           router.push(
             routePaths.sprintWeekPage(
               teamId,
               currentSprintNumber!.toString(),
-              sprintsState.teamMeetings[0].toString(),
+              currentSprint.teamMeetings[0].toString(),
             ),
           );
         }
@@ -57,7 +57,7 @@ export default function SprintsPage({ params }: SprintsPageProps) {
     currentSprintNumber,
     isVoyageProjectSubmitted,
     router,
-    sprintsState,
+    currentSprint,
     teamId,
   ]);
 

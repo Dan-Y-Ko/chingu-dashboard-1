@@ -6,6 +6,7 @@ import type {
 } from "@chingu-x/modules/sprints";
 import { useSprintStateSelector } from "./useSprintStateSelector";
 import { currentDate } from "@/shared/utils/getCurrentDate";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 export const sprintsAdapter = resolve<SprintsClientAdapter>(
   TYPES.SprintsClientAdapter,
@@ -14,12 +15,12 @@ export const sprintsAdapter = resolve<SprintsClientAdapter>(
 export function useGetCurrentSprint() {
   const sprints = useSprintStateSelector();
 
-  const sprintsState = sprintsAdapter.getCurrentSprint({
+  const currentSprint = sprintsAdapter.getCurrentSprint({
     sprints: sprints.sprints,
     currentDate,
   });
 
-  return { sprintsState };
+  return { currentSprint };
 }
 
 export function useFetchSprints() {
@@ -33,4 +34,21 @@ export function useFetchAllSprints() {
   const fetchAllSprints = async () => await sprintsAdapter.fetchAllSprints();
 
   return { fetchAllSprints };
+}
+
+interface UseGetSprintCheckinStatusProps {
+  id: number;
+}
+
+export function useGetSprintCheckinStatus({
+  id,
+}: UseGetSprintCheckinStatusProps) {
+  const user = useUserStateSelector();
+
+  const sprintCheckinIsSubmitted = sprintsAdapter.getSprintCheckinStatus({
+    user,
+    sprintId: id,
+  });
+
+  return { sprintCheckinIsSubmitted };
 }

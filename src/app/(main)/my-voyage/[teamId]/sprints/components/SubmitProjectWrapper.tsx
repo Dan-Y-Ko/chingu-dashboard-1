@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import type { Sprint } from "@chingu-x/modules/sprints";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@chingu-x/components/spinner";
-import VoyageSubmissionForm from "./forms/VoyageSubmissionForm";
+import VoyageSubmissionForm from "../../../../../../features/sprints/components/forms/VoyageSubmissionForm";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
 import { formsAdapter } from "@/shared/utils/adapters";

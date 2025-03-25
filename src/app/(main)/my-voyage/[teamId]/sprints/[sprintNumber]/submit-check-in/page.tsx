@@ -7,7 +7,7 @@ import type { TeamMemberForCheckbox } from "@chingu-x/modules/forms";
 import { useEffect } from "react";
 import type { Sprint } from "@chingu-x/modules/sprints";
 import { Spinner } from "@chingu-x/components/spinner";
-import WeeklyCheckInForm from "@/app/(main)/my-voyage/[teamId]/sprints/components/forms/WeeklyCheckInForm";
+import WeeklyCheckInForm from "@/features/sprints/components/forms/WeeklyCheckInForm";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import routePaths from "@/shared/utils/routePaths";
 import { currentDate } from "@/shared/utils/getCurrentDate";

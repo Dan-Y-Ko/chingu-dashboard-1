@@ -2,21 +2,20 @@
 
 import "reflect-metadata";
 import { useRouter } from "next/navigation";
-import type { Sprint } from "@chingu-x/modules/sprints";
 import { BannerContainer } from "@chingu-x/components/banner-container";
 import { Banner } from "@chingu-x/components/banner";
 import Image from "next/image";
 import { useEffect } from "react";
-import { currentDate } from "@/shared/utils/getCurrentDate";
-import { sprintsAdapter } from "@/features/sprints/hooks/useSprintsAdapters";
+import {
+  useGetCurrentSprint,
+  useGetSprintCheckinStatus,
+} from "@/features/sprints/hooks/useSprintsAdapters";
 import routePaths from "@/shared/utils/routePaths";
 import { useIsVoyageProjectSubmittedStatus } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import ProgressStepper from "@/features/sprints/components/ProgressStepper";
 import SprintActions from "@/features/sprints/components/SprintActions";
 import EmptySprintState from "@/features/sprints/components/EmptySprintState";
-import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
-import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
-import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import { useGetSprintMeetingId } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 
 interface EmptySprintPageProps {
   params: {
@@ -28,53 +27,45 @@ interface EmptySprintPageProps {
 export default function EmptySprintPage({ params }: EmptySprintPageProps) {
   const { teamId } = params;
   const sprintNumber = Number(params.sprintNumber);
-  const user = useUserStateSelector();
-  const sprints = useSprintStateSelector();
   const router = useRouter();
-
   const { isVoyageProjectSubmitted } = useIsVoyageProjectSubmittedStatus({
     teamId,
   });
 
   // Check if a meeting exists
-  const meetingId = sprintMeetingAdapter.getSprintMeetingId({
-    sprints: sprints.sprints,
-    sprintNumber,
-  });
+  const { sprintMeetingId } = useGetSprintMeetingId({ sprintNumber });
 
   // Get current sprint number
-  const { number, id } = sprintsAdapter.getCurrentSprint({
-    currentDate,
-    sprints: sprints.sprints,
-  }) as Sprint;
+  const { currentSprint } = useGetCurrentSprint();
 
-  const currentSprintNumber = number;
+  const currentSprintNumber = currentSprint!.number;
 
   useEffect(() => {
     // Redirect if a user tries to access a sprint which hasn't started yet
-    if (sprintNumber > currentSprintNumber) {
-      router.push(
-        routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
-      );
+    if (currentSprintNumber) {
+      if (sprintNumber > currentSprintNumber) {
+        router.push(
+          routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
+        );
+      }
     }
 
     // If a user tries to access this page directly, check if the current sprint's meetingId exists.
     // If so, redirect to the existing meeting page.
-    if (meetingId) {
+    if (sprintMeetingId) {
       router.push(
         routePaths.sprintWeekPage(
           teamId,
           sprintNumber.toString(),
-          meetingId.toString(),
+          sprintMeetingId.toString(),
         ),
       );
     }
-  }, [currentSprintNumber, meetingId, router, sprintNumber, teamId]);
+  }, [currentSprintNumber, sprintMeetingId, router, sprintNumber, teamId]);
 
   // Check if a checkin form for the current sprint has been submitted
-  const sprintCheckinIsSubmitted = sprintsAdapter.getSprintCheckinStatus({
-    user,
-    sprintId: id,
+  const { sprintCheckinIsSubmitted } = useGetSprintCheckinStatus({
+    id: currentSprint!.id,
   });
 
   if (isVoyageProjectSubmitted) {
@@ -112,13 +103,18 @@ export default function EmptySprintPage({ params }: EmptySprintPageProps) {
           width="w-[276px]"
         />
       </BannerContainer>
-      <ProgressStepper currentSprintNumber={currentSprintNumber} />
-      <SprintActions
-        params={params}
-        sprintCheckinIsSubmitted={sprintCheckinIsSubmitted}
-        voyageProjectIsSubmitted={isVoyageProjectSubmitted}
-        currentSprintNumber={currentSprintNumber}
-      />
+      {currentSprint && (
+        <>
+          <ProgressStepper currentSprintNumber={currentSprintNumber} />
+          <SprintActions
+            params={params}
+            sprintCheckinIsSubmitted={sprintCheckinIsSubmitted}
+            voyageProjectIsSubmitted={isVoyageProjectSubmitted}
+            currentSprintNumber={currentSprintNumber}
+          />
+        </>
+      )}
+
       <EmptySprintState />
     </div>
   );

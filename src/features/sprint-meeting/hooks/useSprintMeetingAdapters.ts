@@ -8,6 +8,7 @@ import type {
   SprintMeetingClientAdapter,
 } from "@chingu-x/modules/sprint-meeting";
 import { useSprintMeetingStateSelector } from "./useSprintMeetingStateSelector";
+import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 
 export const sprintMeetingAdapter = resolve<SprintMeetingClientAdapter>(
   TYPES.SprintMeetingClientAdapter,
@@ -106,4 +107,21 @@ export function useAddSprintMeetingNotesSection() {
     });
 
   return { addSprintMeetingNotesSection };
+}
+
+interface UseGetSprintMeetingIdProps {
+  sprintNumber: number;
+}
+
+export function useGetSprintMeetingId({
+  sprintNumber,
+}: UseGetSprintMeetingIdProps) {
+  const sprints = useSprintStateSelector();
+
+  const sprintMeetingId = sprintMeetingAdapter.getSprintMeetingId({
+    sprints: sprints.sprints,
+    sprintNumber,
+  });
+
+  return { sprintMeetingId };
 }

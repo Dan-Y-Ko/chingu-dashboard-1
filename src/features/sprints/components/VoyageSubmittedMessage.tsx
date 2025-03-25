@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import dynamic from "next/dynamic";
 import rocketLight from "@/public/lotties/rocket_light.json";

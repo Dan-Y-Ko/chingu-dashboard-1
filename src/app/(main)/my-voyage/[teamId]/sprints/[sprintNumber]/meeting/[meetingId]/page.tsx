@@ -14,7 +14,10 @@ import { currentDate } from "@/shared/utils/getCurrentDate";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
 import { useAppDispatch } from "@/shared/store";
-import { sprintsAdapter } from "@/features/sprints/hooks/useSprintsAdapters";
+import {
+  sprintsAdapter,
+  useGetCurrentSprint,
+} from "@/features/sprints/hooks/useSprintsAdapters";
 import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { fetchMeeting } from "@/store/features/sprint-meeting/sprintMeetingSlice";
@@ -43,15 +46,11 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
   const user = useUserStateSelector();
   const sprints = useSprintStateSelector();
   const sprintMeeting = useSprintMeetingStateSelector();
-  const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const currentSprint = sprintsAdapter.getCurrentSprint({
-    currentDate,
-    sprints: sprints.sprints,
-  }) as Sprint;
+  const { currentSprint } = useGetCurrentSprint();
 
-  const currentSprintNumber = currentSprint?.number;
+  const currentSprintNumber = currentSprint!.number;
 
   const agendas =
     sprintMeetingAdapter.getSprintMeeting({
@@ -62,24 +61,6 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
   const { isVoyageProjectSubmitted } = useIsVoyageProjectSubmittedStatus({
     teamId,
   });
-
-  const { isPending, isError, error, data } = useQuery({
-    queryKey: [
-      CacheTag.sprintMeetingId,
-      { teamId, user: `${user.id}`, meetingId: `${meetingId}` },
-    ],
-    queryFn: fetchMeetingQuery,
-  });
-
-  async function fetchMeetingQuery() {
-    return await sprintMeetingAdapter.fetchMeeting({ meetingId });
-  }
-
-  useEffect(() => {
-    if (data) {
-      dispatch(fetchMeeting(data));
-    }
-  }, [data, dispatch]);
 
   useEffect(() => {
     if (sprints.sprints.length < 1) {
@@ -114,7 +95,7 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
   // Check if a checkin form for the current sprint has been submitted
   const sprintCheckinIsSubmitted = sprintsAdapter.getSprintCheckinStatus({
     user,
-    sprintId: currentSprint?.id,
+    sprintId: currentSprint!.id,
   });
 
   if (isVoyageProjectSubmitted) {
