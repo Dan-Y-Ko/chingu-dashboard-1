@@ -3,12 +3,13 @@ import type {
   RequestResetPasswordResponseDto,
 } from "@chingu-x/modules/auth";
 import { useMutation } from "@tanstack/react-query";
-import { authAdapter } from "./useAuthAdapters";
+import { useRequestResetPassword } from "./useAuthAdapters";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { useAppDispatch } from "@/shared/store";
 
 export function useRequestRestPasswordMutation() {
   const dispatch = useAppDispatch();
+  const { requestResetPassword } = useRequestResetPassword();
 
   const {
     mutate: requestResetPasswordMutation,
@@ -29,7 +30,7 @@ export function useRequestRestPasswordMutation() {
   async function requestResetPasswordMutationFn({
     email,
   }: RequestResetPasswordClientRequestDto): Promise<RequestResetPasswordResponseDto> {
-    return await authAdapter.requestResetPassword({ email });
+    return requestResetPassword({ email });
   }
 
   return {
