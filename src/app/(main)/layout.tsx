@@ -27,24 +27,9 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { getCurrentVoyageTeam } = useGetCurrentVoyageTeam();
 
-  const { isFetchCurrentUserPending, isfetchCurrentUserError, currentUser } =
+  const { isFetchCurrentUserPending, isfetchCurrentUserError } =
     useFetchUserQuery();
-
-  const {
-    isPending: fetchAllSprintsPending,
-    error: fetchAllSprintsError,
-    isError: isfetchAllSprintsError,
-    data: allSprints,
-  } = useQuery({
-    queryKey: [CacheTag.fetchAllSprints],
-    queryFn: getAllSprintsQuery,
-  });
-
-  async function getAllSprintsQuery() {
-    return await sprintsAdapter.fetchAllSprints();
-  }
 
   if (isfetchCurrentUserError) {
     router.push(routePaths.signIn());
@@ -58,18 +43,6 @@ export default function Layout({ children }: LayoutProps) {
       }),
     );
   }
-
-  useEffect(() => {
-    if (currentUser && allSprints) {
-      const currentTeam = getCurrentVoyageTeam({
-        user: currentUser,
-        sprints: allSprints,
-        currentDate: currentDate,
-      });
-
-      dispatch(setCurrentVoyageTeam(currentTeam));
-    }
-  }, [allSprints, currentUser, dispatch, getCurrentVoyageTeam]);
 
   return (
     <div className="flex h-screen w-screen flex-col">
