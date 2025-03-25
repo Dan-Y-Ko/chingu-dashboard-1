@@ -1,17 +1,10 @@
 import { type Dispatch, type SetStateAction } from "react";
-import { useMutation } from "@tanstack/react-query";
-import type {
-  RequestResetPasswordClientRequestDto,
-  RequestResetPasswordResponseDto,
-} from "@chingu-x/modules/auth";
 import { Banner } from "@chingu-x/components/banner";
 import Image from "next/image";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { ContainerState } from "@/app/(auth)/sign-in/page";
-import { useAppDispatch } from "@/shared/store";
-import { authAdapter } from "@/features/auth/hooks/useAuthAdapters";
+import { useRequestRestPasswordMutation } from "@/features/auth/hooks/useRequestResetPasswordMutation";
 
 type ResendEmailContainerProp = {
   email: string;
@@ -22,33 +15,17 @@ function EmailCheckContainer({
   email,
   setContainerState,
 }: ResendEmailContainerProp) {
-  const dispatch = useAppDispatch();
-
-  const { mutate, isPending } = useMutation<
-    RequestResetPasswordResponseDto,
-    Error,
-    RequestResetPasswordClientRequestDto
-  >({
-    mutationFn: requestResetPasswordMutation,
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
-
-  async function requestResetPasswordMutation({
-    email,
-  }: RequestResetPasswordClientRequestDto): Promise<RequestResetPasswordResponseDto> {
-    return await authAdapter.requestResetPassword({ email });
-  }
+  const {
+    isRequestResetPasswordMutationPending,
+    requestResetPasswordMutation,
+  } = useRequestRestPasswordMutation();
 
   function handleResendEmail() {
-    mutate({ email });
+    requestResetPasswordMutation({ email });
   }
 
   function renderButtonContent() {
-    return isPending ? <Spinner /> : "Resend Email";
+    return isRequestResetPasswordMutationPending ? <Spinner /> : "Resend Email";
   }
 
   function handleClick() {
