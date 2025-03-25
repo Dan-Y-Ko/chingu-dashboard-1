@@ -7,11 +7,13 @@ import { authAdapter } from "./useAuthAdapters";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { useAppDispatch } from "@/shared/store";
 
-interface UseLogoutMutationProps {
+interface UseResetPasswordMutationProps {
   onClick: () => void;
 }
 
-export function useLogoutMutation({ onClick }: UseLogoutMutationProps) {
+export function useResetPasswordMutation({
+  onClick,
+}: UseResetPasswordMutationProps) {
   const dispatch = useAppDispatch();
 
   const { mutate: resetPasswordMutation, isPending: isResetPasswordPending } =
