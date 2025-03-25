@@ -3,6 +3,7 @@ import { TYPES } from "@chingu-x/modules/di-types";
 import type {
   AddSprintMeetingSectionClientRequestDto,
   EditMeetingClientRequestDto,
+  FetchMeetingClientRequestDto,
   FetchSprintMeetingFormClientRequestDto,
   GetSprintMeetingSectionResponsesClientRequestDto,
   SprintMeetingClientAdapter,
@@ -140,4 +141,11 @@ export function useGetSprintAgendas({ meetingId }: UseGetSprintAgendasProps) {
     })?.agendas ?? [];
 
   return { agendas };
+}
+
+export function useFetchMeeting() {
+  const fetchMeeting = async ({ meetingId }: FetchMeetingClientRequestDto) =>
+    await sprintMeetingAdapter.fetchMeeting({ meetingId });
+
+  return { fetchMeeting };
 }

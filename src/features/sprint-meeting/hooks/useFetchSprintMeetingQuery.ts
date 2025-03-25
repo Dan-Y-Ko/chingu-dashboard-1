@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { sprintMeetingAdapter } from "./useSprintMeetingAdapters";
+import { useFetchMeeting } from "./useSprintMeetingAdapters";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { useAppDispatch } from "@/shared/store";
-import { fetchMeeting } from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import { fetchMeetingState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 
 interface UseFetchSprintMeetingQueryProps {
   teamId: string;
@@ -17,6 +17,7 @@ export function useFetchSprintMeetingQuery({
 }: UseFetchSprintMeetingQueryProps) {
   const user = useUserStateSelector();
   const dispatch = useAppDispatch();
+  const { fetchMeeting } = useFetchMeeting();
 
   const {
     isPending: isFetchSprintMeetingPendng,
@@ -32,12 +33,12 @@ export function useFetchSprintMeetingQuery({
   });
 
   async function fetchMeetingQuery() {
-    return await sprintMeetingAdapter.fetchMeeting({ meetingId });
+    return await fetchMeeting({ meetingId });
   }
 
   useEffect(() => {
     if (data) {
-      dispatch(fetchMeeting(data));
+      dispatch(fetchMeetingState(data));
     }
   }, [data, dispatch]);
 

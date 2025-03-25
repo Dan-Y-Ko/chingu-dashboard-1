@@ -52,7 +52,7 @@ export const sprintMeetingSlice = createSlice({
   name: "sprintMeeting",
   initialState,
   reducers: {
-    fetchMeeting: (state, action: PayloadAction<Meeting>) => {
+    fetchMeetingState: (state, action: PayloadAction<Meeting>) => {
       const meeting = state.find((meeting) => meeting.id === action.payload.id);
 
       if (!meeting) {
@@ -200,7 +200,7 @@ export const sprintMeetingSlice = createSlice({
 });
 
 export const {
-  fetchMeeting,
+  fetchMeetingState,
   addMeetingState,
   editMeetingState,
   addAgendaState,
