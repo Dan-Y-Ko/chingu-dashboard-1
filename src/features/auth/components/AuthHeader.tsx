@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Avatar } from "@chingu-x/components/avatar";
 import Image from "next/image";
 import { Button } from "@chingu-x/components/button";
-import UserDropDown from "@/shared/components/navbar/UserDropdown";
+import UserDropDown from "@/features/auth/components/UserDropdown";
 import routePaths from "@/shared/utils/routePaths";
 import { useAuthStateSelector } from "@/features/auth/hooks/useAuthStateSelector";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";

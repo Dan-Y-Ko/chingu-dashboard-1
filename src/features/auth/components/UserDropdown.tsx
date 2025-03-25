@@ -20,9 +20,6 @@ interface DropdownProps {
 }
 
 export default function UserDropDown({ openState }: DropdownProps) {
-  const queryClient = useQueryClient();
-  const router = useRouter();
-  const dispatch = useAppDispatch();
   const currentTeam = useCurrentVoyageTeamStateSelector();
   let currentVoyage;
 
@@ -40,25 +37,6 @@ export default function UserDropDown({ openState }: DropdownProps) {
   function handleClick() {
     mutate();
   }
-
-  async function logoutMutation(): Promise<LogoutResponseDto> {
-    return await authAdapter.logout();
-  }
-
-  const { mutate } = useMutation<LogoutResponseDto, Error, void>({
-    mutationKey: [CacheTag.logout],
-    mutationFn: logoutMutation,
-    onSuccess: () => {
-      queryClient.removeQueries({ queryKey: [CacheTag.me] });
-      dispatch(clientSignOut());
-      router.replace(routePaths.signIn());
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
 
   return (
     <DropDown openState={openState}>
