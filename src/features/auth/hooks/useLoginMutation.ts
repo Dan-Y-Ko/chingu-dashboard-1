@@ -10,7 +10,7 @@ import { clientSignIn } from "@/features/auth/store/authSlice";
 import routePaths from "@/shared/utils/routePaths";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 
-export function useLogoutMutation() {
+export function useLoginMutation() {
   const router = useRouter();
   const dispatch = useAppDispatch();
 

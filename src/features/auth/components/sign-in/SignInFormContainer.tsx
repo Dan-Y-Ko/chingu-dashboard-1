@@ -41,26 +41,6 @@ interface SignInFormContainerProps {
 function SignInFormContainer({
   handleResetPassword,
 }: SignInFormContainerProps) {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-
-  const { mutate, isPending } = useMutation<
-    LoginResponseDto,
-    Error,
-    LoginClientRequestDto
-  >({
-    mutationFn: loginMutation,
-    onSuccess: () => {
-      dispatch(clientSignIn());
-      router.replace(routePaths.dashboardPage());
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
-
   const {
     register,
     formState: { errors, isDirty, isValid },
@@ -69,13 +49,6 @@ function SignInFormContainer({
     mode: "onTouched",
     resolver: zodResolver(validationSchema),
   });
-
-  async function loginMutation({
-    email,
-    password,
-  }: LoginClientRequestDto): Promise<LoginResponseDto> {
-    return await authAdapter.login({ email, password });
-  }
 
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     const { email, password } = data;
