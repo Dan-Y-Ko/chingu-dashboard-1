@@ -12,7 +12,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { Button } from "@chingu-x/components/button";
 import routePaths from "@/shared/utils/routePaths";
-import { sprintsAdapter } from "@/shared/utils/adapters";
+import { sprintsAdapter } from "@/features/sprints/hooks/useSprintsAdapters";
 
 interface SprintActionsProps {
   params: {

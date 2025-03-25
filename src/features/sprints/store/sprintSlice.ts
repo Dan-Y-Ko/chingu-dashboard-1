@@ -25,7 +25,7 @@ export const sprintSlice = createSlice({
   name: "sprint",
   initialState,
   reducers: {
-    fetchSprints: (state, action: PayloadAction<VoyageSprint>) => ({
+    fetchSprintsState: (state, action: PayloadAction<VoyageSprint>) => ({
       ...state,
       ...action.payload,
     }),
@@ -67,6 +67,6 @@ export const submitVoyageProject = createAction<SubmitVoyageProjectPayload>(
   "sprint/submitVoyageProject",
 );
 
-export const { fetchSprints } = sprintSlice.actions;
+export const { fetchSprintsState } = sprintSlice.actions;
 
 export default sprintSlice.reducer;

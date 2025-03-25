@@ -22,6 +22,8 @@ export default function AuthHeader() {
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
+
+  // TODO: refactor to custom hook
   const handleClickOutside = (event: MouseEvent) => {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
       closeMenu();

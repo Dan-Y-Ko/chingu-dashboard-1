@@ -4,22 +4,23 @@ import "reflect-metadata";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import type { Sprint } from "@chingu-x/modules/sprints";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Spinner } from "@chingu-x/components/spinner";
 import { BannerContainer } from "@chingu-x/components/banner-container";
 import { Banner } from "@chingu-x/components/banner";
-import { currentDate } from "@/shared/utils/getCurrentDate";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
 import { useAppDispatch } from "@/shared/store";
-import { sprintsAdapter } from "@/shared/utils/adapters";
-import { fetchSprints } from "@/features/sprints/store/sprintSlice";
+import { fetchSprintsState } from "@/features/sprints/store/sprintSlice";
 import routePaths from "@/shared/utils/routePaths";
 import VoyageSubmittedMessage from "@/features/sprints/components/VoyageSubmittedMessage";
 import { useIsVoyageProjectSubmittedStatus } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import {
+  useFetchSprints,
+  useGetCurrentSprint,
+} from "@/features/sprints/hooks/useSprintsAdapters";
 
 interface SprintsPageProps {
   params: {
@@ -33,12 +34,15 @@ export default function SprintsPage({ params }: SprintsPageProps) {
   const user = useUserStateSelector();
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [sprintsData, setSprintsData] = useState<Sprint>();
-  const [currentSprintNumber, setCurrentSprintNumber] = useState<number>(0);
 
   const { isVoyageProjectSubmitted } = useIsVoyageProjectSubmittedStatus({
     teamId,
   });
+
+  const { sprintsState } = useGetCurrentSprint();
+  const { fetchSprints } = useFetchSprints();
+
+  const currentSprintNumber = sprintsState?.number;
 
   const { isPending, isError, error, data } = useQuery({
     queryKey: [CacheTag.sprints, { teamId, user: `${user.id}` }],
@@ -46,56 +50,39 @@ export default function SprintsPage({ params }: SprintsPageProps) {
   });
 
   async function fetchSprintsQuery() {
-    return await sprintsAdapter.fetchSprints({ teamId });
+    return await fetchSprints({ teamId });
   }
 
   useEffect(() => {
     if (data) {
-      dispatch(fetchSprints(data));
+      dispatch(fetchSprintsState(data));
     }
   }, [data, dispatch]);
 
   useEffect(() => {
-    if (data) {
-      const sprintsData = sprintsAdapter.getCurrentSprint({
-        sprints: data.sprints,
-        currentDate,
-      });
-
-      setSprintsData(sprintsData);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (sprintsData) {
-      setCurrentSprintNumber(sprintsData.number);
-    }
-  }, [sprintsData]);
-
-  useEffect(() => {
     if (!isVoyageProjectSubmitted) {
-      if (sprintsData) {
-        if (sprintsData.teamMeetings.length !== 0) {
+      if (sprintsState) {
+        if (sprintsState.teamMeetings.length !== 0) {
           router.push(
             routePaths.sprintWeekPage(
               teamId,
-              currentSprintNumber.toString(),
-              sprintsData.teamMeetings[0].toString(),
+              currentSprintNumber!.toString(),
+              sprintsState.teamMeetings[0].toString(),
             ),
           );
         }
 
         router.push(
-          routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
+          routePaths.emptySprintPage(teamId, currentSprintNumber!.toString()),
         );
       }
     }
   }, [
     currentSprintNumber,
-    router,
-    teamId,
-    sprintsData,
     isVoyageProjectSubmitted,
+    router,
+    sprintsState,
+    teamId,
   ]);
 
   if (isPending) {

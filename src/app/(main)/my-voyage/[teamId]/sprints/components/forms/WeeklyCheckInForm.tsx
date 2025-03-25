@@ -18,7 +18,7 @@ import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { createValidationSchema } from "@/shared/utils/form/createValidationSchema";
 import routePaths from "@/shared/utils/routePaths";
-import { sprintsAdapter } from "@/shared/utils/adapters";
+import { sprintsAdapter } from "@/features/sprints/hooks/useSprintsAdapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { submitWeeklyCheckin } from "@/features/sprints/store/sprintSlice";
 import { voyageTeamAdapter } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";

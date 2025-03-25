@@ -13,6 +13,7 @@ export default function EmptySprintState() {
           fill={true}
           style={{ objectFit: "contain" }}
           priority={true}
+          sizes="(max-width: 1920px) 75vw, 90vw"
         />
       </div>
       <div
@@ -25,6 +26,7 @@ export default function EmptySprintState() {
           fill={true}
           style={{ objectFit: "contain" }}
           priority={true}
+          sizes="(max-width: 1920px) 75vw, 90vw"
         />
       </div>
     </div>

@@ -13,7 +13,7 @@ import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { authAdapter } from "@/shared/utils/adapters";
 import { useAppDispatch } from "@/shared/store";
-import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
 
 interface DropdownProps {
   openState?: boolean;
@@ -23,18 +23,14 @@ export default function UserDropDown({ openState }: DropdownProps) {
   const queryClient = useQueryClient();
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const allVoyages = useUserStateSelector().voyageTeamMembers;
-  const activeVoyage = allVoyages?.find(
-    (item) => item.voyageTeam.voyage.status.name === "Active",
-  );
-
+  const currentTeam = useCurrentVoyageTeamStateSelector();
   let currentVoyage;
 
-  if (activeVoyage?.voyageTeam.name) {
-    currentVoyage = `Team - Tier ${activeVoyage.voyageTeam.name
+  if (currentTeam[0]?.voyageTeam.name) {
+    currentVoyage = `Team - Tier ${currentTeam[0].voyageTeam.name
       .split("-")[1]
       .split("tier")[1]
-      .toUpperCase()} ${activeVoyage.voyageTeam.name
+      .toUpperCase()} ${currentTeam[0].voyageTeam.name
       .split("-")[0]
       .toUpperCase()}`;
   } else {
@@ -68,7 +64,7 @@ export default function UserDropDown({ openState }: DropdownProps) {
     <DropDown openState={openState}>
       <div className="rounded-lg bg-secondary-content p-2 text-xs [&>*]:m-1">
         <p className="text-[10px] font-medium text-neutral-focus">My Voyage:</p>
-        {activeVoyage?.voyageTeam.name ? (
+        {currentTeam[0]?.voyageTeam.name ? (
           <p className="border border-transparent text-base font-medium text-base-300">
             {currentVoyage}
           </p>

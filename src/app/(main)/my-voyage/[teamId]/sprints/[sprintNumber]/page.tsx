@@ -8,7 +8,7 @@ import { Banner } from "@chingu-x/components/banner";
 import Image from "next/image";
 import { useEffect } from "react";
 import { currentDate } from "@/shared/utils/getCurrentDate";
-import { sprintsAdapter } from "@/shared/utils/adapters";
+import { sprintsAdapter } from "@/features/sprints/hooks/useSprintsAdapters";
 import routePaths from "@/shared/utils/routePaths";
 import { useIsVoyageProjectSubmittedStatus } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import ProgressStepper from "@/features/sprints/components/ProgressStepper";
@@ -56,10 +56,10 @@ export default function EmptySprintPage({ params }: EmptySprintPageProps) {
       router.push(
         routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
       );
-      // If a user tries to access this page directly, check if the current sprint's meetingId exists.
-      // If so, redirect to the existing meeting page.
     }
 
+    // If a user tries to access this page directly, check if the current sprint's meetingId exists.
+    // If so, redirect to the existing meeting page.
     if (meetingId) {
       router.push(
         routePaths.sprintWeekPage(

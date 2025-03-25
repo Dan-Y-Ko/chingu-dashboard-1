@@ -7,11 +7,10 @@ import { Navbar } from "@chingu-x/components/navbar";
 import { Spinner } from "@chingu-x/components/spinner";
 import { useEffect } from "react";
 import ModeToggle from "@/shared/components/ModeToggle";
-import AuthHeader from "@/shared/components/navbar/AuthHeader";
+import AuthHeader from "@/features/auth/components/AuthHeader";
 import { useAppDispatch } from "@/shared/store";
 import routePaths from "@/shared/utils/routePaths";
 import { CacheTag } from "@/shared/utils/cacheTag";
-import { sprintsAdapter } from "@/shared/utils/adapters";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import ChinguMenu from "@/shared/components/navbar/ChinguMenu";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
@@ -19,6 +18,7 @@ import { setCurrentVoyageTeam } from "@/store/features/current-voyage-team/curre
 import Sidebar from "@/shared/components/sidebar/Sidebar";
 import { useGetCurrentVoyageTeam } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import { useFetchUserQuery } from "@/features/user/hooks/useFetchUserQuery";
+import { sprintsAdapter } from "@/features/sprints/hooks/useSprintsAdapters";
 
 interface LayoutProps {
   children: React.ReactNode;

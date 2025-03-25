@@ -14,7 +14,7 @@ import { currentDate } from "@/shared/utils/getCurrentDate";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
 import { useAppDispatch } from "@/shared/store";
-import { sprintsAdapter } from "@/shared/utils/adapters";
+import { sprintsAdapter } from "@/features/sprints/hooks/useSprintsAdapters";
 import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { fetchMeeting } from "@/store/features/sprint-meeting/sprintMeetingSlice";
