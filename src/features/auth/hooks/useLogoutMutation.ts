@@ -1,7 +1,7 @@
 import type { LogoutResponseDto } from "@chingu-x/modules/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { authAdapter } from "./useAuthAdapters";
+import { useLogout } from "./useAuthAdapters";
 import { useAppDispatch } from "@/shared/store";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { clientSignOut } from "@/features/auth/store/authSlice";
@@ -12,6 +12,7 @@ export function useLogoutMutation() {
   const queryClient = useQueryClient();
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { logout } = useLogout();
 
   const { mutate: logoutMutation } = useMutation<
     LogoutResponseDto,
@@ -33,7 +34,7 @@ export function useLogoutMutation() {
   });
 
   async function logoutMutationFn(): Promise<LogoutResponseDto> {
-    return await authAdapter.logout();
+    return await logout();
   }
 
   return {
