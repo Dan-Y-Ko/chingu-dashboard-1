@@ -5,6 +5,8 @@ import type {
   VoyageTeamClientAdapter,
 } from "@chingu-x/modules/voyage-team";
 import { useCurrentVoyageTeamStateSelector } from "./useCurrentVoyageTeamStateSelector";
+import { useAuthStateSelector } from "@/features/auth/hooks/useAuthStateSelector";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 export const voyageTeamAdapter = resolve<VoyageTeamClientAdapter>(
   TYPES.VoyageTeamClientAdapter,
@@ -56,4 +58,16 @@ export function useGetCurrentVoyageTeam() {
         currentDate,
       }),
   };
+}
+
+export function useHasVoyageStarted() {
+  const { isAuthenticated } = useAuthStateSelector();
+  const user = useUserStateSelector();
+
+  const isVoyageStarted = voyageTeamAdapter.hasVoyageStarted({
+    user,
+    isAuthenticated,
+  });
+
+  return { isVoyageStarted };
 }

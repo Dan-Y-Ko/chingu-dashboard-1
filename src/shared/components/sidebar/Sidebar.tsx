@@ -14,10 +14,8 @@ import ExpandButton from "./ExpandButton";
 import PageButton from "./PageButton";
 import VoyagePageButton from "./VoyagePageButton";
 import routePaths from "@/shared/utils/routePaths";
-import { voyageTeamAdapter } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
+import { useHasVoyageStarted } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
-import { useAuthStateSelector } from "@/features/auth/hooks/useAuthStateSelector";
-import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 export enum MainPages {
   dashboard = "Dashboard",
@@ -53,19 +51,10 @@ export default function Sidebar() {
   const [isOpenSidebar, setIsOpenSidebar] = useState<boolean>(true);
   const [selectedButton, setSelectedButton] = useState<string>(currentPath);
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
-
-  const { isAuthenticated } = useAuthStateSelector();
-  const user = useUserStateSelector();
   const currentTeam = useCurrentVoyageTeamStateSelector();
-
-  const isVoyageStarted = voyageTeamAdapter.hasVoyageStarted({
-    user,
-    isAuthenticated,
-  });
-
   const teamId = currentTeam[0]?.voyageTeamId;
-
   const myVoyageDisplayName = `${currentTeam[0]?.voyageTeam.name.replace(/-tier\d+/, "").replace(/-/g, " ") ?? ""}`;
+  const { isVoyageStarted } = useHasVoyageStarted();
 
   const pagesProperties: PageProperty[] = [
     {
