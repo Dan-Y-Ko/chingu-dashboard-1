@@ -28,3 +28,9 @@ export function useFetchSprints() {
 
   return { fetchSprints };
 }
+
+export function useFetchAllSprints() {
+  const fetchAllSprints = async () => await sprintsAdapter.fetchAllSprints();
+
+  return { fetchAllSprints };
+}

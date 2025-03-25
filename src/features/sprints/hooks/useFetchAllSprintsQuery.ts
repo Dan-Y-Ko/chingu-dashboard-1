@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { sprintsAdapter } from "./useSprintsAdapters";
+import { useFetchAllSprints } from "./useSprintsAdapters";
 import { useGetCurrentVoyageTeam } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import { useAppDispatch } from "@/shared/store";
 import { CacheTag } from "@/shared/utils/cacheTag";
@@ -12,6 +12,7 @@ export function useFetchAllSprintsQuery() {
   const dispatch = useAppDispatch();
   const currentUser = useUserStateSelector();
   const { getCurrentVoyageTeam } = useGetCurrentVoyageTeam();
+  const { fetchAllSprints } = useFetchAllSprints();
 
   const {
     isPending: isFetchAllSprintsPending,
@@ -24,7 +25,7 @@ export function useFetchAllSprintsQuery() {
   });
 
   async function getAllSprintsQuery() {
-    return await sprintsAdapter.fetchAllSprints();
+    return await fetchAllSprints();
   }
 
   useEffect(() => {
