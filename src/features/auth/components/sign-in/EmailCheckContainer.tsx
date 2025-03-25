@@ -18,7 +18,7 @@ function EmailCheckContainer({
   const {
     isRequestResetPasswordMutationPending,
     requestResetPasswordMutation,
-  } = useRequestRestPasswordMutation();
+  } = useRequestRestPasswordMutation({});
 
   function handleResendEmail() {
     requestResetPasswordMutation({ email });
