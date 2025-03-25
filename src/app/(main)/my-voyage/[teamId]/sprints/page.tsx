@@ -3,24 +3,17 @@
 import "reflect-metadata";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Spinner } from "@chingu-x/components/spinner";
 import { BannerContainer } from "@chingu-x/components/banner-container";
 import { Banner } from "@chingu-x/components/banner";
-import { CacheTag } from "@/shared/utils/cacheTag";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
-import { useAppDispatch } from "@/shared/store";
-import { fetchSprintsState } from "@/features/sprints/store/sprintSlice";
 import routePaths from "@/shared/utils/routePaths";
 import VoyageSubmittedMessage from "@/features/sprints/components/VoyageSubmittedMessage";
 import { useIsVoyageProjectSubmittedStatus } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
-import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
-import {
-  useFetchSprints,
-  useGetCurrentSprint,
-} from "@/features/sprints/hooks/useSprintsAdapters";
+import { useGetCurrentSprint } from "@/features/sprints/hooks/useSprintsAdapters";
+import { useFetchSprintsQuery } from "@/features/sprints/hooks/useFetchSprints";
 
 interface SprintsPageProps {
   params: {
@@ -31,33 +24,16 @@ interface SprintsPageProps {
 
 export default function SprintsPage({ params }: SprintsPageProps) {
   const { teamId } = params;
-  const user = useUserStateSelector();
   const router = useRouter();
-  const dispatch = useAppDispatch();
-
+  const { sprintsState } = useGetCurrentSprint();
+  const { isFetchSprintsPending, isFetchSprintsError, fetchSprintsError } =
+    useFetchSprintsQuery({
+      teamId,
+    });
   const { isVoyageProjectSubmitted } = useIsVoyageProjectSubmittedStatus({
     teamId,
   });
-
-  const { sprintsState } = useGetCurrentSprint();
-  const { fetchSprints } = useFetchSprints();
-
   const currentSprintNumber = sprintsState?.number;
-
-  const { isPending, isError, error, data } = useQuery({
-    queryKey: [CacheTag.sprints, { teamId, user: `${user.id}` }],
-    queryFn: fetchSprintsQuery,
-  });
-
-  async function fetchSprintsQuery() {
-    return await fetchSprints({ teamId });
-  }
-
-  useEffect(() => {
-    if (data) {
-      dispatch(fetchSprintsState(data));
-    }
-  }, [data, dispatch]);
 
   useEffect(() => {
     if (!isVoyageProjectSubmitted) {
@@ -85,7 +61,7 @@ export default function SprintsPage({ params }: SprintsPageProps) {
     teamId,
   ]);
 
-  if (isPending) {
+  if (isFetchSprintsPending) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Spinner />
@@ -93,11 +69,11 @@ export default function SprintsPage({ params }: SprintsPageProps) {
     );
   }
 
-  if (isError) {
+  if (isFetchSprintsError) {
     return (
       <ErrorComponent
         errorType={ErrorType.FETCH_SPRINT}
-        message={error.message}
+        message={fetchSprintsError!.message}
       />
     );
   }

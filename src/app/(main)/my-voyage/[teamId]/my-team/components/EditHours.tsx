@@ -16,7 +16,7 @@ import { validateTextInput } from "@/shared/utils/form/validateInput";
 import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { myTeamAdapter } from "@/shared/utils/adapters";
-import { editHours } from "@/store/features/my-team/myTeamSlice";
+import { editHours } from "@/features/voyage-team/store/myTeamSlice";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 interface EditHoursProps {

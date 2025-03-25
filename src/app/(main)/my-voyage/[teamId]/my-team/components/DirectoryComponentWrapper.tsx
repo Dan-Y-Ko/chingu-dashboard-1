@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Spinner } from "@chingu-x/components/spinner";
 import TeamMember from "./TeamMember";
-import { fetchTeamDirectory } from "@/store/features/my-team/myTeamSlice";
+import { fetchTeamDirectory } from "@/features/voyage-team/store/myTeamSlice";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { useMyTeam } from "@/store/hooks";
 import { myTeamAdapter } from "@/shared/utils/adapters";
