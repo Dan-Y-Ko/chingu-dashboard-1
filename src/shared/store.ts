@@ -15,7 +15,7 @@ import sprintReducer from "@/features/sprints/store/sprintSlice";
 import featuresReducer from "@/store/features/features/featuresSlice";
 import techStackReducer from "@/store/features/techStack/techStackSlice";
 import sprintMeetingReducer from "@/store/features/sprint-meeting/sprintMeetingSlice";
-import currentVoyageTeamReducer from "@/store/features/current-voyage-team/currentVoyageTeamSlice";
+import currentVoyageTeamReducer from "@/features/voyage-team/store/currentVoyageTeamSlice";
 import modalReducer from "@/store/features/modal/modalSlice";
 
 const createNoopStorage = () => ({

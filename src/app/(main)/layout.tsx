@@ -14,7 +14,7 @@ import { CacheTag } from "@/shared/utils/cacheTag";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import ChinguMenu from "@/shared/components/navbar/ChinguMenu";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { setCurrentVoyageTeam } from "@/store/features/current-voyage-team/currentVoyageTeamSlice";
+import { setCurrentVoyageTeam } from "@/features/voyage-team/store/currentVoyageTeamSlice";
 import Sidebar from "@/shared/components/sidebar/Sidebar";
 import { useGetCurrentVoyageTeam } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import { useFetchUserQuery } from "@/features/user/hooks/useFetchUserQuery";
