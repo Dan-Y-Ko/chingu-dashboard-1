@@ -125,3 +125,19 @@ export function useGetSprintMeetingId({
 
   return { sprintMeetingId };
 }
+
+interface UseGetSprintAgendasProps {
+  meetingId: string;
+}
+
+export function useGetSprintAgendas({ meetingId }: UseGetSprintAgendasProps) {
+  const sprintMeeting = useSprintMeetingStateSelector();
+
+  const agendas =
+    sprintMeetingAdapter.getSprintMeeting({
+      meeting: sprintMeeting,
+      meetingId,
+    })?.agendas ?? [];
+
+  return { agendas };
+}

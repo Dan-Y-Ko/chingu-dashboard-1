@@ -3,24 +3,21 @@
 import "reflect-metadata";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import type { Sprint } from "@chingu-x/modules/sprints";
 import { Forms } from "@chingu-x/modules/forms";
-import { useQuery } from "@tanstack/react-query";
 import { BannerContainer } from "@chingu-x/components/banner-container";
 import { Banner } from "@chingu-x/components/banner";
 import { Spinner } from "@chingu-x/components/spinner";
 import { useEffect } from "react";
-import { currentDate } from "@/shared/utils/getCurrentDate";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
-import { useAppDispatch } from "@/shared/store";
 import {
-  sprintsAdapter,
   useGetCurrentSprint,
+  useGetSprintCheckinStatus,
 } from "@/features/sprints/hooks/useSprintsAdapters";
-import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
-import { CacheTag } from "@/shared/utils/cacheTag";
-import { fetchMeeting } from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import {
+  useGetSprintAgendas,
+  useGetSprintMeeting,
+} from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import routePaths from "@/shared/utils/routePaths";
 import { useIsVoyageProjectSubmittedStatus } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import ProgressStepper from "@/features/sprints/components/ProgressStepper";
@@ -28,9 +25,8 @@ import SprintActions from "@/features/sprints/components/SprintActions";
 import MeetingOverview from "@/features/sprint-meeting/components/meeting-overview/MeetingOverview";
 import Agendas from "@/features/sprint-meeting/components/agenda/Agendas";
 import Sections from "@/features/sprint-meeting/components/sections/Sections";
-import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
 import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
-import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import { useFetchSprintMeetingQuery } from "@/features/sprint-meeting/hooks/useFetchSprintMeetingQuery";
 
 interface SprintWeekPageProps {
   params: {
@@ -43,24 +39,21 @@ interface SprintWeekPageProps {
 export default function SprintWeekPage({ params }: SprintWeekPageProps) {
   const { teamId } = params;
   const { sprintNumber, meetingId } = params;
-  const user = useUserStateSelector();
   const sprints = useSprintStateSelector();
-  const sprintMeeting = useSprintMeetingStateSelector();
   const router = useRouter();
-
-  const { currentSprint } = useGetCurrentSprint();
-
-  const currentSprintNumber = currentSprint!.number;
-
-  const agendas =
-    sprintMeetingAdapter.getSprintMeeting({
-      meeting: sprintMeeting,
-      meetingId,
-    })?.agendas ?? [];
-
+  const { meeting } = useGetSprintMeeting({ meetingId });
+  const { agendas } = useGetSprintAgendas({ meetingId });
   const { isVoyageProjectSubmitted } = useIsVoyageProjectSubmittedStatus({
     teamId,
   });
+  const { currentSprint } = useGetCurrentSprint();
+  const currentSprintNumber = currentSprint!.number;
+
+  const {
+    isFetchSprintMeetingPendng,
+    isFetchSprintMeetingError,
+    fetchSprintMeetingError,
+  } = useFetchSprintMeetingQuery({ meetingId, teamId });
 
   useEffect(() => {
     if (sprints.sprints.length < 1) {
@@ -68,7 +61,23 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
     }
   }, [router, sprints.sprints.length, teamId]);
 
-  if (isPending) {
+  // Check if a checkin form for the current sprint has been submitted
+  const { sprintCheckinIsSubmitted } = useGetSprintCheckinStatus({
+    id: currentSprint!.id,
+  });
+
+  // Redirect if a user tries to access a sprint which hasn't started yet
+  useEffect(() => {
+    if (currentSprintNumber) {
+      if (Number(sprintNumber) > currentSprintNumber) {
+        router.push(
+          routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
+        );
+      }
+    }
+  }, [currentSprintNumber, router, sprintNumber, teamId]);
+
+  if (isFetchSprintMeetingPendng) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Spinner />
@@ -76,27 +85,14 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
     );
   }
 
-  if (isError) {
+  if (isFetchSprintMeetingError) {
     return (
       <ErrorComponent
         errorType={ErrorType.FETCH_SPRINT}
-        message={error.message}
+        message={fetchSprintMeetingError!.message}
       />
     );
   }
-
-  // Redirect if a user tries to access a sprint which hasn't started yet
-  if (Number(sprintNumber) > currentSprintNumber) {
-    router.push(
-      routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
-    );
-  }
-
-  // Check if a checkin form for the current sprint has been submitted
-  const sprintCheckinIsSubmitted = sprintsAdapter.getSprintCheckinStatus({
-    user,
-    sprintId: currentSprint!.id,
-  });
 
   if (isVoyageProjectSubmitted) {
     router.push(routePaths.sprintsPage(teamId));
@@ -133,31 +129,39 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
           width="w-[276px]"
         />
       </BannerContainer>
+      {currentSprint && (
+        <>
+          <ProgressStepper currentSprintNumber={currentSprintNumber} />
+          <SprintActions
+            params={params}
+            sprintCheckinIsSubmitted={sprintCheckinIsSubmitted}
+            voyageProjectIsSubmitted={isVoyageProjectSubmitted}
+            currentSprintNumber={currentSprintNumber}
+          />
+        </>
+      )}
 
-      <ProgressStepper currentSprintNumber={currentSprintNumber} />
-      <SprintActions
-        params={params}
-        sprintCheckinIsSubmitted={sprintCheckinIsSubmitted}
-        voyageProjectIsSubmitted={isVoyageProjectSubmitted}
-        currentSprintNumber={currentSprintNumber}
-      />
-      <MeetingOverview
-        title={data.title!}
-        dateTime={data.dateTime!}
-        meetingLink={data.meetingLink!}
-        description={data.description!}
-      />
+      {meeting && (
+        <MeetingOverview
+          title={meeting.title!}
+          dateTime={meeting.dateTime!}
+          meetingLink={meeting.meetingLink!}
+          description={meeting.description!}
+        />
+      )}
       <Agendas params={params} topics={agendas} />
-      <Sections
-        params={params}
-        notes={data.notes}
-        planning={data.formResponseMeeting!.find(
-          (section) => section.form.id === Number(Forms.planning),
-        )}
-        review={data.formResponseMeeting!.find(
-          (section) => section.form.id === Number(Forms.review),
-        )}
-      />
+      {meeting && (
+        <Sections
+          params={params}
+          notes={meeting.notes}
+          planning={meeting.formResponseMeeting?.find(
+            (section) => section.form.id === Number(Forms.planning),
+          )}
+          review={meeting.formResponseMeeting?.find(
+            (section) => section.form.id === Number(Forms.review),
+          )}
+        />
+      )}
     </div>
   );
 }
