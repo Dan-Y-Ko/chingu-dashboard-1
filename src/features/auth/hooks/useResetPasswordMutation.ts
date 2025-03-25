@@ -3,7 +3,7 @@ import type {
   ResetPasswordResponseDto,
 } from "@chingu-x/modules/auth";
 import { useMutation } from "@tanstack/react-query";
-import { authAdapter } from "./useAuthAdapters";
+import { useResetPassword } from "./useAuthAdapters";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { useAppDispatch } from "@/shared/store";
 
@@ -15,6 +15,7 @@ export function useResetPasswordMutation({
   onClick,
 }: UseResetPasswordMutationProps) {
   const dispatch = useAppDispatch();
+  const { resetPassword } = useResetPassword();
 
   const { mutate: resetPasswordMutation, isPending: isResetPasswordPending } =
     useMutation<ResetPasswordResponseDto, Error, ResetPasswordClientRequestDto>(
@@ -35,7 +36,7 @@ export function useResetPasswordMutation({
     password,
     token,
   }: ResetPasswordClientRequestDto): Promise<ResetPasswordResponseDto> {
-    return await authAdapter.resetPassword({ password, token });
+    return await resetPassword({ password, token });
   }
 
   return {

@@ -2,18 +2,11 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { useSearchParams } from "next/navigation";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import type {
-  ResetPasswordClientRequestDto,
-  ResetPasswordResponseDto,
-} from "@chingu-x/modules/auth";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { useAppDispatch } from "@/store/hooks";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { authAdapter } from "@/shared/utils/adapters";
+import { useResetPasswordMutation } from "@/features/auth/hooks/useResetPasswordMutation";
 
 const validationSchema = z.object({
   password: validateTextInput({
@@ -33,9 +26,11 @@ type NewPasswordContainerProps = {
 function NewPasswordContainer({ onClick }: NewPasswordContainerProps) {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
+  const { isResetPasswordPending, resetPasswordMutation } =
+    useResetPasswordMutation({ onClick });
 
   function renderButtonContent() {
-    return isPending ? <Spinner /> : "Update New Password";
+    return isResetPasswordPending ? <Spinner /> : "Update New Password";
   }
 
   const {
@@ -51,7 +46,7 @@ function NewPasswordContainer({ onClick }: NewPasswordContainerProps) {
     if (token) {
       const { password } = data;
 
-      mutate({ password, token });
+      resetPasswordMutation({ password, token });
     }
   };
 
@@ -81,7 +76,7 @@ function NewPasswordContainer({ onClick }: NewPasswordContainerProps) {
           <Button
             type="submit"
             title="submit"
-            disabled={!isDirty || !isValid || isPending}
+            disabled={!isDirty || !isValid || isResetPasswordPending}
           >
             {renderButtonContent()}
           </Button>
