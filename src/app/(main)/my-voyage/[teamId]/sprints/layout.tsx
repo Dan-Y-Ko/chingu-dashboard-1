@@ -1,16 +1,10 @@
 "use client";
 
 import "reflect-metadata";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { Spinner } from "@chingu-x/components/spinner";
 import ErrorComponent from "@/shared/components/Error";
-import { fetchTeamDirectory } from "@/features/voyage-team/store/myTeamSlice";
-import { useAppDispatch } from "@/shared/store";
-import { myTeamAdapter } from "@/shared/utils/adapters";
-import { CacheTag } from "@/shared/utils/cacheTag";
 import { ErrorType } from "@/shared/utils/error";
-import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import { useFetchMyTeamQuery } from "@/features/voyage-team/hooks/useFetchMyTeamQuery";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -21,15 +15,17 @@ interface LayoutProps {
 
 export default function Layout({ children, params }: LayoutProps) {
   const { teamId } = params;
+  const { isFetchMyTeamPending, isFetchMyTeamError, fetchMyTeamError } =
+    useFetchMyTeamQuery({ teamId });
 
-  if (isError) {
+  if (isFetchMyTeamError) {
     <ErrorComponent
       errorType={ErrorType.FETCH_MY_TEAM}
-      message={error.message}
+      message={fetchMyTeamError!.message}
     />;
   }
 
-  if (isPending) {
+  if (isFetchMyTeamPending) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Spinner />
