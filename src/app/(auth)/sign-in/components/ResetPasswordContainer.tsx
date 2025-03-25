@@ -12,10 +12,10 @@ import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { useAppDispatch } from "@/store/hooks";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
 import routePaths from "@/shared/utils/routePaths";
-import { authAdapter } from "@/shared/utils/adapters";
+import { useAppDispatch } from "@/shared/store";
+import { authAdapter } from "@/features/auth/hooks/useAuthAdapters";
 
 const validationSchema = z.object({
   email: validateTextInput({

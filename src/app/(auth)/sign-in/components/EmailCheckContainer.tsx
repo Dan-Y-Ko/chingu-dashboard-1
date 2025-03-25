@@ -8,10 +8,10 @@ import { Banner } from "@chingu-x/components/banner";
 import Image from "next/image";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
-import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { authAdapter } from "@/shared/utils/adapters";
 import { ContainerState } from "@/app/(auth)/sign-in/page";
+import { useAppDispatch } from "@/shared/store";
+import { authAdapter } from "@/features/auth/hooks/useAuthAdapters";
 
 type ResendEmailContainerProp = {
   email: string;

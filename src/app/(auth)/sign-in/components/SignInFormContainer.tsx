@@ -15,8 +15,8 @@ import { validateTextInput } from "@/shared/utils/form/validateInput";
 import { clientSignIn } from "@/features/auth/store/authSlice";
 import routePaths from "@/shared/utils/routePaths";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { authAdapter } from "@/shared/utils/adapters";
 import { useAppDispatch } from "@/shared/store";
+import { authAdapter } from "@/features/auth/hooks/useAuthAdapters";
 
 const validationSchema = z.object({
   email: validateTextInput({
