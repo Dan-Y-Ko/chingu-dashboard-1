@@ -45,7 +45,7 @@ export function useRequestRestPasswordMutation({
   async function requestResetPasswordMutationFn({
     email,
   }: RequestResetPasswordClientRequestDto): Promise<RequestResetPasswordResponseDto> {
-    return requestResetPassword({ email });
+    return await requestResetPassword({ email });
   }
 
   return {

@@ -2,6 +2,7 @@ import { resolve } from "@chingu-x/modules/resolver";
 import { TYPES } from "@chingu-x/modules/di-types";
 import type {
   AuthClientAdapter,
+  LoginClientRequestDto,
   RequestResetPasswordClientRequestDto,
   ResetPasswordClientRequestDto,
 } from "@chingu-x/modules/auth";
@@ -31,4 +32,11 @@ export function useRequestResetPassword() {
     await authAdapter.requestResetPassword({ email });
 
   return { requestResetPassword };
+}
+
+export function useLogin() {
+  const login = async ({ email, password }: LoginClientRequestDto) =>
+    await authAdapter.login({ email, password });
+
+  return { login };
 }
