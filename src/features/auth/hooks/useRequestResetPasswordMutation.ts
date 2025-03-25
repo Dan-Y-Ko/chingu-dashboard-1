@@ -3,11 +3,20 @@ import type {
   RequestResetPasswordResponseDto,
 } from "@chingu-x/modules/auth";
 import { useMutation } from "@tanstack/react-query";
+import type { Dispatch, SetStateAction } from "react";
 import { useRequestResetPassword } from "./useAuthAdapters";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { useAppDispatch } from "@/shared/store";
 
-export function useRequestRestPasswordMutation() {
+interface UseRequestRestPasswordMutationProps {
+  handleEmailCheck?: () => void;
+  setEmail?: Dispatch<SetStateAction<string>>;
+}
+
+export function useRequestRestPasswordMutation({
+  handleEmailCheck,
+  setEmail,
+}: UseRequestRestPasswordMutationProps) {
   const dispatch = useAppDispatch();
   const { requestResetPassword } = useRequestResetPassword();
 
@@ -20,6 +29,12 @@ export function useRequestRestPasswordMutation() {
     RequestResetPasswordClientRequestDto
   >({
     mutationFn: requestResetPasswordMutationFn,
+    onSuccess: (_, variables) => {
+      if (handleEmailCheck && setEmail) {
+        handleEmailCheck();
+        setEmail(variables.email);
+      }
+    },
     onError: (error: Error) => {
       dispatch(
         onOpenModal({ type: "error", content: { message: error.message } }),
