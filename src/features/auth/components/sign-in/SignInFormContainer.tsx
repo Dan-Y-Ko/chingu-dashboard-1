@@ -1,22 +1,13 @@
 import * as z from "zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import type {
-  LoginClientRequestDto,
-  LoginResponseDto,
-} from "@chingu-x/modules/auth";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { clientSignIn } from "@/features/auth/store/authSlice";
 import routePaths from "@/shared/utils/routePaths";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { useAppDispatch } from "@/shared/store";
-import { authAdapter } from "@/features/auth/hooks/useAuthAdapters";
+import { useLoginMutation } from "@/features/auth/hooks/useLoginMutation";
 
 const validationSchema = z.object({
   email: validateTextInput({
@@ -41,6 +32,8 @@ interface SignInFormContainerProps {
 function SignInFormContainer({
   handleResetPassword,
 }: SignInFormContainerProps) {
+  const { isLoginMutationPending, loginMutation } = useLoginMutation();
+
   const {
     register,
     formState: { errors, isDirty, isValid },
@@ -52,11 +45,11 @@ function SignInFormContainer({
 
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     const { email, password } = data;
-    mutate({ email, password });
+    loginMutation({ email, password });
   };
 
   function renderButtonContent() {
-    return isPending ? <Spinner /> : "Sign In";
+    return isLoginMutationPending ? <Spinner /> : "Sign In";
   }
 
   return (
@@ -91,7 +84,7 @@ function SignInFormContainer({
         <Button
           type="submit"
           title="submit"
-          disabled={!isDirty || !isValid || isPending}
+          disabled={!isDirty || !isValid || isLoginMutationPending}
         >
           {renderButtonContent()}
         </Button>
