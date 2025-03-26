@@ -21,7 +21,7 @@ export function useFetchMyTeamQuery({ teamId }: UseFetchMyTeamQueryProps) {
     error: fetchMyTeamError,
     data,
   } = useQuery({
-    queryKey: [CacheTag.myTeam, { teamId: `${teamId}` }],
+    queryKey: [CacheTag.myTeam, { teamId }],
     queryFn: () => getMyTeamQuery(),
   });
 

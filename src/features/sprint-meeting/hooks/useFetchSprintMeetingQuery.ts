@@ -21,7 +21,7 @@ export function useFetchSprintMeetingQuery({
     error: fetchSprintMeetingError,
     data,
   } = useQuery({
-    queryKey: [CacheTag.sprintMeetingId, { meetingId: `${meetingId}` }],
+    queryKey: [CacheTag.sprintMeetingId, { meetingId }],
     queryFn: fetchMeetingQuery,
     staleTime: 1000 * 60 * 5,
   });

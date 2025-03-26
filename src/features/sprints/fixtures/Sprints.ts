@@ -1,6 +1,6 @@
 import { addWeeks, subWeeks } from "date-fns";
 
-export interface TeamMeating {
+export interface TeamMeeting {
   id: number;
 }
 
@@ -9,7 +9,7 @@ export interface Sprint {
   number: number;
   startDate: string;
   endDate: string;
-  teamMeetings: TeamMeating[];
+  teamMeetings: TeamMeeting[];
 }
 
 const currentDateTime = new Date();

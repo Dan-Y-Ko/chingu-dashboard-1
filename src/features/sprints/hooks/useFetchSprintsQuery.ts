@@ -19,7 +19,7 @@ export function useFetchSprintsQuery({ teamId }: UseFetchSprintsQueryProps) {
     error: fetchSprintsError,
     data,
   } = useQuery({
-    queryKey: [CacheTag.sprints],
+    queryKey: [CacheTag.sprints, { teamId }],
     queryFn: fetchSprintsQuery,
   });
 

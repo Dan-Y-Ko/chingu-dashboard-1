@@ -14,10 +14,7 @@ export function useFetchSprintMeetingFormQuery({
   const { fetchSprintMeetingForm } = useFetchSprintMeetingForm();
 
   useQuery({
-    queryKey: [
-      CacheTag.fetchSprintMeetingFormFn,
-      { meetingId: `${meetingId}` },
-    ],
+    queryKey: [CacheTag.fetchSprintMeetingFormFn, { meetingId }],
     queryFn: fetchSprintMeetingFormFn,
     enabled: false,
   });
