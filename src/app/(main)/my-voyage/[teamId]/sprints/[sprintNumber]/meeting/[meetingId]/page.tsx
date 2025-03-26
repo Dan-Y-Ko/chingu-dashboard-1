@@ -63,7 +63,7 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
 
   // Check if a checkin form for the current sprint has been submitted
   const { sprintCheckinIsSubmitted } = useGetSprintCheckinStatus({
-    id: currentSprint!.id,
+    id: currentSprint?.id,
   });
 
   // Redirect if a user tries to access a sprint which hasn't started yet
@@ -77,7 +77,7 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
     }
   }, [currentSprintNumber, router, sprintNumber, teamId]);
 
-  if (isFetchSprintMeetingPendng) {
+  if (isFetchSprintMeetingPendng || !currentSprint || !meeting) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Spinner />
@@ -129,39 +129,32 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
           width="w-[276px]"
         />
       </BannerContainer>
-      {currentSprint && (
-        <>
-          <ProgressStepper currentSprintNumber={currentSprintNumber!} />
-          <SprintActions
-            params={params}
-            sprintCheckinIsSubmitted={sprintCheckinIsSubmitted}
-            voyageProjectIsSubmitted={isVoyageProjectSubmitted}
-            currentSprintNumber={currentSprintNumber!}
-          />
-        </>
-      )}
-
-      {meeting && (
-        <MeetingOverview
-          title={meeting.title!}
-          dateTime={meeting.dateTime!}
-          meetingLink={meeting.meetingLink!}
-          description={meeting.description!}
-        />
-      )}
-      <Agendas params={params} topics={agendas} />
-      {meeting && (
-        <Sections
+      <>
+        <ProgressStepper currentSprintNumber={currentSprintNumber!} />
+        <SprintActions
           params={params}
-          notes={meeting.notes}
-          planning={meeting.formResponseMeeting?.find(
-            (section) => section.form.id === Number(Forms.planning),
-          )}
-          review={meeting.formResponseMeeting?.find(
-            (section) => section.form.id === Number(Forms.review),
-          )}
+          sprintCheckinIsSubmitted={sprintCheckinIsSubmitted!}
+          voyageProjectIsSubmitted={isVoyageProjectSubmitted}
+          currentSprintNumber={currentSprintNumber!}
         />
-      )}
+      </>
+      <MeetingOverview
+        title={meeting.title!}
+        dateTime={meeting.dateTime!}
+        meetingLink={meeting.meetingLink!}
+        description={meeting.description!}
+      />
+      <Agendas params={params} topics={agendas} />
+      <Sections
+        params={params}
+        notes={meeting.notes}
+        planning={meeting.formResponseMeeting?.find(
+          (section) => section.form.id === Number(Forms.planning),
+        )}
+        review={meeting.formResponseMeeting?.find(
+          (section) => section.form.id === Number(Forms.review),
+        )}
+      />
     </div>
   );
 }

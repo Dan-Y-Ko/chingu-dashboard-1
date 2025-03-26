@@ -6,6 +6,7 @@ import { BannerContainer } from "@chingu-x/components/banner-container";
 import { Banner } from "@chingu-x/components/banner";
 import Image from "next/image";
 import { useEffect } from "react";
+import { Spinner } from "@chingu-x/components/spinner";
 import {
   useGetCurrentSprint,
   useGetSprintCheckinStatus,
@@ -78,6 +79,10 @@ export default function EmptySprintPage({ params }: EmptySprintPageProps) {
     router.push(routePaths.sprintsPage(teamId));
   }
 
+  if (!currentSprint) {
+    return <Spinner />;
+  }
+
   return (
     <div className="flex w-full flex-col gap-y-10">
       <BannerContainer
@@ -109,18 +114,13 @@ export default function EmptySprintPage({ params }: EmptySprintPageProps) {
           width="w-[276px]"
         />
       </BannerContainer>
-      {currentSprint && (
-        <>
-          <ProgressStepper currentSprintNumber={currentSprintNumber} />
-          <SprintActions
-            params={params}
-            sprintCheckinIsSubmitted={sprintCheckinIsSubmitted}
-            voyageProjectIsSubmitted={isVoyageProjectSubmitted}
-            currentSprintNumber={currentSprintNumber}
-          />
-        </>
-      )}
-
+      <ProgressStepper currentSprintNumber={currentSprintNumber} />
+      <SprintActions
+        params={params}
+        sprintCheckinIsSubmitted={sprintCheckinIsSubmitted!}
+        voyageProjectIsSubmitted={isVoyageProjectSubmitted}
+        currentSprintNumber={currentSprintNumber}
+      />
       <EmptySprintState />
     </div>
   );

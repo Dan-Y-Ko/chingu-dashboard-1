@@ -37,7 +37,7 @@ export function useFetchAllSprints() {
 }
 
 interface UseGetSprintCheckinStatusProps {
-  id: number;
+  id: number | undefined;
 }
 
 export function useGetSprintCheckinStatus({
@@ -45,10 +45,14 @@ export function useGetSprintCheckinStatus({
 }: UseGetSprintCheckinStatusProps) {
   const user = useUserStateSelector();
 
-  const sprintCheckinIsSubmitted = sprintsAdapter.getSprintCheckinStatus({
-    user,
-    sprintId: id,
-  });
+  let sprintCheckinIsSubmitted;
+
+  if (id) {
+    sprintCheckinIsSubmitted = sprintsAdapter.getSprintCheckinStatus({
+      user,
+      sprintId: id,
+    });
+  }
 
   return { sprintCheckinIsSubmitted };
 }
