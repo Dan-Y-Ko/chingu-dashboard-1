@@ -12,7 +12,10 @@ import {
 } from "@heroicons/react/24/solid";
 import { Button } from "@chingu-x/components/button";
 import routePaths from "@/shared/utils/routePaths";
-import { sprintsAdapter } from "@/features/sprints/hooks/useSprintsAdapters";
+import {
+  useIsCurrentSprint,
+  useIsVoyageProjestSubmissionAllowed,
+} from "@/features/sprints/hooks/useSprintsAdapters";
 
 interface SprintActionsProps {
   params: {
@@ -37,13 +40,14 @@ export default function SprintActions({
     params.sprintNumber,
   ];
 
-  const isCurrentSprint = sprintsAdapter.isCurrentSprint({
+  const { isCurrentSprint } = useIsCurrentSprint({
     sprintNumber,
     currentSprintNumber,
   });
-  const submitVoyageIsAllowed = sprintsAdapter.isVoyageProjestSubmissionAllowed(
-    { sprintNumber },
-  );
+
+  const { submitVoyageIsAllowed } = useIsVoyageProjestSubmissionAllowed({
+    sprintNumber,
+  });
 
   function renderWeeklyCheckinButton() {
     if (sprintCheckinIsSubmitted) {
@@ -53,29 +57,24 @@ export default function SprintActions({
           Check-in Submitted
         </Button>
       );
-    } else {
-      if (isCurrentSprint) {
-        return (
-          <Button
-            variant="primary"
-            size="lg"
-            className="group"
-            disabled={false}
-          >
-            <DocumentCheckIcon className="h-[18px] w-[18px]" />
-            Submit Check-in
-            <ArrowRightIcon className="h-[18px] w-0 transition-all group-hover:w-[18px]" />
-          </Button>
-        );
-      } else {
-        return (
-          <Button variant="primary" size="lg" className="group" disabled={true}>
-            <DocumentCheckIcon className="h-[18px] w-[18px]" />
-            Submit Check-in
-          </Button>
-        );
-      }
     }
+
+    if (isCurrentSprint) {
+      return (
+        <Button variant="primary" size="lg" className="group" disabled={false}>
+          <DocumentCheckIcon className="h-[18px] w-[18px]" />
+          Submit Check-in
+          <ArrowRightIcon className="h-[18px] w-0 transition-all group-hover:w-[18px]" />
+        </Button>
+      );
+    }
+
+    return (
+      <Button variant="primary" size="lg" className="group" disabled={true}>
+        <DocumentCheckIcon className="h-[18px] w-[18px]" />
+        Submit Check-in
+      </Button>
+    );
   }
 
   function renderSubmitVoyageButton() {
@@ -92,28 +91,28 @@ export default function SprintActions({
             Voyage Submitted
           </Button>
         );
-      } else {
-        return (
-          <Button
-            variant="secondary"
-            size="lg"
-            className="group"
-            disabled={false}
-          >
-            <RocketLaunchIcon className="h-[18px] w-[18px]" />
-            Submit Voyage
-            <ArrowRightIcon className="h-[18px] w-0 transition-all group-hover:w-[18px]" />
-          </Button>
-        );
       }
-    } else {
+
       return (
-        <Button variant="secondary" size="lg" className="group" disabled={true}>
-          <SolidRocketLaunchIcon className="h-[18px] w-[18px]" />
-          {voyageProjectIsSubmitted ? "Voyage Submitted" : "Submit Voyage"}
+        <Button
+          variant="secondary"
+          size="lg"
+          className="group"
+          disabled={false}
+        >
+          <RocketLaunchIcon className="h-[18px] w-[18px]" />
+          Submit Voyage
+          <ArrowRightIcon className="h-[18px] w-0 transition-all group-hover:w-[18px]" />
         </Button>
       );
     }
+
+    return (
+      <Button variant="secondary" size="lg" className="group" disabled={true}>
+        <SolidRocketLaunchIcon className="h-[18px] w-[18px]" />
+        {voyageProjectIsSubmitted ? "Voyage Submitted" : "Submit Voyage"}
+      </Button>
+    );
   }
 
   return (

@@ -56,3 +56,34 @@ export function useGetSprintCheckinStatus({
 
   return { sprintCheckinIsSubmitted };
 }
+
+interface UseIsCurrentSprintProps {
+  sprintNumber: string;
+  currentSprintNumber: number;
+}
+
+export function useIsCurrentSprint({
+  sprintNumber,
+  currentSprintNumber,
+}: UseIsCurrentSprintProps) {
+  const isCurrentSprint = sprintsAdapter.isCurrentSprint({
+    sprintNumber,
+    currentSprintNumber,
+  });
+
+  return { isCurrentSprint };
+}
+
+interface UseIsVoyageProjestSubmissionAllowedProps {
+  sprintNumber: string;
+}
+
+export function useIsVoyageProjestSubmissionAllowed({
+  sprintNumber,
+}: UseIsVoyageProjestSubmissionAllowedProps) {
+  const submitVoyageIsAllowed = sprintsAdapter.isVoyageProjestSubmissionAllowed(
+    { sprintNumber },
+  );
+
+  return { submitVoyageIsAllowed };
+}
