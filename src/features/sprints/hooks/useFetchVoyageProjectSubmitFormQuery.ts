@@ -1,10 +1,20 @@
-import { CacheTag } from "@/shared/utils/cacheTag";
 import { useQuery } from "@tanstack/react-query";
+import { formsAdapter } from "@/shared/utils/adapters";
+import { CacheTag } from "@/shared/utils/cacheTag";
+
+interface UseFetchVoyageProjectSubmitFormQueryProps {
+  teamId: string;
+}
 
 export function useFetchVoyageProjectSubmitFormQuery({
   teamId,
-}: UseFetchSprintsQueryProps) {
-  const { isPending, isError, error, data } = useQuery({
+}: UseFetchVoyageProjectSubmitFormQueryProps) {
+  const {
+    isPending: isFetchVoyageProjectSubmitFormPending,
+    isError: isFetchVoyageProjectSubmitFormError,
+    error: fetchVoyageProjectSubmitFormError,
+    data: voyageProjectSubmitForm,
+  } = useQuery({
     queryKey: [CacheTag.voyageProjectSubmissionForm, { teamId }],
     queryFn: fetchVoyageProjectSubmitFormQuery,
   });
@@ -14,8 +24,9 @@ export function useFetchVoyageProjectSubmitFormQuery({
   }
 
   return {
-    isFetchSprintsPending,
-    isFetchSprintsError,
-    fetchSprintsError,
+    isFetchVoyageProjectSubmitFormPending,
+    isFetchVoyageProjectSubmitFormError,
+    fetchVoyageProjectSubmitFormError,
+    voyageProjectSubmitForm,
   };
 }

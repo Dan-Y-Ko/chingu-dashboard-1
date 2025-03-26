@@ -33,9 +33,7 @@ export default function VoyageSubmissionPage({
 }: VoyageSubmissionPageProps) {
   const { teamId } = params;
   const sprintNumber = Number(params.sprintNumber);
-  const user = useUserStateSelector();
   const router = useRouter();
-
   const { currentSprint } = useGetCurrentSprint();
   const currentSprintNumber = currentSprint?.number;
 

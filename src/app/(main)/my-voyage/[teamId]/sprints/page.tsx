@@ -13,7 +13,7 @@ import routePaths from "@/shared/utils/routePaths";
 import VoyageSubmittedMessage from "@/features/sprints/components/VoyageSubmittedMessage";
 import { useIsVoyageProjectSubmittedStatus } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import { useGetCurrentSprint } from "@/features/sprints/hooks/useSprintsAdapters";
-import { useFetchSprintsQuery } from "@/features/sprints/hooks/useFetchSprints";
+import { useFetchSprintsQuery } from "@/features/sprints/hooks/useFetchSprintsQuery";
 
 interface SprintsPageProps {
   params: {
