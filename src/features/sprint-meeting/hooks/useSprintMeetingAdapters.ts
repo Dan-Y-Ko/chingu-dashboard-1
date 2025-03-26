@@ -5,11 +5,11 @@ import type {
   EditMeetingClientRequestDto,
   FetchMeetingClientRequestDto,
   FetchSprintMeetingFormClientRequestDto,
+  GetSprintMeetingIdClientRequesDto,
   GetSprintMeetingSectionResponsesClientRequestDto,
   SprintMeetingClientAdapter,
 } from "@chingu-x/modules/sprint-meeting";
 import { useSprintMeetingStateSelector } from "./useSprintMeetingStateSelector";
-import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 
 export const sprintMeetingAdapter = resolve<SprintMeetingClientAdapter>(
   TYPES.SprintMeetingClientAdapter,
@@ -110,21 +110,17 @@ export function useAddSprintMeetingNotesSection() {
   return { addSprintMeetingNotesSection };
 }
 
-interface UseGetSprintMeetingIdProps {
-  sprintNumber: number;
-}
-
-export function useGetSprintMeetingId({
-  sprintNumber,
-}: UseGetSprintMeetingIdProps) {
-  const sprints = useSprintStateSelector();
-
-  const sprintMeetingId = sprintMeetingAdapter.getSprintMeetingId({
-    sprints: sprints.sprints,
+export function useGetSprintMeetingId() {
+  const getSprintMeetingId = ({
+    sprints,
     sprintNumber,
-  });
+  }: GetSprintMeetingIdClientRequesDto) =>
+    sprintMeetingAdapter.getSprintMeetingId({
+      sprints,
+      sprintNumber,
+    });
 
-  return { sprintMeetingId };
+  return { getSprintMeetingId };
 }
 
 interface UseGetSprintAgendasProps {

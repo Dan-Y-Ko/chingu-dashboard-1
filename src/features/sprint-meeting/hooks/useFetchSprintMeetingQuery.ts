@@ -30,6 +30,7 @@ export function useFetchSprintMeetingQuery({
       { teamId, user: `${user.id}`, meetingId: `${meetingId}` },
     ],
     queryFn: fetchMeetingQuery,
+    staleTime: 1000 * 60 * 5,
   });
 
   async function fetchMeetingQuery() {

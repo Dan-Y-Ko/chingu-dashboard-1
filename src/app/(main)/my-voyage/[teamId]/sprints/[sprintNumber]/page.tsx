@@ -16,6 +16,7 @@ import ProgressStepper from "@/features/sprints/components/ProgressStepper";
 import SprintActions from "@/features/sprints/components/SprintActions";
 import EmptySprintState from "@/features/sprints/components/EmptySprintState";
 import { useGetSprintMeetingId } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
+import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 
 interface EmptySprintPageProps {
   params: {
@@ -27,13 +28,18 @@ interface EmptySprintPageProps {
 export default function EmptySprintPage({ params }: EmptySprintPageProps) {
   const { teamId } = params;
   const sprintNumber = Number(params.sprintNumber);
+  const sprints = useSprintStateSelector();
   const router = useRouter();
   const { isVoyageProjectSubmitted } = useIsVoyageProjectSubmittedStatus({
     teamId,
   });
+  const { getSprintMeetingId } = useGetSprintMeetingId();
+  const sprintMeetingId = getSprintMeetingId({
+    sprints: sprints.sprints,
+    sprintNumber,
+  });
 
   // Check if a meeting exists
-  const { sprintMeetingId } = useGetSprintMeetingId({ sprintNumber });
 
   // Get current sprint number
   const { currentSprint } = useGetCurrentSprint();

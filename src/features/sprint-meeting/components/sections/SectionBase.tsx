@@ -12,11 +12,13 @@ import { Spinner } from "@chingu-x/components/spinner";
 import { cn } from "@chingu-x/components/tw-merge";
 import { useAddSprintMeetingPlanningReviewSectionMutation } from "@/features/sprint-meeting/hooks/useAddSprintMeetingPlanningReviewSectionMutation";
 import { useAddSprintMeetingNotesSectionMutation } from "@/features/sprint-meeting/hooks/useAddSprintMeetingNotesSectionMutation";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 interface SectionBaseProps {
   params: {
     meetingId: string;
     sprintNumber: string;
+    teamId: string;
   };
   id: number;
   title: string;
@@ -35,7 +37,8 @@ export default function SectionBase({
   children,
   reorderSections,
 }: SectionBaseProps) {
-  const [meetingId] = [params.meetingId];
+  const { meetingId, teamId } = params;
+  const user = useUserStateSelector();
   const [isOpen, setIsOpen] = useState(false);
 
   // notes section
@@ -46,6 +49,9 @@ export default function SectionBase({
     reorderSections,
     title,
     setIsOpen,
+    user,
+    teamId,
+    meetingId,
   });
 
   // Planning & Retrospective&Review Sections

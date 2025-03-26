@@ -4,6 +4,7 @@ import type {
 } from "@chingu-x/modules/sprint-meeting";
 import { useMutation } from "@tanstack/react-query";
 import type { Dispatch, SetStateAction } from "react";
+import type { User } from "@chingu-x/modules/user";
 import { useAddSprintMeetingNotesSection } from "./useSprintMeetingAdapters";
 import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
@@ -12,6 +13,9 @@ interface UseAddSprintMeetingNotesSectionMutationProps {
   reorderSections: ((title: string) => void) | undefined;
   title: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  meetingId: string;
+  teamId: string;
+  user: User;
 }
 
 export function useAddSprintMeetingNotesSectionMutation({

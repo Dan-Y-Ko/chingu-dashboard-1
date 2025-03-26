@@ -47,7 +47,7 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
     teamId,
   });
   const { currentSprint } = useGetCurrentSprint();
-  const currentSprintNumber = currentSprint!.number;
+  const currentSprintNumber = currentSprint?.number;
 
   const {
     isFetchSprintMeetingPendng,
@@ -131,12 +131,12 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
       </BannerContainer>
       {currentSprint && (
         <>
-          <ProgressStepper currentSprintNumber={currentSprintNumber} />
+          <ProgressStepper currentSprintNumber={currentSprintNumber!} />
           <SprintActions
             params={params}
             sprintCheckinIsSubmitted={sprintCheckinIsSubmitted}
             voyageProjectIsSubmitted={isVoyageProjectSubmitted}
-            currentSprintNumber={currentSprintNumber}
+            currentSprintNumber={currentSprintNumber!}
           />
         </>
       )}
