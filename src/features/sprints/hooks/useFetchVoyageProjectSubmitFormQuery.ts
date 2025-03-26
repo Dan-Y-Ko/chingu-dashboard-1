@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { formsAdapter } from "@/shared/utils/adapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
+import { useFetchSubmitVoyageProjectForm } from "@/features/forms/hooks/useFormsAdapters";
 
 interface UseFetchVoyageProjectSubmitFormQueryProps {
   teamId: string;
@@ -9,6 +9,8 @@ interface UseFetchVoyageProjectSubmitFormQueryProps {
 export function useFetchVoyageProjectSubmitFormQuery({
   teamId,
 }: UseFetchVoyageProjectSubmitFormQueryProps) {
+  const { fetchSubmitVoyageProjectForm } = useFetchSubmitVoyageProjectForm();
+
   const {
     isPending: isFetchVoyageProjectSubmitFormPending,
     isError: isFetchVoyageProjectSubmitFormError,
@@ -20,7 +22,7 @@ export function useFetchVoyageProjectSubmitFormQuery({
   });
 
   async function fetchVoyageProjectSubmitFormQuery() {
-    return await formsAdapter.fetchSubmitVoyageProjectForm();
+    return await fetchSubmitVoyageProjectForm();
   }
 
   return {
