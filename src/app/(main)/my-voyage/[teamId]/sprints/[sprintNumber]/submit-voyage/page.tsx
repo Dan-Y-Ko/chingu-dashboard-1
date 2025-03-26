@@ -2,23 +2,14 @@
 
 import "reflect-metadata";
 import { useRouter } from "next/navigation";
-import type { Sprint } from "@chingu-x/modules/sprints";
-import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@chingu-x/components/spinner";
+import { useEffect } from "react";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
-import { formsAdapter } from "@/shared/utils/adapters";
-import {
-  sprintsAdapter,
-  useGetCurrentSprint,
-} from "@/features/sprints/hooks/useSprintsAdapters";
-import { currentDate } from "@/shared/utils/getCurrentDate";
-import { CacheTag } from "@/shared/utils/cacheTag";
+import { useGetCurrentSprint } from "@/features/sprints/hooks/useSprintsAdapters";
 import routePaths from "@/shared/utils/routePaths";
-import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
-import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 import VoyageSubmissionForm from "@/features/sprints/components/forms/VoyageSubmissionForm";
-import { useEffect } from "react";
+import { useFetchVoyageProjectSubmitFormQuery } from "@/features/sprints/hooks/useFetchVoyageProjectSubmitFormQuery";
 
 interface VoyageSubmissionPageProps {
   params: {
@@ -37,6 +28,13 @@ export default function VoyageSubmissionPage({
   const { currentSprint } = useGetCurrentSprint();
   const currentSprintNumber = currentSprint?.number;
 
+  const {
+    isFetchVoyageProjectSubmitFormPending,
+    isFetchVoyageProjectSubmitFormError,
+    fetchVoyageProjectSubmitFormError,
+    voyageProjectSubmitForm,
+  } = useFetchVoyageProjectSubmitFormQuery({ teamId });
+
   useEffect(() => {
     if (currentSprintNumber && currentSprintNumber !== sprintNumber) {
       router.push(
@@ -45,7 +43,7 @@ export default function VoyageSubmissionPage({
     }
   }, [currentSprintNumber, router, sprintNumber, teamId]);
 
-  if (isPending) {
+  if (isFetchVoyageProjectSubmitFormPending) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Spinner />
@@ -53,11 +51,11 @@ export default function VoyageSubmissionPage({
     );
   }
 
-  if (isError) {
+  if (isFetchVoyageProjectSubmitFormError) {
     return (
       <ErrorComponent
         errorType={ErrorType.FETCH_FORM_QUESTIONS}
-        message={error.message}
+        message={fetchVoyageProjectSubmitFormError!.message}
       />
     );
   }
@@ -65,9 +63,9 @@ export default function VoyageSubmissionPage({
   return (
     <VoyageSubmissionForm
       params={params}
-      title={data.title}
-      description={data.description}
-      questions={data.questions}
+      title={voyageProjectSubmitForm!.title}
+      description={voyageProjectSubmitForm!.description}
+      questions={voyageProjectSubmitForm!.questions}
     />
   );
 }
