@@ -53,7 +53,7 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
     isFetchSprintMeetingPendng,
     isFetchSprintMeetingError,
     fetchSprintMeetingError,
-  } = useFetchSprintMeetingQuery({ meetingId, teamId });
+  } = useFetchSprintMeetingQuery({ meetingId });
 
   useEffect(() => {
     if (sprints.sprints.length < 1) {

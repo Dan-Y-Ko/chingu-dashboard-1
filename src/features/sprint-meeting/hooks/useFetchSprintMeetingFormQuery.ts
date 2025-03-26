@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useFetchSprintMeetingForm } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
+import { CacheTag } from "@/shared/utils/cacheTag";
 
 interface UseFetchSprintMeetingFormQueryProps {
   id: number;
@@ -13,7 +14,10 @@ export function useFetchSprintMeetingFormQuery({
   const { fetchSprintMeetingForm } = useFetchSprintMeetingForm();
 
   useQuery({
-    queryKey: [],
+    queryKey: [
+      CacheTag.fetchSprintMeetingFormFn,
+      { meetingId: `${meetingId}` },
+    ],
     queryFn: fetchSprintMeetingFormFn,
     enabled: false,
   });
