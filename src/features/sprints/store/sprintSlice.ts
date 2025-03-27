@@ -63,9 +63,8 @@ export const submitWeeklyCheckin = createAction<SubmitWeeklyCheckinPayload>(
   "sprint/submitWeeklyCheckin",
 );
 
-export const submitVoyageProject = createAction<SubmitVoyageProjectPayload>(
-  "sprint/submitVoyageProject",
-);
+export const submitVoyageProjectState =
+  createAction<SubmitVoyageProjectPayload>("sprint/submitVoyageProject");
 
 export const { fetchSprintsState } = sprintSlice.actions;
 

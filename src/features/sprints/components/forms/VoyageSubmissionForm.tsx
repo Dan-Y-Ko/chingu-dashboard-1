@@ -1,26 +1,15 @@
 "use client";
 
 import { type SubmitHandler, useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import type * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Question } from "@chingu-x/modules/forms";
-import type {
-  SubmitVoyageProjectClientRequestDto,
-  SubmitVoyageProjectResponseDto,
-} from "@chingu-x/modules/sprints";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import BaseFormPage from "@/shared/components/form/BaseFormPage";
 import FormInput from "@/shared/components/form/FormInput";
-import { useAppDispatch } from "@/shared/store";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { createValidationSchema } from "@/shared/utils/form/createValidationSchema";
-import routePaths from "@/shared/utils/routePaths";
-import { CacheTag } from "@/shared/utils/cacheTag";
-import { sprintsAdapter } from "@/features/sprints/hooks/useSprintsAdapters";
-import { submitVoyageProject } from "@/features/sprints/store/sprintSlice";
+import { useEditMeetingNotesMutation } from "@/features/sprints/hooks/useSubmitVoyageProjectFormMutation";
 
 interface VoyageSubmissionFormProps {
   params: {
@@ -38,31 +27,9 @@ export default function VoyageSubmissionForm({
   description,
   questions,
 }: VoyageSubmissionFormProps) {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const queryClient = useQueryClient();
-  const [teamId, sprintNumber] = [Number(params.teamId), params.sprintNumber];
-
-  const { mutate, isPending } = useMutation<
-    SubmitVoyageProjectResponseDto,
-    Error,
-    SubmitVoyageProjectClientRequestDto
-  >({
-    mutationFn: submitVoyageProjectFormMutation,
-    mutationKey: [CacheTag.submitVoyageProjectForm],
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
-      });
-      router.push(routePaths.emptySprintPage(teamId.toString(), sprintNumber));
-      dispatch(submitVoyageProject({ teamId }));
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
+  const { sprintNumber, teamId } = params;
+  const { isSubmitVoyageProjectMutationPending, submitVoyageProjectMutation } =
+    useEditMeetingNotesMutation({ sprintNumber, teamId });
 
   const { validationSchema, defaultValues } = createValidationSchema(questions);
   type ValidationSchema = z.infer<typeof validationSchema>;
@@ -76,20 +43,12 @@ export default function VoyageSubmissionForm({
     defaultValues,
   });
 
-  async function submitVoyageProjectFormMutation({
-    data,
-    questions,
-    voyageTeamId,
-  }: SubmitVoyageProjectClientRequestDto): Promise<SubmitVoyageProjectResponseDto> {
-    return await sprintsAdapter.submitVoyageProject({
+  const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
+    submitVoyageProjectMutation({
       data,
       questions,
-      voyageTeamId,
+      voyageTeamId: Number(teamId),
     });
-  }
-
-  const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
-    mutate({ data, questions, voyageTeamId: teamId });
   };
 
   return (
@@ -114,11 +73,11 @@ export default function VoyageSubmissionForm({
         <Button
           type="submit"
           title="submit"
-          disabled={isPending}
+          disabled={isSubmitVoyageProjectMutationPending}
           size="lg"
           variant="primary"
         >
-          {isPending ? <Spinner /> : "Submit Voyage"}
+          {isSubmitVoyageProjectMutationPending ? <Spinner /> : "Submit Voyage"}
         </Button>
       </form>
     </BaseFormPage>

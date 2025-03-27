@@ -1,7 +1,7 @@
 import type { UserVoyageTeamMember } from "@chingu-x/modules/voyage-team";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import {
-  submitVoyageProject,
+  submitVoyageProjectState,
   type SubmitVoyageProjectPayload,
 } from "@/features/sprints/store/sprintSlice";
 
@@ -16,7 +16,7 @@ export const currentVoyageTeamSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(
-      submitVoyageProject,
+      submitVoyageProjectState,
       (state, action: PayloadAction<SubmitVoyageProjectPayload>) => {
         const { teamId } = action.payload;
 

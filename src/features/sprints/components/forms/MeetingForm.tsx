@@ -125,6 +125,9 @@ export default function MeetingForm() {
         queryKey: ["sprints", { teamId }],
       });
       dispatch(addMeetingState(data));
+
+      // this is needed because of an issue where if user navigates to another page and then back to sprints page,
+      // the redirections don't trigger properly for some reason (most likely some kind of caching as usual).
       window.location.href = routePaths.sprintWeekPage(
         teamId,
         sprintNumber,

@@ -3,6 +3,7 @@ import { TYPES } from "@chingu-x/modules/di-types";
 import type {
   FetchSprintsClientRequestDto,
   SprintsClientAdapter,
+  SubmitVoyageProjectClientRequestDto,
 } from "@chingu-x/modules/sprints";
 import { useSprintStateSelector } from "./useSprintStateSelector";
 import { currentDate } from "@/shared/utils/getCurrentDate";
@@ -86,4 +87,19 @@ export function useIsVoyageProjestSubmissionAllowed({
   );
 
   return { submitVoyageIsAllowed };
+}
+
+export function useSubmitVoyageProjectForm() {
+  const submitVoyageProject = async ({
+    data,
+    questions,
+    voyageTeamId,
+  }: SubmitVoyageProjectClientRequestDto) =>
+    sprintsAdapter.submitVoyageProject({
+      data,
+      questions,
+      voyageTeamId,
+    });
+
+  return { submitVoyageProject };
 }
