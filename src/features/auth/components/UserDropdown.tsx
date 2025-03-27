@@ -36,13 +36,9 @@ export default function UserDropDown({ openState }: DropdownProps) {
       <div className="rounded-lg bg-secondary-content p-2 text-xs [&>*]:m-1">
         <p className="text-[10px] font-medium text-neutral-focus">My Voyage:</p>
         {currentTeam[0]?.voyageTeam.name ? (
-          <p className="border border-transparent text-base font-medium text-base-300">
-            {currentVoyage}
-          </p>
+          <p className="text-base font-medium text-base-300">{currentVoyage}</p>
         ) : (
-          <p className="border-transparent font-semibold text-base-300">
-            {currentVoyage}
-          </p>
+          <p className="font-semibold text-base-300">{currentVoyage}</p>
         )}
       </div>
       <Link href="/hello404">

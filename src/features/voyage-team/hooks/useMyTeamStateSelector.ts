@@ -1,3 +1,4 @@
 import { useAppSelector } from "@/shared/store";
 
-export const useMyTeam = () => useAppSelector((state) => state.myTeam);
+export const useMyTeamStateSelector = () =>
+  useAppSelector((state) => state.myTeam);

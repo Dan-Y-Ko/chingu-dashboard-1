@@ -5,6 +5,7 @@ import type {
   VoyageTeamClientAdapter,
 } from "@chingu-x/modules/voyage-team";
 import { useCurrentVoyageTeamStateSelector } from "./useCurrentVoyageTeamStateSelector";
+import { useMyTeamStateSelector } from "./useMyTeamStateSelector";
 import { useAuthStateSelector } from "@/features/auth/hooks/useAuthStateSelector";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
@@ -70,4 +71,31 @@ export function useHasVoyageStarted() {
   });
 
   return { isVoyageStarted };
+}
+
+export function useGetVoyageMemberRoles() {
+  const team = useMyTeamStateSelector();
+
+  const voyageMemberRoles = voyageTeamAdapter.getVoyageMemberRoles({
+    voyageTeam: team,
+  });
+
+  return { voyageMemberRoles };
+}
+
+interface UseGetCurrentUserVoyageRoleProps {
+  teamId: string;
+}
+
+export function useGetCurrentUserVoyageRole({
+  teamId,
+}: UseGetCurrentUserVoyageRoleProps) {
+  const currentVoyageTeam = useCurrentVoyageTeamStateSelector();
+
+  const currentUserVoyageRole = voyageTeamAdapter.getCurrentUserVoyageRole({
+    currentVoyageTeam,
+    teamId,
+  });
+
+  return { currentUserVoyageRole };
 }

@@ -13,13 +13,17 @@ import routePaths from "@/shared/utils/routePaths";
 import { currentDate } from "@/shared/utils/getCurrentDate";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
-import { useMyTeam } from "@/store/hooks";
 import { formsAdapter } from "@/shared/utils/adapters";
-import { sprintsAdapter } from "@/features/sprints/hooks/useSprintsAdapters";
+import {
+  sprintsAdapter,
+  useGetCurrentSprint,
+  useGetSprintCheckinStatus,
+} from "@/features/sprints/hooks/useSprintsAdapters";
 import { voyageTeamAdapter } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
 import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import { useMyTeam } from "@/features/voyage-team/hooks/useMyTeamStateSelector";
 
 interface WeeklyCheckInPageProps {
   params: {
@@ -41,6 +45,10 @@ export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
     currentVoyageTeam,
     teamId,
   });
+  const { currentSprint } = useGetCurrentSprint();
+  const { number, id } = currentSprint as Sprint;
+  const currentSprintNumber = number;
+  const { sprintCheckinIsSubmitted } = useGetSprintCheckinStatus({ id });
 
   useEffect(() => {
     if (sprints.sprints.length === 0 || myTeam.voyageTeamMembers.length === 0) {
@@ -50,13 +58,6 @@ export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
 
   // Check if a user wants to submit a checkin form for the current sprint.
 
-  const { number, id } = sprintsAdapter.getCurrentSprint({
-    currentDate,
-    sprints: sprints.sprints,
-  }) as Sprint;
-
-  const currentSprintNumber = number;
-
   if (currentSprintNumber && currentSprintNumber !== sprintNumber) {
     router.push(
       routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
@@ -64,37 +65,8 @@ export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
   }
 
   // Check if a checkin form for the current sprint has been submitted.
-  const sprintCheckinIsSubmitted = sprintsAdapter.getSprintCheckinStatus({
-    user,
-    sprintId: id,
-  });
-
   if (sprintCheckinIsSubmitted) {
     router.push(routePaths.emptySprintPage(teamId, sprintNumber.toString()));
-  }
-
-  const { isPending, isError, error, data } = useQuery({
-    queryKey: [
-      CacheTag.weeklyCheckInForm,
-      { teamId, user: `${user.id}`, sprintNumber },
-    ],
-    queryFn: fetchWeeklyCheckinFormQuery,
-  });
-
-  async function fetchWeeklyCheckinFormQuery() {
-    const voyageTeamRoles = voyageTeamAdapter.getVoyageMemberRoles({
-      voyageTeam: myTeam,
-    });
-
-    const currentUserVoyageRole = voyageTeamAdapter.getCurrentUserVoyageRole({
-      currentVoyageTeam,
-      teamId,
-    });
-
-    return await formsAdapter.fetchWeeklyCheckinForm({
-      voyageTeamRoles,
-      currentUserVoyageRole,
-    });
   }
 
   if (isPending) {
