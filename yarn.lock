@@ -537,7 +537,7 @@ __metadata:
 
 "@chingu-x/components@file:C:\\Users\\DK379\\Documents\\web_pages\\chingu_packages\\components::locator=chingu_dashboard%40workspace%3A.":
   version: 0.11.0
-  resolution: "@chingu-x/components@file:/C%3A/Users/DK379/Documents/web_pages/chingu_packages/components#/C%3A/Users/DK379/Documents/web_pages/chingu_packages/components::hash=58790a&locator=chingu_dashboard%40workspace%3A."
+  resolution: "@chingu-x/components@file:/C%3A/Users/DK379/Documents/web_pages/chingu_packages/components#/C%3A/Users/DK379/Documents/web_pages/chingu_packages/components::hash=e7ec63&locator=chingu_dashboard%40workspace%3A."
   dependencies:
     "@heroicons/react": "npm:^2.2.0"
     class-variance-authority: "npm:^0.7.1"
@@ -548,7 +548,7 @@ __metadata:
     react: ^18.0.0
     react-dom: ^18.0.0
     tailwindcss: ^3.0.0
-  checksum: b9e3c1c6ff50c819d8c7b82d844053b75e59f5106e54428574d5eebb964d5cf07dd5afa31bade0ecb98a337d59d266bce7acb87932e063f0d7070012497f7ecd
+  checksum: b5521e7882a643a9d74571b7da379b488c143491493275a4c213d7dd8b0f5cde9283ac94f434c3c033df10a4da5d0d682ca7aef2f5add32c888d0daa82be574e
   languageName: node
   linkType: hard
 

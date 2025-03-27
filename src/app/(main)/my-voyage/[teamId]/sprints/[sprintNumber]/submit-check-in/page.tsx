@@ -2,28 +2,23 @@
 
 import "reflect-metadata";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
 import type { TeamMemberForCheckbox } from "@chingu-x/modules/forms";
 import { useEffect } from "react";
 import type { Sprint } from "@chingu-x/modules/sprints";
 import { Spinner } from "@chingu-x/components/spinner";
 import WeeklyCheckInForm from "@/features/sprints/components/forms/WeeklyCheckInForm";
-import { CacheTag } from "@/shared/utils/cacheTag";
 import routePaths from "@/shared/utils/routePaths";
-import { currentDate } from "@/shared/utils/getCurrentDate";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
-import { formsAdapter } from "@/shared/utils/adapters";
 import {
-  sprintsAdapter,
   useGetCurrentSprint,
   useGetSprintCheckinStatus,
 } from "@/features/sprints/hooks/useSprintsAdapters";
 import { voyageTeamAdapter } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
 import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
-import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
-import { useMyTeam } from "@/features/voyage-team/hooks/useMyTeamStateSelector";
+import { useFetchWeeklyCheckinFormQuery } from "@/features/sprints/hooks/useFetchWeeklyCheckinFormQuery";
+import { useMyTeamStateSelector } from "@/features/voyage-team/hooks/useMyTeamStateSelector";
 
 interface WeeklyCheckInPageProps {
   params: {
@@ -33,18 +28,22 @@ interface WeeklyCheckInPageProps {
 }
 
 export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
-  const sprintNumber = Number(params.sprintNumber);
-  const { teamId } = params;
+  const { teamId, sprintNumber } = params;
   const sprints = useSprintStateSelector();
-  const user = useUserStateSelector();
   const currentVoyageTeam = useCurrentVoyageTeamStateSelector();
-  const myTeam = useMyTeam();
+  const myTeam = useMyTeamStateSelector();
   const router = useRouter();
   let teamMembers = [] as TeamMemberForCheckbox[];
   const voyageTeamMemberId = voyageTeamAdapter.getCurrentVoyageUserId({
     currentVoyageTeam,
     teamId,
   });
+  const {
+    isFetchWeeklyCheckinFormPending,
+    isFetchWeeklyCheckinFormError,
+    fetchWeeklyCheckinFormError,
+    weeklyCheckinForm,
+  } = useFetchWeeklyCheckinFormQuery({ teamId, sprintNumber });
   const { currentSprint } = useGetCurrentSprint();
   const { number, id } = currentSprint as Sprint;
   const currentSprintNumber = number;
@@ -58,7 +57,7 @@ export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
 
   // Check if a user wants to submit a checkin form for the current sprint.
 
-  if (currentSprintNumber && currentSprintNumber !== sprintNumber) {
+  if (currentSprintNumber && currentSprintNumber !== Number(sprintNumber)) {
     router.push(
       routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
     );
@@ -69,7 +68,7 @@ export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
     router.push(routePaths.emptySprintPage(teamId, sprintNumber.toString()));
   }
 
-  if (isPending) {
+  if (isFetchWeeklyCheckinFormPending) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Spinner />
@@ -77,11 +76,11 @@ export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
     );
   }
 
-  if (isError) {
+  if (isFetchWeeklyCheckinFormError) {
     return (
       <ErrorComponent
         errorType={ErrorType.FETCH_FORM_QUESTIONS}
-        message={error.message}
+        message={fetchWeeklyCheckinFormError!.message}
       />
     );
   }
@@ -101,8 +100,8 @@ export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
   return (
     <WeeklyCheckInForm
       params={params}
-      description={data.description}
-      questions={data.questions}
+      description={weeklyCheckinForm!.description}
+      questions={weeklyCheckinForm!.questions}
       teamMembers={teamMembers}
       sprintId={id}
     />

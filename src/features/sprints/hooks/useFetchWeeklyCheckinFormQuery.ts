@@ -23,7 +23,7 @@ export function useFetchWeeklyCheckinFormQuery({
     isPending: isFetchWeeklyCheckinFormPending,
     isError: isFetchWeeklyCheckinFormError,
     error: fetchWeeklyCheckinFormError,
-    data: weeklyCheckinFormQ,
+    data: weeklyCheckinForm,
   } = useQuery({
     queryKey: [CacheTag.weeklyCheckInForm, { teamId, sprintNumber }],
     queryFn: fetchWeeklyCheckinFormQueryFn,
@@ -40,6 +40,6 @@ export function useFetchWeeklyCheckinFormQuery({
     isFetchWeeklyCheckinFormPending,
     isFetchWeeklyCheckinFormError,
     fetchWeeklyCheckinFormError,
-    weeklyCheckinFormQ,
+    weeklyCheckinForm,
   };
 }
