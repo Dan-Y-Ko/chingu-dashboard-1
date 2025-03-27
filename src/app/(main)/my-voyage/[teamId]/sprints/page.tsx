@@ -14,6 +14,8 @@ import VoyageSubmittedMessage from "@/features/sprints/components/VoyageSubmitte
 import { useIsVoyageProjectSubmittedStatus } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
 import { useGetCurrentSprint } from "@/features/sprints/hooks/useSprintsAdapters";
 import { useFetchSprintsQuery } from "@/features/sprints/hooks/useFetchSprintsQuery";
+import { useGetSprintMeetingId } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
+import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 
 interface SprintsPageProps {
   params: {
@@ -23,8 +25,9 @@ interface SprintsPageProps {
 }
 
 export default function SprintsPage({ params }: SprintsPageProps) {
-  const { teamId } = params;
+  const { teamId, sprintNumber } = params;
   const router = useRouter();
+  const sprints = useSprintStateSelector();
   const { currentSprint } = useGetCurrentSprint();
   const { isFetchSprintsPending, isFetchSprintsError, fetchSprintsError } =
     useFetchSprintsQuery({
@@ -34,26 +37,33 @@ export default function SprintsPage({ params }: SprintsPageProps) {
     teamId,
   });
   const currentSprintNumber = currentSprint?.number;
+  const { getSprintMeetingId } = useGetSprintMeetingId();
+  const sprintMeetingId = getSprintMeetingId({
+    sprints: sprints.sprints,
+    sprintNumber: Number(sprintNumber),
+  });
 
   useEffect(() => {
     if (!isVoyageProjectSubmitted) {
       if (currentSprint) {
-        if (currentSprint.teamMeetings.length !== 0) {
+        if (sprintMeetingId) {
           router.push(
             routePaths.sprintWeekPage(
               teamId,
-              currentSprintNumber!.toString(),
-              currentSprint.teamMeetings[0].toString(),
+              sprintNumber.toString(),
+              sprintMeetingId.toString(),
             ),
           );
+        } else {
+          router.push(
+            routePaths.emptySprintPage(teamId, currentSprintNumber!.toString()),
+          );
         }
-
-        router.push(
-          routePaths.emptySprintPage(teamId, currentSprintNumber!.toString()),
-        );
       }
     }
   }, [
+    sprintMeetingId,
+    sprintNumber,
     currentSprintNumber,
     isVoyageProjectSubmitted,
     router,

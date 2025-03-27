@@ -13,7 +13,7 @@ import type {
   EditMeetingResponseDto,
   Meeting,
 } from "@chingu-x/modules/sprint-meeting";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
@@ -55,6 +55,7 @@ export default function MeetingForm() {
   const { timezone } = useUserStateSelector();
   const [editMode, setEditMode] = useState<boolean>(false);
   const [meetingData, setMeetingData] = useState<Meeting>();
+  const queryClient = useQueryClient();
 
   const sprintStartDate = timezoneAdapter.getSprintStartDateBySprintNumber({
     sprints,
@@ -119,10 +120,15 @@ export default function MeetingForm() {
     AddMeetingClientRequestDto
   >({
     mutationFn: addMeetingMutation,
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({
+        queryKey: ["sprints", { teamId }],
+      });
       dispatch(addMeetingState(data));
-      router.push(
-        routePaths.sprintWeekPage(teamId, sprintNumber, data.id.toString()),
+      window.location.href = routePaths.sprintWeekPage(
+        teamId,
+        sprintNumber,
+        data.id.toString(),
       );
     },
     onError: (error: Error) => {

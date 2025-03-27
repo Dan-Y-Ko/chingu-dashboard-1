@@ -27,6 +27,7 @@ import Agendas from "@/features/sprint-meeting/components/agenda/Agendas";
 import Sections from "@/features/sprint-meeting/components/sections/Sections";
 import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 import { useFetchSprintMeetingQuery } from "@/features/sprint-meeting/hooks/useFetchSprintMeetingQuery";
+import { useSprintPageRedirect } from "@/features/sprints/hooks/useSprintPageRedirect";
 
 interface SprintWeekPageProps {
   params: {
@@ -55,6 +56,8 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
     fetchSprintMeetingError,
   } = useFetchSprintMeetingQuery({ meetingId });
 
+  useSprintPageRedirect({ sprintNumber, teamId });
+
   useEffect(() => {
     if (sprints.sprints.length < 1) {
       router.push(routePaths.sprintsPage(teamId));
@@ -65,17 +68,6 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
   const { sprintCheckinIsSubmitted } = useGetSprintCheckinStatus({
     id: currentSprint?.id,
   });
-
-  // Redirect if a user tries to access a sprint which hasn't started yet
-  useEffect(() => {
-    if (currentSprintNumber) {
-      if (Number(sprintNumber) > currentSprintNumber) {
-        router.push(
-          routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
-        );
-      }
-    }
-  }, [currentSprintNumber, router, sprintNumber, teamId]);
 
   if (isFetchSprintMeetingPendng || !currentSprint || !meeting) {
     return (
@@ -92,10 +84,6 @@ export default function SprintWeekPage({ params }: SprintWeekPageProps) {
         message={fetchSprintMeetingError!.message}
       />
     );
-  }
-
-  if (isVoyageProjectSubmitted) {
-    router.push(routePaths.sprintsPage(teamId));
   }
 
   return (
