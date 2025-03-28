@@ -1,15 +1,12 @@
 "use client";
 
 import "reflect-metadata";
-import { useRouter } from "next/navigation";
 import { Spinner } from "@chingu-x/components/spinner";
-import { useEffect } from "react";
 import { ErrorType } from "@/shared/utils/error";
 import ErrorComponent from "@/shared/components/Error";
-import { useGetCurrentSprint } from "@/features/sprints/hooks/useSprintsAdapters";
-import routePaths from "@/shared/utils/routePaths";
 import VoyageSubmissionForm from "@/features/sprints/components/forms/VoyageSubmissionForm";
 import { useFetchVoyageProjectSubmitFormQuery } from "@/features/sprints/hooks/useFetchVoyageProjectSubmitFormQuery";
+import { useSprintPageRedirect } from "@/features/sprints/hooks/useSprintPageRedirect";
 
 interface VoyageSubmissionPageProps {
   params: {
@@ -22,11 +19,9 @@ interface VoyageSubmissionPageProps {
 export default function VoyageSubmissionPage({
   params,
 }: VoyageSubmissionPageProps) {
-  const { teamId } = params;
-  const sprintNumber = Number(params.sprintNumber);
-  const router = useRouter();
-  const { currentSprint } = useGetCurrentSprint();
-  const currentSprintNumber = currentSprint?.number;
+  const { teamId, sprintNumber } = params;
+
+  useSprintPageRedirect({ sprintNumber, teamId });
 
   const {
     isFetchVoyageProjectSubmitFormPending,
@@ -34,14 +29,6 @@ export default function VoyageSubmissionPage({
     fetchVoyageProjectSubmitFormError,
     voyageProjectSubmitForm,
   } = useFetchVoyageProjectSubmitFormQuery({ teamId });
-
-  useEffect(() => {
-    if (currentSprintNumber && currentSprintNumber !== sprintNumber) {
-      router.push(
-        routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
-      );
-    }
-  }, [currentSprintNumber, router, sprintNumber, teamId]);
 
   if (isFetchVoyageProjectSubmitFormPending) {
     return (

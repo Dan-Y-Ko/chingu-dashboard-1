@@ -19,6 +19,7 @@ import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/
 import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 import { useFetchWeeklyCheckinFormQuery } from "@/features/sprints/hooks/useFetchWeeklyCheckinFormQuery";
 import { useMyTeamStateSelector } from "@/features/voyage-team/hooks/useMyTeamStateSelector";
+import { useSprintPageRedirect } from "@/features/sprints/hooks/useSprintPageRedirect";
 
 interface WeeklyCheckInPageProps {
   params: {
@@ -45,23 +46,17 @@ export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
     weeklyCheckinForm,
   } = useFetchWeeklyCheckinFormQuery({ teamId, sprintNumber });
   const { currentSprint } = useGetCurrentSprint();
-  const { number, id } = currentSprint as Sprint;
-  const currentSprintNumber = number;
+  const { id } = currentSprint as Sprint;
   const { sprintCheckinIsSubmitted } = useGetSprintCheckinStatus({ id });
+  // Check if a user wants to submit a checkin form for the current sprint.
+
+  useSprintPageRedirect({ sprintNumber, teamId });
 
   useEffect(() => {
     if (sprints.sprints.length === 0 || myTeam.voyageTeamMembers.length === 0) {
       router.push(routePaths.sprintsPage(teamId));
     }
   }, [sprints, myTeam, teamId, router]);
-
-  // Check if a user wants to submit a checkin form for the current sprint.
-
-  if (currentSprintNumber && currentSprintNumber !== Number(sprintNumber)) {
-    router.push(
-      routePaths.emptySprintPage(teamId, currentSprintNumber.toString()),
-    );
-  }
 
   // Check if a checkin form for the current sprint has been submitted.
   if (sprintCheckinIsSubmitted) {
