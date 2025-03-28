@@ -99,3 +99,20 @@ export function useGetCurrentUserVoyageRole({
 
   return { currentUserVoyageRole };
 }
+
+interface UseGetCurrentVoyageUserIdProps {
+  teamId: string;
+}
+
+export function useGetCurrentVoyageUserId({
+  teamId,
+}: UseGetCurrentVoyageUserIdProps) {
+  const currentVoyageTeam = useCurrentVoyageTeamStateSelector();
+
+  const voyageTeamMemberId = voyageTeamAdapter.getCurrentVoyageUserId({
+    currentVoyageTeam,
+    teamId,
+  });
+
+  return { voyageTeamMemberId };
+}

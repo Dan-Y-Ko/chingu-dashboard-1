@@ -1,28 +1,16 @@
 "use client";
 
 import { type SubmitHandler, useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import type * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Question, TeamMemberForCheckbox } from "@chingu-x/modules/forms";
-import type {
-  SubmitWeeklyCheckinClientRequestDto,
-  SubmitWeeklyCheckinResponseDto,
-} from "@chingu-x/modules/sprints";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import BaseFormPage from "@/shared/components/form/BaseFormPage";
 import FormInput from "@/shared/components/form/FormInput";
-import { useAppDispatch } from "@/shared/store";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { createValidationSchema } from "@/shared/utils/form/createValidationSchema";
-import routePaths from "@/shared/utils/routePaths";
-import { sprintsAdapter } from "@/features/sprints/hooks/useSprintsAdapters";
-import { CacheTag } from "@/shared/utils/cacheTag";
-import { submitWeeklyCheckin } from "@/features/sprints/store/sprintSlice";
-import { voyageTeamAdapter } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
-import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
+import { useGetCurrentVoyageUserId } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
+import { useSubmitWeeklyCheckinFormMutation } from "@/features/sprints/hooks/useSubmitWeeklyCheckinFormMutation";
 
 interface WeeklyCheckinFormProps {
   params: {
@@ -42,33 +30,15 @@ export default function WeeklyCheckinForm({
   teamMembers,
   sprintId,
 }: WeeklyCheckinFormProps) {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const queryClient = useQueryClient();
-  const currentVoyageTeam = useCurrentVoyageTeamStateSelector();
   const [teamId, sprintNumber] = [params.teamId, params.sprintNumber];
+  const { isSubmitWeeklyCheckinMutationPending, submitWeeklyCheckinMutation } =
+    useSubmitWeeklyCheckinFormMutation({
+      teamId,
+      sprintNumber,
+      sprintId,
+    });
 
-  const { mutate, isPending } = useMutation<
-    SubmitWeeklyCheckinResponseDto,
-    Error,
-    SubmitWeeklyCheckinClientRequestDto
-  >({
-    mutationFn: submitWeeklyCheckinFormMutation,
-    mutationKey: [CacheTag.submitWeeklyCheckinForm],
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
-      });
-      router.push(routePaths.emptySprintPage(teamId, sprintNumber));
-      dispatch(submitWeeklyCheckin({ sprintId }));
-      dispatch(onOpenModal({ type: "checkInSuccess" }));
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
+  const { voyageTeamMemberId } = useGetCurrentVoyageUserId({ teamId });
 
   const { validationSchema, defaultValues } = createValidationSchema(questions);
 
@@ -84,27 +54,13 @@ export default function WeeklyCheckinForm({
     defaultValues,
   });
 
-  async function submitWeeklyCheckinFormMutation({
-    data,
-    questions,
-    voyageTeamMemberId,
-    sprintId,
-  }: SubmitWeeklyCheckinClientRequestDto): Promise<SubmitWeeklyCheckinResponseDto> {
-    return await sprintsAdapter.submitWeeklyCheckin({
+  const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
+    submitWeeklyCheckinMutation({
       data,
       questions,
       voyageTeamMemberId,
       sprintId,
     });
-  }
-
-  const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
-    const voyageTeamMemberId = voyageTeamAdapter.getCurrentVoyageUserId({
-      currentVoyageTeam,
-      teamId,
-    });
-
-    mutate({ data, questions, voyageTeamMemberId, sprintId });
   };
 
   return (
@@ -133,11 +89,15 @@ export default function WeeklyCheckinForm({
         <Button
           type="submit"
           title="submit"
-          disabled={isPending}
+          disabled={isSubmitWeeklyCheckinMutationPending}
           size="lg"
           variant="primary"
         >
-          {isPending ? <Spinner /> : "Submit Check In"}
+          {isSubmitWeeklyCheckinMutationPending ? (
+            <Spinner />
+          ) : (
+            "Submit Check In"
+          )}
         </Button>
       </form>
     </BaseFormPage>
