@@ -59,9 +59,8 @@ export interface SubmitVoyageProjectPayload {
   teamId: number;
 }
 
-export const submitWeeklyCheckin = createAction<SubmitWeeklyCheckinPayload>(
-  "sprint/submitWeeklyCheckin",
-);
+export const submitWeeklyCheckinState =
+  createAction<SubmitWeeklyCheckinPayload>("sprint/submitWeeklyCheckinState");
 
 export const submitVoyageProjectState =
   createAction<SubmitVoyageProjectPayload>("sprint/submitVoyageProject");

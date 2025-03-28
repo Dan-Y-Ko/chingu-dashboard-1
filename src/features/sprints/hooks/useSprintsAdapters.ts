@@ -4,6 +4,7 @@ import type {
   FetchSprintsClientRequestDto,
   SprintsClientAdapter,
   SubmitVoyageProjectClientRequestDto,
+  SubmitWeeklyCheckinClientRequestDto,
 } from "@chingu-x/modules/sprints";
 import { useSprintStateSelector } from "./useSprintStateSelector";
 import { currentDate } from "@/shared/utils/getCurrentDate";
@@ -102,4 +103,21 @@ export function useSubmitVoyageProjectForm() {
     });
 
   return { submitVoyageProject };
+}
+
+export function useSubmitWeeklyCheckin() {
+  const submitWeeklyCheckin = async ({
+    data,
+    questions,
+    voyageTeamMemberId,
+    sprintId,
+  }: SubmitWeeklyCheckinClientRequestDto) =>
+    await sprintsAdapter.submitWeeklyCheckin({
+      data,
+      questions,
+      voyageTeamMemberId,
+      sprintId,
+    });
+
+  return { submitWeeklyCheckin };
 }
