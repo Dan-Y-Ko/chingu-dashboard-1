@@ -11,7 +11,6 @@ import { useSprintPageRedirect } from "@/features/sprints/hooks/useSprintPageRed
 interface VoyageSubmissionPageProps {
   params: {
     teamId: string;
-    meetingId: string;
     sprintNumber: string;
   };
 }
