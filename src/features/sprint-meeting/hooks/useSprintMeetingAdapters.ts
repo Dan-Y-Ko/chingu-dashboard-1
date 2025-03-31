@@ -6,6 +6,7 @@ import type {
   AddSprintMeetingSectionClientRequestDto,
   Agenda,
   ChangeAgendaTopicStatusClientRequestDto,
+  EditAgendaTopicClientRequestDto,
   EditMeetingClientRequestDto,
   FetchMeetingClientRequestDto,
   FetchSprintMeetingFormClientRequestDto,
@@ -250,4 +251,19 @@ export function useAddAgendaTopic() {
     });
 
   return { addAgendaTopic };
+}
+
+export function useEditAgendaTopic() {
+  const editAgendaTopic = async ({
+    agendaId,
+    title,
+    description,
+  }: EditAgendaTopicClientRequestDto) =>
+    await sprintMeetingAdapter.editAgendaTopic({
+      agendaId,
+      title,
+      description,
+    });
+
+  return { editAgendaTopic };
 }
