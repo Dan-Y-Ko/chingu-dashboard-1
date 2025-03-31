@@ -1,26 +1,19 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import type {
-  Agenda,
-  ChangeAgendaTopicStatusClientRequestDto,
-  ChangeAgendaTopicStatusResponseDto,
-} from "@chingu-x/modules/sprint-meeting";
-import { useMutation } from "@tanstack/react-query";
+import type { Agenda } from "@chingu-x/modules/sprint-meeting";
 import NoAgendasState from "./NoAgendasState";
 import AgendaTopic from "./AgendaTopic";
 import AgendaHeader from "./AgendaHeader";
 import routePaths from "@/shared/utils/routePaths";
 import Divider from "@/features/sprint-meeting/components/Divider";
-import { useAppDispatch } from "@/shared/store";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
 import {
-  sprintMeetingAdapter,
+  useGetAgendaById,
   useGetCompletedTopics,
   useGetIncompletedTopics,
   useGetSprintAgendas,
 } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
-import { changeAgendaTopicStatusState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
+import { useChangeAgendaTopicStatusMutation } from "@/features/sprint-meeting/hooks/useChangeAgendaTopicStatusMutation";
 
 interface AgendasProps {
   params: {
@@ -37,44 +30,17 @@ export default function Agendas({ params, topics }: AgendasProps) {
     params.meetingId,
     params.sprintNumber,
   ];
-  const dispatch = useAppDispatch();
   const router = useRouter();
   const meeting = useSprintMeetingStateSelector();
   const { agendas } = useGetSprintAgendas({ meetingId });
   const { incompletedTopics } = useGetIncompletedTopics({ agendas });
   const { completedTopics } = useGetCompletedTopics({ agendas });
-
-  const {
-    mutate: changeAgendaTopicStatus,
-    isPending: changeAgendaTopicStatusPending,
-  } = useMutation<
-    ChangeAgendaTopicStatusResponseDto,
-    Error,
-    ChangeAgendaTopicStatusClientRequestDto
-  >({
-    mutationFn: changeAgendaTopicStatusMutation,
-    onSuccess: (data) => {
-      dispatch(changeAgendaTopicStatusState({ data, meetingId }));
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
-
-  async function changeAgendaTopicStatusMutation({
-    status,
-    agendaId,
-  }: ChangeAgendaTopicStatusClientRequestDto): Promise<ChangeAgendaTopicStatusResponseDto> {
-    return await sprintMeetingAdapter.changeAgendaTopicStatus({
-      status,
-      agendaId,
-    });
-  }
+  const { getAgendaById } = useGetAgendaById();
+  const { isChangeAgendaTopicStatusPending, changeAgendaTopicStatusMutation } =
+    useChangeAgendaTopicStatusMutation({ meetingId });
 
   const changeStatus = (agendaId: string) => {
-    const agendaTopic = sprintMeetingAdapter.getAgendaById({
+    const agendaTopic = getAgendaById({
       meeting,
       meetingId,
       agendaId,
@@ -82,7 +48,7 @@ export default function Agendas({ params, topics }: AgendasProps) {
 
     const newStatus = !agendaTopic.status;
 
-    changeAgendaTopicStatus({ agendaId, status: newStatus });
+    changeAgendaTopicStatusMutation({ agendaId, status: newStatus });
   };
 
   const editTopic = (agendaTopicId: number) => {
@@ -114,7 +80,7 @@ export default function Agendas({ params, topics }: AgendasProps) {
             topic={topic}
             editTopic={() => editTopic(topic.id)}
             changeStatus={changeStatus}
-            statusButtonDisabled={changeAgendaTopicStatusPending}
+            statusButtonDisabled={isChangeAgendaTopicStatusPending}
           />
         ))}
       </ul>
@@ -134,7 +100,7 @@ export default function Agendas({ params, topics }: AgendasProps) {
             topic={topic}
             editTopic={() => editTopic(topic.id)}
             changeStatus={changeStatus}
-            statusButtonDisabled={changeAgendaTopicStatusPending}
+            statusButtonDisabled={isChangeAgendaTopicStatusPending}
           />
         ))}
       </ul>

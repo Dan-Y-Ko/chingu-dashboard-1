@@ -7,6 +7,7 @@ import type {
   EditMeetingClientRequestDto,
   FetchMeetingClientRequestDto,
   FetchSprintMeetingFormClientRequestDto,
+  GetAgendaByIdClientRequestDto,
   GetSprintMeetingIdClientRequesDto,
   GetSprintMeetingSectionResponsesClientRequestDto,
   SprintMeetingClientAdapter,
@@ -185,4 +186,19 @@ export function useChangeAgendaTopicStatus() {
     });
 
   return { changeAgendaTopicStatus };
+}
+
+export function useGetAgendaById() {
+  const getAgendaById = ({
+    meeting,
+    meetingId,
+    agendaId,
+  }: GetAgendaByIdClientRequestDto) =>
+    sprintMeetingAdapter.getAgendaById({
+      meeting,
+      meetingId,
+      agendaId,
+    });
+
+  return { getAgendaById };
 }
