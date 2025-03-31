@@ -3,6 +3,7 @@ import { TYPES } from "@chingu-x/modules/di-types";
 import type {
   AddSprintMeetingSectionClientRequestDto,
   Agenda,
+  ChangeAgendaTopicStatusClientRequestDto,
   EditMeetingClientRequestDto,
   FetchMeetingClientRequestDto,
   FetchSprintMeetingFormClientRequestDto,
@@ -171,4 +172,17 @@ export function useGetCompletedTopics({ agendas }: UseGetCompletedTopicsProps) {
   });
 
   return { completedTopics };
+}
+
+export function useChangeAgendaTopicStatus() {
+  const changeAgendaTopicStatus = async ({
+    status,
+    agendaId,
+  }: ChangeAgendaTopicStatusClientRequestDto) =>
+    await sprintMeetingAdapter.changeAgendaTopicStatus({
+      status,
+      agendaId,
+    });
+
+  return { changeAgendaTopicStatus };
 }
