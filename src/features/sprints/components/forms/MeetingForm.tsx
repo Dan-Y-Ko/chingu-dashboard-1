@@ -41,6 +41,7 @@ import {
   useGetSprintEndDate,
   useGetSprintStartDate,
 } from "@/features/timezone/hooks/useTimezoneAdapters";
+import { useAddMeetingMutation } from "@/features/sprint-meeting/hooks/useAddMeetingMutation";
 
 export default function MeetingForm() {
   const router = useRouter();
@@ -54,13 +55,16 @@ export default function MeetingForm() {
   const { timezone } = useUserStateSelector();
   const [editMode, setEditMode] = useState<boolean>(false);
   const [meetingData, setMeetingData] = useState<Meeting>();
-  const queryClient = useQueryClient();
   const { sprintStartDate } = useGetSprintStartDate({ sprintNumber });
   const { sprintEndDate } = useGetSprintEndDate({ sprintNumber });
   const { meetingLongDateTimeFormat } = useGetMeetingLongDateTimeFormat({
     meetingData,
   });
   const { meeting } = useGetSprintMeeting({ meetingId });
+  const { isAddMeetingPending, addMeetingMutation } = useAddMeetingMutation({
+    teamId,
+    sprintNumber,
+  });
 
   const validationSchema = z.object({
     title: validateTextInput({
@@ -107,47 +111,6 @@ export default function MeetingForm() {
     });
   };
 
-  const { mutate: addMeeting, isPending: addMeetingPending } = useMutation<
-    AddMeetingResponseDto,
-    Error,
-    AddMeetingClientRequestDto
-  >({
-    mutationFn: addMeetingMutation,
-    onSuccess: async (data) => {
-      await queryClient.invalidateQueries({
-        queryKey: ["sprints", { teamId }],
-      });
-      dispatch(addMeetingState(data));
-
-      // this is needed because of an issue where if user navigates to another page and then back to sprints page,
-      // the redirections don't trigger properly for some reason (most likely some kind of caching as usual).
-      window.location.href = routePaths.sprintWeekPage(
-        teamId,
-        sprintNumber,
-        data.id.toString(),
-      );
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
-
-  async function addMeetingMutation({
-    data,
-    teamId,
-    sprintNumber,
-    timezone,
-  }: AddMeetingClientRequestDto): Promise<AddMeetingResponseDto> {
-    return await sprintMeetingAdapter.addMeeting({
-      data,
-      teamId,
-      sprintNumber,
-      timezone,
-    });
-  }
-
   const { mutate: editMeeting, isPending: editMeetingPending } = useMutation<
     EditMeetingResponseDto,
     Error,
@@ -183,7 +146,7 @@ export default function MeetingForm() {
     if (editMode) {
       editMeeting({ timezone, meetingId, ...data });
     } else {
-      addMeeting({ data, teamId, sprintNumber, timezone });
+      addMeetingMutation({ data, teamId, sprintNumber, timezone });
     }
   };
 
@@ -214,7 +177,7 @@ export default function MeetingForm() {
   );
 
   function renderButtonContent() {
-    if (addMeetingPending || editMeetingPending) {
+    if (isAddMeetingPending || editMeetingPending) {
       return <Spinner />;
     }
 
@@ -274,7 +237,7 @@ export default function MeetingForm() {
           type="submit"
           title="submit"
           disabled={
-            !isDirty || !isValid || addMeetingPending || editMeetingPending
+            !isDirty || !isValid || isAddMeetingPending || editMeetingPending
           }
           size="lg"
           variant="primary"

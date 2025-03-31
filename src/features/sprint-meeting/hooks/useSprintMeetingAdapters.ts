@@ -220,3 +220,18 @@ export function useAddMeeting() {
 
   return { addMeeting };
 }
+
+export function useEditMeeting() {
+  const editMeeting = async ({
+    meetingId,
+    timezone,
+    ...data
+  }: EditMeetingClientRequestDto) =>
+    await sprintMeetingAdapter.editMeeting({
+      meetingId,
+      timezone,
+      ...data,
+    });
+
+  return { editMeeting };
+}
