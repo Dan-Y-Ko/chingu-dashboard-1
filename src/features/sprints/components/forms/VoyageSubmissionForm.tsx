@@ -7,7 +7,7 @@ import { Spinner } from "@chingu-x/components/spinner";
 import BaseFormPage from "@/shared/components/form/BaseFormPage";
 import FormInput from "@/shared/components/form/FormInput";
 import { createValidationSchema } from "@/shared/utils/form/createValidationSchema";
-import { useEditMeetingNotesMutation } from "@/features/sprints/hooks/useSubmitVoyageProjectFormMutation";
+import { useSubmitVoyageProjectFormMutation } from "@/features/sprints/hooks/useSubmitVoyageProjectFormMutation";
 
 interface VoyageSubmissionFormProps {
   params: {
@@ -27,7 +27,7 @@ export default function VoyageSubmissionForm({
 }: VoyageSubmissionFormProps) {
   const { sprintNumber, teamId } = params;
   const { isSubmitVoyageProjectMutationPending, submitVoyageProjectMutation } =
-    useEditMeetingNotesMutation({ sprintNumber, teamId });
+    useSubmitVoyageProjectFormMutation({ sprintNumber, teamId });
 
   const { validationSchema, defaultValues } = createValidationSchema(questions);
   type ValidationSchema = z.infer<typeof validationSchema>;

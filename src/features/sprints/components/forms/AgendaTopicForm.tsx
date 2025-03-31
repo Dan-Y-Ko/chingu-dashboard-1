@@ -48,18 +48,12 @@ export type ValidationSchema = z.infer<typeof validationSchema>;
 
 export default function AgendaTopicForm() {
   const router = useRouter();
-  const params = useParams<{
+  const { teamId, sprintNumber, meetingId, agendaId } = useParams<{
     teamId: string;
     sprintNumber: string;
     meetingId: string;
     agendaId: string;
   }>();
-  const [teamId, sprintNumber, meetingId, agendaId] = [
-    params.teamId,
-    params.sprintNumber,
-    params.meetingId,
-    params.agendaId,
-  ];
 
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();

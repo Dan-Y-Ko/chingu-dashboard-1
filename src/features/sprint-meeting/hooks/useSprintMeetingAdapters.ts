@@ -1,6 +1,7 @@
 import { resolve } from "@chingu-x/modules/resolver";
 import { TYPES } from "@chingu-x/modules/di-types";
 import type {
+  AddAgendaTopicClientRequestDto,
   AddMeetingClientRequestDto,
   AddSprintMeetingSectionClientRequestDto,
   Agenda,
@@ -234,4 +235,19 @@ export function useEditMeeting() {
     });
 
   return { editMeeting };
+}
+
+export function useAddAgendaTopic() {
+  const addAgendaTopic = async ({
+    meetingId,
+    title,
+    description,
+  }: AddAgendaTopicClientRequestDto) =>
+    await sprintMeetingAdapter.addAgendaTopic({
+      meetingId,
+      title,
+      description,
+    });
+
+  return { addAgendaTopic };
 }

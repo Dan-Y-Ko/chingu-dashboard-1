@@ -11,15 +11,15 @@ import routePaths from "@/shared/utils/routePaths";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { submitVoyageProjectState } from "@/features/sprints/store/sprintSlice";
 
-interface UseEditMeetingNotesMutationProps {
+interface UseSubmitVoyageProjectFormMutationProps {
   teamId: string;
   sprintNumber: string;
 }
 
-export function useEditMeetingNotesMutation({
+export function useSubmitVoyageProjectFormMutation({
   teamId,
   sprintNumber,
-}: UseEditMeetingNotesMutationProps) {
+}: UseSubmitVoyageProjectFormMutationProps) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { submitVoyageProject } = useSubmitVoyageProjectForm();
