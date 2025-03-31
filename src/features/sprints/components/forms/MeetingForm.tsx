@@ -6,14 +6,7 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LinkIcon } from "@heroicons/react/24/outline";
-import type {
-  AddMeetingClientRequestDto,
-  AddMeetingResponseDto,
-  EditMeetingClientRequestDto,
-  EditMeetingResponseDto,
-  Meeting,
-} from "@chingu-x/modules/sprint-meeting";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { Meeting } from "@chingu-x/modules/sprint-meeting";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
@@ -23,17 +16,9 @@ import {
   validateDateTimeInput,
   validateTextInput,
 } from "@/shared/utils/form/validateInput";
-import { persistor, useAppDispatch } from "@/shared/store";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
-import routePaths from "@/shared/utils/routePaths";
-import {
-  sprintMeetingAdapter,
-  useGetSprintMeeting,
-} from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
-import {
-  addMeetingState,
-  editMeetingState,
-} from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import { persistor } from "@/shared/store";
+import { useGetSprintMeeting } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
+import {} from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 import {
@@ -42,6 +27,7 @@ import {
   useGetSprintStartDate,
 } from "@/features/timezone/hooks/useTimezoneAdapters";
 import { useAddMeetingMutation } from "@/features/sprint-meeting/hooks/useAddMeetingMutation";
+import { useEditMeetingMutation } from "@/features/sprint-meeting/hooks/useEditMeetingMutation";
 
 export default function MeetingForm() {
   const router = useRouter();
@@ -50,7 +36,6 @@ export default function MeetingForm() {
     sprintNumber: string;
     meetingId: string;
   }>();
-  const dispatch = useAppDispatch();
   const sprintMeeting = useSprintMeetingStateSelector();
   const { timezone } = useUserStateSelector();
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -62,6 +47,10 @@ export default function MeetingForm() {
   });
   const { meeting } = useGetSprintMeeting({ meetingId });
   const { isAddMeetingPending, addMeetingMutation } = useAddMeetingMutation({
+    teamId,
+    sprintNumber,
+  });
+  const { isEditMeetingPending, editMeetingMutation } = useEditMeetingMutation({
     teamId,
     sprintNumber,
   });
@@ -111,40 +100,9 @@ export default function MeetingForm() {
     });
   };
 
-  const { mutate: editMeeting, isPending: editMeetingPending } = useMutation<
-    EditMeetingResponseDto,
-    Error,
-    EditMeetingClientRequestDto
-  >({
-    mutationFn: editMeetingMutation,
-    onSuccess: (data) => {
-      router.push(
-        routePaths.sprintWeekPage(teamId, sprintNumber, data.id.toString()),
-      );
-      dispatch(editMeetingState(data));
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
-
-  async function editMeetingMutation({
-    meetingId,
-    timezone,
-    ...data
-  }: EditMeetingClientRequestDto): Promise<EditMeetingResponseDto> {
-    return await sprintMeetingAdapter.editMeeting({
-      meetingId,
-      timezone,
-      ...data,
-    });
-  }
-
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     if (editMode) {
-      editMeeting({ timezone, meetingId, ...data });
+      editMeetingMutation({ timezone, meetingId, ...data });
     } else {
       addMeetingMutation({ data, teamId, sprintNumber, timezone });
     }
@@ -177,7 +135,7 @@ export default function MeetingForm() {
   );
 
   function renderButtonContent() {
-    if (isAddMeetingPending || editMeetingPending) {
+    if (isAddMeetingPending || isEditMeetingPending) {
       return <Spinner />;
     }
 
@@ -237,7 +195,7 @@ export default function MeetingForm() {
           type="submit"
           title="submit"
           disabled={
-            !isDirty || !isValid || isAddMeetingPending || editMeetingPending
+            !isDirty || !isValid || isAddMeetingPending || isEditMeetingPending
           }
           size="lg"
           variant="primary"

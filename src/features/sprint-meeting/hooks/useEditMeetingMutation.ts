@@ -10,7 +10,7 @@ import routePaths from "@/shared/utils/routePaths";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { editMeetingState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 
-interface UseAddMeetingMutationProps {
+interface UseEditMeetingMutationProps {
   teamId: string;
   sprintNumber: string;
 }
@@ -18,7 +18,7 @@ interface UseAddMeetingMutationProps {
 export function useEditMeetingMutation({
   teamId,
   sprintNumber,
-}: UseAddMeetingMutationProps) {
+}: UseEditMeetingMutationProps) {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { editMeeting } = useEditMeeting();
