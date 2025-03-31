@@ -1,5 +1,3 @@
-"use client";
-
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import type {
@@ -7,7 +5,7 @@ import type {
   ChangeAgendaTopicStatusClientRequestDto,
   ChangeAgendaTopicStatusResponseDto,
 } from "@chingu-x/modules/sprint-meeting";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import NoAgendasState from "./NoAgendasState";
 import AgendaTopic from "./AgendaTopic";
 import AgendaHeader from "./AgendaHeader";
@@ -15,8 +13,12 @@ import routePaths from "@/shared/utils/routePaths";
 import Divider from "@/features/sprint-meeting/components/Divider";
 import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
-import { CacheTag } from "@/shared/utils/cacheTag";
+import {
+  sprintMeetingAdapter,
+  useGetCompletedTopics,
+  useGetIncompletedTopics,
+  useGetSprintAgendas,
+} from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { changeAgendaTopicStatusState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
 
@@ -38,22 +40,9 @@ export default function Agendas({ params, topics }: AgendasProps) {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const meeting = useSprintMeetingStateSelector();
-
-  const agendas =
-    sprintMeetingAdapter.getSprintMeeting({
-      meeting,
-      meetingId,
-    })?.agendas ?? [];
-
-  const incompletedTopics = sprintMeetingAdapter.getIncompleteTopics({
-    agendas,
-  });
-
-  const completedTopics = sprintMeetingAdapter.getCompletedTopics({
-    agendas,
-  });
-
-  const queryClient = useQueryClient();
+  const { agendas } = useGetSprintAgendas({ meetingId });
+  const { incompletedTopics } = useGetIncompletedTopics({ agendas });
+  const { completedTopics } = useGetCompletedTopics({ agendas });
 
   const {
     mutate: changeAgendaTopicStatus,
@@ -64,11 +53,7 @@ export default function Agendas({ params, topics }: AgendasProps) {
     ChangeAgendaTopicStatusClientRequestDto
   >({
     mutationFn: changeAgendaTopicStatusMutation,
-    onSuccess: async (data) => {
-      await queryClient.invalidateQueries({
-        queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
-      });
-
+    onSuccess: (data) => {
       dispatch(changeAgendaTopicStatusState({ data, meetingId }));
     },
     onError: (error: Error) => {

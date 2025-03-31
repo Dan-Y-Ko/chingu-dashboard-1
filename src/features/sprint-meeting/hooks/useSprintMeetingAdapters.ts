@@ -2,6 +2,7 @@ import { resolve } from "@chingu-x/modules/resolver";
 import { TYPES } from "@chingu-x/modules/di-types";
 import type {
   AddSprintMeetingSectionClientRequestDto,
+  Agenda,
   EditMeetingClientRequestDto,
   FetchMeetingClientRequestDto,
   FetchSprintMeetingFormClientRequestDto,
@@ -144,4 +145,30 @@ export function useFetchMeeting() {
     await sprintMeetingAdapter.fetchMeeting({ meetingId });
 
   return { fetchMeeting };
+}
+
+interface UseGetIncompletedTopicsProps {
+  agendas: Agenda[];
+}
+
+export function useGetIncompletedTopics({
+  agendas,
+}: UseGetIncompletedTopicsProps) {
+  const incompletedTopics = sprintMeetingAdapter.getIncompleteTopics({
+    agendas,
+  });
+
+  return { incompletedTopics };
+}
+
+interface UseGetCompletedTopicsProps {
+  agendas: Agenda[];
+}
+
+export function useGetCompletedTopics({ agendas }: UseGetCompletedTopicsProps) {
+  const completedTopics = sprintMeetingAdapter.getCompletedTopics({
+    agendas,
+  });
+
+  return { completedTopics };
 }

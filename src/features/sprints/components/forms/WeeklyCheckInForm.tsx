@@ -1,5 +1,3 @@
-"use client";
-
 import { type SubmitHandler, useForm } from "react-hook-form";
 import type * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
