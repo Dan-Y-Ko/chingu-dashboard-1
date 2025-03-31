@@ -32,6 +32,7 @@ import {
 import routePaths from "@/shared/utils/routePaths";
 import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
+import { useAddAgendaMutation } from "../../hooks/useAddAgendaMutation";
 
 const validationSchema = z.object({
   title: validateTextInput({
@@ -55,45 +56,15 @@ export default function AgendaTopicForm() {
     agendaId: string;
   }>();
 
-  const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const sprintMeeting = useSprintMeetingStateSelector();
   const [editMode, setEditMode] = useState<boolean>(false);
   const [topicData, setTopicData] = useState<Agenda>();
-
-  const { mutate: addAgenda, isPending: addAgendaPending } = useMutation<
-    AddAgendaTopicResponseDto,
-    Error,
-    AddAgendaTopicClientRequestDto
-  >({
-    mutationFn: addAgendaMutation,
-    onSuccess: async (data) => {
-      await queryClient.invalidateQueries({
-        queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
-      });
-
-      dispatch(addAgendaState(data));
-
-      router.push(routePaths.sprintWeekPage(teamId, sprintNumber, meetingId));
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
-
-  async function addAgendaMutation({
+  const { isAddAgendaPending, addAgendaMutation } = useAddAgendaMutation({
+    teamId,
+    sprintNumber,
     meetingId,
-    title,
-    description,
-  }: AddAgendaTopicClientRequestDto): Promise<AddAgendaTopicResponseDto> {
-    return await sprintMeetingAdapter.addAgendaTopic({
-      meetingId,
-      title,
-      description,
-    });
-  }
+  });
 
   const { mutate: editAgenda, isPending: editAgendaPending } = useMutation<
     EditAgendaTopicResponseDto,
@@ -174,7 +145,7 @@ export default function AgendaTopicForm() {
     } else {
       const payload = { ...data, meetingId };
 
-      addAgenda(payload);
+      addAgendaMutation(payload);
     }
   };
 
@@ -220,7 +191,7 @@ export default function AgendaTopicForm() {
   );
 
   function renderButtonContent() {
-    if (editAgendaPending || addAgendaPending) {
+    if (editAgendaPending || isAddAgendaPending) {
       return <Spinner />;
     }
 
@@ -279,7 +250,7 @@ export default function AgendaTopicForm() {
             type="submit"
             title="submit"
             disabled={
-              !isDirty || !isValid || editAgendaPending || addAgendaPending
+              !isDirty || !isValid || editAgendaPending || isAddAgendaPending
             }
             size="lg"
             variant="primary"
