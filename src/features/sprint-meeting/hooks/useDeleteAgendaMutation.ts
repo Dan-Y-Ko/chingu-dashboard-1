@@ -27,7 +27,6 @@ export function useDeleteAgendaMutation({
 
   const {
     mutate: deleteAgendaMutation,
-    isPending: isDeleteAgendaMutationPending,
   } = useMutation<
     DeleteAgendaTopicResponseDto,
     Error,
@@ -53,7 +52,6 @@ export function useDeleteAgendaMutation({
   }
 
   return {
-    isDeleteAgendaMutationPending,
     deleteAgendaMutation,
   };
 }

@@ -6,12 +6,7 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TrashIcon } from "@heroicons/react/20/solid";
-import type {
-  Agenda,
-  DeleteAgendaTopicClientRequestDto,
-  DeleteAgendaTopicResponseDto,
-} from "@chingu-x/modules/sprint-meeting";
-import { useMutation } from "@tanstack/react-query";
+import type { Agenda } from "@chingu-x/modules/sprint-meeting";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
@@ -19,12 +14,11 @@ import Textarea from "@/shared/components/inputs/Textarea";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
 import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
 import { persistor, useAppDispatch } from "@/shared/store";
-import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";
-import { deleteAgendaState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
-import routePaths from "@/shared/utils/routePaths";
+import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { useAddAgendaMutation } from "@/features/sprint-meeting/hooks/useAddAgendaMutation";
 import { useEditAgendaMutation } from "@/features/sprint-meeting/hooks/useEditAgendaMutation";
+import { useDeleteAgendaMutation } from "@/features/sprint-meeting/hooks/useDeleteAgendaMutation";
 
 const validationSchema = z.object({
   title: validateTextInput({
@@ -62,30 +56,12 @@ export default function AgendaTopicForm() {
     sprintNumber,
     meetingId,
   });
-
-  const { mutate: deleteAgenda } = useMutation<
-    DeleteAgendaTopicResponseDto,
-    Error,
-    DeleteAgendaTopicClientRequestDto
-  >({
-    mutationFn: deleteAgendaMutation,
-    onSuccess: (data) => {
-      dispatch(deleteAgendaState(data));
-      dispatch(onCloseModal());
-      router.push(routePaths.sprintWeekPage(teamId, sprintNumber, meetingId));
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
-
-  async function deleteAgendaMutation({
-    agendaId,
-  }: DeleteAgendaTopicClientRequestDto): Promise<DeleteAgendaTopicResponseDto> {
-    return await sprintMeetingAdapter.deleteAgendaTopic({ agendaId });
-  }
+  const { deleteAgendaMutation } =
+    useDeleteAgendaMutation({
+      teamId,
+      sprintNumber,
+      meetingId,
+    });
 
   const {
     register,
@@ -123,7 +99,7 @@ export default function AgendaTopicForm() {
           params: {
             agendaId,
           },
-          deleteFunction: deleteAgenda,
+          deleteFunction: deleteAgendaMutation,
         },
       }),
     );
