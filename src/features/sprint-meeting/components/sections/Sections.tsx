@@ -19,6 +19,7 @@ interface SectionsProps {
   params: {
     meetingId: string;
     sprintNumber: string;
+    teamId: string;
   };
   notes?: string;
   planning?: Section;
