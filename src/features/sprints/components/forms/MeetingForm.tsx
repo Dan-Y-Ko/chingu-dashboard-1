@@ -26,48 +26,41 @@ import {
 import { persistor, useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import routePaths from "@/shared/utils/routePaths";
-import { timezoneAdapter } from "@/shared/utils/adapters";
-import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
+import {
+  sprintMeetingAdapter,
+  useGetSprintMeeting,
+} from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import {
   addMeetingState,
   editMeetingState,
 } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
-import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import {
+  useGetMeetingLongDateTimeFormat,
+  useGetSprintEndDate,
+  useGetSprintStartDate,
+} from "@/features/timezone/hooks/useTimezoneAdapters";
 
 export default function MeetingForm() {
   const router = useRouter();
-  const params = useParams<{
+  const { teamId, sprintNumber, meetingId } = useParams<{
     teamId: string;
     sprintNumber: string;
     meetingId: string;
   }>();
-  const [teamId, sprintNumber, meetingId] = [
-    params.teamId,
-    params.sprintNumber,
-    params.meetingId,
-  ];
-
   const dispatch = useAppDispatch();
-  const { sprints } = useSprintStateSelector();
   const sprintMeeting = useSprintMeetingStateSelector();
   const { timezone } = useUserStateSelector();
   const [editMode, setEditMode] = useState<boolean>(false);
   const [meetingData, setMeetingData] = useState<Meeting>();
   const queryClient = useQueryClient();
-
-  const sprintStartDate = timezoneAdapter.getSprintStartDateBySprintNumber({
-    sprints,
-    sprintNumber,
-    timezone,
+  const { sprintStartDate } = useGetSprintStartDate({ sprintNumber });
+  const { sprintEndDate } = useGetSprintEndDate({ sprintNumber });
+  const { meetingLongDateTimeFormat } = useGetMeetingLongDateTimeFormat({
+    meetingData,
   });
-
-  const sprintEndDate = timezoneAdapter.getSprintEndDateBySprintNumber({
-    sprints,
-    sprintNumber,
-    timezone,
-  });
+  const { meeting } = useGetSprintMeeting({ meetingId });
 
   const validationSchema = z.object({
     title: validateTextInput({
@@ -195,25 +188,14 @@ export default function MeetingForm() {
   };
 
   useEffect(() => {
-    if (params.meetingId) {
-      const meeting = sprintMeetingAdapter.getSprintMeeting({
-        meeting: sprintMeeting,
-        meetingId,
-      });
-
+    if (meetingId) {
       setMeetingData(meeting);
       setEditMode(true);
     }
-  }, [params.meetingId, sprintMeeting, meetingId]);
+  }, [meetingId, sprintMeeting, meeting]);
 
   useEffect(() => {
     if (meetingData && meetingData.dateTime) {
-      const meetingLongDateTimeFormat =
-        timezoneAdapter.getMeetingLongDateTimeFormat({
-          meetingDateTime: meetingData?.dateTime,
-          timezone,
-        });
-
       reset({
         title: meetingData?.title,
         description: meetingData?.description,
@@ -221,7 +203,8 @@ export default function MeetingForm() {
         dateTime: meetingLongDateTimeFormat,
       });
     }
-  }, [meetingData, reset, timezone]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [meetingData, reset]);
 
   useEffect(
     () => () => {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { CalendarDaysIcon, ClockIcon } from "@heroicons/react/24/outline";
-import { timezoneAdapter } from "@/shared/utils/adapters";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import { timezoneAdapter } from "@/features/timezone/hooks/useTimezoneAdapters";
 
 interface DateTimeComponentWrapper {
   dateTime: string;
