@@ -16,7 +16,7 @@ interface UseEditAgendaMutationProps {
   meetingId: string;
 }
 
-export function useEditAgendaTopicMutation({
+export function useEditAgendaMutation({
   teamId,
   sprintNumber,
   meetingId,

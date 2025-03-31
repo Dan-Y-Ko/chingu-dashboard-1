@@ -23,8 +23,8 @@ import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";
 import { deleteAgendaState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import routePaths from "@/shared/utils/routePaths";
 import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
-import { useAddAgendaMutation } from "@/features/sprints/hooks/useAddAgendaMutation";
-import { useEditAgendaTopicMutation } from "@/features/sprints/hooks/useEditAgendaTopicMutation";
+import { useAddAgendaMutation } from "@/features/sprint-meeting/hooks/useAddAgendaMutation";
+import { useEditAgendaMutation } from "@/features/sprint-meeting/hooks/useEditAgendaMutation";
 
 const validationSchema = z.object({
   title: validateTextInput({
@@ -57,12 +57,11 @@ export default function AgendaTopicForm() {
     sprintNumber,
     meetingId,
   });
-  const { isEditAgendaPending, editAgendaMutation } =
-    useEditAgendaTopicMutation({
-      teamId,
-      sprintNumber,
-      meetingId,
-    });
+  const { isEditAgendaPending, editAgendaMutation } = useEditAgendaMutation({
+    teamId,
+    sprintNumber,
+    meetingId,
+  });
 
   const { mutate: deleteAgenda } = useMutation<
     DeleteAgendaTopicResponseDto,

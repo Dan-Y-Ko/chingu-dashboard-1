@@ -6,6 +6,7 @@ import type {
   AddSprintMeetingSectionClientRequestDto,
   Agenda,
   ChangeAgendaTopicStatusClientRequestDto,
+  DeleteAgendaTopicClientRequestDto,
   EditAgendaTopicClientRequestDto,
   EditMeetingClientRequestDto,
   FetchMeetingClientRequestDto,
@@ -266,4 +267,13 @@ export function useEditAgendaTopic() {
     });
 
   return { editAgendaTopic };
+}
+
+export function useDeleteAgendaTopic() {
+  const deleteAgendaTopic = async ({
+    agendaId,
+  }: DeleteAgendaTopicClientRequestDto) =>
+    await sprintMeetingAdapter.deleteAgendaTopic({ agendaId });
+
+  return { deleteAgendaTopic };
 }
