@@ -27,11 +27,12 @@ export function useFetchWeeklyCheckinFormQuery({
   } = useQuery({
     queryKey: [CacheTag.weeklyCheckInForm, { teamId, sprintNumber }],
     queryFn: fetchWeeklyCheckinFormQueryFn,
+    enabled: Boolean(voyageMemberRoles),
   });
 
   async function fetchWeeklyCheckinFormQueryFn() {
     return await fetchWeeklyCheckinForm({
-      voyageTeamRoles: voyageMemberRoles,
+      voyageTeamRoles: voyageMemberRoles!,
       currentUserVoyageRole,
     });
   }

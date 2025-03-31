@@ -48,8 +48,6 @@ export default function WeeklyCheckInPage({ params }: WeeklyCheckInPageProps) {
   const { currentSprint } = useGetCurrentSprint();
   const { id } = currentSprint as Sprint;
   const { sprintCheckinIsSubmitted } = useGetSprintCheckinStatus({ id });
-  // Check if a user wants to submit a checkin form for the current sprint.
-
   useSprintPageRedirect({ sprintNumber, teamId });
 
   useEffect(() => {

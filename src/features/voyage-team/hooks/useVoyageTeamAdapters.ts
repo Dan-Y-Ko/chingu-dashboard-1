@@ -75,10 +75,13 @@ export function useHasVoyageStarted() {
 
 export function useGetVoyageMemberRoles() {
   const team = useMyTeamStateSelector();
+  let voyageMemberRoles;
 
-  const voyageMemberRoles = voyageTeamAdapter.getVoyageMemberRoles({
-    voyageTeam: team,
-  });
+  if (team.id) {
+    voyageMemberRoles = voyageTeamAdapter.getVoyageMemberRoles({
+      voyageTeam: team,
+    });
+  }
 
   return { voyageMemberRoles };
 }
