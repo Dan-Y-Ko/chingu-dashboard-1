@@ -75,3 +75,32 @@ export function useGetMeetingLongDateTimeFormat({
 
   return { meetingLongDateTimeFormat };
 }
+
+interface UseGetMeetingDateProps {
+  dateTime: string;
+}
+
+export function useGetMeetingDate({ dateTime }: UseGetMeetingDateProps) {
+  const { timezone } = useUserStateSelector();
+
+  const getMeetingDate = timezoneAdapter.getMeetingDate({ dateTime, timezone });
+
+  return { getMeetingDate };
+}
+
+interface UseGetMeetingTimeWithTZAbbreviationProps {
+  dateTime: string;
+}
+
+export function useGetMeetingTimeWithTZAbbreviation({
+  dateTime,
+}: UseGetMeetingTimeWithTZAbbreviationProps) {
+  const { timezone } = useUserStateSelector();
+
+  const getMeetingTime = timezoneAdapter.getMeetingTimeWithTZAbbreviation({
+    dateTime,
+    timezone,
+  });
+
+  return { getMeetingTime };
+}

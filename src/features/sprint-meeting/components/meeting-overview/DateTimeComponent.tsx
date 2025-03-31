@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { CalendarDaysIcon, ClockIcon } from "@heroicons/react/24/outline";
-import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
-import { timezoneAdapter } from "@/features/timezone/hooks/useTimezoneAdapters";
+import {
+  useGetMeetingDate,
+  useGetMeetingTimeWithTZAbbreviation,
+} from "@/features/timezone/hooks/useTimezoneAdapters";
 
 interface DateTimeComponentWrapper {
   dateTime: string;
@@ -11,14 +13,8 @@ export default function DateTimeComponent({
   dateTime,
 }: DateTimeComponentWrapper) {
   const [isMounted, setIsMounted] = useState<boolean>(false);
-  const { timezone } = useUserStateSelector();
-
-  const getMeetingDate = timezoneAdapter.getMeetingDate({ dateTime, timezone });
-
-  const getMeetingTime = timezoneAdapter.getMeetingTimeWithTZAbbreviation({
-    dateTime,
-    timezone,
-  });
+  const { getMeetingDate } = useGetMeetingDate({ dateTime });
+  const { getMeetingTime } = useGetMeetingTimeWithTZAbbreviation({ dateTime });
 
   useEffect(() => {
     setIsMounted(true);
