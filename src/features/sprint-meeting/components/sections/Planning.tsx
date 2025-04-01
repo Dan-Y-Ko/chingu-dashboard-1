@@ -6,25 +6,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type {
-  EditSprintMeetingSectionResponseDto,
-  EditSprintPlanningSectionClientRequestDto,
-  SectionBody,
-} from "@chingu-x/modules/sprint-meeting";
+import type { SectionBody } from "@chingu-x/modules/sprint-meeting";
 import Textarea from "@/shared/components/inputs/Textarea";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { useAppDispatch } from "@/shared/store";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
 import {
-  sprintMeetingAdapter,
   useGetSprintMeeting,
   useGetSprintPlanningQuestions,
 } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
-import { CacheTag } from "@/shared/utils/cacheTag";
-import { editSprintMeetingSectonState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
-import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
-import { useFetchSprintMeetingFormQuery } from "@/features/sprint-meeting/hooks/useFetchSprintMeetingFormQuery";
+import { useEditSprintPlanningSectionMutation } from "@/features/sprint-meeting/hooks/useEditSprintPlanningSectionMutation";
 
 const validationSchema = z.object({
   goal: validateTextInput({
@@ -49,6 +38,10 @@ export default function Planning({ id }: PlanningProps) {
   }>();
   const { meeting } = useGetSprintMeeting({ meetingId });
   const { goal, timeline } = useGetSprintPlanningQuestions({ meeting });
+  const {
+    isEditSprintPlanningSectionPending,
+    editSprintPlanningSectionMutation,
+  } = useEditSprintPlanningSectionMutation({ id, meetingId });
 
   const {
     register,
@@ -73,7 +66,7 @@ export default function Planning({ id }: PlanningProps) {
       }
     }
 
-    editSprintPlanningSection({
+    editSprintPlanningSectionMutation({
       meetingId,
       data: filteredData,
     });
@@ -107,9 +100,9 @@ export default function Planning({ id }: PlanningProps) {
         variant="outline"
         size="md"
         className="min-w-[75px] self-center"
-        disabled={!isDirty || !isValid || editSprintPlanningSectionPending}
+        disabled={!isDirty || !isValid || isEditSprintPlanningSectionPending}
       >
-        {editSprintPlanningSectionPending ? <Spinner /> : "Save"}
+        {isEditSprintPlanningSectionPending ? <Spinner /> : "Save"}
       </Button>
     </form>
   );
