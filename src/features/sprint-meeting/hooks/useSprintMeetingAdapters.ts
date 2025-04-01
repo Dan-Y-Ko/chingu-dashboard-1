@@ -320,3 +320,16 @@ export function useEditSprintReviewSection() {
 
   return { editSprintReviewSection };
 }
+
+interface UseGetSprintReviewQuestionsProps {
+  meeting: Meeting;
+}
+
+export function useGetSprintReviewQuestions({
+  meeting,
+}: UseGetSprintReviewQuestionsProps) {
+  const { what_right, what_to_improve, what_to_change } =
+    sprintMeetingAdapter.getSprintReviewQuestions({ meeting });
+
+  return { what_right, what_to_improve, what_to_change };
+}

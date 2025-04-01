@@ -10,8 +10,8 @@ import { Spinner } from "@chingu-x/components/spinner";
 import Textarea from "@/shared/components/inputs/Textarea";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
 import {
-  sprintMeetingAdapter,
   useGetSprintMeeting,
+  useGetSprintReviewQuestions,
 } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { useEditSprintReviewSectionMutation } from "@/features/sprint-meeting/hooks/useEditSprintReviewSectionMutation";
 
@@ -42,7 +42,7 @@ export default function Review({ id }: ReviewProps) {
   }>();
   const { meeting } = useGetSprintMeeting({ meetingId });
   const { what_right, what_to_improve, what_to_change } =
-    sprintMeetingAdapter.getSprintReviewQuestions({ meeting });
+    useGetSprintReviewQuestions({ meeting });
   const { isEditSprintReviewSectionPending, editSprintReviewSectionMutation } =
     useEditSprintReviewSectionMutation({ id, meetingId });
 
