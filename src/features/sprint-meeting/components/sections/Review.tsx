@@ -4,22 +4,16 @@ import { z } from "zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
-import type {
-  EditSprintMeetingSectionResponseDto,
-  EditSprintReviewSectionClientRequestDto,
-  SectionBody,
-} from "@chingu-x/modules/sprint-meeting";
+import type { SectionBody } from "@chingu-x/modules/sprint-meeting";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Textarea from "@/shared/components/inputs/Textarea";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { useAppDispatch } from "@/shared/store";
-import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
-import { CacheTag } from "@/shared/utils/cacheTag";
-import { editSprintMeetingSectonState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
-import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
+import {
+  sprintMeetingAdapter,
+  useGetSprintMeeting,
+} from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
+import { useEditSprintReviewSectionMutation } from "@/features/sprint-meeting/hooks/useEditSprintReviewSectionMutation";
 
 const validationSchema = z.object({
   what_right: validateTextInput({
@@ -43,34 +37,14 @@ interface ReviewProps {
 }
 
 export default function Review({ id }: ReviewProps) {
-  const dispatch = useAppDispatch();
-  const params = useParams<{
-    sprintNumber: string;
+  const { meetingId } = useParams<{
     meetingId: string;
   }>();
-  const [meetingId] = [params.meetingId];
-  const meeting = useSprintMeetingStateSelector();
-
-  const currentMeeting = sprintMeetingAdapter.getSprintMeeting({
-    meeting,
-    meetingId,
-  });
-
+  const { meeting } = useGetSprintMeeting({ meetingId });
   const { what_right, what_to_improve, what_to_change } =
-    sprintMeetingAdapter.getSprintReviewQuestions({ meeting: currentMeeting });
-
-  useQuery({
-    queryKey: [],
-    queryFn: fetchSprintMeetingForm,
-    enabled: false,
-  });
-
-  async function fetchSprintMeetingForm() {
-    return await sprintMeetingAdapter.fetchSprintMeetingForm({
-      meetingId,
-      formId: id,
-    });
-  }
+    sprintMeetingAdapter.getSprintReviewQuestions({ meeting });
+  const { isEditSprintReviewSectionPending, editSprintReviewSectionMutation } =
+    useEditSprintReviewSectionMutation({ id, meetingId });
 
   const {
     register,
@@ -95,7 +69,7 @@ export default function Review({ id }: ReviewProps) {
       }
     }
 
-    editSprintReviewSection({
+    editSprintReviewSectionMutation({
       meetingId,
       data: filteredData,
     });
@@ -138,9 +112,9 @@ export default function Review({ id }: ReviewProps) {
         variant="outline"
         size="md"
         className="min-w-[75px] self-center"
-        disabled={!isDirty || !isValid || editSprintReviewSectionPending}
+        disabled={!isDirty || !isValid || isEditSprintReviewSectionPending}
       >
-        {editSprintReviewSectionPending ? <Spinner /> : "Save"}
+        {isEditSprintReviewSectionPending ? <Spinner /> : "Save"}
       </Button>
     </form>
   );
