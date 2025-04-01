@@ -4,19 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { type SetStateAction, useEffect } from "react";
-import { useMutation } from "@tanstack/react-query";
-import type {
-  EditHoursClientRequestDto,
-  EditHoursResponseDto,
-} from "@chingu-x/modules/my-team";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { useAppDispatch } from "@/shared/store";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { editHours } from "@/features/voyage-team/store/myTeamSlice";
-import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import { useEditHoursMutation } from "@/features/voyage-team/hooks/useEditHoursMutation";
 
 interface EditHoursProps {
   hrPerSprint: number;
@@ -43,7 +35,8 @@ export default function EditHours({
 }: EditHoursProps) {
   const params = useParams<{ teamId: string }>();
   const { teamId } = params;
-  const dispatch = useAppDispatch();
+  const { isEditHoursMutationPending, editHoursMutation } =
+    useEditHoursMutation({ setIsEditing });
 
   const {
     register,
@@ -59,7 +52,7 @@ export default function EditHours({
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     const { avgHours } = data;
 
-    mutate({ teamId, hrPerSprint: Number(avgHours) });
+    editHoursMutation({ teamId, hrPerSprint: Number(avgHours) });
   };
 
   function handleClearInputAction() {
@@ -81,7 +74,7 @@ export default function EditHours({
         errorMessage={errors.avgHours?.message}
         placeholder={`${hrPerSprint}`}
         defaultValue={`${hrPerSprint}`}
-        submitButtonText={isPending ? <Spinner /> : "Save"}
+        submitButtonText={isEditHoursMutationPending ? <Spinner /> : "Save"}
         buttonDisabled={!isDirty || !isValid}
       />
     </form>
