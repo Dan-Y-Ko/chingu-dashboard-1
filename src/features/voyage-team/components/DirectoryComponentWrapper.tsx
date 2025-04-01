@@ -1,18 +1,12 @@
 "use client";
 
 import "reflect-metadata";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { Spinner } from "@chingu-x/components/spinner";
 import TeamMember from "./TeamMember";
-import { fetchTeamDirectory } from "@/features/voyage-team/store/myTeamSlice";
-import { CacheTag } from "@/shared/utils/cacheTag";
-import { useMyTeam } from "@/store/hooks";
-import { myTeamAdapter } from "@/shared/utils/adapters";
 import ErrorComponent from "@/shared/components/Error";
 import { ErrorType } from "@/shared/utils/error";
-import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
-import { useAppDispatch } from "@/shared/store";
+import { useMyTeamStateSelector } from "@/features/voyage-team/hooks/useMyTeamStateSelector";
+import { useFetchMyTeamQuery } from "@/features/voyage-team/hooks/useFetchMyTeamQuery";
 
 interface TeamDirectoryProps {
   params: {
@@ -23,34 +17,21 @@ interface TeamDirectoryProps {
 export default function DirectoryComponentWrapper({
   params,
 }: TeamDirectoryProps) {
-  const user = useUserStateSelector();
-  const myTeam = useMyTeam();
-  const dispatch = useAppDispatch();
+  const myTeam = useMyTeamStateSelector();
   const { teamId } = params;
+  const { isFetchMyTeamPending, isFetchMyTeamError, fetchMyTeamError } =
+    useFetchMyTeamQuery({
+      teamId,
+    });
 
-  const { isPending, isError, error, data } = useQuery({
-    queryKey: [CacheTag.myTeam, { teamId, user: `${user.id}` }],
-    queryFn: () => getMyTeamQuery(),
-  });
-
-  async function getMyTeamQuery() {
-    return await myTeamAdapter.fetchMyTeam({ teamId, user });
-  }
-
-  useEffect(() => {
-    if (data) {
-      dispatch(fetchTeamDirectory(data));
-    }
-  }, [data, dispatch]);
-
-  if (isError) {
+  if (isFetchMyTeamError) {
     <ErrorComponent
       errorType={ErrorType.FETCH_MY_TEAM}
-      message={error.message}
+      message={fetchMyTeamError!.message}
     />;
   }
 
-  if (isPending) {
+  if (isFetchMyTeamPending) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Spinner />

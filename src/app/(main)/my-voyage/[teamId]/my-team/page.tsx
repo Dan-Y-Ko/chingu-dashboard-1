@@ -1,7 +1,7 @@
 import { BannerContainer } from "@chingu-x/components/banner-container";
 import { Banner } from "@chingu-x/components/banner";
 import Image from "next/image";
-import DirectoryComponentWrapper from "./components/DirectoryComponentWrapper";
+import DirectoryComponentWrapper from "@/features/voyage-team/components/DirectoryComponentWrapper";
 
 interface DirectoryPageProps {
   params: {
