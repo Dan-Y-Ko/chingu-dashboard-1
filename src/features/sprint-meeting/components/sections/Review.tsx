@@ -48,10 +48,7 @@ export default function Review({ id }: ReviewProps) {
     sprintNumber: string;
     meetingId: string;
   }>();
-
   const [meetingId] = [params.meetingId];
-
-  const queryClient = useQueryClient();
   const meeting = useSprintMeetingStateSelector();
 
   const currentMeeting = sprintMeetingAdapter.getSprintMeeting({
@@ -61,45 +58,6 @@ export default function Review({ id }: ReviewProps) {
 
   const { what_right, what_to_improve, what_to_change } =
     sprintMeetingAdapter.getSprintReviewQuestions({ meeting: currentMeeting });
-
-  const {
-    mutate: editSprintReviewSection,
-    isPending: editSprintReviewSectionPending,
-  } = useMutation<
-    EditSprintMeetingSectionResponseDto,
-    Error,
-    EditSprintReviewSectionClientRequestDto
-  >({
-    mutationFn: editSprintReviewSectionMutation,
-    onSuccess: async (data) => {
-      await queryClient.invalidateQueries({
-        queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
-      });
-
-      try {
-        const sprintMeetingForm = await fetchSprintMeetingForm();
-        const responseData =
-          sprintMeetingAdapter.getSprintMeetingSectionResponses({
-            sprintMeetingForm,
-          });
-        dispatch(
-          editSprintMeetingSectonState({ data, meetingId, responseData }),
-        );
-      } catch (error) {
-        dispatch(
-          onOpenModal({
-            type: "error",
-            content: { message: (error as Error).message },
-          }),
-        );
-      }
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
 
   useQuery({
     queryKey: [],
@@ -111,16 +69,6 @@ export default function Review({ id }: ReviewProps) {
     return await sprintMeetingAdapter.fetchSprintMeetingForm({
       meetingId,
       formId: id,
-    });
-  }
-
-  async function editSprintReviewSectionMutation({
-    meetingId,
-    data,
-  }: EditSprintReviewSectionClientRequestDto): Promise<EditSprintMeetingSectionResponseDto> {
-    return await sprintMeetingAdapter.editSprintReviewSection({
-      meetingId,
-      data,
     });
   }
 

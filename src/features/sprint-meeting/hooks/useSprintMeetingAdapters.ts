@@ -10,6 +10,7 @@ import type {
   EditAgendaTopicClientRequestDto,
   EditMeetingClientRequestDto,
   EditSprintPlanningSectionClientRequestDto,
+  EditSprintReviewSectionClientRequestDto,
   FetchMeetingClientRequestDto,
   FetchSprintMeetingFormClientRequestDto,
   GetAgendaByIdClientRequestDto,
@@ -305,4 +306,17 @@ export function useEditSprintPlanningSection() {
     });
 
   return { editSprintPlanningSection };
+}
+
+export function useEditSprintReviewSection() {
+  const editSprintReviewSection = async ({
+    meetingId,
+    data,
+  }: EditSprintReviewSectionClientRequestDto) =>
+    await sprintMeetingAdapter.editSprintReviewSection({
+      meetingId,
+      data,
+    });
+
+  return { editSprintReviewSection };
 }
