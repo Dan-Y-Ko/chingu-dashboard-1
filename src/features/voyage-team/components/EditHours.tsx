@@ -36,7 +36,7 @@ export default function EditHours({
   const params = useParams<{ teamId: string }>();
   const { teamId } = params;
   const { isEditHoursMutationPending, editHoursMutation } =
-    useEditHoursMutation({ setIsEditing });
+    useEditHoursMutation({ setIsEditing, teamId });
 
   const {
     register,

@@ -12,7 +12,7 @@ export const currentVoyageTeamSlice = createSlice({
   initialState,
   reducers: {
     setCurrentVoyageTeam: (_, action: PayloadAction<UserVoyageTeamMember[]>) =>
-      action.payload,
+      action.payload.sort((a, b) => a.id - b.id),
   },
   extraReducers(builder) {
     builder.addCase(
