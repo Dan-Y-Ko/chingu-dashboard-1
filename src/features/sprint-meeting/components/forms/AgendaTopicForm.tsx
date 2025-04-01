@@ -15,7 +15,7 @@ import { validateTextInput } from "@/shared/utils/form/validateInput";
 import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
 import { persistor, useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
+import { useGetAgendaById } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { useAddAgendaMutation } from "@/features/sprint-meeting/hooks/useAddAgendaMutation";
 import { useEditAgendaMutation } from "@/features/sprint-meeting/hooks/useEditAgendaMutation";
 import { useDeleteAgendaMutation } from "@/features/sprint-meeting/hooks/useDeleteAgendaMutation";
@@ -56,12 +56,12 @@ export default function AgendaTopicForm() {
     sprintNumber,
     meetingId,
   });
-  const { deleteAgendaMutation } =
-    useDeleteAgendaMutation({
-      teamId,
-      sprintNumber,
-      meetingId,
-    });
+  const { deleteAgendaMutation } = useDeleteAgendaMutation({
+    teamId,
+    sprintNumber,
+    meetingId,
+  });
+  const { getAgendaById } = useGetAgendaById();
 
   const {
     register,
@@ -106,8 +106,8 @@ export default function AgendaTopicForm() {
   }
 
   useEffect(() => {
-    if (agendaId) {
-      const topic = sprintMeetingAdapter.getAgendaById({
+    if (agendaId && sprintMeeting) {
+      const topic = getAgendaById({
         meeting: sprintMeeting,
         meetingId,
         agendaId,
@@ -116,7 +116,7 @@ export default function AgendaTopicForm() {
       setTopicData(topic);
       setEditMode(true);
     }
-  }, [agendaId, meetingId, sprintMeeting]);
+  }, [agendaId, meetingId, sprintMeeting, getAgendaById]);
 
   useEffect(
     () => () => {

@@ -16,7 +16,11 @@ import Textarea from "@/shared/components/inputs/Textarea";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
 import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { sprintMeetingAdapter } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
+import {
+  sprintMeetingAdapter,
+  useGetSprintMeeting,
+  useGetSprintPlanningQuestions,
+} from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { editSprintMeetingSectonState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
 import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
@@ -44,19 +48,9 @@ export default function Planning({ id }: PlanningProps) {
   const { meetingId } = useParams<{
     meetingId: string;
   }>();
-
+  const { meeting } = useGetSprintMeeting({ meetingId });
   const queryClient = useQueryClient();
-  const meeting = useSprintMeetingStateSelector();
-
-  const currentMeeting = sprintMeetingAdapter.getSprintMeeting({
-    meeting,
-    meetingId,
-  });
-
-  const { goal, timeline } = sprintMeetingAdapter.getSprintPlanningQuestions({
-    meeting: currentMeeting,
-  });
-
+  const { goal, timeline } = useGetSprintPlanningQuestions({ meeting });
   const { fetchSprintMeetingFormFn } = useFetchSprintMeetingFormQuery({
     id,
     meetingId,

@@ -14,6 +14,7 @@ import type {
   GetAgendaByIdClientRequestDto,
   GetSprintMeetingIdClientRequesDto,
   GetSprintMeetingSectionResponsesClientRequestDto,
+  Meeting,
   SprintMeetingClientAdapter,
 } from "@chingu-x/modules/sprint-meeting";
 import { useSprintMeetingStateSelector } from "./useSprintMeetingStateSelector";
@@ -276,4 +277,18 @@ export function useDeleteAgendaTopic() {
     await sprintMeetingAdapter.deleteAgendaTopic({ agendaId });
 
   return { deleteAgendaTopic };
+}
+
+interface UseGetSprintPlanningQuestionsProps {
+  meeting: Meeting;
+}
+
+export function useGetSprintPlanningQuestions({
+  meeting,
+}: UseGetSprintPlanningQuestionsProps) {
+  const { goal, timeline } = sprintMeetingAdapter.getSprintPlanningQuestions({
+    meeting,
+  });
+
+  return { goal, timeline };
 }
