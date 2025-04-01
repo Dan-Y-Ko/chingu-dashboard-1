@@ -9,6 +9,7 @@ import type {
   DeleteAgendaTopicClientRequestDto,
   EditAgendaTopicClientRequestDto,
   EditMeetingClientRequestDto,
+  EditSprintPlanningSectionClientRequestDto,
   FetchMeetingClientRequestDto,
   FetchSprintMeetingFormClientRequestDto,
   GetAgendaByIdClientRequestDto,
@@ -291,4 +292,17 @@ export function useGetSprintPlanningQuestions({
   });
 
   return { goal, timeline };
+}
+
+export function useEditSprintPlanningSection() {
+  const editSprintPlanningSection = async ({
+    meetingId,
+    data,
+  }: EditSprintPlanningSectionClientRequestDto) =>
+    await sprintMeetingAdapter.editSprintPlanningSection({
+      meetingId,
+      data,
+    });
+
+  return { editSprintPlanningSection };
 }

@@ -44,66 +44,11 @@ interface PlanningProps {
 }
 
 export default function Planning({ id }: PlanningProps) {
-  const dispatch = useAppDispatch();
   const { meetingId } = useParams<{
     meetingId: string;
   }>();
   const { meeting } = useGetSprintMeeting({ meetingId });
-  const queryClient = useQueryClient();
   const { goal, timeline } = useGetSprintPlanningQuestions({ meeting });
-  const { fetchSprintMeetingFormFn } = useFetchSprintMeetingFormQuery({
-    id,
-    meetingId,
-  });
-
-  const {
-    mutate: editSprintPlanningSection,
-    isPending: editSprintPlanningSectionPending,
-  } = useMutation<
-    EditSprintMeetingSectionResponseDto,
-    Error,
-    EditSprintPlanningSectionClientRequestDto
-  >({
-    mutationFn: editSprintPlanningSectionMutation,
-    onSuccess: async (data) => {
-      await queryClient.invalidateQueries({
-        queryKey: [CacheTag.sprints, CacheTag.sprintMeetingId],
-      });
-
-      try {
-        const sprintMeetingForm = await fetchSprintMeetingFormFn();
-        const responseData =
-          sprintMeetingAdapter.getSprintMeetingSectionResponses({
-            sprintMeetingForm,
-          });
-        dispatch(
-          editSprintMeetingSectonState({ data, meetingId, responseData }),
-        );
-      } catch (error) {
-        dispatch(
-          onOpenModal({
-            type: "error",
-            content: { message: (error as Error).message },
-          }),
-        );
-      }
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
-
-  async function editSprintPlanningSectionMutation({
-    meetingId,
-    data,
-  }: EditSprintPlanningSectionClientRequestDto): Promise<EditSprintMeetingSectionResponseDto> {
-    return await sprintMeetingAdapter.editSprintPlanningSection({
-      meetingId,
-      data,
-    });
-  }
 
   const {
     register,
