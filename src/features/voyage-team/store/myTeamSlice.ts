@@ -58,7 +58,7 @@ export const myTeamSlice = createSlice({
       ...state,
       ...action.payload,
     }),
-    editHours: (state, action: PayloadAction<EditHoursPayload>) => {
+    editHoursState: (state, action: PayloadAction<EditHoursPayload>) => {
       const userIdSet = new Set(
         action.payload.user.voyageTeamMembers.map((member) => member.id),
       );
@@ -72,6 +72,6 @@ export const myTeamSlice = createSlice({
   },
 });
 
-export const { fetchTeamDirectory, editHours } = myTeamSlice.actions;
+export const { fetchTeamDirectory, editHoursState } = myTeamSlice.actions;
 
 export default myTeamSlice.reducer;

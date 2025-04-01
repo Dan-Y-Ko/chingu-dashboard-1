@@ -15,7 +15,6 @@ import { TextInput } from "@chingu-x/components/inputs";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
 import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { myTeamAdapter } from "@/shared/utils/adapters";
 import { editHours } from "@/features/voyage-team/store/myTeamSlice";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
@@ -45,7 +44,6 @@ export default function EditHours({
   const params = useParams<{ teamId: string }>();
   const { teamId } = params;
   const dispatch = useAppDispatch();
-  const user = useUserStateSelector();
 
   const {
     register,
@@ -58,36 +56,11 @@ export default function EditHours({
     resolver: zodResolver(validationSchema),
   });
 
-  const { mutate, isPending } = useMutation<
-    EditHoursResponseDto,
-    Error,
-    EditHoursClientRequestDto
-  >({
-    mutationFn: editHoursMutation,
-    onSuccess: (_, variables) => {
-      const { hrPerSprint } = variables;
-      setIsEditing(false);
-      dispatch(editHours({ user, hrPerSprint }));
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
-
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     const { avgHours } = data;
 
     mutate({ teamId, hrPerSprint: Number(avgHours) });
   };
-
-  async function editHoursMutation({
-    teamId,
-    hrPerSprint,
-  }: EditHoursClientRequestDto): Promise<EditHoursResponseDto> {
-    return await myTeamAdapter.editHours({ teamId, hrPerSprint });
-  }
 
   function handleClearInputAction() {
     reset({ avgHours: hrPerSprint.toString() });

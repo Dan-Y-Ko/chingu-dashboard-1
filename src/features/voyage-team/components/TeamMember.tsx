@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useRef, useState } from "react";
 import type { CurrentVoyageTeamMember } from "@chingu-x/modules/voyage-team";
 import { cn } from "@chingu-x/components/tw-merge";
