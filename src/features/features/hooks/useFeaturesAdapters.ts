@@ -1,6 +1,7 @@
 import { resolve } from "@chingu-x/modules/resolver";
 import { TYPES } from "@chingu-x/modules/di-types";
 import type {
+  EditFeatureClientRequestDto,
   FeaturesClientAdapter,
   FetchFeaturesClientRequestDto,
   SaveOrderClientRequestDto,
@@ -30,4 +31,19 @@ export function useSaveOrder() {
     });
 
   return { saveOrder };
+}
+
+export function useEditFeature() {
+  const editFeature = async ({
+    featureId,
+    teamMemberId,
+    description,
+  }: EditFeatureClientRequestDto) =>
+    await featuresAdapter.editFeature({
+      featureId,
+      teamMemberId,
+      description,
+    });
+
+  return { editFeature };
 }
