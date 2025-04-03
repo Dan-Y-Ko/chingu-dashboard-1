@@ -3,6 +3,7 @@ import { TYPES } from "@chingu-x/modules/di-types";
 import type {
   FeaturesClientAdapter,
   FetchFeaturesClientRequestDto,
+  SaveOrderClientRequestDto,
 } from "@chingu-x/modules/features";
 
 export const featuresAdapter = resolve<FeaturesClientAdapter>(
@@ -14,4 +15,19 @@ export function useFetchFeatures() {
     await featuresAdapter.fetchFeatures({ teamId });
 
   return { fetchFeatures };
+}
+
+export function useSaveOrder() {
+  const saveOrder = async ({
+    featureId,
+    order,
+    featureCategoryId,
+  }: SaveOrderClientRequestDto) =>
+    await featuresAdapter.saveOrder({
+      featureId,
+      order,
+      featureCategoryId,
+    });
+
+  return { saveOrder };
 }

@@ -21,7 +21,7 @@ import { featuresAdapter } from "@/features/features/hooks/useFeaturesAdapters";
 export default function FeaturesContainer() {
   const features = useFeatures();
   const dispatch = useAppDispatch();
-  const queryClient = useQueryClient();
+
   const { teamId } = useParams();
 
   const onDragEnd = (result: DropResult) => {
@@ -97,37 +97,6 @@ export default function FeaturesContainer() {
       });
     }
   };
-
-  const { mutate: saveOrder } = useMutation<
-    SaveOrderClientResponseDto,
-    Error,
-    SaveOrderClientRequestDto
-  >({
-    mutationFn: saveOrderMutation,
-    onError: (error: Error) => {
-      const previousData = queryClient.getQueryData([
-        CacheTag.features,
-        { teamId },
-      ]);
-
-      dispatch(rollbackOrderState(previousData as FeaturesList));
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
-
-  async function saveOrderMutation({
-    featureId,
-    order,
-    featureCategoryId,
-  }: SaveOrderClientRequestDto): Promise<SaveOrderClientResponseDto> {
-    return await featuresAdapter.saveOrder({
-      featureId,
-      order,
-      featureCategoryId,
-    });
-  }
 
   return (
     <div className="grid grid-cols-3 items-start gap-x-10">
