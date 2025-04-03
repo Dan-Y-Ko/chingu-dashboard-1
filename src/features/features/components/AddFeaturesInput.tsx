@@ -56,56 +56,6 @@ export default function AddFeaturesInput({
     resolver: zodResolver(validationSchema),
   });
 
-  const { mutate: addFeature, isPending: addFeaturePending } = useMutation<
-    AddFeatureClientResponseDto,
-    Error,
-    AddFeatureClientRequestDto
-  >({
-    mutationFn: addFeatureMutation,
-    onSuccess: async (data) => {
-      try {
-        const feature = await getFeatureQuery(data.id);
-        dispatch(addFeatureState(feature));
-      } catch (error) {
-        dispatch(
-          onOpenModal({
-            type: "error",
-            content: { message: (error as Error).message },
-          }),
-        );
-      } finally {
-        setIsEditing(false);
-      }
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
-
-  async function addFeatureMutation({
-    teamId,
-    description,
-    featureCategoryId,
-  }: AddFeatureClientRequestDto): Promise<AddFeatureClientResponseDto> {
-    return await featuresAdapter.addFeature({
-      teamId,
-      description,
-      featureCategoryId,
-    });
-  }
-
-  useQuery({
-    queryKey: [CacheTag.feature, id],
-    queryFn: () => getFeatureQuery(id),
-    enabled: false,
-  });
-
-  async function getFeatureQuery(featureId: number) {
-    return await featuresAdapter.fetchFeature({ featureId });
-  }
-
   function handleClearInputAction() {
     reset({ description: "" });
   }

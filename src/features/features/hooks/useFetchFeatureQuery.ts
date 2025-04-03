@@ -18,4 +18,8 @@ export function useFetchFeatureQuery({ id }: UseFetchFeatureQueryProps) {
   async function getFeatureQuery(featureId: number) {
     return await fetchFeature({ featureId });
   }
+
+  return {
+    getFeatureQuery,
+  };
 }

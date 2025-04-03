@@ -1,6 +1,7 @@
 import { resolve } from "@chingu-x/modules/resolver";
 import { TYPES } from "@chingu-x/modules/di-types";
 import type {
+  AddFeatureClientRequestDto,
   DeleteFeatureClientRequestDto,
   EditFeatureClientRequestDto,
   FeaturesClientAdapter,
@@ -62,4 +63,19 @@ export function useFetchFeature() {
     await featuresAdapter.fetchFeature({ featureId });
 
   return { fetchFeature };
+}
+
+export function useAddFeature() {
+  const addFeature = async ({
+    teamId,
+    description,
+    featureCategoryId,
+  }: AddFeatureClientRequestDto) =>
+    await featuresAdapter.addFeature({
+      teamId,
+      description,
+      featureCategoryId,
+    });
+
+  return { addFeature };
 }
