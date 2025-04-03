@@ -7,17 +7,8 @@ import { useParams } from "next/navigation";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import type {
-  AddFeatureClientRequestDto,
-  AddFeatureClientResponseDto,
-} from "@chingu-x/modules/features";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { CacheTag } from "@/shared/utils/cacheTag";
-import { addFeatureState } from "@/features/features/store/featuresSlice";
-import { useAppDispatch } from "@/shared/store";
-import { featuresAdapter } from "@/features/features/hooks/useFeaturesAdapters";
+import { useAddFeatureMutation } from "@/features/features/hooks/useAddFeatureMutation";
 
 interface AddFeaturesInputProps {
   handleClick: () => void;
@@ -41,9 +32,11 @@ export default function AddFeaturesInput({
   setIsEditing,
   id,
 }: AddFeaturesInputProps) {
-  const params = useParams<{ teamId: string }>();
-  const { teamId } = params;
-  const dispatch = useAppDispatch();
+  const { teamId } = useParams<{ teamId: string }>();
+  const { isAddFeaturePending, addFeatureMutation } = useAddFeatureMutation({
+    setIsEditing,
+    id,
+  });
 
   const {
     register,
@@ -69,7 +62,7 @@ export default function AddFeaturesInput({
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     const { description } = data;
 
-    addFeature({ teamId, description, featureCategoryId: id });
+    addFeatureMutation({ teamId, description, featureCategoryId: id });
   };
 
   return isEditing ? (
@@ -80,8 +73,8 @@ export default function AddFeaturesInput({
         {...register("description")}
         errorMessage={errors.description?.message}
         placeholder="Add Feature"
-        submitButtonText={addFeaturePending ? <Spinner /> : "Save"}
-        buttonDisabled={!isDirty || !isValid}
+        submitButtonText={isAddFeaturePending ? <Spinner /> : "Save"}
+        buttonDisabled={!isDirty || !isValid || isAddFeaturePending}
       />
     </form>
   ) : (
