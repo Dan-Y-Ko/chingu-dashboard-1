@@ -1,28 +1,19 @@
 import { DragDropContext, type DropResult } from "@hello-pangea/dnd";
-import type {
-  FeaturesList,
-  SaveOrderClientRequestDto,
-  SaveOrderClientResponseDto,
-} from "@chingu-x/modules/features";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import List from "./List";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
 import {
-  rollbackOrderState,
   saveOrderStateDifferentCategory,
   saveOrderStateSameCategory,
 } from "@/features/features/store/featuresSlice";
-import { CacheTag } from "@/shared/utils/cacheTag";
 import { useFeatures } from "@/features/features/hooks/useFeaturesStateSelector";
 import { useAppDispatch } from "@/shared/store";
-import { featuresAdapter } from "@/features/features/hooks/useFeaturesAdapters";
+import { useSaveOrderMutation } from "@/features/features/hooks/useSaveOrderMutation";
 
 export default function FeaturesContainer() {
   const features = useFeatures();
   const dispatch = useAppDispatch();
-
-  const { teamId } = useParams();
+  const { teamId } = useParams<{ teamId: string }>();
+  const { saveOrderMutation } = useSaveOrderMutation({ teamId });
 
   const onDragEnd = (result: DropResult) => {
     const { destination, source } = result;
@@ -65,7 +56,7 @@ export default function FeaturesContainer() {
       reorderedCards.splice(destination.index, 0, removed);
 
       dispatch(saveOrderStateSameCategory(reorderedCards));
-      saveOrder({
+      saveOrderMutation({
         featureId: removed.id,
         order: destination.index + 1,
         featureCategoryId: removed.category.id,
@@ -90,7 +81,7 @@ export default function FeaturesContainer() {
       // // Add card to the destination list
       destList.features.splice(destination.index, 0, updatedMovedCard);
       dispatch(saveOrderStateDifferentCategory({ sourceList, destList }));
-      saveOrder({
+      saveOrderMutation({
         featureId: updatedMovedCard.id,
         order: destination.index + 1,
         featureCategoryId: updatedMovedCard.category.id,
