@@ -4,18 +4,10 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
-import type {
-  EditFeatureClientRequestDto,
-  EditFeatureClientResponseDto,
-  Feature,
-} from "@chingu-x/modules/features";
-import { useMutation } from "@tanstack/react-query";
+import type { Feature } from "@chingu-x/modules/features";
 import Card from "./Card";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { editFeatureState } from "@/features/features/store/featuresSlice";
-import { useAppDispatch } from "@/shared/store";
-import { featuresAdapter } from "@/features/features/hooks/useFeaturesAdapters";
+import { useEditFeatureMutation } from "@/features/features/hooks/useEditFeatureMutation";
 
 const validationSchema = z.object({
   description: validateTextInput({
@@ -34,8 +26,10 @@ interface ListItemProps {
 export default function ListItem({ feature, index }: ListItemProps) {
   const [editMode, setEditMode] = useState<boolean>(false);
   const listItemRef = useRef<HTMLDivElement>(null);
-  const dispatch = useAppDispatch();
   const { id, description, teamMemberId } = feature;
+  const { isEditFeaturePending, editFeatureMutation } = useEditFeatureMutation({
+    setEditMode,
+  });
 
   const {
     register,
@@ -48,39 +42,10 @@ export default function ListItem({ feature, index }: ListItemProps) {
     resolver: zodResolver(validationSchema),
   });
 
-  const { mutate: editFeature, isPending: editFeaturePending } = useMutation<
-    EditFeatureClientResponseDto,
-    Error,
-    EditFeatureClientRequestDto
-  >({
-    mutationFn: editFeatureMutation,
-    onSuccess: (data) => {
-      dispatch(editFeatureState(data));
-      setEditMode(false);
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
-
-  async function editFeatureMutation({
-    featureId,
-    teamMemberId,
-    description,
-  }: EditFeatureClientRequestDto): Promise<EditFeatureClientResponseDto> {
-    return await featuresAdapter.editFeature({
-      featureId,
-      teamMemberId,
-      description,
-    });
-  }
-
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     const { description } = data;
 
-    editFeature({
+    editFeatureMutation({
       featureId: id,
       description,
       teamMemberId,
@@ -91,6 +56,7 @@ export default function ListItem({ feature, index }: ListItemProps) {
     reset({ description: "" });
   }
 
+  // TODO: create reusable hook for click outside functionality
   function handleOutsideClick(e: MouseEvent | TouchEvent) {
     if (
       listItemRef.current &&
@@ -134,8 +100,8 @@ export default function ListItem({ feature, index }: ListItemProps) {
               errorMessage={errors.description?.message}
               placeholder="Edit your feature"
               defaultValue={description}
-              submitButtonText={editFeaturePending ? <Spinner /> : "Save"}
-              buttonDisabled={!isDirty || !isValid}
+              submitButtonText={isEditFeaturePending ? <Spinner /> : "Save"}
+              buttonDisabled={!isDirty || !isValid || isEditFeaturePending}
             />
           </div>
         </form>
