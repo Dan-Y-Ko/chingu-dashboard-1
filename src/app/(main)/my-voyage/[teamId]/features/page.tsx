@@ -9,7 +9,7 @@ import { Spinner } from "@chingu-x/components/spinner";
 import { type FeaturesList } from "@chingu-x/modules/features";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import FeaturesContainer from "../../../../../features/features/components/FeaturesContainer";
+import FeaturesContainer from "@/features/features/components/FeaturesContainer";
 import ErrorComponent from "@/shared/components/Error";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { ErrorType } from "@/shared/utils/error";
@@ -26,35 +26,7 @@ export default function FeaturesPage({ params }: FeaturesPageProps) {
   const { teamId } = params;
   const dispatch = useDispatch();
 
-  const { isPending, isError, error, data } = useQuery({
-    queryKey: [CacheTag.features, { teamId }],
-    queryFn: () => getFeaturesQuery(),
-  });
-
-  async function getFeaturesQuery() {
-    return (await featuresAdapter.fetchFeatures({ teamId })) as FeaturesList;
-  }
-
-  useEffect(() => {
-    if (data) {
-      dispatch(fetchFeatures(data));
-    }
-  }, [data, dispatch]);
-
-  if (isError) {
-    <ErrorComponent
-      errorType={ErrorType.FETCH_FEATURES}
-      message={error.message}
-    />;
-  }
-
-  if (isPending) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Spinner />
-      </div>
-    );
-  }
+  
 
   return (
     <>

@@ -17,7 +17,8 @@ export const featuresSlice = createSlice({
   name: "features",
   initialState,
   reducers: {
-    fetchFeatures: (_, action: PayloadAction<FeaturesList>) => action.payload,
+    fetchFeaturesState: (_, action: PayloadAction<FeaturesList>) =>
+      action.payload,
     addFeatureState: (state, action: PayloadAction<Feature>) => {
       const featureIndex = state.findIndex(
         (feature) => feature.categoryId === action.payload.category.id,
@@ -94,7 +95,7 @@ export const featuresSlice = createSlice({
 });
 
 export const {
-  fetchFeatures,
+  fetchFeaturesState,
   addFeatureState,
   editFeatureState,
   deleteFeatureState,
