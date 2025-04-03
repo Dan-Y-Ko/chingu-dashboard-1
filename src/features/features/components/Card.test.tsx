@@ -3,7 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import React from "react";
 import Card from "./Card";
-import { type Feature, features } from "../fixtures/Features";
+import { type Feature, features } from "@/features/features/fixtures/Features";
 import { rootReducer } from "@/shared/store";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
