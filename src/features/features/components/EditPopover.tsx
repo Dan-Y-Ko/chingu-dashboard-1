@@ -1,14 +1,8 @@
 import { type Dispatch, type SetStateAction } from "react";
-import { useMutation } from "@tanstack/react-query";
-import type {
-  DeleteFeatureClientRequestDto,
-  DeleteFeatureClientResponseDto,
-} from "@chingu-x/modules/features";
-import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";
+import { onOpenModal } from "@/store/features/modal/modalSlice";
 import EditMenu from "@/shared/components/EditMenu";
-import { deleteFeatureState } from "@/features/features/store/featuresSlice";
 import { useAppDispatch } from "@/shared/store";
-import { featuresAdapter } from "@/features/features/hooks/useFeaturesAdapters";
+import { useDeleteFeatureMutation } from "@/features/features/hooks/useDeleteFeatureMutation";
 
 interface EditPopoverProps {
   setEditMode: Dispatch<SetStateAction<boolean>>;
@@ -22,29 +16,7 @@ export default function EditPopover({
   featureId,
 }: EditPopoverProps) {
   const dispatch = useAppDispatch();
-
-  const { mutate: deleteFeature } = useMutation<
-    DeleteFeatureClientResponseDto,
-    Error,
-    DeleteFeatureClientRequestDto
-  >({
-    mutationFn: deleteFeatureMutation,
-    onSuccess: () => {
-      dispatch(deleteFeatureState({ featureId }));
-      dispatch(onCloseModal());
-    },
-    onError: (error: Error) => {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    },
-  });
-
-  async function deleteFeatureMutation({
-    featureId,
-  }: DeleteFeatureClientRequestDto): Promise<DeleteFeatureClientResponseDto> {
-    return await featuresAdapter.deleteFeature({ featureId });
-  }
+  const { deleteFeatureMutation } = useDeleteFeatureMutation({ featureId });
 
   function handleClick() {
     setEditMode(true);
@@ -66,7 +38,7 @@ export default function EditPopover({
           params: {
             featureId,
           },
-          deleteFunction: deleteFeature,
+          deleteFunction: deleteFeatureMutation,
         },
       }),
     );
