@@ -8,7 +8,7 @@ import { useAppDispatch } from "@/store/hooks";
 import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";
 import EditMenu from "@/shared/components/EditMenu";
 import { featuresAdapter } from "@/shared/utils/adapters";
-import { deleteFeatureState } from "@/store/features/features/featuresSlice";
+import { deleteFeatureState } from "@/features/features/store/featuresSlice";
 
 interface EditPopoverProps {
   setEditMode: Dispatch<SetStateAction<boolean>>;

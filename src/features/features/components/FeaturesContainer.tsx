@@ -14,7 +14,7 @@ import {
   rollbackOrderState,
   saveOrderStateDifferentCategory,
   saveOrderStateSameCategory,
-} from "@/store/features/features/featuresSlice";
+} from "@/features/features/store/featuresSlice";
 import { CacheTag } from "@/shared/utils/cacheTag";
 
 export default function FeaturesContainer() {

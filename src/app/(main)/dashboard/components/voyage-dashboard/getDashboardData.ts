@@ -10,7 +10,7 @@ import { fetchResources } from "@/app/(main)/my-voyage/[teamId]/voyage-resources
 import { fetchTechStack } from "@/app/(main)/my-voyage/[teamId]/tech-stack/components/TechStackComponentWrapper";
 import { fetchProjectIdeas } from "@/app/(main)/my-voyage/[teamId]/ideation/components/IdeationComponentWrapper";
 import { fetchFeatures } from "@/app/(main)/my-voyage/[teamId]/features/components/FeaturesComponentWrapper";
-import { type FeaturesList } from "@/store/features/features/featuresSlice";
+import { type FeaturesList } from "@/features/features/store/featuresSlice";
 import { type IdeationData } from "@/store/features/ideation/ideationSlice";
 import { type TechStackData } from "@/store/features/techStack/techStackSlice";
 import { type ResourceData } from "@/store/features/resources/resourcesSlice";

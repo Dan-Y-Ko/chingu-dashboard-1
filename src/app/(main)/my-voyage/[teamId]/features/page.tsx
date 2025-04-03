@@ -9,12 +9,12 @@ import { Spinner } from "@chingu-x/components/spinner";
 import { type FeaturesList } from "@chingu-x/modules/features";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import FeaturesContainer from "./components/FeaturesContainer";
+import FeaturesContainer from "../../../../../features/features/components/FeaturesContainer";
 import ErrorComponent from "@/shared/components/Error";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { ErrorType } from "@/shared/utils/error";
 import { featuresAdapter } from "@/shared/utils/adapters";
-import { fetchFeatures } from "@/store/features/features/featuresSlice";
+import { fetchFeatures } from "@/features/features/store/featuresSlice";
 
 interface FeaturesPageProps {
   params: {

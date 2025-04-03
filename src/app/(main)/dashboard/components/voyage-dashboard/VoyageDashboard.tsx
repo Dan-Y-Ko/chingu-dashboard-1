@@ -19,7 +19,7 @@ import VoyageSupport from "@/app/(main)/dashboard/components/shared/VoyageSuppor
 // import EmptySprintProvider from "@/app/(main)/my-voyage/[teamId]/sprints/providers/EmptySprintProvider";
 import { getUser } from "@/utils/getUser";
 import type { Sprint, Voyage } from "@/features/sprints/store/sprintSlice";
-import { type FeaturesList } from "@/store/features/features/featuresSlice";
+import { type FeaturesList } from "@/features/features/store/featuresSlice";
 import { type IdeationData } from "@/store/features/ideation/ideationSlice";
 import { type TechStackData } from "@/store/features/techStack/techStackSlice";
 import { type ResourceData } from "@/store/features/resources/resourcesSlice";

@@ -9,7 +9,7 @@ import {
 } from "react";
 import Image from "next/image";
 import { Avatar } from "@chingu-x/components/avatar";
-import { type Feature } from "./fixtures/Features";
+import { type Feature } from "../fixtures/Features";
 import EditPopover from "./EditPopover";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
