@@ -12,10 +12,10 @@ import type {
 import { useMutation } from "@tanstack/react-query";
 import Card from "./Card";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { featuresAdapter } from "@/shared/utils/adapters";
 import { editFeatureState } from "@/features/features/store/featuresSlice";
+import { useAppDispatch } from "@/shared/store";
+import { featuresAdapter } from "@/features/features/hooks/useFeaturesAdapters";
 
 const validationSchema = z.object({
   description: validateTextInput({

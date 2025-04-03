@@ -4,17 +4,8 @@ import "reflect-metadata";
 import { Banner } from "@chingu-x/components/banner";
 import Image from "next/image";
 import { BannerContainer } from "@chingu-x/components/banner-container";
-import { useQuery } from "@tanstack/react-query";
-import { Spinner } from "@chingu-x/components/spinner";
-import { type FeaturesList } from "@chingu-x/modules/features";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import FeaturesContainer from "@/features/features/components/FeaturesContainer";
-import ErrorComponent from "@/shared/components/Error";
-import { CacheTag } from "@/shared/utils/cacheTag";
-import { ErrorType } from "@/shared/utils/error";
-import { featuresAdapter } from "@/shared/utils/adapters";
-import { fetchFeatures } from "@/features/features/store/featuresSlice";
+import { useFetchFeaturesQuery } from "@/features/features/hooks/useFetchFeaturesQuery";
 
 interface FeaturesPageProps {
   params: {
@@ -24,9 +15,7 @@ interface FeaturesPageProps {
 
 export default function FeaturesPage({ params }: FeaturesPageProps) {
   const { teamId } = params;
-  const dispatch = useDispatch();
-
-  
+  useFetchFeaturesQuery({ teamId });
 
   return (
     <>

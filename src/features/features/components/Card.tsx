@@ -9,8 +9,8 @@ import {
 } from "react";
 import Image from "next/image";
 import { Avatar } from "@chingu-x/components/avatar";
-import { type Feature } from "../fixtures/Features";
 import EditPopover from "./EditPopover";
+import { type Feature } from "@/features/features/fixtures/Features";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 interface CardProps {

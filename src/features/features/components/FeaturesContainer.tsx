@@ -7,15 +7,16 @@ import type {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import List from "./List";
-import { useAppDispatch, useFeatures } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { featuresAdapter } from "@/shared/utils/adapters";
 import {
   rollbackOrderState,
   saveOrderStateDifferentCategory,
   saveOrderStateSameCategory,
 } from "@/features/features/store/featuresSlice";
 import { CacheTag } from "@/shared/utils/cacheTag";
+import { useFeatures } from "@/features/features/hooks/useFeaturesStateSelector";
+import { useAppDispatch } from "@/shared/store";
+import { featuresAdapter } from "@/features/features/hooks/useFeaturesAdapters";
 
 export default function FeaturesContainer() {
   const features = useFeatures();

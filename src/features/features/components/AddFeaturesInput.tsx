@@ -13,11 +13,11 @@ import type {
   AddFeatureClientResponseDto,
 } from "@chingu-x/modules/features";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { CacheTag } from "@/shared/utils/cacheTag";
-import { featuresAdapter } from "@/shared/utils/adapters";
 import { addFeatureState } from "@/features/features/store/featuresSlice";
+import { useAppDispatch } from "@/shared/store";
+import { featuresAdapter } from "@/features/features/hooks/useFeaturesAdapters";
 
 interface AddFeaturesInputProps {
   handleClick: () => void;

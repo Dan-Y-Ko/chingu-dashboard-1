@@ -4,11 +4,11 @@ import type {
   DeleteFeatureClientRequestDto,
   DeleteFeatureClientResponseDto,
 } from "@chingu-x/modules/features";
-import { useAppDispatch } from "@/store/hooks";
 import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";
 import EditMenu from "@/shared/components/EditMenu";
-import { featuresAdapter } from "@/shared/utils/adapters";
 import { deleteFeatureState } from "@/features/features/store/featuresSlice";
+import { useAppDispatch } from "@/shared/store";
+import { featuresAdapter } from "@/features/features/hooks/useFeaturesAdapters";
 
 interface EditPopoverProps {
   setEditMode: Dispatch<SetStateAction<boolean>>;
