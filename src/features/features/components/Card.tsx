@@ -36,6 +36,7 @@ export default function Card({ feature, index, setEditMode }: CardProps) {
     setShowPopover(true);
   }
 
+  // TODO: create reusable hook for click outside functionality
   function handleOutsideClick(e: MouseEvent | TouchEvent) {
     if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
       setShowPopover(false);

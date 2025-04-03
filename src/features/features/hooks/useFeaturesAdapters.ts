@@ -1,6 +1,7 @@
 import { resolve } from "@chingu-x/modules/resolver";
 import { TYPES } from "@chingu-x/modules/di-types";
 import type {
+  DeleteFeatureClientRequestDto,
   EditFeatureClientRequestDto,
   FeaturesClientAdapter,
   FetchFeaturesClientRequestDto,
@@ -46,4 +47,11 @@ export function useEditFeature() {
     });
 
   return { editFeature };
+}
+
+export function useDeleteFeature() {
+  const deleteFeature = async ({ featureId }: DeleteFeatureClientRequestDto) =>
+    await featuresAdapter.deleteFeature({ featureId });
+
+  return { deleteFeature };
 }
