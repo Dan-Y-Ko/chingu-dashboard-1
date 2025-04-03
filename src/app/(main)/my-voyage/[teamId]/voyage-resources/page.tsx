@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Spinner } from "@chingu-x/components/spinner";
-import ResourcesComponentWrapper from "./components/ResourcesComponentWrapper";
+import ResourcesComponentWrapper from "@/features/voyage-resources/components/ResourcesComponentWrapper";
 
 interface ResourcesPageProps {
   params: {

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import {
   type ResourceData,
   fetchResources,
-} from "@/store/features/resources/resourcesSlice";
+} from "@/features/voyage-resources/store/resourcesSlice";
 import { useAppDispatch } from "@/store/hooks";
 
 export interface ResourceProviderProps {

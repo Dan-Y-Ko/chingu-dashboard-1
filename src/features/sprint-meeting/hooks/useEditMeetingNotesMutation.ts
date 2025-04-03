@@ -5,7 +5,7 @@ import type {
 import { useMutation } from "@tanstack/react-query";
 import { useEditMeetingNotes } from "./useSprintMeetingAdapters";
 import { useAppDispatch } from "@/shared/store";
-import { editMeetingState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import { editMeetingState } from "@/features/sprint-meeting/store/sprintMeetingSlice";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 
 export function useEditMeetingNotesMutation() {

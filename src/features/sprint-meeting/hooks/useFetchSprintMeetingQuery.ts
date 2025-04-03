@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useFetchMeeting } from "./useSprintMeetingAdapters";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { useAppDispatch } from "@/shared/store";
-import { fetchMeetingState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import { fetchMeetingState } from "@/features/sprint-meeting/store/sprintMeetingSlice";
 
 interface UseFetchSprintMeetingQueryProps {
   meetingId: string;

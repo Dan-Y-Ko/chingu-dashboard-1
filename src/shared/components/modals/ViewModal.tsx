@@ -2,15 +2,16 @@ import Link from "next/link";
 import { useCallback } from "react";
 import { Button } from "@chingu-x/components/button";
 import { Modal } from "@chingu-x/components/modal";
-import ModalSection from "@/app/(main)/my-voyage/[teamId]/voyage-resources/components/ModalSection";
+import ModalSection from "@/features/voyage-resources/components/ModalSection";
 import { CheckboxGroupItem } from "@/shared/components/inputs/CheckBoxGroup/CheckboxGroupItem";
 import { onCloseModal } from "@/store/features/modal/modalSlice";
-import { useModal, useResource } from "@/store/hooks";
+import { useModal } from "@/store/hooks";
 import { useAppDispatch } from "@/shared/store";
+import { useResourceStateSelector } from "@/features/voyage-resources/hooks/useResourceStateSelector";
 
 export default function ViewModal() {
   const dispatch = useAppDispatch();
-  const resourceList = useResource().resources;
+  const resourceList = useResourceStateSelector().resources;
   const { id, isOpen } = useModal();
 
   const { title, url } = useCallback(() => {

@@ -9,7 +9,7 @@ import {
   useGetSprintMeetingSectionResponses,
 } from "./useSprintMeetingAdapters";
 import { useAppDispatch } from "@/shared/store";
-import { editSprintMeetingSectonState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import { editSprintMeetingSectonState } from "@/features/sprint-meeting/store/sprintMeetingSlice";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 
 interface UseEditSprintPlanningSectionMutationProps {

@@ -8,7 +8,7 @@ import { useEditMeeting } from "./useSprintMeetingAdapters";
 import { useAppDispatch } from "@/shared/store";
 import routePaths from "@/shared/utils/routePaths";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { editMeetingState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import { editMeetingState } from "@/features/sprint-meeting/store/sprintMeetingSlice";
 
 interface UseEditMeetingMutationProps {
   teamId: string;

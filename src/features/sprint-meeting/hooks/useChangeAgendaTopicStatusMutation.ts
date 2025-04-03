@@ -6,7 +6,7 @@ import type {
 import { useChangeAgendaTopicStatus } from "./useSprintMeetingAdapters";
 import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { changeAgendaTopicStatusState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import { changeAgendaTopicStatusState } from "@/features/sprint-meeting/store/sprintMeetingSlice";
 
 interface UseChangeAgendaTopicStatusMutationProps {
   meetingId: string;

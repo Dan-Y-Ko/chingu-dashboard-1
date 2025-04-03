@@ -8,7 +8,7 @@ import { useDeleteAgendaTopic } from "./useSprintMeetingAdapters";
 import { useAppDispatch } from "@/shared/store";
 import routePaths from "@/shared/utils/routePaths";
 import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";
-import { deleteAgendaState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import { deleteAgendaState } from "@/features/sprint-meeting/store/sprintMeetingSlice";
 
 interface UseDeleteAgendaMutationProps {
   teamId: string;
@@ -25,9 +25,7 @@ export function useDeleteAgendaMutation({
   const router = useRouter();
   const { deleteAgendaTopic } = useDeleteAgendaTopic();
 
-  const {
-    mutate: deleteAgendaMutation,
-  } = useMutation<
+  const { mutate: deleteAgendaMutation } = useMutation<
     DeleteAgendaTopicResponseDto,
     Error,
     DeleteAgendaTopicClientRequestDto

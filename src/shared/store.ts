@@ -8,13 +8,13 @@ import {
 } from "react-redux";
 import ideationReducer from "@/store/features/ideation/ideationSlice";
 import authReducer from "@/features/auth/store/authSlice";
-import resourceReducer from "@/store/features/resources/resourcesSlice";
+import resourceReducer from "@/features/voyage-resources/store/resourcesSlice";
 import userReducer from "@/features/user/store/userSlice";
 import myTeamReducer from "@/features/voyage-team/store/myTeamSlice";
 import sprintReducer from "@/features/sprints/store/sprintSlice";
 import featuresReducer from "@/features/features/store/featuresSlice";
 import techStackReducer from "@/store/features/techStack/techStackSlice";
-import sprintMeetingReducer from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import sprintMeetingReducer from "@/features/sprint-meeting/store/sprintMeetingSlice";
 import currentVoyageTeamReducer from "@/features/voyage-team/store/currentVoyageTeamSlice";
 import modalReducer from "@/store/features/modal/modalSlice";
 

@@ -5,12 +5,12 @@ import {
   saveOrderStateDifferentCategory,
   saveOrderStateSameCategory,
 } from "@/features/features/store/featuresSlice";
-import { useFeatures } from "@/features/features/hooks/useFeaturesStateSelector";
+import { useFeaturesStateSelector } from "@/features/features/hooks/useFeaturesStateSelector";
 import { useAppDispatch } from "@/shared/store";
 import { useSaveOrderMutation } from "@/features/features/hooks/useSaveOrderMutation";
 
 export default function FeaturesContainer() {
-  const features = useFeatures();
+  const features = useFeaturesStateSelector();
   const dispatch = useAppDispatch();
   const { teamId } = useParams<{ teamId: string }>();
   const { saveOrderMutation } = useSaveOrderMutation({ teamId });

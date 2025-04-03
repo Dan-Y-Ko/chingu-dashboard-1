@@ -18,7 +18,7 @@ import {
 } from "@/shared/utils/form/validateInput";
 import { persistor } from "@/shared/store";
 import { useGetSprintMeeting } from "@/features/sprint-meeting/hooks/useSprintMeetingAdapters";
-import {} from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import {} from "@/features/sprint-meeting/store/sprintMeetingSlice";
 import { useSprintMeetingStateSelector } from "@/features/sprint-meeting/hooks/useSprintMeetingStateSelector";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 import {

@@ -8,7 +8,7 @@ import { useAddAgendaTopic } from "@/features/sprint-meeting/hooks/useSprintMeet
 import { useAppDispatch } from "@/shared/store";
 import routePaths from "@/shared/utils/routePaths";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { addAgendaState } from "@/store/features/sprint-meeting/sprintMeetingSlice";
+import { addAgendaState } from "@/features/sprint-meeting/store/sprintMeetingSlice";
 
 interface UseAddAgendaMutationProps {
   teamId: string;
