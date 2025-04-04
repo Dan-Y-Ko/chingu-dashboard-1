@@ -6,11 +6,8 @@ import { LinkIcon } from "@heroicons/react/24/outline";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
-import { useAppDispatch } from "@/store/hooks";
-import { validateTextInput } from "@/utils/form/validateInput";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { addResource } from "@/app/(main)/my-voyage/[teamId]/voyage-resources/resourcesService";
-import useServerAction from "@/shared/hooks/useServerAction";
+import { useAddVoyageResourceMutation } from "@/features/voyage-resources/hooks/useAddVoyageResourceMutation";
+import { validateTextInput } from "@/shared/utils/form/validateInput";
 
 const validationSchema = z.object({
   url: validateTextInput({
@@ -29,15 +26,9 @@ const validationSchema = z.object({
 type ValidationSchema = z.infer<typeof validationSchema>;
 
 export default function ResourceInput() {
-  const dispatch = useAppDispatch();
-  const params = useParams<{ teamId: string }>();
-  const teamId = Number(params.teamId);
-
-  const {
-    runAction: addResourceAction,
-    isLoading: addResourceLoading,
-    setIsLoading: setAddResourceLoading,
-  } = useServerAction(addResource);
+  const { teamId } = useParams<{ teamId: string }>();
+  const { isAddVoyageResourcePending, addVoyageResourceMutation } =
+    useAddVoyageResourceMutation();
 
   const {
     register,
@@ -49,20 +40,10 @@ export default function ResourceInput() {
     resolver: zodResolver(validationSchema),
   });
 
-  const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     const payload = { ...data, teamId };
-    const [res, error] = await addResourceAction(payload);
-
-    if (res) {
-      setAddResourceLoading(false);
-      reset();
-    }
-    if (error) {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-      setAddResourceLoading(false);
-    }
+    addVoyageResourceMutation(payload);
+    reset();
   };
 
   return (
@@ -93,7 +74,7 @@ export default function ResourceInput() {
         disabled={!isValid}
       >
         Share Resource
-        {addResourceLoading ? <Spinner /> : null}
+        {isAddVoyageResourcePending ? <Spinner /> : null}
       </Button>
     </form>
   );
