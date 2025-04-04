@@ -4,9 +4,11 @@ import { Badge } from "@chingu-x/components/badge";
 import { Avatar } from "@chingu-x/components/avatar";
 import Image from "next/image";
 import { IconButton } from "@chingu-x/components/icon-button";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { deleteResource } from "@/app/(main)/my-voyage/[teamId]/voyage-resources/resourcesService";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import { useAppDispatch } from "@/shared/store";
+import { useDeleteVoyageResourceMutation } from "@/features/voyage-resources/hooks/useDeleteVoyageResourceMutation";
 
 interface ResourceCardProps {
   resourceId: number;
@@ -26,7 +28,8 @@ export default function ResourceCard({
   url,
 }: ResourceCardProps) {
   const dispatch = useAppDispatch();
-  const currentUserId = useAppSelector((state) => state.user.id);
+  const currentUserId = useUserStateSelector().id;
+  const { deleteVoyageResourceMutation } = useDeleteVoyageResourceMutation();
 
   const openViewModal = () => {
     const hideResourceModal = localStorage.getItem("hideResourceModal");
@@ -46,7 +49,6 @@ export default function ResourceCard({
     dispatch(
       onOpenModal({
         type: "confirmation",
-        id: resourceId,
         content: {
           title: "Delete Resource",
           message:
@@ -58,8 +60,7 @@ export default function ResourceCard({
           params: {
             resourceId,
           },
-          redirect: null,
-          deleteFunction: deleteResource,
+          deleteFunction: deleteVoyageResourceMutation,
         },
       }),
     );

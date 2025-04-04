@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import type { VoyageResource } from "@chingu-x/modules/voyage-resources";
 import ResourceInput from "./ResourceInput";

@@ -11,10 +11,7 @@ export function useDeleteVoyageResourceMutation() {
   const dispatch = useAppDispatch();
   const { deleteVoyageResource } = useDeleteVoyageResource();
 
-  const {
-    mutate: deleteVoyageResourceMutation,
-    isPending: isDeleteVoyageResourcePending,
-  } = useMutation<
+  const { mutate: deleteVoyageResourceMutation } = useMutation<
     DeleteVoyageResourceResponseDto,
     Error,
     DeleteVoyageResourceClientRequestDto
@@ -39,7 +36,6 @@ export function useDeleteVoyageResourceMutation() {
   }
 
   return {
-    isDeleteVoyageResourcePending,
     deleteVoyageResourceMutation,
   };
 }
