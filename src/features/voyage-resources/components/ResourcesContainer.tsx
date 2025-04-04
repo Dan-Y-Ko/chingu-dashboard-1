@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import type { VoyageResource } from "@chingu-x/modules/voyage-resources";
 import ResourceInput from "./ResourceInput";
 import SortingButton from "./SortingButton";
 import ResourceCard from "./ResourceCard";
 import EmptyBanner from "./EmptyBanner";
-import { type ResourceData } from "@/features/voyage-resources/store/voyageResourcesSlice";
 
 interface ResourceContainerProps {
-  data: ResourceData[];
+  data: VoyageResource[];
 }
 
 export default function ResourcesContainer({ data }: ResourceContainerProps) {
