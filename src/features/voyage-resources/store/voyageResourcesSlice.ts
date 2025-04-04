@@ -7,7 +7,7 @@ const initialState: {
   voyageResources: [],
 };
 
-export const resourcesSlice = createSlice({
+export const voyageResourcesSlice = createSlice({
   name: "resources",
   initialState,
   reducers: {
@@ -17,6 +17,6 @@ export const resourcesSlice = createSlice({
   },
 });
 
-export const { fetchResourcesState } = resourcesSlice.actions;
+export const { fetchResourcesState } = voyageResourcesSlice.actions;
 
-export default resourcesSlice.reducer;
+export default voyageResourcesSlice.reducer;

@@ -5,7 +5,7 @@ import { BannerContainer } from "@chingu-x/components/banner-container";
 import ResourcesContainer from "./ResourcesContainer";
 import ResourcesProvider from "./ResourcesProvider";
 import { getUser } from "@/utils/getUser";
-import { type ResourceData } from "@/features/voyage-resources/store/resourcesSlice";
+import { type ResourceData } from "@/features/voyage-resources/store/voyageResourcesSlice";
 import { getAccessToken } from "@/utils/getCookie";
 import { GET } from "@/utils/requests";
 import { CacheTag } from "@/utils/cacheTag";

@@ -7,5 +7,5 @@ export enum ErrorType {
   FETCH_FEATURES = "Can't fetch features data.",
   FETCH_IDEATIONS = "Can't fetch project ideas data.",
   FETCH_TECH_STACK = "Can't fetch tech stack data.",
-  FETCH_RESOURCES = "Can't fetch resources data.",
+  FETCH_VOYAGE_RESOURCES = "Can't fetch voyage resources data.",
 }

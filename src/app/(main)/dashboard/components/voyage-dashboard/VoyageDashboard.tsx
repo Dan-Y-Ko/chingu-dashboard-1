@@ -22,7 +22,7 @@ import type { Sprint, Voyage } from "@/features/sprints/store/sprintSlice";
 import { type FeaturesList } from "@/features/features/store/featuresSlice";
 import { type IdeationData } from "@/store/features/ideation/ideationSlice";
 import { type TechStackData } from "@/store/features/techStack/techStackSlice";
-import { type ResourceData } from "@/features/voyage-resources/store/resourcesSlice";
+import { type ResourceData } from "@/features/voyage-resources/store/voyageResourcesSlice";
 import ResourcesProvider from "@/features/voyage-resources/components/ResourcesProvider";
 import FeaturesProvider from "@/app/(main)/my-voyage/[teamId]/features/components/FeaturesProvider";
 import IdeationProvider from "@/app/(main)/my-voyage/[teamId]/ideation/components/IdeationProvider";

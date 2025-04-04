@@ -8,7 +8,7 @@ import {
 } from "react-redux";
 import ideationReducer from "@/store/features/ideation/ideationSlice";
 import authReducer from "@/features/auth/store/authSlice";
-import resourceReducer from "@/features/voyage-resources/store/resourcesSlice";
+import voyageResourcesReducer from "@/features/voyage-resources/store/voyageResourcesSlice";
 import userReducer from "@/features/user/store/userSlice";
 import myTeamReducer from "@/features/voyage-team/store/myTeamSlice";
 import sprintReducer from "@/features/sprints/store/sprintSlice";
@@ -49,7 +49,7 @@ export const rootReducer = combineReducers({
   ideation: ideationReducer,
   myTeam: myTeamReducer,
   features: featuresReducer,
-  resources: resourceReducer,
+  voyageResources: voyageResourcesReducer,
   sprint: sprintReducer,
   sprintMeeting: sprintMeetingReducer,
   techStack: techStackReducer,

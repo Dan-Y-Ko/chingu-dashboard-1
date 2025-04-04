@@ -13,7 +13,7 @@ import { fetchFeatures } from "@/app/(main)/my-voyage/[teamId]/features/componen
 import { type FeaturesList } from "@/features/features/store/featuresSlice";
 import { type IdeationData } from "@/store/features/ideation/ideationSlice";
 import { type TechStackData } from "@/store/features/techStack/techStackSlice";
-import { type ResourceData } from "@/features/voyage-resources/store/resourcesSlice";
+import { type ResourceData } from "@/features/voyage-resources/store/voyageResourcesSlice";
 import { ErrorType } from "@/utils/error";
 
 interface GetDashboardDataResponse {

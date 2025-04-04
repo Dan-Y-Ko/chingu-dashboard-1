@@ -7,7 +7,7 @@ export enum CacheTag {
   logout = "logout",
   features = "features",
   feature = "feature",
-  resources = "resources",
+  voyageResources = "voyageResources",
   techStack = "tech-stack",
   fetchAllSprints = "fetchAllSprints",
   sprints = "sprints",

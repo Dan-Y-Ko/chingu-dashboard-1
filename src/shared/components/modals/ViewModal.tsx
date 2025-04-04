@@ -7,11 +7,11 @@ import { CheckboxGroupItem } from "@/shared/components/inputs/CheckBoxGroup/Chec
 import { onCloseModal } from "@/store/features/modal/modalSlice";
 import { useModal } from "@/store/hooks";
 import { useAppDispatch } from "@/shared/store";
-import { useResourceStateSelector } from "@/features/voyage-resources/hooks/useResourceStateSelector";
+import { useVoyageResourceStateSelector } from "@/features/voyage-resources/hooks/useVoyageResourceStateSelector";
 
 export default function ViewModal() {
   const dispatch = useAppDispatch();
-  const resourceList = useResourceStateSelector().resources;
+  const resourceList = useVoyageResourceStateSelector().voyageResources;
   const { id, isOpen } = useModal();
 
   const { title, url } = useCallback(() => {
