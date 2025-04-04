@@ -1,6 +1,7 @@
 import { resolve } from "@chingu-x/modules/resolver";
 import { TYPES } from "@chingu-x/modules/di-types";
 import type {
+  AddVoyageResourceClientRequestDto,
   FetchVoyageResourcesClientRequestDto,
   VoyageResourcesClientAdapter,
 } from "@chingu-x/modules/voyage-resources";
@@ -16,4 +17,15 @@ export function useFetchVoyageResources() {
     await voyageResourcesAdapter.fetchVoyageResources({ teamId });
 
   return { fetchVoyageResources };
+}
+
+export function useAddVoyageResource() {
+  const addVoyageResource = async ({
+    teamId,
+    url,
+    title,
+  }: AddVoyageResourceClientRequestDto) =>
+    await voyageResourcesAdapter.addVoyageResource({ teamId, url, title });
+
+  return { addVoyageResource };
 }
