@@ -1,36 +1,22 @@
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { type VoyageMember } from "@/store/features/ideation/ideationSlice";
+import type { VoyageResource } from "@chingu-x/modules/voyage-resources";
 
-export interface ResourceData {
-  id: number;
-  teamMemberId: number;
-  url: string;
-  title: string;
-  createdAt: Date;
-  updatedAt: Date;
-  addedBy: {
-    member: Pick<VoyageMember, "avatar" | "firstName" | "lastName" | "id">;
-  };
-}
-interface ResourcesState {
-  //loading:
-  resources: ResourceData[];
-}
-const initialState: ResourcesState = {
-  //loading:false
-  resources: [],
+const initialState: {
+  voyageResources: VoyageResource[];
+} = {
+  voyageResources: [],
 };
 
 export const resourcesSlice = createSlice({
   name: "resources",
   initialState,
   reducers: {
-    fetchResources: (state, action: PayloadAction<ResourceData[]>) => {
-      state.resources = action.payload;
+    fetchResourcesState: (state, action: PayloadAction<VoyageResource[]>) => {
+      state.voyageResources = action.payload;
     },
   },
 });
 
-export const { fetchResources } = resourcesSlice.actions;
+export const { fetchResourcesState } = resourcesSlice.actions;
 
 export default resourcesSlice.reducer;
