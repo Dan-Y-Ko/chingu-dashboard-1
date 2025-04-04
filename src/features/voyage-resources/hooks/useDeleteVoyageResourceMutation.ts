@@ -19,7 +19,7 @@ export function useDeleteVoyageResourceMutation() {
     Error,
     DeleteVoyageResourceClientRequestDto
   >({
-    mutationFn: addVoyageResourceMutationFn,
+    mutationFn: deleteVoyageResourceMutationFn,
     onSuccess: async (data) => {
       //   dispatch(addFeatureState(feature));
     },
@@ -30,7 +30,7 @@ export function useDeleteVoyageResourceMutation() {
     },
   });
 
-  async function addVoyageResourceMutationFn({
+  async function deleteVoyageResourceMutationFn({
     resourceId,
   }: DeleteVoyageResourceClientRequestDto): Promise<DeleteVoyageResourceResponseDto> {
     return await deleteVoyageResource({
