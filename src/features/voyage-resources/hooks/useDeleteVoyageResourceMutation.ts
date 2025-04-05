@@ -5,7 +5,8 @@ import type {
 } from "@chingu-x/modules/voyage-resources";
 import { useDeleteVoyageResource } from "./useVoyageResourcesAdapters";
 import { useAppDispatch } from "@/shared/store";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";
+import { deleteVoyageResourceState } from "@/features/voyage-resources/store/voyageResourcesSlice";
 
 export function useDeleteVoyageResourceMutation() {
   const dispatch = useAppDispatch();
@@ -17,8 +18,9 @@ export function useDeleteVoyageResourceMutation() {
     DeleteVoyageResourceClientRequestDto
   >({
     mutationFn: deleteVoyageResourceMutationFn,
-    onSuccess: async (data) => {
-      //   dispatch(addFeatureState(feature));
+    onSuccess: (data) => {
+      dispatch(deleteVoyageResourceState(data));
+      dispatch(onCloseModal());
     },
     onError: (error: Error) => {
       dispatch(

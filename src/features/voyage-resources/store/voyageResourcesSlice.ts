@@ -1,6 +1,7 @@
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 import type {
   AddVoyageResourceResponseDto,
+  DeleteVoyageResourceResponseDto,
   VoyageResource,
 } from "@chingu-x/modules/voyage-resources";
 
@@ -48,10 +49,21 @@ export const voyageResourcesSlice = createSlice({
 
       state.voyageResources.push(newVoyageResource);
     },
+    deleteVoyageResourceState: (
+      state,
+      action: PayloadAction<DeleteVoyageResourceResponseDto>,
+    ) => {
+      state.voyageResources = state.voyageResources.filter(
+        (resource) => resource.id !== action.payload.id,
+      );
+    },
   },
 });
 
-export const { fetchVoyageResourcesState, addVoyageResourceState } =
-  voyageResourcesSlice.actions;
+export const {
+  fetchVoyageResourcesState,
+  addVoyageResourceState,
+  deleteVoyageResourceState,
+} = voyageResourcesSlice.actions;
 
 export default voyageResourcesSlice.reducer;
