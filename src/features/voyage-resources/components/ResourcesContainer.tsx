@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import type { VoyageResource } from "@chingu-x/modules/voyage-resources";
+import {
+  SortOption,
+  type VoyageResource,
+} from "@chingu-x/modules/voyage-resources";
 import ResourceInput from "./ResourceInput";
 import SortingButton from "./SortingButton";
 import ResourceCard from "./ResourceCard";
 import EmptyBanner from "./EmptyBanner";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 import { useGetVoyageResourceDate } from "@/features/timezone/hooks/useTimezoneAdapters";
+import { useSortVoyageResources } from "@/features/voyage-resources/hooks/useVoyageResourcesAdapters";
 
 interface ResourceContainerProps {
   data: VoyageResource[];
@@ -13,22 +17,24 @@ interface ResourceContainerProps {
 
 export default function ResourcesContainer({ data }: ResourceContainerProps) {
   const [byNewest, setByNewest] = useState(true);
-  const [voyageResources, setVoyageResources] = useState(data);
+  const [voyageResources, setVoyageResources] =
+    useState<VoyageResource[]>(data);
   const { timezone } = useUserStateSelector();
   const { voyageResourceDate } = useGetVoyageResourceDate({
-    voyageResources: data,
+    voyageResources: voyageResources,
     timezone,
   });
+  const { sortVoyageResources } = useSortVoyageResources();
 
   const sortResources = () => {
-    const sortedResources = [...voyageResources].sort((a, b) => {
-      const prev = new Date(a.updatedAt);
-      const next = new Date(b.updatedAt);
-      return byNewest
-        ? prev.getTime() - next.getTime()
-        : next.getTime() - prev.getTime();
+    const voyageResourceCopy = [...voyageResources];
+
+    const sortedVoyageResource = sortVoyageResources({
+      order: byNewest ? SortOption.ASC : SortOption.DESC,
+      voyageResources: voyageResourceCopy,
     });
-    setVoyageResources(sortedResources);
+
+    setVoyageResources(sortedVoyageResource);
     setByNewest(!byNewest);
   };
 
@@ -43,7 +49,7 @@ export default function ResourcesContainer({ data }: ResourceContainerProps) {
         <SortingButton
           onClick={sortResources}
           type={byNewest}
-          isDisabled={!voyageResources?.length}
+          isDisabled={data.length === 0}
         />
       </div>
       <div className="flex flex-col gap-y-6">
@@ -54,7 +60,7 @@ export default function ResourcesContainer({ data }: ResourceContainerProps) {
               resourceId={item.id}
               title={item.title}
               user={item.addedBy.member}
-              date={item.updatedAt}
+              date={item.createdAt}
               userId={item.addedBy.member.id}
               url={item.url}
             />

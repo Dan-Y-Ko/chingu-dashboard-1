@@ -4,6 +4,7 @@ import type {
   AddVoyageResourceClientRequestDto,
   DeleteVoyageResourceClientRequestDto,
   FetchVoyageResourcesClientRequestDto,
+  SortVoyageResourcesClientRequestDto,
   VoyageResourcesClientAdapter,
 } from "@chingu-x/modules/voyage-resources";
 
@@ -38,4 +39,14 @@ export function useDeleteVoyageResource() {
     await voyageResourcesAdapter.deleteVoyageResource({ resourceId });
 
   return { deleteVoyageResource };
+}
+
+export function useSortVoyageResources() {
+  const sortVoyageResources = ({
+    order,
+    voyageResources,
+  }: SortVoyageResourcesClientRequestDto) =>
+    voyageResourcesAdapter.sortVoyageResources({ order, voyageResources });
+
+  return { sortVoyageResources };
 }
