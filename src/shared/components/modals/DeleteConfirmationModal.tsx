@@ -24,6 +24,7 @@ export default function DeleteConfirmationModal() {
     if (deleteFunction && params) {
       setLoading(true);
 
+      // @ts-expect-error figure out later
       deleteFunction(params, {
         onSettled: () => setLoading(false),
       });

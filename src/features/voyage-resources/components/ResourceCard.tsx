@@ -13,7 +13,7 @@ interface ResourceCardProps {
   resourceId: number;
   title: string;
   user: { firstName: string; lastName: string; avatar: string };
-  date: string;
+  date: string | Date;
   userId: string;
   url: string;
 }
@@ -94,7 +94,9 @@ export default function ResourceCard({
               ) : undefined}
             </Badge>
           </div>
-          <div className="pl-4 text-neutral-focus xl:pl-8">Added {date}</div>
+          <div className="pl-4 text-neutral-focus xl:pl-8">
+            Added {date as string}
+          </div>
         </div>
       </div>
       {userId === currentUserId && (

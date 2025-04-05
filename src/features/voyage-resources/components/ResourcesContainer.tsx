@@ -4,6 +4,8 @@ import ResourceInput from "./ResourceInput";
 import SortingButton from "./SortingButton";
 import ResourceCard from "./ResourceCard";
 import EmptyBanner from "./EmptyBanner";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import { useGetVoyageResourceDate } from "@/features/timezone/hooks/useTimezoneAdapters";
 
 interface ResourceContainerProps {
   data: VoyageResource[];
@@ -12,15 +14,11 @@ interface ResourceContainerProps {
 export default function ResourcesContainer({ data }: ResourceContainerProps) {
   const [byNewest, setByNewest] = useState(true);
   const [voyageResources, setVoyageResources] = useState(data);
-
-  const formattedResources = voyageResources?.map((item) => ({
-    ...item,
-    date: new Date(item.updatedAt).toLocaleDateString("en-US", {
-      month: "short",
-      day: "2-digit",
-      year: "numeric",
-    }),
-  }));
+  const { timezone } = useUserStateSelector();
+  const { voyageResourceDate } = useGetVoyageResourceDate({
+    voyageResources: data,
+    timezone,
+  });
 
   const sortResources = () => {
     const sortedResources = [...voyageResources].sort((a, b) => {
@@ -49,14 +47,14 @@ export default function ResourcesContainer({ data }: ResourceContainerProps) {
         />
       </div>
       <div className="flex flex-col gap-y-6">
-        {formattedResources?.length ? (
-          formattedResources.map((item) => (
+        {voyageResourceDate?.length ? (
+          voyageResourceDate.map((item) => (
             <ResourceCard
               key={item.id}
               resourceId={item.id}
               title={item.title}
               user={item.addedBy.member}
-              date={item.date}
+              date={item.updatedAt}
               userId={item.addedBy.member.id}
               url={item.url}
             />

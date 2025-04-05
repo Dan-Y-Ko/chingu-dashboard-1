@@ -4,6 +4,7 @@ import type { TimezoneClientAdapter } from "@chingu-x/modules/timezone";
 import type { Meeting } from "@chingu-x/modules/sprint-meeting";
 import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import { VoyageResource } from "@chingu-x/modules/voyage-resources";
 
 export const timezoneAdapter = resolve<TimezoneClientAdapter>(
   TYPES.TimezoneClientAdapter,
@@ -103,4 +104,21 @@ export function useGetMeetingTimeWithTZAbbreviation({
   });
 
   return { getMeetingTime };
+}
+
+interface UseGetVoyageResourceDateProps {
+  voyageResources: VoyageResource[];
+  timezone: string;
+}
+
+export function useGetVoyageResourceDate({
+  voyageResources,
+  timezone,
+}: UseGetVoyageResourceDateProps) {
+  const voyageResourceDate = timezoneAdapter.getVoyageResourceDate({
+    voyageResources,
+    timezone,
+  });
+
+  return { voyageResourceDate };
 }
