@@ -6,10 +6,13 @@ import type {
 import { useAddVoyageResource } from "./useVoyageResourcesAdapters";
 import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import { addVoyageResourceState } from "@/features/voyage-resources/store/voyageResourcesSlice";
 
 export function useAddVoyageResourceMutation() {
   const dispatch = useAppDispatch();
   const { addVoyageResource } = useAddVoyageResource();
+  const { id, firstName, lastName, avatar } = useUserStateSelector();
 
   const {
     mutate: addVoyageResourceMutation,
@@ -20,8 +23,10 @@ export function useAddVoyageResourceMutation() {
     AddVoyageResourceClientRequestDto
   >({
     mutationFn: addVoyageResourceMutationFn,
-    onSuccess: async (data) => {
-      //   dispatch(addFeatureState(feature));
+    onSuccess: (data) => {
+      dispatch(
+        addVoyageResourceState({ data, id, firstName, lastName, avatar }),
+      );
     },
     onError: (error: Error) => {
       dispatch(

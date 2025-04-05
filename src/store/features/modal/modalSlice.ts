@@ -8,6 +8,10 @@ import type {
   DeleteFeatureClientRequestDto,
   DeleteFeatureClientResponseDto,
 } from "@chingu-x/modules/features";
+import type {
+  DeleteVoyageResourceClientRequestDto,
+  DeleteVoyageResourceResponseDto,
+} from "@chingu-x/modules/voyage-resources";
 
 export type ModalType =
   | "error"
@@ -56,7 +60,10 @@ export interface DeletePayload {
   deleteFunction?: DeleteFunctionTypes;
 }
 
-export type DeleteProps = DeleteAgendaTopicProps | DeleteFeatureProps;
+export type DeleteProps =
+  | DeleteAgendaTopicProps
+  | DeleteFeatureProps
+  | DeleteVoyageResourcesProps;
 
 interface DeleteAgendaTopicProps {
   agendaId: string;
@@ -64,6 +71,10 @@ interface DeleteAgendaTopicProps {
 
 interface DeleteFeatureProps {
   featureId: number;
+}
+
+interface DeleteVoyageResourcesProps {
+  resourceId: number;
 }
 
 type DeleteFunctionTypes =
@@ -77,6 +88,12 @@ type DeleteFunctionTypes =
       DeleteFeatureClientResponseDto,
       Error,
       DeleteFeatureClientRequestDto,
+      unknown
+    >
+  | UseMutateFunction<
+      DeleteVoyageResourceResponseDto,
+      Error,
+      DeleteVoyageResourceClientRequestDto,
       unknown
     >;
 

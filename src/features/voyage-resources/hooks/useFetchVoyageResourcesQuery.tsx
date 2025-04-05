@@ -6,7 +6,7 @@ import { useAppDispatch } from "@/shared/store";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import ErrorComponent from "@/shared/components/Error";
 import { ErrorType } from "@/shared/utils/error";
-import { fetchResourcesState } from "@/features/voyage-resources/store/voyageResourcesSlice";
+import { fetchVoyageResourcesState } from "@/features/voyage-resources/store/voyageResourcesSlice";
 
 interface UseFetchVoyageResourcesQueryProps {
   teamId: string;
@@ -29,7 +29,7 @@ export function useFetchVoyageResourcesQuery({
 
   useEffect(() => {
     if (data) {
-      dispatch(fetchResourcesState(data));
+      dispatch(fetchVoyageResourcesState(data));
     }
   }, [data, dispatch]);
 

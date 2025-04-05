@@ -5,7 +5,6 @@ import { Avatar } from "@chingu-x/components/avatar";
 import Image from "next/image";
 import { IconButton } from "@chingu-x/components/icon-button";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { deleteResource } from "@/app/(main)/my-voyage/[teamId]/voyage-resources/resourcesService";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 import { useAppDispatch } from "@/shared/store";
 import { useDeleteVoyageResourceMutation } from "@/features/voyage-resources/hooks/useDeleteVoyageResourceMutation";
