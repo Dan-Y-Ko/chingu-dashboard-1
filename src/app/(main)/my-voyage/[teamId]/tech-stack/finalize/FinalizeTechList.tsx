@@ -7,7 +7,7 @@ import { Button } from "@chingu-x/components/button";
 import type { SelectedItems, TechItem, TechStackItem } from "./types";
 import { checkIfFinalized } from "./utils/checkIfFinalized";
 import { getSelectedTechItems } from "./utils/getSelectedTechItems";
-import GetIcon from "@/myVoyage/tech-stack/components/GetIcons";
+import GetIcon from "@/features/tech-stack/components/GetIcons";
 import { useTechStack } from "@/store/hooks";
 import FinalizeTechCard from "@/app/(main)/my-voyage/[teamId]/tech-stack/finalize/FinalizeTechCard";
 import ConfirmationButton from "@/app/(main)/my-voyage/[teamId]/tech-stack/finalize/ConfirmationButton";

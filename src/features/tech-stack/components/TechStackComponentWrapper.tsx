@@ -10,7 +10,7 @@ import { handleAsync } from "@/utils/handleAsync";
 import { GET } from "@/utils/requests";
 import { getCurrentVoyageData } from "@/utils/getCurrentVoyageData";
 import { getUser } from "@/utils/getUser";
-import type { TechStackData } from "@/store/features/techStack/techStackSlice";
+import type { TechStackData } from "@/features/tech-stack/store/techStackSlice";
 import routePaths from "@/utils/routePaths";
 import { ErrorType } from "@/utils/error";
 import ErrorComponent from "@/shared/components/Error";

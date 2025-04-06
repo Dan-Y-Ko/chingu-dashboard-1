@@ -7,12 +7,12 @@ import { type AsyncActionResponse } from "@/utils/handleAsync";
 import { getCurrentSprint } from "@/utils/getCurrentDate";
 import { getCurrentVoyageData } from "@/utils/getCurrentVoyageData";
 import { fetchResources } from "@/features/voyage-resources/components/ResourcesComponentWrapper";
-import { fetchTechStack } from "@/app/(main)/my-voyage/[teamId]/tech-stack/components/TechStackComponentWrapper";
+import { fetchTechStack } from "@/features/tech-stack/components/TechStackComponentWrapper";
 import { fetchProjectIdeas } from "@/app/(main)/my-voyage/[teamId]/ideation/components/IdeationComponentWrapper";
 import { fetchFeatures } from "@/app/(main)/my-voyage/[teamId]/features/components/FeaturesComponentWrapper";
 import { type FeaturesList } from "@/features/features/store/featuresSlice";
 import { type IdeationData } from "@/store/features/ideation/ideationSlice";
-import { type TechStackData } from "@/store/features/techStack/techStackSlice";
+import { type TechStackData } from "@/features/tech-stack/store/techStackSlice";
 import { type ResourceData } from "@/features/voyage-resources/store/voyageResourcesSlice";
 import { ErrorType } from "@/utils/error";
 

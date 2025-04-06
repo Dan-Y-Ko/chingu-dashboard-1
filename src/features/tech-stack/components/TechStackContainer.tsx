@@ -6,7 +6,7 @@ import { Button } from "@chingu-x/components/button";
 import TechStackCard from "./TechStackCard";
 import FinalizedTechStackCard from "./FinalizedTechStackCard";
 import { getSelectedTechItems } from "@/app/(main)/my-voyage/[teamId]/tech-stack/finalize/utils/getSelectedTechItems";
-import type { TechStackData } from "@/store/features/techStack/techStackSlice";
+import type { TechStackData } from "@/features/tech-stack/store/techStackSlice";
 import routePaths from "@/utils/routePaths";
 
 interface TechStackContainerProps {

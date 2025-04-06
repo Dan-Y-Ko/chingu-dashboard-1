@@ -1,5 +1,5 @@
 import { getSelectedTechItems } from "./getSelectedTechItems";
-import type { TechStackData } from "@/store/features/techStack/techStackSlice";
+import type { TechStackData } from "@/features/tech-stack/store/techStackSlice";
 
 export function checkIfFinalized(data: TechStackData[]) {
   const techCardData = data.map((item) => ({

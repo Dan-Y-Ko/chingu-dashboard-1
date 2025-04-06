@@ -7,7 +7,7 @@ import { getAccessToken } from "@/shared/utils/getCookie";
 import { handleAsync } from "@/shared/utils/handleAsync";
 import { type AsyncActionResponse } from "@/shared/utils/handleAsync";
 import { DELETE, PATCH, POST } from "@/shared/utils/requests";
-import { type TechStackItem } from "@/store/features/techStack/techStackSlice";
+import { type TechStackItem } from "@/features/tech-stack/store/techStackSlice";
 
 interface BaseTechItem {
   techName: string;

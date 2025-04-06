@@ -20,8 +20,8 @@ import {
   addTechItem,
   editTechItem,
 } from "@/myVoyage/tech-stack/techStackService";
-import getTechCategory from "@/myVoyage/tech-stack/components/getTechCategory";
-import type { TechStackItem } from "@/store/features/techStack/techStackSlice";
+import getTechCategory from "@/features/tech-stack/components/getTechCategory";
+import type { TechStackItem } from "@/features/tech-stack/store/techStackSlice";
 import { useUser, useAppDispatch, useAppSelector } from "@/store/hooks";
 import useServerAction from "@/shared/hooks/useServerAction";
 import { onOpenModal } from "@/store/features/modal/modalSlice";

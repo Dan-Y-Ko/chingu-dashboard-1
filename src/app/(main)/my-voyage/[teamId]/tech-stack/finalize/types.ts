@@ -1,5 +1,5 @@
 import type { Key } from "react";
-import type { TechStackItemVotes } from "@/store/features/techStack/techStackSlice";
+import type { TechStackItemVotes } from "@/features/tech-stack/store/techStackSlice";
 
 export interface FinalizeTechStackPageProps {
   params: {

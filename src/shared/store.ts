@@ -13,7 +13,7 @@ import userReducer from "@/features/user/store/userSlice";
 import myTeamReducer from "@/features/voyage-team/store/myTeamSlice";
 import sprintReducer from "@/features/sprints/store/sprintSlice";
 import featuresReducer from "@/features/features/store/featuresSlice";
-import techStackReducer from "@/store/features/techStack/techStackSlice";
+import techStackReducer from "@/features/tech-stack/store/techStackSlice";
 import sprintMeetingReducer from "@/features/sprint-meeting/store/sprintMeetingSlice";
 import currentVoyageTeamReducer from "@/features/voyage-team/store/currentVoyageTeamSlice";
 import modalReducer from "@/store/features/modal/modalSlice";
