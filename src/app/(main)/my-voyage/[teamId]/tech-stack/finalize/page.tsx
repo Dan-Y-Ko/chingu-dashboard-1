@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import FinalizeTechBanner from "./FinalizeTechBanner";
-import FinalizeTechList from "./FinalizeTechList";
+import FinalizeTechList from "../../../../../../features/tech-stack/components/FinalizeTechList";
 import { getUser } from "@/utils/getUser";
 import { getCurrentVoyageTeam } from "@/utils/getCurrentVoyageTeam";
 import routePaths from "@/utils/routePaths";

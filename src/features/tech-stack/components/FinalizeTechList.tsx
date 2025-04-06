@@ -4,9 +4,13 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@chingu-x/components/button";
-import type { SelectedItems, TechItem, TechStackItem } from "./types";
-import { checkIfFinalized } from "./utils/checkIfFinalized";
-import { getSelectedTechItems } from "./utils/getSelectedTechItems";
+import type {
+  SelectedItems,
+  TechItem,
+  TechStackItem,
+} from "../../../app/(main)/my-voyage/[teamId]/tech-stack/finalize/types";
+import { checkIfFinalized } from "../utils/checkIfFinalized";
+import { getSelectedTechItems } from "../utils/getSelectedTechItems";
 import GetIcon from "@/features/tech-stack/components/GetIcons";
 import { useTechStack } from "@/store/hooks";
 import FinalizeTechCard from "@/app/(main)/my-voyage/[teamId]/tech-stack/finalize/FinalizeTechCard";

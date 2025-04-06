@@ -1,7 +1,7 @@
 "use client";
 
 import { Alert } from "@chingu-x/components/alert";
-import { checkIfFinalized } from "./utils/checkIfFinalized";
+import { checkIfFinalized } from "../../../../../../features/tech-stack/utils/checkIfFinalized";
 import { useTechStack } from "@/store/hooks";
 
 export default function FinalizeTechBanner() {

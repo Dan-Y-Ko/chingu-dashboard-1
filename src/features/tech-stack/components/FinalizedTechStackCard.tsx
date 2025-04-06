@@ -2,7 +2,7 @@ import { Avatar } from "@chingu-x/components/avatar";
 import Image from "next/image";
 import { AvatarGroup } from "@chingu-x/components/avatar-group";
 import GetIcon from "./GetIcons";
-import type { SelectedCategory } from "@/app/(main)/my-voyage/[teamId]/tech-stack/finalize/utils/getSelectedTechItems";
+import type { SelectedCategory } from "@/features/tech-stack/utils/getSelectedTechItems";
 import type { TechStackItemVotes } from "@/features/tech-stack/store/techStackSlice";
 
 interface FinalizedTechStackCardProps {

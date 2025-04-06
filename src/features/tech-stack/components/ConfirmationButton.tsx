@@ -1,8 +1,8 @@
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
-import createFinalList from "./utils/createFinalList";
-import editFinalList from "./utils/editFinalList";
+import createFinalList from "../../../../../../features/tech-stack/utils/createFinalList";
+import editFinalList from "../../../../../../features/tech-stack/utils/editFinalList";
 import {
   type FinalizedList,
   finalizeTechStack,
