@@ -1,27 +1,9 @@
+import type { TechStackCategory } from "@chingu-x/modules/tech-stack";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { VoyageMember } from "@/store/features/ideation/ideationSlice";
 
-export interface TechStackData {
-  id: number;
-  name: string;
-  description: string;
-  isSelected: boolean;
-  teamTechStackItems: TechStackItem[];
-}
-export interface TechStackItem {
-  id: number;
-  name: string;
-  teamTechStackItemVotes: TechStackItemVotes[];
-  isSelected: boolean;
-}
-export interface TechStackItemVotes {
-  votedBy: {
-    member: VoyageMember;
-  };
-}
 interface TechStackState {
-  techStack: TechStackData[];
+  techStack: TechStackCategory[];
 }
 const initialState: TechStackState = {
   techStack: [],
@@ -31,11 +13,14 @@ export const techStackSlice = createSlice({
   name: "tech-stack",
   initialState,
   reducers: {
-    fetchTechStack: (state, action: PayloadAction<TechStackData[]>) => {
+    fetchTechStackState: (
+      state,
+      action: PayloadAction<TechStackCategory[]>,
+    ) => {
       state.techStack = action.payload;
     },
   },
 });
 
-export const { fetchTechStack } = techStackSlice.actions;
+export const { fetchTechStackState } = techStackSlice.actions;
 export default techStackSlice.reducer;
