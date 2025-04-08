@@ -17,16 +17,11 @@ import GetIcon from "./GetIcons";
 import AddVoteBtn from "./AddVoteBtn";
 import RemoveVoteBtn from "./RemoveVoteBtn";
 import SettingsMenu from "./SettingsMenu";
-import {
-  addTechItem,
-  editTechItem,
-} from "@/myVoyage/tech-stack/techStackService";
-import getTechCategory from "@/features/tech-stack/components/getTechCategory";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
-import { useAppSelector } from "@/shared/store";
 import { useAddTechStackMutation } from "@/features/tech-stack/hooks/useAddTechStackMutation";
 import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
+import { useEditTechStackMutation } from "@/features/tech-stack/hooks/useEditTechStackMutation";
 
 interface TechStackCardProps {
   title: string;
@@ -60,25 +55,18 @@ export default function TechStackCard({
   const [editItemId, setEditItemId] = useState(-1);
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [tooltipHovered, setTooltipHovered] = useState<string>("");
-
   const inputRef = useRef<HTMLFormElement>(null);
   const editRef = useRef<HTMLFormElement>(null);
   const items = data.map((item) => item.name.toLowerCase());
   const { teamId } = useParams<{ teamId: string }>();
   const userId = useUserStateSelector().id;
-  const user = useAppSelector((state) => state.user);
   const [openMenuId, setOpenMenuId] = useState(-1);
-  const techCategoryId = getTechCategory(title) ?? 0;
   const { isAddTechStackPending, addTechStackMutation } =
     useAddTechStackMutation();
+  const { iseditTechStackPending, editTechStackMutation } =
+    useEditTechStackMutation();
   const currentTeam = useCurrentVoyageTeamStateSelector()[0];
   const voyageTeamMemberId = currentTeam.id;
-
-  const {
-    runAction: editTechItemAction,
-    isLoading: editTechItemLoading,
-    setIsLoading: setEditTechItemLoading,
-  } = useServerAction(editTechItem);
 
   const {
     register,
@@ -116,22 +104,12 @@ export default function TechStackCard({
     reset();
   };
 
-  const handleEdit = async (techItemId: number) => {
+  const handleEdit = (techItemId: number) => {
     const input = editRef?.current?.querySelector(
       "input[name='edit']",
     ) as HTMLInputElement;
     const techName = input.value ?? "";
-    const [, error] = await editTechItemAction({
-      techItemId,
-      techName,
-    });
-
-    if (error) {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    }
-    setEditTechItemLoading(false);
+    editTechStackMutation({ teamTechItemId: techItemId, techName });
     setEditItemId(-1);
     handleSettingsMenuClose();
     resetEdit();
@@ -246,7 +224,7 @@ export default function TechStackCard({
                       placeholder={element.name}
                       defaultValue={element.name}
                       submitButtonText={
-                        editTechItemLoading ? <Spinner /> : "Save"
+                        iseditTechStackPending ? <Spinner /> : "Save"
                       }
                       clearInputAction={clearActionEditItem}
                       {...registerEdit("edit")}
