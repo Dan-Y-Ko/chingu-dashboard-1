@@ -2,39 +2,31 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Button } from "@chingu-x/components/button";
+// import { Button } from "@chingu-x/components/button";
+import type { TechStackCategory } from "@chingu-x/modules/tech-stack";
 import TechStackCard from "./TechStackCard";
-import FinalizedTechStackCard from "./FinalizedTechStackCard";
-import { getSelectedTechItems } from "@/features/tech-stack/utils/getSelectedTechItems";
-import type { TechStackData } from "@/features/tech-stack/store/techStackSlice";
-import routePaths from "@/utils/routePaths";
+import routePaths from "@/shared/utils/routePaths";
 
 interface TechStackContainerProps {
-  data: TechStackData[];
+  data: TechStackCategory[];
 }
 
 export default function TechStackContainer({ data }: TechStackContainerProps) {
   const { teamId } = useParams<{ teamId: string }>();
 
-  const techCardData = data.map((item) => ({
-    id: item.id,
-    title: item.name,
-    techItems: item.teamTechStackItems,
-  }));
-
-  const selectedTechItems = getSelectedTechItems(techCardData);
-  const isFinalized = selectedTechItems.length > 0;
+  // const selectedTechItems = getSelectedTechItems(techCardData);
+  // const isFinalized = selectedTechItems.length > 0;
 
   function renderContent() {
-    if (isFinalized) {
-      return selectedTechItems.map((item) => (
-        <FinalizedTechStackCard key={item.id} title={item.title} data={item} />
-      ));
-    }
+    // if (isFinalized) {
+    //   return selectedTechItems.map((item) => (
+    //     <FinalizedTechStackCard key={item.id} title={item.title} data={item} />
+    //   ));
+    // }
 
-    return techCardData.map((item) => (
+    return data.map((item) => (
       <li key={item.id}>
-        <TechStackCard title={item.title} data={item.techItems} />
+        <TechStackCard title={item.name} data={item.teamTechStackItems} />
       </li>
     ));
   }
@@ -44,9 +36,9 @@ export default function TechStackContainer({ data }: TechStackContainerProps) {
       <div className="mb-10 grid grid-cols-2 place-items-center min-[1920px]:grid-cols-3">
         <div className="col-start-2 flex min-w-[420px] flex-row-reverse sm:w-96 min-[1920px]:col-start-3">
           <Link href={routePaths.finalizeTechStackPage(teamId)}>
-            <Button variant="secondary">
+            {/* <Button variant="secondary">
               {isFinalized ? "Edit Final Selection" : "Finalize Selection"}
-            </Button>
+            </Button> */}
           </Link>
         </div>
       </div>

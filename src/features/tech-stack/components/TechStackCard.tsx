@@ -12,6 +12,7 @@ import { Tooltip } from "@chingu-x/components/tooltip";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
+import type { TechStackItem } from "@chingu-x/modules/tech-stack";
 import GetIcon from "./GetIcons";
 import AddVoteBtn from "./AddVoteBtn";
 import RemoveVoteBtn from "./RemoveVoteBtn";
@@ -21,12 +22,7 @@ import {
   editTechItem,
 } from "@/myVoyage/tech-stack/techStackService";
 import getTechCategory from "@/features/tech-stack/components/getTechCategory";
-import type { TechStackItem } from "@/features/tech-stack/store/techStackSlice";
-import { useUser, useAppDispatch, useAppSelector } from "@/store/hooks";
-import useServerAction from "@/shared/hooks/useServerAction";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { getCurrentVoyageTeam } from "@/utils/getCurrentVoyageTeam";
-import { validateTextInput } from "@/utils/form/validateInput";
+import { validateTextInput } from "@/shared/utils/form/validateInput";
 
 interface TechStackCardProps {
   title: string;

@@ -1,6 +1,7 @@
 import { resolve } from "@chingu-x/modules/resolver";
 import { TYPES } from "@chingu-x/modules/di-types";
 import type {
+  AddTechStackItemClientRequestDto,
   FetchTechStackClientRequestDto,
   TechStackClientAdapter,
 } from "@chingu-x/modules/tech-stack";
@@ -14,4 +15,21 @@ export function useFetchTechStack() {
     await techStackAdapter.fetchTechStack({ teamId });
 
   return { fetchTechStack };
+}
+
+export function useAddTechStack() {
+  const addTechStack = async ({
+    teamId,
+    techName,
+    techCategoryId,
+    voyageTeamMemberId,
+  }: AddTechStackItemClientRequestDto) =>
+    await techStackAdapter.addTechStackItem({
+      teamId,
+      techName,
+      techCategoryId,
+      voyageTeamMemberId,
+    });
+
+  return { addTechStack };
 }
