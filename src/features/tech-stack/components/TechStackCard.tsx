@@ -23,10 +23,15 @@ import {
 } from "@/myVoyage/tech-stack/techStackService";
 import getTechCategory from "@/features/tech-stack/components/getTechCategory";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import { useAppSelector } from "@/shared/store";
+import { useAddTechStackMutation } from "@/features/tech-stack/hooks/useAddTechStackMutation";
+import { useCurrentVoyageTeamStateSelector } from "@/features/voyage-team/hooks/useCurrentVoyageTeamStateSelector";
 
 interface TechStackCardProps {
   title: string;
   data: TechStackItem[];
+  techStackCategoryId: number;
 }
 
 const validationSchemaAdd = z.object({
@@ -46,7 +51,11 @@ const validationSchemaEdit = z.object({
 type ValidationSchemaAdd = z.infer<typeof validationSchemaAdd>;
 type ValidationSchemaEdit = z.infer<typeof validationSchemaEdit>;
 
-export default function TechStackCard({ title, data }: TechStackCardProps) {
+export default function TechStackCard({
+  title,
+  data,
+  techStackCategoryId,
+}: TechStackCardProps) {
   const [isInput, setIsInput] = useState(false);
   const [editItemId, setEditItemId] = useState(-1);
   const [isDuplicate, setIsDuplicate] = useState(false);
@@ -55,24 +64,15 @@ export default function TechStackCard({ title, data }: TechStackCardProps) {
   const inputRef = useRef<HTMLFormElement>(null);
   const editRef = useRef<HTMLFormElement>(null);
   const items = data.map((item) => item.name.toLowerCase());
-  const params = useParams<{ teamId: string }>();
-  const teamId = Number(params.teamId);
-  const userId = useUser().id;
+  const { teamId } = useParams<{ teamId: string }>();
+  const userId = useUserStateSelector().id;
   const user = useAppSelector((state) => state.user);
-  const { voyageTeamMemberId } = getCurrentVoyageTeam({
-    teamId,
-    user,
-    error: null,
-  });
   const [openMenuId, setOpenMenuId] = useState(-1);
   const techCategoryId = getTechCategory(title) ?? 0;
-  const dispatch = useAppDispatch();
-
-  const {
-    runAction: addTechItemAction,
-    isLoading: addTechItemLoading,
-    setIsLoading: setAddTechItemLoading,
-  } = useServerAction(addTechItem);
+  const { isAddTechStackPending, addTechStackMutation } =
+    useAddTechStackMutation();
+  const currentTeam = useCurrentVoyageTeamStateSelector()[0];
+  const voyageTeamMemberId = currentTeam.id;
 
   const {
     runAction: editTechItemAction,
@@ -104,20 +104,14 @@ export default function TechStackCard({ title, data }: TechStackCardProps) {
     setIsInput(!isInput);
   };
 
-  const handleAddItem: SubmitHandler<ValidationSchemaAdd> = async (data) => {
+  const handleAddItem: SubmitHandler<ValidationSchemaAdd> = (data) => {
     const techName = data.add;
-    const [, error] = await addTechItemAction({
+    addTechStackMutation({
       teamId,
-      techName,
-      techCategoryId,
+      techCategoryId: techStackCategoryId,
       voyageTeamMemberId,
+      techName,
     });
-    if (error) {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    }
-    setAddTechItemLoading(false);
     setIsInput(false);
     reset();
   };
@@ -341,7 +335,7 @@ export default function TechStackCard({ title, data }: TechStackCardProps) {
           <TextInput
             id="add"
             placeholder="Add Tech Stack"
-            submitButtonText={addTechItemLoading ? <Spinner /> : "Save"}
+            submitButtonText={isAddTechStackPending ? <Spinner /> : "Save"}
             clearInputAction={clearActionAdditem}
             className="z-10"
             {...register("add")}

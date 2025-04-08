@@ -2,6 +2,7 @@ import { resolve } from "@chingu-x/modules/resolver";
 import { TYPES } from "@chingu-x/modules/di-types";
 import type {
   AddTechStackItemClientRequestDto,
+  EditTechStackItemClientRequestDto,
   FetchTechStackClientRequestDto,
   TechStackClientAdapter,
 } from "@chingu-x/modules/tech-stack";
@@ -32,4 +33,14 @@ export function useAddTechStack() {
     });
 
   return { addTechStack };
+}
+
+export function useEditTechStack() {
+  const editTechStack = async ({
+    teamTechItemId,
+    techName,
+  }: EditTechStackItemClientRequestDto) =>
+    await techStackAdapter.editTechStackItem({ teamTechItemId, techName });
+
+  return { editTechStack };
 }

@@ -26,7 +26,11 @@ export default function TechStackContainer({ data }: TechStackContainerProps) {
 
     return data.map((item) => (
       <li key={item.id}>
-        <TechStackCard title={item.name} data={item.teamTechStackItems} />
+        <TechStackCard
+          title={item.name}
+          data={item.teamTechStackItems}
+          techStackCategoryId={item.id}
+        />
       </li>
     ));
   }
