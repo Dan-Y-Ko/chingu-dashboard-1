@@ -1,33 +1,17 @@
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
-import { addTechItemVote } from "@/myVoyage/tech-stack/techStackService";
-import useServerAction from "@/shared/hooks/useServerAction";
-import { useAppDispatch } from "@/store/hooks";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { useAddTechStackVoteMutation } from "@/features/tech-stack/hooks/useAddTechStackVoteMutation";
 
 interface AddVoteBtnProps {
   techItemId: number;
 }
 
 export default function AddVoteBtn({ techItemId }: AddVoteBtnProps) {
-  const dispatch = useAppDispatch();
-  const {
-    runAction: addVoteAction,
-    isLoading: addVoteLoading,
-    setIsLoading: setAddVoteLoading,
-  } = useServerAction(addTechItemVote);
+  const { isAddTechStackPending, addTechStackVoteMutation } =
+    useAddTechStackVoteMutation();
 
-  const handleClick = async () => {
-    const [, error] = await addVoteAction({
-      techItemId,
-    });
-
-    if (error) {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    }
-    setAddVoteLoading(false);
+  const handleClick = () => {
+    addTechStackVoteMutation({ teamTechItemId: techItemId });
   };
 
   return (
@@ -35,11 +19,11 @@ export default function AddVoteBtn({ techItemId }: AddVoteBtnProps) {
       <Button
         variant="primary"
         size="xs"
-        className={`rounded-3xl font-semibold ${addVoteLoading && "w-3/4"}`}
+        className={`rounded-3xl font-semibold ${isAddTechStackPending && "w-3/4"}`}
         onClick={handleClick}
-        disabled={addVoteLoading}
+        disabled={isAddTechStackPending}
       >
-        {addVoteLoading ? <Spinner /> : "Add Vote"}
+        {isAddTechStackPending ? <Spinner /> : "Add Vote"}
       </Button>
     </div>
   );
