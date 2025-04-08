@@ -5,6 +5,7 @@ import type {
   AddTechStackItemVoteClientRequestDto,
   EditTechStackItemClientRequestDto,
   FetchTechStackClientRequestDto,
+  RemoveTechStackItemVoteClientRequestDto,
   TechStackClientAdapter,
 } from "@chingu-x/modules/tech-stack";
 
@@ -53,4 +54,13 @@ export function useAddTechStackVote() {
     await techStackAdapter.addTechStackItemVote({ teamTechItemId });
 
   return { addTechStackVote };
+}
+
+export function useRemoveTechStackVote() {
+  const removeTechStackVote = async ({
+    teamTechItemId,
+  }: RemoveTechStackItemVoteClientRequestDto) =>
+    await techStackAdapter.removeTechStackItemVote({ teamTechItemId });
+
+  return { removeTechStackVote };
 }

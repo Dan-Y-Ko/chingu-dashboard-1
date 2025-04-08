@@ -7,7 +7,7 @@ interface AddVoteBtnProps {
 }
 
 export default function AddVoteBtn({ techItemId }: AddVoteBtnProps) {
-  const { isAddTechStackPending, addTechStackVoteMutation } =
+  const { isAddTechStackVotePending, addTechStackVoteMutation } =
     useAddTechStackVoteMutation();
 
   const handleClick = () => {
@@ -19,11 +19,11 @@ export default function AddVoteBtn({ techItemId }: AddVoteBtnProps) {
       <Button
         variant="primary"
         size="xs"
-        className={`rounded-3xl font-semibold ${isAddTechStackPending && "w-3/4"}`}
+        className={`rounded-3xl font-semibold ${isAddTechStackVotePending && "w-3/4"}`}
         onClick={handleClick}
-        disabled={isAddTechStackPending}
+        disabled={isAddTechStackVotePending}
       >
-        {isAddTechStackPending ? <Spinner /> : "Add Vote"}
+        {isAddTechStackVotePending ? <Spinner /> : "Add Vote"}
       </Button>
     </div>
   );

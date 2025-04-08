@@ -11,24 +11,26 @@ export function useAddTechStackVoteMutation() {
   const dispatch = useAppDispatch();
   const { addTechStackVote } = useAddTechStackVote();
 
-  const { mutate: addTechStackVoteMutation, isPending: isAddTechStackPending } =
-    useMutation<
-      AddTechStackItemVoteResponseDto,
-      Error,
-      AddTechStackItemVoteClientRequestDto
-    >({
-      mutationFn: addTechStackVoteMutationFn,
-      onSuccess: (data) => {
-        //   dispatch(
-        //     addVoyageResourceState({ data, id, firstName, lastName, avatar }),
-        //   );
-      },
-      onError: (error: Error) => {
-        dispatch(
-          onOpenModal({ type: "error", content: { message: error.message } }),
-        );
-      },
-    });
+  const {
+    mutate: addTechStackVoteMutation,
+    isPending: isAddTechStackVotePending,
+  } = useMutation<
+    AddTechStackItemVoteResponseDto,
+    Error,
+    AddTechStackItemVoteClientRequestDto
+  >({
+    mutationFn: addTechStackVoteMutationFn,
+    onSuccess: (data) => {
+      //   dispatch(
+      //     addVoyageResourceState({ data, id, firstName, lastName, avatar }),
+      //   );
+    },
+    onError: (error: Error) => {
+      dispatch(
+        onOpenModal({ type: "error", content: { message: error.message } }),
+      );
+    },
+  });
 
   async function addTechStackVoteMutationFn({
     teamTechItemId,
@@ -39,7 +41,7 @@ export function useAddTechStackVoteMutation() {
   }
 
   return {
-    isAddTechStackPending,
+    isAddTechStackVotePending,
     addTechStackVoteMutation,
   };
 }
