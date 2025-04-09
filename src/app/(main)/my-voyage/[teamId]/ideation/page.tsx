@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Spinner } from "@chingu-x/components/spinner";
-import IdeationComponentWrapper from "./components/IdeationComponentWrapper";
+import IdeationComponentWrapper from "../../../../../features/ideation/components/IdeationComponentWrapper";
 
 interface IdeationPageProps {
   params: {

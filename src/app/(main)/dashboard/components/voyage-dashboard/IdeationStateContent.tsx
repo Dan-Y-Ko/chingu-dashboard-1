@@ -1,5 +1,5 @@
 import React from "react";
-import { type IdeationData } from "@/store/features/ideation/ideationSlice";
+import { type IdeationData } from "@/features/ideation/store/ideationSlice";
 
 interface IdeationStateContentProps {
   contentObject?: IdeationData;

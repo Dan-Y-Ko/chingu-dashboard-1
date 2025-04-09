@@ -11,7 +11,7 @@ import { Spinner } from "@chingu-x/components/spinner";
 import {
   type ProjectIdeaVotes,
   setProjectIdeasLoadingTrue,
-} from "@/store/features/ideation/ideationSlice";
+} from "@/features/ideation/store/ideationSlice";
 import { useAppDispatch, useIdeation, useModal, useUser } from "@/store/hooks";
 import useServerAction from "@/shared/hooks/useServerAction";
 import {

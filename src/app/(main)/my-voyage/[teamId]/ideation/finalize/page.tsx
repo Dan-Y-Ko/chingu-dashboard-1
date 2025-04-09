@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import FinalizeIdeationBanner from "./components/FinalizeIdeationBanner";
-import FinalizeIdeationList from "./components/FinalizeIdeationList";
+import FinalizeIdeationBanner from "../../../../../../features/ideation/components/FinalizeIdeationBanner";
+import FinalizeIdeationList from "../../../../../../features/ideation/components/FinalizeIdeationList";
 import { getUser } from "@/utils/getUser";
 import { getCurrentVoyageTeam } from "@/utils/getCurrentVoyageTeam";
 import routePaths from "@/utils/routePaths";

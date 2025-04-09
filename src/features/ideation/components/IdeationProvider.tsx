@@ -5,7 +5,7 @@ import {
   type IdeationData,
   fetchIdeations,
   setProjectIdeasLoadingFalse,
-} from "@/store/features/ideation/ideationSlice";
+} from "@/features/ideation/store/ideationSlice";
 import { useAppDispatch } from "@/store/hooks";
 
 export interface IdeationProviderProps {

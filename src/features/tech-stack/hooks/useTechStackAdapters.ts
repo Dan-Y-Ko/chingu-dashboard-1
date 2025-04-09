@@ -80,9 +80,9 @@ export function useDeleteTechStack() {
 export function useCheckisFinalized() {
   const { techStack } = useTechStackStateSelector();
 
-  const techStackIsFinalized = techStackAdapter.checkIfFinalized({ techStack });
+  const IsTechStackFinalized = techStackAdapter.checkIfFinalized({ techStack });
 
-  return { techStackIsFinalized };
+  return { IsTechStackFinalized };
 }
 
 export function useFinalizeTechStack() {

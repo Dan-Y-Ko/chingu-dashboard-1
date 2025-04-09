@@ -4,10 +4,10 @@ import { Alert } from "@chingu-x/components/alert";
 import { useCheckisFinalized } from "@/features/tech-stack/hooks/useTechStackAdapters";
 
 export default function FinalizeTechBanner() {
-  const { techStackIsFinalized } = useCheckisFinalized();
+  const { IsTechStackFinalized } = useCheckisFinalized();
 
   return (
-    <>{techStackIsFinalized ? <TechBannerEdit /> : <TechBannerFinalize />}</>
+    <>{IsTechStackFinalized ? <TechBannerEdit /> : <TechBannerFinalize />}</>
   );
 }
 

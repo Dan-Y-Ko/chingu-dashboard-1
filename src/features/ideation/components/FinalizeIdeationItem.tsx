@@ -5,7 +5,7 @@ import Image from "next/image";
 import { AvatarGroup } from "@chingu-x/components/avatar-group";
 import { Button } from "@chingu-x/components/button";
 import { type FinalizedIdeation } from "./FinalizeIdeationList";
-import { type ProjectIdeaVotes } from "@/store/features/ideation/ideationSlice";
+import { type ProjectIdeaVotes } from "@/features/ideation/store/ideationSlice";
 
 interface FinalizeIdeationItemProps {
   title: string;

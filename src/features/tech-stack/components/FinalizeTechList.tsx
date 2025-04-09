@@ -35,7 +35,7 @@ export default function FinalizeTechList() {
 
   // if isSelected property has been set to true on any item, assumption is
   // user has already finalized techStack.
-  const { techStackIsFinalized } = useCheckisFinalized();
+  const { IsTechStackFinalized } = useCheckisFinalized();
 
   const techCardData = techStack.map((item) => ({
     id: item.id,
@@ -76,14 +76,14 @@ export default function FinalizeTechList() {
             />
           );
         })}
-        {techStackIsFinalized && (
+        {/* {IsTechStackFinalized && (
           <ConfirmationButton
-            isFinalized={techStackIsFinalized}
+            isFinalized={IsTechStackFinalized}
             selectedItems={selectedItems}
             previousSelected={previousSelected}
             allCategoriesSelected={true}
           />
-        )}
+        )} */}
       </div>
     );
   };
@@ -91,13 +91,13 @@ export default function FinalizeTechList() {
   return (
     <>
       {techStack.map(renderTechStackItem)}
-      {!techStackIsFinalized && (
+      {/* {!IsTechStackFinalized && (
         <ConfirmationButton
           isFinalized={false}
           allCategoriesSelected={allCategoriesSelected}
           selectedItems={selectedItems}
         />
-      )}
+      )} */}
       <Link href={routePaths.techStackPage(teamId)}>
         <Button className="mb-20 w-full" variant="neutral">
           Cancel

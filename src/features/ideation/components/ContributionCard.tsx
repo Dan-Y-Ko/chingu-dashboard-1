@@ -8,7 +8,7 @@ import Image from "next/image";
 import { Avatar } from "@chingu-x/components/avatar";
 import { Button } from "@chingu-x/components/button";
 import { cn } from "@chingu-x/components/tw-merge";
-import { type VoyageMember } from "@/store/features/ideation/ideationSlice";
+import { type VoyageMember } from "@/features/ideation/store/ideationSlice";
 import { useUser } from "@/store/hooks";
 import routePaths from "@/utils/routePaths";
 

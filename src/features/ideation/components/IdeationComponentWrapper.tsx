@@ -11,7 +11,7 @@ import VoteCard from "./VoteCard";
 import { type FetchIdeationsProps } from "@/app/(main)/my-voyage/[teamId]/ideation/ideationService";
 import ErrorComponent from "@/shared/components/Error";
 
-import { type IdeationData } from "@/store/features/ideation/ideationSlice";
+import { type IdeationData } from "@/features/ideation/store/ideationSlice";
 import { CacheTag } from "@/utils/cacheTag";
 import { getAccessToken } from "@/utils/getCookie";
 import { getCurrentVoyageData } from "@/utils/getCurrentVoyageData";

@@ -20,12 +20,12 @@ import VoyageSupport from "@/app/(main)/dashboard/components/shared/VoyageSuppor
 import { getUser } from "@/utils/getUser";
 import type { Sprint, Voyage } from "@/features/sprints/store/sprintSlice";
 import { type FeaturesList } from "@/features/features/store/featuresSlice";
-import { type IdeationData } from "@/store/features/ideation/ideationSlice";
+import { type IdeationData } from "@/features/ideation/store/ideationSlice";
 import { type TechStackData } from "@/features/tech-stack/store/techStackSlice";
 import { type ResourceData } from "@/features/voyage-resources/store/voyageResourcesSlice";
 import ResourcesProvider from "@/features/voyage-resources/components/ResourcesProvider";
 import FeaturesProvider from "@/app/(main)/my-voyage/[teamId]/features/components/FeaturesProvider";
-import IdeationProvider from "@/app/(main)/my-voyage/[teamId]/ideation/components/IdeationProvider";
+import IdeationProvider from "@/features/ideation/components/IdeationProvider";
 import TechStackProvider from "@/features/tech-stack/components/TechStackProvider";
 import routePaths from "@/utils/routePaths";
 import { type ErrorType } from "@/utils/error";

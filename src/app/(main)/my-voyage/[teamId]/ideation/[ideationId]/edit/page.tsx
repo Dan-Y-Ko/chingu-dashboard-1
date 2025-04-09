@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import IdeationForm from "@/app/(main)/my-voyage/[teamId]/ideation/components/IdeationForm";
+import IdeationForm from "@/features/ideation/components/IdeationForm";
 import { getCurrentVoyageTeam } from "@/utils/getCurrentVoyageTeam";
 import routePaths from "@/utils/routePaths";
 import { getUser } from "@/utils/getUser";

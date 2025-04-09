@@ -55,20 +55,3 @@ export interface TechStackItem {
 }
 
 export type setFinalizedListArgs = Category;
-
-export interface BaseButtonProps {
-  allCategoriesSelected?: boolean;
-  selectedItems: SelectedItems;
-}
-
-export interface FinalizedProps extends BaseButtonProps {
-  isFinalized: true;
-  previousSelected: SelectedItems;
-}
-
-export interface NotFinalizedProps extends BaseButtonProps {
-  isFinalized: false;
-  previousSelected?: SelectedItems;
-}
-
-export type ConfirmationButtonProps = FinalizedProps | NotFinalizedProps;

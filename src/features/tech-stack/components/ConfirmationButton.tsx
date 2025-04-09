@@ -1,17 +1,30 @@
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
-import createFinalList from "../../../../../../features/tech-stack/utils/createFinalList";
-import editFinalList from "../../../../../../features/tech-stack/utils/editFinalList";
 import {
   type FinalizedList,
   finalizeTechStack,
 } from "@/app/(main)/my-voyage/[teamId]/tech-stack/techStackService";
-import type { ConfirmationButtonProps } from "@/app/(main)/my-voyage/[teamId]/tech-stack/finalize/types";
-import { useAppDispatch } from "@/store/hooks";
-import useServerAction from "@/shared/hooks/useServerAction";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import routePaths from "@/utils/routePaths";
+import type { SelectedItems } from "@/features/tech-stack/types/types";
+import editFinalList from "../utils/editFinalList";
+
+export interface BaseButtonProps {
+  allCategoriesSelected?: boolean;
+  selectedItems: SelectedItems;
+}
+
+export interface FinalizedProps extends BaseButtonProps {
+  isFinalized: true;
+  previousSelected: SelectedItems;
+}
+
+export interface NotFinalizedProps extends BaseButtonProps {
+  isFinalized: false;
+  previousSelected?: SelectedItems;
+}
+
+export type ConfirmationButtonProps = FinalizedProps | NotFinalizedProps;
 
 export default function ConfirmationButton({
   isFinalized,
@@ -22,13 +35,6 @@ export default function ConfirmationButton({
   const params = useParams();
   const teamId = Number(params.teamId);
   const router = useRouter();
-  const dispatch = useAppDispatch();
-
-  const {
-    runAction: finalizeTechStackAction,
-    isLoading: finalizeTechStackLoading,
-    setIsLoading: setFinalizeTechStackLoading,
-  } = useServerAction(finalizeTechStack);
 
   const handleClick = async () => {
     if (isFinalized) {

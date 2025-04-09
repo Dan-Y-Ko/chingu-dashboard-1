@@ -6,7 +6,7 @@ import {
   useDispatch,
   useSelector,
 } from "react-redux";
-import ideationReducer from "@/store/features/ideation/ideationSlice";
+import ideationReducer from "@/features/ideation/store/ideationSlice";
 import authReducer from "@/features/auth/store/authSlice";
 import voyageResourcesReducer from "@/features/voyage-resources/store/voyageResourcesSlice";
 import userReducer from "@/features/user/store/userSlice";

@@ -7,7 +7,7 @@ import FinalizeIdeationItem from "./FinalizeIdeationItem";
 import ConfirmationButton from "./ConfirmationButton";
 import { useIdeation } from "@/store/hooks";
 import routePaths from "@/utils/routePaths";
-import { type IdeationData } from "@/store/features/ideation/ideationSlice";
+import { type IdeationData } from "@/features/ideation/store/ideationSlice";
 
 function getHighestVoteProjects(projectIdeas: IdeationData[]) {
   const maxVotes = Math.max(
