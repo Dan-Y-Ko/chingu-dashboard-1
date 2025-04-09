@@ -3,6 +3,7 @@ import { TYPES } from "@chingu-x/modules/di-types";
 import type {
   AddTechStackItemClientRequestDto,
   AddTechStackItemVoteClientRequestDto,
+  DeleteTechStackItemClientRequestDto,
   EditTechStackItemClientRequestDto,
   FetchTechStackClientRequestDto,
   RemoveTechStackItemVoteClientRequestDto,
@@ -63,4 +64,13 @@ export function useRemoveTechStackVote() {
     await techStackAdapter.removeTechStackItemVote({ teamTechItemId });
 
   return { removeTechStackVote };
+}
+
+export function useDeleteTechStack() {
+  const deleteTechStack = async ({
+    teamTechItemId,
+  }: DeleteTechStackItemClientRequestDto) =>
+    await techStackAdapter.deleteTechStackItem({ teamTechItemId });
+
+  return { deleteTechStack };
 }
