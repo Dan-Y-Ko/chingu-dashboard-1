@@ -6,6 +6,7 @@ import type {
   DeleteTechStackItemClientRequestDto,
   EditTechStackItemClientRequestDto,
   FetchTechStackClientRequestDto,
+  FinalizeTechStackClientRequestDto,
   RemoveTechStackItemVoteClientRequestDto,
   TechStackClientAdapter,
 } from "@chingu-x/modules/tech-stack";
@@ -82,4 +83,14 @@ export function useCheckisFinalized() {
   const techStackIsFinalized = techStackAdapter.checkIfFinalized({ techStack });
 
   return { techStackIsFinalized };
+}
+
+export function useFinalizeTechStack() {
+  const finalizeTechStack = async ({
+    techId,
+    isSelected,
+  }: FinalizeTechStackClientRequestDto) =>
+    await techStackAdapter.finalizeTechStack({ techId, isSelected });
+
+  return { finalizeTechStack };
 }

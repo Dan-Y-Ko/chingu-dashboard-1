@@ -1,5 +1,5 @@
+import type { TechStackItemVotes } from "@chingu-x/modules/tech-stack";
 import type { Key } from "react";
-import type { TechStackItemVotes } from "@/features/tech-stack/store/techStackSlice";
 
 export type CardType =
   | "Frontend"
@@ -16,17 +16,6 @@ export interface FinalizeTechStackPageProps {
 }
 
 export type SelectedItems = object | { [key: number]: number };
-export interface FinalizeTechCardProps {
-  title: string;
-  techItemVotes: TechStackItemVotes[];
-  categoryId: number;
-  techId: number;
-  isSelected: boolean;
-  selectedItems: SelectedItems;
-  setSelectedItems: React.Dispatch<React.SetStateAction<SelectedItems>>;
-  setPreviousSelected: React.Dispatch<React.SetStateAction<SelectedItems>>;
-  finalizedItems?: FinalizedItem[];
-}
 
 export type FinalizedItem = {
   id: number;

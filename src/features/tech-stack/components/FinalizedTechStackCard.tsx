@@ -1,9 +1,6 @@
-import { Avatar } from "@chingu-x/components/avatar";
-
-import { AvatarGroup } from "@chingu-x/components/avatar-group";
 import GetIcon from "./GetIcons";
-import type { SelectedCategory } from "@/features/tech-stack/utils/getSelectedTechItems";
 import FinalizedTechListItem from "./FinalizedTechListItem";
+import type { SelectedCategory } from "@/features/tech-stack/utils/getSelectedTechItems";
 
 interface FinalizedTechStackCardProps {
   title: string;

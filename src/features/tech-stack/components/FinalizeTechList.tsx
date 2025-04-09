@@ -5,21 +5,21 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@chingu-x/components/button";
 import type {
-  SelectedItems,
-  TechItem,
+  TechStackCategory,
   TechStackItem,
-} from "../../../app/(main)/my-voyage/[teamId]/tech-stack/finalize/types";
-import { checkIfFinalized } from "../utils/checkIfFinalized";
-import { getSelectedTechItems } from "../utils/getSelectedTechItems";
+} from "@chingu-x/modules/tech-stack";
+import FinalizeTechCard from "./FinalizeTechCard";
+import ConfirmationButton from "./ConfirmationButton";
 import GetIcon from "@/features/tech-stack/components/GetIcons";
-import { useTechStack } from "@/store/hooks";
-import FinalizeTechCard from "@/app/(main)/my-voyage/[teamId]/tech-stack/finalize/FinalizeTechCard";
-import ConfirmationButton from "@/app/(main)/my-voyage/[teamId]/tech-stack/finalize/ConfirmationButton";
-import routePaths from "@/utils/routePaths";
+import { useTechStackStateSelector } from "@/features/tech-stack/hooks/useTechStackStateSelector";
+import type { SelectedItems } from "@/features/tech-stack/types/types";
+import { useCheckisFinalized } from "@/features/tech-stack/hooks/useTechStackAdapters";
+import { getSelectedTechItems } from "@/features/tech-stack/utils/getSelectedTechItems";
+import routePaths from "@/shared/utils/routePaths";
 
 export default function FinalizeTechList() {
   const { teamId } = useParams<{ teamId: string }>();
-  const { techStack } = useTechStack();
+  const { techStack } = useTechStackStateSelector();
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
   const [previousSelected, setPreviousSelected] = useState<SelectedItems>({});
 
@@ -35,7 +35,7 @@ export default function FinalizeTechList() {
 
   // if isSelected property has been set to true on any item, assumption is
   // user has already finalized techStack.
-  const isFinalized = checkIfFinalized(techStack);
+  const { techStackIsFinalized } = useCheckisFinalized();
 
   const techCardData = techStack.map((item) => ({
     id: item.id,
@@ -44,7 +44,7 @@ export default function FinalizeTechList() {
   }));
   const finalizedItems = getSelectedTechItems(techCardData);
 
-  const renderTechStackItem = (item: TechStackItem) => {
+  const renderTechStackItem = (item: TechStackCategory) => {
     if (item.teamTechStackItems.length === 0) {
       return null;
     }
@@ -58,7 +58,7 @@ export default function FinalizeTechList() {
           {GetIcon(item.name)}
           <h1 className="text-xl font-semibold text-base-300">{item.name}</h1>
         </div>
-        {item.teamTechStackItems.map((techItem: TechItem) => {
+        {item.teamTechStackItems.map((techItem: TechStackItem) => {
           const { id, name, teamTechStackItemVotes, isSelected } = techItem;
 
           return (
@@ -76,9 +76,9 @@ export default function FinalizeTechList() {
             />
           );
         })}
-        {isFinalized && (
+        {techStackIsFinalized && (
           <ConfirmationButton
-            isFinalized={isFinalized}
+            isFinalized={techStackIsFinalized}
             selectedItems={selectedItems}
             previousSelected={previousSelected}
             allCategoriesSelected={true}
@@ -91,7 +91,7 @@ export default function FinalizeTechList() {
   return (
     <>
       {techStack.map(renderTechStackItem)}
-      {!isFinalized && (
+      {!techStackIsFinalized && (
         <ConfirmationButton
           isFinalized={false}
           allCategoriesSelected={allCategoriesSelected}
