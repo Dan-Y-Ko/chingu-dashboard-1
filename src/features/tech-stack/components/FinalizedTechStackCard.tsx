@@ -1,9 +1,9 @@
 import { Avatar } from "@chingu-x/components/avatar";
-import Image from "next/image";
+
 import { AvatarGroup } from "@chingu-x/components/avatar-group";
 import GetIcon from "./GetIcons";
 import type { SelectedCategory } from "@/features/tech-stack/utils/getSelectedTechItems";
-import type { TechStackItemVotes } from "@/features/tech-stack/store/techStackSlice";
+import FinalizedTechListItem from "./FinalizedTechListItem";
 
 interface FinalizedTechStackCardProps {
   title: string;
@@ -32,34 +32,5 @@ export default function FinalizedTechStackCard({
         ))}
       </div>
     </>
-  );
-}
-
-interface FinalizedTechListItemProps {
-  name: string;
-  votes: TechStackItemVotes[];
-}
-export function FinalizedTechListItem({
-  name,
-  votes,
-}: FinalizedTechListItemProps) {
-  const avatars = votes.map((vote) => vote.votedBy.member);
-
-  return (
-    <div className="flex h-12 items-center rounded-md bg-base-100 px-4 py-2">
-      <h1 className="w-1/3 font-medium">{name}</h1>
-      <AvatarGroup>
-        {avatars.map((member) => (
-          <Avatar key={member.id}>
-            <Image
-              src={member.avatar}
-              alt={`${member.firstName}'s avatar`}
-              width={24}
-              height={24}
-            />
-          </Avatar>
-        ))}
-      </AvatarGroup>
-    </div>
   );
 }

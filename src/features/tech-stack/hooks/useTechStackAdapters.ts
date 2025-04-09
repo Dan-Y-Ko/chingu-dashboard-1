@@ -9,6 +9,7 @@ import type {
   RemoveTechStackItemVoteClientRequestDto,
   TechStackClientAdapter,
 } from "@chingu-x/modules/tech-stack";
+import { useTechStackStateSelector } from "./useTechStackStateSelector";
 
 export const techStackAdapter = resolve<TechStackClientAdapter>(
   TYPES.TechStackClientAdapter,
@@ -73,4 +74,12 @@ export function useDeleteTechStack() {
     await techStackAdapter.deleteTechStackItem({ teamTechItemId });
 
   return { deleteTechStack };
+}
+
+export function useCheckisFinalized() {
+  const { techStack } = useTechStackStateSelector();
+
+  const techStackIsFinalized = techStackAdapter.checkIfFinalized({ techStack });
+
+  return { techStackIsFinalized };
 }

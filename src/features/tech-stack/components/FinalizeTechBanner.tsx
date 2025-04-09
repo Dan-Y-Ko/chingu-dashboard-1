@@ -1,14 +1,14 @@
 "use client";
 
 import { Alert } from "@chingu-x/components/alert";
-import { checkIfFinalized } from "../../../../../../features/tech-stack/utils/checkIfFinalized";
-import { useTechStack } from "@/store/hooks";
+import { useCheckisFinalized } from "@/features/tech-stack/hooks/useTechStackAdapters";
 
 export default function FinalizeTechBanner() {
-  const { techStack } = useTechStack();
-  const isFinalized = checkIfFinalized(techStack);
+  const { techStackIsFinalized } = useCheckisFinalized();
 
-  return <>{isFinalized ? <TechBannerEdit /> : <TechBannerFinalize />}</>;
+  return (
+    <>{techStackIsFinalized ? <TechBannerEdit /> : <TechBannerFinalize />}</>
+  );
 }
 
 function TechBannerEdit() {
