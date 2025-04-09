@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type {
   AddTechStackItemVoteClientRequestDto,
   AddTechStackItemVoteResponseDto,
@@ -6,10 +6,18 @@ import type {
 import { useAddTechStackVote } from "./useTechStackAdapters";
 import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { CacheTag } from "@/shared/utils/cacheTag";
 
-export function useAddTechStackVoteMutation() {
+interface UseAddTechStackVoteMutationProps {
+  teamId: string;
+}
+
+export function useAddTechStackVoteMutation({
+  teamId,
+}: UseAddTechStackVoteMutationProps) {
   const dispatch = useAppDispatch();
   const { addTechStackVote } = useAddTechStackVote();
+  const queryClient = useQueryClient();
 
   const {
     mutate: addTechStackVoteMutation,
@@ -20,10 +28,10 @@ export function useAddTechStackVoteMutation() {
     AddTechStackItemVoteClientRequestDto
   >({
     mutationFn: addTechStackVoteMutationFn,
-    onSuccess: (data) => {
-      //   dispatch(
-      //     addVoyageResourceState({ data, id, firstName, lastName, avatar }),
-      //   );
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [CacheTag.techStack, { teamId }],
+      });
     },
     onError: (error: Error) => {
       dispatch(

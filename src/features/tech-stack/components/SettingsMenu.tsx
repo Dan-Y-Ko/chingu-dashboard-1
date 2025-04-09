@@ -1,9 +1,9 @@
-"use client";
 import { useEffect, useRef } from "react";
-import { deleteTechItem } from "@/myVoyage/tech-stack/techStackService";
-import { useAppDispatch } from "@/store/hooks";
+import { useParams } from "next/navigation";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import EditMenu from "@/shared/components/EditMenu";
+import { useAppDispatch } from "@/shared/store";
+import { useDeleteTechStackMutation } from "@/features/tech-stack/hooks/useDeleteTechStackMutation";
 
 interface SettingsMenuProps {
   onClose: () => void;
@@ -18,6 +18,8 @@ export default function SettingsMenu({
 }: SettingsMenuProps) {
   const dispatch = useAppDispatch();
   const menuRef = useRef<HTMLDivElement>(null);
+  const { teamId } = useParams<{ teamId: string }>();
+  const { deleteTechStackMutation } = useDeleteTechStackMutation({ teamId });
 
   const openEdit = () => {
     setEditItemId(id);
@@ -36,10 +38,9 @@ export default function SettingsMenu({
         },
         payload: {
           params: {
-            techItemId: id,
+            teamTechItemId: id,
           },
-          redirect: null,
-          deleteFunction: deleteTechItem,
+          deleteFunction: deleteTechStackMutation,
         },
       }),
     );

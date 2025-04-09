@@ -1,5 +1,6 @@
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
+import { useParams } from "next/navigation";
 import { useAddTechStackVoteMutation } from "@/features/tech-stack/hooks/useAddTechStackVoteMutation";
 
 interface AddVoteBtnProps {
@@ -7,8 +8,9 @@ interface AddVoteBtnProps {
 }
 
 export default function AddVoteBtn({ techItemId }: AddVoteBtnProps) {
+  const { teamId } = useParams<{ teamId: string }>();
   const { isAddTechStackVotePending, addTechStackVoteMutation } =
-    useAddTechStackVoteMutation();
+    useAddTechStackVoteMutation({ teamId });
 
   const handleClick = () => {
     addTechStackVoteMutation({ teamTechItemId: techItemId });

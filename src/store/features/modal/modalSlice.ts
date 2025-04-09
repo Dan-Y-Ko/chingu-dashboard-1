@@ -12,6 +12,10 @@ import type {
   DeleteVoyageResourceClientRequestDto,
   DeleteVoyageResourceResponseDto,
 } from "@chingu-x/modules/voyage-resources";
+import type {
+  DeleteTechStackItemClientRequestDto,
+  DeleteTechStackItemResponseDto,
+} from "@chingu-x/modules/tech-stack";
 
 export type ModalType =
   | "error"
@@ -63,7 +67,8 @@ export interface DeletePayload {
 export type DeleteProps =
   | DeleteAgendaTopicProps
   | DeleteFeatureProps
-  | DeleteVoyageResourcesProps;
+  | DeleteVoyageResourcesProps
+  | DeleteTechStackProps;
 
 interface DeleteAgendaTopicProps {
   agendaId: string;
@@ -75,6 +80,10 @@ interface DeleteFeatureProps {
 
 interface DeleteVoyageResourcesProps {
   resourceId: number;
+}
+
+interface DeleteTechStackProps {
+  teamTechItemId: number;
 }
 
 type DeleteFunctionTypes =
@@ -94,6 +103,12 @@ type DeleteFunctionTypes =
       DeleteVoyageResourceResponseDto,
       Error,
       DeleteVoyageResourceClientRequestDto,
+      unknown
+    >
+  | UseMutateFunction<
+      DeleteTechStackItemResponseDto,
+      Error,
+      DeleteTechStackItemClientRequestDto,
       unknown
     >;
 

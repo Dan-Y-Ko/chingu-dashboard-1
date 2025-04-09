@@ -1,5 +1,6 @@
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
+import { useParams } from "next/navigation";
 import { useRemoveTechStackVoteMutation } from "@/features/tech-stack/hooks/useRemoveTechStackVoteMutation";
 
 interface RemoveVoteBtnProps {
@@ -7,8 +8,9 @@ interface RemoveVoteBtnProps {
 }
 
 export default function RemoveVoteBtn({ techItemId }: RemoveVoteBtnProps) {
+  const { teamId } = useParams<{ teamId: string }>();
   const { isRemoveTechStackVotePending, removeTechStackVoteMutation } =
-    useRemoveTechStackVoteMutation();
+    useRemoveTechStackVoteMutation({ teamId });
 
   const handleClick = () => {
     removeTechStackVoteMutation({ teamTechItemId: techItemId });

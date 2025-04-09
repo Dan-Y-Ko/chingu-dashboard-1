@@ -1,4 +1,3 @@
-"use client";
 import { useRef, useState, useEffect } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { useParams } from "next/navigation";
@@ -61,10 +60,6 @@ export default function TechStackCard({
   const { teamId } = useParams<{ teamId: string }>();
   const userId = useUserStateSelector().id;
   const [openMenuId, setOpenMenuId] = useState(-1);
-  const { isAddTechStackPending, addTechStackMutation } =
-    useAddTechStackMutation();
-  const { iseditTechStackPending, editTechStackMutation } =
-    useEditTechStackMutation();
   const currentTeam = useCurrentVoyageTeamStateSelector()[0];
   const voyageTeamMemberId = currentTeam.id;
 
@@ -78,6 +73,9 @@ export default function TechStackCard({
     resolver: zodResolver(validationSchemaAdd),
   });
 
+  const { isAddTechStackPending, addTechStackMutation } =
+    useAddTechStackMutation({ teamId, setIsInput, reset });
+
   const {
     register: registerEdit,
     handleSubmit: handleSubmitEdit,
@@ -87,6 +85,9 @@ export default function TechStackCard({
     mode: "onSubmit",
     resolver: zodResolver(validationSchemaEdit),
   });
+
+  const { iseditTechStackPending, editTechStackMutation } =
+    useEditTechStackMutation({ teamId, setEditItemId, resetEdit });
 
   const toggleAddItemInput = () => {
     setIsInput(!isInput);
@@ -100,8 +101,6 @@ export default function TechStackCard({
       voyageTeamMemberId,
       techName,
     });
-    setIsInput(false);
-    reset();
   };
 
   const handleEdit = (techItemId: number) => {
@@ -110,9 +109,8 @@ export default function TechStackCard({
     ) as HTMLInputElement;
     const techName = input.value ?? "";
     editTechStackMutation({ teamTechItemId: techItemId, techName });
-    setEditItemId(-1);
+
     handleSettingsMenuClose();
-    resetEdit();
   };
 
   const handleSettingsMenuClose = () => {

@@ -1,15 +1,23 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type {
   DeleteTechStackItemClientRequestDto,
   DeleteTechStackItemResponseDto,
 } from "@chingu-x/modules/tech-stack";
 import { useDeleteTechStack } from "./useTechStackAdapters";
 import { useAppDispatch } from "@/shared/store";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";
+import { CacheTag } from "@/shared/utils/cacheTag";
 
-export function useDeleteTechStackMutation() {
+interface UseDeleteTechStackMutationProps {
+  teamId: string;
+}
+
+export function useDeleteTechStackMutation({
+  teamId,
+}: UseDeleteTechStackMutationProps) {
   const dispatch = useAppDispatch();
   const { deleteTechStack } = useDeleteTechStack();
+  const queryClient = useQueryClient();
 
   const { mutate: deleteTechStackMutation } = useMutation<
     DeleteTechStackItemResponseDto,
@@ -17,10 +25,12 @@ export function useDeleteTechStackMutation() {
     DeleteTechStackItemClientRequestDto
   >({
     mutationFn: deleteTechStackMutationFn,
-    onSuccess: (data) => {
-      //   dispatch(
-      //     addVoyageResourceState({ data, id, firstName, lastName, avatar }),
-      //   );
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [CacheTag.techStack, { teamId }],
+      });
+
+      dispatch(onCloseModal());
     },
     onError: (error: Error) => {
       dispatch(

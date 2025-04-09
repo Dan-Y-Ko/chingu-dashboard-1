@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type {
   RemoveTechStackItemVoteClientRequestDto,
   RemoveTechStackItemVoteResponseDto,
@@ -6,10 +6,18 @@ import type {
 import { useRemoveTechStackVote } from "./useTechStackAdapters";
 import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { CacheTag } from "@/shared/utils/cacheTag";
 
-export function useRemoveTechStackVoteMutation() {
+interface UseRemoveTechStackVoteMutationProps {
+  teamId: string;
+}
+
+export function useRemoveTechStackVoteMutation({
+  teamId,
+}: UseRemoveTechStackVoteMutationProps) {
   const dispatch = useAppDispatch();
   const { removeTechStackVote } = useRemoveTechStackVote();
+  const queryClient = useQueryClient();
 
   const {
     mutate: removeTechStackVoteMutation,
@@ -20,10 +28,10 @@ export function useRemoveTechStackVoteMutation() {
     RemoveTechStackItemVoteClientRequestDto
   >({
     mutationFn: removeTechStackVoteMutationFn,
-    onSuccess: (data) => {
-      //   dispatch(
-      //     addVoyageResourceState({ data, id, firstName, lastName, avatar }),
-      //   );
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [CacheTag.techStack, { teamId }],
+      });
     },
     onError: (error: Error) => {
       dispatch(
