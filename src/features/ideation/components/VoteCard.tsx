@@ -12,6 +12,9 @@ import {
   removeIdeationVote,
 } from "@/app/(main)/my-voyage/[teamId]/ideation/ideationService";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { useParams } from "next/navigation";
+import { useAddIdeationVoteMutation } from "../hooks/useAddIdeationVoteMutation";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 
 interface VoteCardProps {
   projectIdeaId: number;
@@ -20,21 +23,18 @@ interface VoteCardProps {
 }
 
 function VoteCard({ projectIdeaId, users, className }: VoteCardProps) {
+  const { teamId } = useParams<{ teamId: string }>();
   const [currentUserVoted, setCurrentUserVoted] = useState<null | boolean>(
     null,
   );
-  const { id } = useUser();
+  const { id } = useUserStateSelector();
   const { loading } = useIdeation();
   const { isOpen } = useModal();
   const dispatch = useAppDispatch();
   const [voteChanged, setVoteChanged] = useState<boolean>(false);
   const [tooltipHovered, setTooltipHovered] = useState<string>("");
-
-  const {
-    runAction: addIdeationVoteAction,
-    isLoading: addIdeationVoteLoading,
-    setIsLoading: setAddIdeationVoteLoading,
-  } = useServerAction(addIdeationVote);
+  const { isAddIdeationVotePending, addIdeationVoteMutation } =
+    useAddIdeationVoteMutation({ teamId });
 
   const {
     runAction: removeIdeationVoteAction,
@@ -44,8 +44,6 @@ function VoteCard({ projectIdeaId, users, className }: VoteCardProps) {
 
   async function handleVote() {
     if (currentUserVoted) {
-      dispatch(setProjectIdeasLoadingTrue());
-
       const [, error] = await removeIdeationVoteAction({
         ideationId: projectIdeaId,
       });
@@ -59,19 +57,8 @@ function VoteCard({ projectIdeaId, users, className }: VoteCardProps) {
       setVoteChanged(true);
       setRemoveIdeationVoteLoading(false);
     } else {
-      dispatch(setProjectIdeasLoadingTrue());
-      const [, error] = await addIdeationVoteAction({
-        ideationId: projectIdeaId,
-      });
-
-      if (error) {
-        dispatch(
-          onOpenModal({ type: "error", content: { message: error.message } }),
-        );
-      }
-
+      addIdeationVoteMutation({ ideationId: projectIdeaId });
       setVoteChanged(true);
-      setAddIdeationVoteLoading(false);
     }
   }
 
@@ -82,7 +69,7 @@ function VoteCard({ projectIdeaId, users, className }: VoteCardProps) {
 
   function buttonContent() {
     if (
-      addIdeationVoteLoading ||
+      isAddIdeationVotePending ||
       removeIdeationVoteLoading ||
       (loading && voteChanged)
     ) {
@@ -98,11 +85,9 @@ function VoteCard({ projectIdeaId, users, className }: VoteCardProps) {
 
   useEffect(() => {
     if (isOpen === false) {
-      setAddIdeationVoteLoading(false);
-      setRemoveIdeationVoteLoading(false);
       setVoteChanged(false);
     }
-  }, [isOpen, setAddIdeationVoteLoading, setRemoveIdeationVoteLoading]);
+  }, [isOpen]);
 
   useEffect(() => {
     if (voteChanged && !loading) {
@@ -161,7 +146,7 @@ function VoteCard({ projectIdeaId, users, className }: VoteCardProps) {
           variant={`${currentUserVoted ? "error" : "primary"}`}
           className={`w-full ${currentUserVoted ? "text-base-300" : ""}`}
           onClick={handleVote}
-          disabled={addIdeationVoteLoading || removeIdeationVoteLoading}
+          disabled={isAddIdeationVotePending || removeIdeationVoteLoading}
         >
           {buttonContent()}
         </Button>
