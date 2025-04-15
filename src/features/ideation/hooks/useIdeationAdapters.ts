@@ -2,6 +2,7 @@ import { resolve } from "@chingu-x/modules/resolver";
 import { TYPES } from "@chingu-x/modules/di-types";
 import type {
   AddIdeationVoteClientRequestDto,
+  EditIdeationClientRequestDto,
   FetchIdeationClientRequestDto,
   Ideation,
   IdeationClientAdapter,
@@ -82,4 +83,21 @@ export function useHasCurrenUserVote({ ideation }: UseHasCurrenUserVoteProps) {
   });
 
   return { hasCurrentUserVote };
+}
+
+export function useEditIdeation() {
+  const editIdeation = async ({
+    ideationId,
+    title,
+    description,
+    vision,
+  }: EditIdeationClientRequestDto) =>
+    await ideationAdapter.editIdeation({
+      ideationId,
+      title,
+      description,
+      vision,
+    });
+
+  return { editIdeation };
 }

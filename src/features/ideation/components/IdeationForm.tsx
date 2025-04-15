@@ -9,20 +9,16 @@ import { useState, useEffect } from "react";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
-import Textarea from "@/components/inputs/Textarea";
-import { validateTextInput } from "@/utils/form/validateInput";
-import { useAppDispatch, useIdeation } from "@/store/hooks";
-import { type IdeationData } from "@/features/ideation/store/ideationSlice";
-import useServerAction from "@/shared/hooks/useServerAction";
-import { persistor } from "@/store/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
-import routePaths from "@/utils/routePaths";
+import { validateTextInput } from "@/shared/utils/form/validateInput";
+import { useIdeationStateSelector } from "../hooks/useIdeationStateSelector";
+import { useGetIdeationById } from "../hooks/useIdeationAdapters";
+import routePaths from "@/shared/utils/routePaths";
+import { persistor } from "@/shared/store";
 import {
-  addIdeation,
-  deleteIdeation,
-  editIdeation,
-  type EditIdeationProps,
-} from "@/app/(main)/my-voyage/[teamId]/ideation/ideationService";
+  EditIdeationClientRequestDto,
+  Ideation,
+} from "@chingu-x/modules/ideation";
 
 const validationSchema = z.object({
   title: validateTextInput({
@@ -52,10 +48,10 @@ export default function IdeationForm() {
   const router = useRouter();
   const params = useParams<{ teamId: string; ideationId: string }>();
   const teamId = +params.teamId;
-  const ideationId = +params.ideationId;
-  const { projectIdeas } = useIdeation();
+  const ideationId = Number(params.ideationId);
+  const { ideation } = useGetIdeationById({ ideationId });
   const [editMode, setEditMode] = useState<boolean>(false);
-  const [ideationData, setIdeationData] = useState<IdeationData>();
+  const [ideationData, setIdeationData] = useState<Ideation>();
   const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null);
   const dispatch = useAppDispatch();
 
@@ -88,7 +84,7 @@ export default function IdeationForm() {
     if (editMode) {
       const ideationId = +params.ideationId;
 
-      interface MyObject extends EditIdeationProps {
+      interface MyObject extends EditIdeationClientRequestDto {
         [key: string]: unknown;
       }
 
@@ -157,19 +153,13 @@ export default function IdeationForm() {
   }
 
   useEffect(() => {
-    if (params.ideationId) {
-      const ideation = projectIdeas.find(
-        (project) => project.id === +params.ideationId,
-      );
-
-      if (!ideation) {
-        router.push(routePaths.ideationPage(teamId.toString()));
-      }
-
-      setIdeationData(ideation);
-      setEditMode(true);
+    if (!ideation) {
+      router.push(routePaths.ideationPage(teamId.toString()));
     }
-  }, [params.ideationId, projectIdeas, router, teamId]);
+
+    setIdeationData(ideation);
+    setEditMode(true);
+  }, [ideation, router, teamId]);
 
   useEffect(() => {
     reset({
@@ -187,90 +177,6 @@ export default function IdeationForm() {
     },
     [],
   );
-
-  // This block is responsible for auto-save functionality. Right now nextjs does
-  // not have a way to intercept routes with app router. When that is implemented
-  // on their side, it will probably be better to go that method.
-
-  function asyncTimeout(ms: number) {
-    return new Promise((resolve) => {
-      setSaveTimeout(setTimeout(resolve, ms));
-    });
-  }
-
-  useEffect(() => {
-    async function autoSave() {
-      const ideationId = +params.ideationId;
-      const modifiedObject: { [key: string]: string } = {};
-
-      if (ideationData) {
-        const watchedData = watch();
-
-        for (const key in watchedData) {
-          if (
-            watchedData.hasOwnProperty(key) &&
-            ideationData[key as keyof IdeationData] !==
-              watchedData[key as keyof typeof watchedData]
-          ) {
-            modifiedObject[key as keyof IdeationData] =
-              watchedData[key as keyof typeof watchedData];
-          }
-        }
-      }
-
-      const filteredData = {
-        ideationId,
-        ...modifiedObject,
-      };
-
-      await asyncTimeout(5000);
-
-      const [res, error] = await editIdeationAction(filteredData);
-
-      if (res) {
-        setEditIdeationLoading(false);
-      }
-
-      if (error) {
-        dispatch(
-          onOpenModal({
-            type: "error",
-            content: { message: error.message },
-          }),
-        );
-        setEditIdeationLoading(false);
-      }
-    }
-
-    if (editMode && isDirty && isValid) {
-      void autoSave();
-    }
-  }, [
-    isValid,
-    isDirty,
-    ideationData,
-    watch,
-    editMode,
-    dispatch,
-    params.ideationId,
-    teamId,
-    editIdeationAction,
-    setEditIdeationLoading,
-    title,
-    description,
-    vision,
-  ]);
-
-  useEffect(
-    () => () => {
-      if (saveTimeout) {
-        clearTimeout(saveTimeout);
-      }
-    },
-    [saveTimeout],
-  );
-
-  // ------------------------------------------------------------------------------
 
   function renderButtonContent() {
     if (editIdeationLoading || addIdeationLoading) {

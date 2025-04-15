@@ -4,8 +4,8 @@ import { Avatar } from "@chingu-x/components/avatar";
 import Image from "next/image";
 import { AvatarGroup } from "@chingu-x/components/avatar-group";
 import { Button } from "@chingu-x/components/button";
+import type { ProjectIdeaVotes } from "@chingu-x/modules/ideation";
 import { type FinalizedIdeation } from "./FinalizeIdeationList";
-import { type ProjectIdeaVotes } from "@/features/ideation/store/ideationSlice";
 
 interface FinalizeIdeationItemProps {
   title: string;
