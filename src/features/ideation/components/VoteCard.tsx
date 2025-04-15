@@ -60,28 +60,28 @@ function VoteCard({ projectIdeaId, users, className }: VoteCardProps) {
           users.length > 1 ? "s" : ""
         }`}</h2>
         <AvatarGroup>
-          {users.map((user) => (
+          {users.map(({ votedBy: { member } }) => (
             <Tooltip
-              key={user.votedBy.member.id}
-              content={`${user.votedBy.member.firstName}`}
+              key={member.id}
+              content={`${member.firstName}`}
               customClassName="text-xs font-medium w-fit"
               position="bottom"
               tooltipWidth="small"
-              isDisplay={tooltipHovered === user.votedBy.member.id}
-              hovered={tooltipHovered === user.votedBy.member.id}
+              isDisplay={tooltipHovered === member.id}
+              hovered={tooltipHovered === member.id}
             >
               <Avatar
                 customClassName="border border-base-content h-6 w-6"
                 onMouseEnter={() => {
-                  setTooltipHovered(user.votedBy.member.id);
+                  setTooltipHovered(member.id);
                 }}
                 onMouseLeave={() => {
                   setTooltipHovered("");
                 }}
               >
                 <Image
-                  src={user.votedBy.member.avatar}
-                  alt={`${user.votedBy.member.firstName}'s avatar`}
+                  src={member.avatar}
+                  alt={`${member.firstName}'s avatar`}
                   width={24}
                   height={24}
                 ></Image>
