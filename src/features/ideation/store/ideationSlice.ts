@@ -1,47 +1,14 @@
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { PURGE } from "redux-persist";
+import type { Ideation } from "@chingu-x/modules/ideation";
 import { clientSignOut } from "@/features/auth/store/authSlice";
 
-export interface VoyageMember {
-  id: string;
-  avatar: string;
-  firstName: string;
-  lastName: string;
-}
-
-export interface ProjectIdeaVotes {
-  id: number;
-  voyageTeamMemberId: number;
-  projectIdeaId: number;
-  createdAt: Date;
-  updatedAt: Date;
-  votedBy: {
-    member: VoyageMember;
-  };
-}
-
-export interface IdeationData {
-  id: number;
-  title: string;
-  description: string;
-  vision: string;
-  isSelected: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  contributedBy: {
-    member: VoyageMember;
-  };
-  projectIdeaVotes: ProjectIdeaVotes[];
-}
-
 interface IdeationState {
-  loading: boolean;
-  projectIdeas: IdeationData[];
+  projectIdeas: Ideation[];
 }
 
 const initialState: IdeationState = {
-  loading: false,
   projectIdeas: [],
 };
 
@@ -49,15 +16,8 @@ export const ideationSlice = createSlice({
   name: "ideation",
   initialState,
   reducers: {
-    fetchIdeations: (state, action: PayloadAction<IdeationData[]>) => {
+    fetchIdeationsState: (state, action: PayloadAction<Ideation[]>) => {
       state.projectIdeas = action.payload;
-      state.loading = true;
-    },
-    setProjectIdeasLoadingTrue: (state) => {
-      state.loading = true;
-    },
-    setProjectIdeasLoadingFalse: (state) => {
-      state.loading = false;
     },
   },
   extraReducers(builder) {
@@ -68,10 +28,6 @@ export const ideationSlice = createSlice({
   },
 });
 
-export const {
-  fetchIdeations,
-  setProjectIdeasLoadingTrue,
-  setProjectIdeasLoadingFalse,
-} = ideationSlice.actions;
+export const { fetchIdeationsState } = ideationSlice.actions;
 
 export default ideationSlice.reducer;
