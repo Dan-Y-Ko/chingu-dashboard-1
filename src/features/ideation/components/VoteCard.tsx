@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { Avatar } from "@chingu-x/components/avatar";
 import Image from "next/image";
 import { AvatarGroup } from "@chingu-x/components/avatar-group";
@@ -7,14 +7,13 @@ import { Button } from "@chingu-x/components/button";
 import { cn } from "@chingu-x/components/tw-merge";
 import { Spinner } from "@chingu-x/components/spinner";
 import type { ProjectIdeaVotes } from "@chingu-x/modules/ideation";
-import {
-  addIdeationVote,
-  removeIdeationVote,
-} from "@/app/(main)/my-voyage/[teamId]/ideation/ideationService";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { useParams } from "next/navigation";
-import { useAddIdeationVoteMutation } from "../hooks/useAddIdeationVoteMutation";
-import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import { useAddIdeationVoteMutation } from "@/features/ideation/hooks/useAddIdeationVoteMutation";
+import { useRemoveIdeationVoteMutation } from "@/features/ideation/hooks/useRemoveIdeationVoteMutation";
+import {
+  useGetIdeationById,
+  useHasCurrenUserVote,
+} from "@/features/ideation/hooks/useIdeationAdapters";
 
 interface VoteCardProps {
   projectIdeaId: number;
@@ -24,84 +23,34 @@ interface VoteCardProps {
 
 function VoteCard({ projectIdeaId, users, className }: VoteCardProps) {
   const { teamId } = useParams<{ teamId: string }>();
-  const [currentUserVoted, setCurrentUserVoted] = useState<null | boolean>(
-    null,
-  );
-  const { id } = useUserStateSelector();
-  const { loading } = useIdeation();
-  const { isOpen } = useModal();
-  const dispatch = useAppDispatch();
-  const [voteChanged, setVoteChanged] = useState<boolean>(false);
   const [tooltipHovered, setTooltipHovered] = useState<string>("");
+  const { ideation } = useGetIdeationById({ ideationId: projectIdeaId });
+  const { hasCurrentUserVote } = useHasCurrenUserVote({ ideation });
   const { isAddIdeationVotePending, addIdeationVoteMutation } =
     useAddIdeationVoteMutation({ teamId });
 
-  const {
-    runAction: removeIdeationVoteAction,
-    isLoading: removeIdeationVoteLoading,
-    setIsLoading: setRemoveIdeationVoteLoading,
-  } = useServerAction(removeIdeationVote);
+  const { isRemoveIdeationVotePending, removeIdeationVoteMutation } =
+    useRemoveIdeationVoteMutation({ teamId });
 
-  async function handleVote() {
-    if (currentUserVoted) {
-      const [, error] = await removeIdeationVoteAction({
-        ideationId: projectIdeaId,
-      });
-
-      if (error) {
-        dispatch(
-          onOpenModal({ type: "error", content: { message: error.message } }),
-        );
-      }
-
-      setVoteChanged(true);
-      setRemoveIdeationVoteLoading(false);
+  function handleVote() {
+    if (hasCurrentUserVote) {
+      removeIdeationVoteMutation({ ideationId: projectIdeaId });
     } else {
       addIdeationVoteMutation({ ideationId: projectIdeaId });
-      setVoteChanged(true);
     }
   }
 
-  const getVoteUsers = useCallback(
-    () => users.map((user) => user.votedBy.member.id),
-    [users],
-  );
-
   function buttonContent() {
-    if (
-      isAddIdeationVotePending ||
-      removeIdeationVoteLoading ||
-      (loading && voteChanged)
-    ) {
+    if (isAddIdeationVotePending || isRemoveIdeationVotePending) {
       return <Spinner />;
     }
 
-    if (currentUserVoted) {
+    if (hasCurrentUserVote) {
       return "Remove Vote";
     } else {
       return "Add Vote";
     }
   }
-
-  useEffect(() => {
-    if (isOpen === false) {
-      setVoteChanged(false);
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (voteChanged && !loading) {
-      setVoteChanged(false);
-    }
-  }, [voteChanged, loading]);
-
-  useEffect(() => {
-    if (getVoteUsers().includes(id) === true) {
-      setCurrentUserVoted(true);
-    } else {
-      setCurrentUserVoted(false);
-    }
-  }, [id, getVoteUsers]);
 
   return (
     <div className={cn("w-[200px] rounded-lg bg-base-100", className)}>
@@ -143,10 +92,10 @@ function VoteCard({ projectIdeaId, users, className }: VoteCardProps) {
         <Button
           type="submit"
           size="lg"
-          variant={`${currentUserVoted ? "error" : "primary"}`}
-          className={`w-full ${currentUserVoted ? "text-base-300" : ""}`}
+          variant={`${hasCurrentUserVote ? "error" : "primary"}`}
+          className={`w-full ${hasCurrentUserVote ? "text-base-300" : ""}`}
           onClick={handleVote}
-          disabled={isAddIdeationVotePending || removeIdeationVoteLoading}
+          disabled={isAddIdeationVotePending || isRemoveIdeationVotePending}
         >
           {buttonContent()}
         </Button>

@@ -68,3 +68,18 @@ export function useRemoveIdeationVote() {
 
   return { removeIdeationVote };
 }
+
+interface UseHasCurrenUserVoteProps {
+  ideation: Ideation;
+}
+
+export function useHasCurrenUserVote({ ideation }: UseHasCurrenUserVoteProps) {
+  const user = useUserStateSelector();
+
+  const hasCurrentUserVote = ideationAdapter.hasCurrentUserVote({
+    ideation,
+    user,
+  });
+
+  return { hasCurrentUserVote };
+}
