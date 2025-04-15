@@ -3,10 +3,12 @@ import type {
   FinalizeIdeationClientRequestDto,
   FinalizeIdeationResponseDto,
 } from "@chingu-x/modules/ideation";
+import { useRouter } from "next/navigation";
 import { useFinalizeIdeation } from "./useIdeationAdapters";
 import { useAppDispatch } from "@/shared/store";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
+import routePaths from "@/shared/utils/routePaths";
 
 interface UseFinalizeIdeationMutationProps {
   teamId: string;
@@ -18,7 +20,7 @@ export function useFinalizeIdeationMutation({
   const dispatch = useAppDispatch();
   const { finalizeIdeation } = useFinalizeIdeation();
   const queryClient = useQueryClient();
-  //   const router = useRouter();
+  const router = useRouter();
 
   const {
     mutate: finalizeIdeationMutation,
@@ -34,7 +36,7 @@ export function useFinalizeIdeationMutation({
         queryKey: [CacheTag.ideation, { teamId }],
       });
 
-      //   router.push(routePaths.ideationPage(teamId.toString()));
+      router.push(routePaths.ideationPage(teamId.toString()));
     },
     onError: (error: Error) => {
       dispatch(

@@ -1,12 +1,8 @@
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { type FinalizedIdeation } from "./FinalizeIdeationList";
-import useServerAction from "@/shared/hooks/useServerAction";
-import { finalizeIdeation } from "@/myVoyage/ideation/ideationService";
-import routePaths from "@/utils/routePaths";
-import { useAppDispatch } from "@/store/hooks";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { useFinalizeIdeationMutation } from "@/features/ideation/hooks/useFinalizeIdeationMutation";
 
 interface ConfirmationButtonProps {
   finalizedIdeation: FinalizedIdeation;
@@ -15,38 +11,16 @@ interface ConfirmationButtonProps {
 export default function ConfirmationButton({
   finalizedIdeation,
 }: ConfirmationButtonProps) {
-  const params = useParams<{ teamId: string }>();
-  const teamId = Number(params.teamId);
-  const router = useRouter();
-  const dispatch = useAppDispatch();
+  const { teamId } = useParams<{ teamId: string }>();
+  const { isFinalizeIdeationPending, finalizeIdeationMutation } =
+    useFinalizeIdeationMutation({ teamId });
 
-  const {
-    runAction: finalizeIdeationAction,
-    isLoading: finalizeIdeationLoading,
-    setIsLoading: setFinalizeIdeationLoading,
-  } = useServerAction(finalizeIdeation);
-
-  async function handleClick() {
-    const [res, error] = await finalizeIdeationAction({
-      teamId,
-      ideationId: finalizedIdeation.id,
-    });
-
-    if (res) {
-      router.push(routePaths.ideationPage(teamId.toString()));
-    }
-
-    if (error) {
-      dispatch(
-        onOpenModal({ type: "error", content: { message: error.message } }),
-      );
-    }
-
-    setFinalizeIdeationLoading(false);
+  function handleClick() {
+    finalizeIdeationMutation({ teamId, ideationId: finalizedIdeation.id });
   }
 
   function renderButtonContent() {
-    if (finalizeIdeationLoading) {
+    if (isFinalizeIdeationPending) {
       return <Spinner />;
     }
 
