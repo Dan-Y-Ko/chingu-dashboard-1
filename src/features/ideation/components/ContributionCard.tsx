@@ -1,26 +1,24 @@
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Badge } from "@chingu-x/components/badge";
 import Image from "next/image";
 import { Avatar } from "@chingu-x/components/avatar";
 import { Button } from "@chingu-x/components/button";
 import { cn } from "@chingu-x/components/tw-merge";
-import type { VoyageMember } from "@chingu-x/modules/features";
-import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 import routePaths from "@/shared/utils/routePaths";
+import {
+  useGetIdeationById,
+  useIsCurrentUserVote,
+} from "@/features/ideation/hooks/useIdeationAdapters";
 
 interface ContributionCardPropsBase {
   className?: string;
-  contributed_by: {
-    member: VoyageMember;
-  };
   isIdeationFinalized: boolean;
 }
 
 interface IdeationFinalizedProps {
   isIdeationFinalized: true;
-  projectIdeaId?: number;
+  projectIdeaId: number;
 }
 
 interface IdeationNotFinalizedProps {
@@ -32,21 +30,16 @@ type ContributionCardProps = ContributionCardPropsBase &
   (IdeationFinalizedProps | IdeationNotFinalizedProps);
 
 export default function ContributionCard({
-  contributed_by,
   className,
   projectIdeaId,
   isIdeationFinalized,
 }: ContributionCardProps) {
   const { teamId } = useParams<{ teamId: string }>();
-  const { id } = useUserStateSelector();
-  const [ownVote, setOwnVote] = useState<boolean>(false);
-  const { member } = contributed_by;
-
-  useEffect(() => {
-    if (member.id === id) {
-      setOwnVote(true);
-    }
-  }, [member, id]);
+  const { ideation } = useGetIdeationById({ ideationId: projectIdeaId });
+  const { isCurrentUserVote } = useIsCurrentUserVote({ ideation });
+  const {
+    contributedBy: { member },
+  } = ideation;
 
   return (
     <div className={cn("w-[200px] rounded-lg bg-base-100", className)}>
@@ -65,7 +58,7 @@ export default function ContributionCard({
             </Avatar>
           ) : undefined}
         </Badge>
-        {ownVote && !isIdeationFinalized ? (
+        {isCurrentUserVote && !isIdeationFinalized ? (
           <Link
             href={routePaths.editIdeationPage(teamId, projectIdeaId.toString())}
             className="w-full"

@@ -1,5 +1,3 @@
-"use client";
-
 import { useCallback, useEffect, useState } from "react";
 import { Avatar } from "@chingu-x/components/avatar";
 import Image from "next/image";
@@ -9,8 +7,6 @@ import { Button } from "@chingu-x/components/button";
 import { cn } from "@chingu-x/components/tw-merge";
 import { Spinner } from "@chingu-x/components/spinner";
 import type { ProjectIdeaVotes } from "@chingu-x/modules/ideation";
-import { useAppDispatch, useIdeation, useModal, useUser } from "@/store/hooks";
-import useServerAction from "@/shared/hooks/useServerAction";
 import {
   addIdeationVote,
   removeIdeationVote,

@@ -38,7 +38,7 @@ export default function IdeationPage({ params }: IdeationPageProps) {
           firstChild={<FinalizedIdeationCard />}
           secondChild={
             <ContributionCard
-              contributed_by={finalizedIdeation.contributedBy}
+              projectIdeaId={finalizedIdeation.id}
               isIdeationFinalized={true}
             />
           }
@@ -112,7 +112,6 @@ export default function IdeationPage({ params }: IdeationPageProps) {
               secondChild={
                 <ContributionCard
                   projectIdeaId={projectIdea.id}
-                  contributed_by={projectIdea.contributedBy}
                   isIdeationFinalized={false}
                 />
               }
