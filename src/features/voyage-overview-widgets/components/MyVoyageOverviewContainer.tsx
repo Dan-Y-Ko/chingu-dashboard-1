@@ -7,13 +7,14 @@ import routePaths from "@/shared/utils/routePaths";
 import IdeationStateContent from "./IdeationStateContent";
 import FeaturesStateContent from "./FeaturesStateContent";
 import { useFetchWidgetDataQuery } from "../hooks/useFetchWidgetDataQuery";
-import { useIdeationStateSelector } from "@/features/ideation/hooks/useIdeationStateSelector";
-import { useFinalizedIdeationStateSelector } from "@/features/ideation/hooks/useFinalizedIdeationStateSelector";
+import { useGetFinalizedIdeation } from "@/features/ideation/hooks/useIdeationAdapters";
+import { useGetMustHaveFeatures } from "@/features/features/hooks/useFeaturesAdapters";
 
 export default function MyVoyageOverviewContainer() {
   const { teamId } = useParams<{ teamId: string }>();
   useFetchWidgetDataQuery({ teamId });
-  const projectIdeas = useFinalizedIdeationStateSelector();
+  const { finalizedIdeation } = useGetFinalizedIdeation();
+  const { mustHaveFeatures } = useGetMustHaveFeatures();
 
   return (
     <div className="col-span-1 flex w-full grow flex-col rounded-2xl border-2 border-base-100 bg-base-200 p-4">
@@ -23,30 +24,30 @@ export default function MyVoyageOverviewContainer() {
           imageLight="/img/discover_light.png"
           imageDark="/img/discover_dark.png"
           title="What is your Voyage project idea & vision?"
-          link={routePaths.ideationPage(teamId ?? "")}
+          link={routePaths.ideationPage(teamId)}
           headerTitle="Ideation"
           buttonTitle="Go to Ideation"
           description="Share your ideas on what the team Voyage should be. Describe your vision and finalize your choice to capture what the benefit it will bring to users."
         >
-          {projectIdeas && (
-            <IdeationStateContent contentObject={projectIdeas} />
+          {finalizedIdeation && (
+            <IdeationStateContent contentObject={finalizedIdeation} />
           )}
         </DashboardWidget>
-        {/* <div className="flex flex-row justify-between gap-x-4 max-[1200px]:flex-col max-[1200px]:gap-y-4">
+        <div className="flex flex-row justify-between gap-x-4 max-[1200px]:flex-col max-[1200px]:gap-y-4">
           <div className="flex w-full grow">
             <DashboardWidget
               title="What features will you develop?"
-              link={routePaths.featuresPage(teamId ?? "")}
+              link={routePaths.featuresPage(teamId)}
               headerTitle="Features"
               buttonTitle="Go to Features"
               description="Brainstorm and prioritize the features that will be included in the scope of your project."
             >
-              {featureList.length > 0 ? (
-                <FeaturesStateContent contentObject={featureList} />
+              {mustHaveFeatures.length > 0 ? (
+                <FeaturesStateContent contentObject={mustHaveFeatures} />
               ) : null}
             </DashboardWidget>
           </div>
-          <div className="flex w-full grow">
+          {/* <div className="flex w-full grow">
             <DashboardWidget
               title="Choose your tech stack"
               link={routePaths.techStackPage(teamId ?? "")}
@@ -58,9 +59,9 @@ export default function MyVoyageOverviewContainer() {
                 <TechStackStateContent contentObject={techStackList} />
               ) : null}
             </DashboardWidget>
-          </div>
+          </div> */}
         </div>
-        <DashboardWidget
+        {/* <DashboardWidget
           imageLight="/img/share_link_light.png"
           imageDark="/img/share_link_dark.png"
           title="Share resources with your team"

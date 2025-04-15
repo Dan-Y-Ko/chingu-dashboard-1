@@ -9,6 +9,7 @@ import type {
   FetchFeaturesClientRequestDto,
   SaveOrderClientRequestDto,
 } from "@chingu-x/modules/features";
+import { useFeaturesStateSelector } from "./useFeaturesStateSelector";
 
 export const featuresAdapter = resolve<FeaturesClientAdapter>(
   TYPES.FeaturesClientAdapter,
@@ -78,4 +79,16 @@ export function useAddFeature() {
     });
 
   return { addFeature };
+}
+
+export function useGetMustHaveFeatures() {
+  const features = useFeaturesStateSelector();
+
+  const allFeatures = features.flatMap((group) => group.features);
+
+  const mustHaveFeatures = featuresAdapter.getMustHaveFeatures({
+    features: allFeatures,
+  });
+
+  return { mustHaveFeatures };
 }

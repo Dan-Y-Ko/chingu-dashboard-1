@@ -2,6 +2,7 @@ import { useQueries } from "@tanstack/react-query";
 import type { FetchIdeationResponseDto } from "@chingu-x/modules/ideation";
 import { useFetchIdeationQuery } from "@/features/ideation/hooks/useFetchIdeationQuery";
 import { CacheTag } from "@/shared/utils/cacheTag";
+import { useFetchFeaturesQuery } from "@/features/features/hooks/useFetchFeaturesQuery";
 
 interface UseFetchWidgetDataQueryProps {
   teamId: string;
@@ -11,6 +12,7 @@ export function useFetchWidgetDataQuery({
   teamId,
 }: UseFetchWidgetDataQueryProps) {
   useFetchIdeationQuery({ teamId });
+  useFetchFeaturesQuery({ teamId });
   // const { fetchIdeationFn } = useFetchIdeationQuery({ teamId }) as {
   //   fetchIdeationFn: () => Promise<FetchIdeationResponseDto>;
   // };

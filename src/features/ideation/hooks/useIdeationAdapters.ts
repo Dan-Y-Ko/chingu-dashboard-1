@@ -135,3 +135,13 @@ export function useFinalizeIdeation() {
 
   return { finalizeIdeation };
 }
+
+export function useGetFinalizedIdeation() {
+  const { projectIdeas } = useIdeationStateSelector();
+
+  const finalizedIdeation = ideationAdapter.getFinalizedIdeation({
+    ideation: projectIdeas,
+  });
+
+  return { finalizedIdeation };
+}
