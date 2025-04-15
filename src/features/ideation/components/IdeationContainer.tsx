@@ -1,5 +1,3 @@
-// import type { Ideation } from "./fixtures/ideation";
-
 interface IdeationContainerProps {
   title: string;
   project_idea: string;

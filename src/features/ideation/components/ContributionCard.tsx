@@ -1,5 +1,3 @@
-"use client";
-
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -8,9 +6,9 @@ import Image from "next/image";
 import { Avatar } from "@chingu-x/components/avatar";
 import { Button } from "@chingu-x/components/button";
 import { cn } from "@chingu-x/components/tw-merge";
-import { type VoyageMember } from "@/features/ideation/store/ideationSlice";
-import { useUser } from "@/store/hooks";
-import routePaths from "@/utils/routePaths";
+import type { VoyageMember } from "@chingu-x/modules/features";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import routePaths from "@/shared/utils/routePaths";
 
 interface ContributionCardPropsBase {
   className?: string;
@@ -40,7 +38,7 @@ export default function ContributionCard({
   isIdeationFinalized,
 }: ContributionCardProps) {
   const { teamId } = useParams<{ teamId: string }>();
-  const { id } = useUser();
+  const { id } = useUserStateSelector();
   const [ownVote, setOwnVote] = useState<boolean>(false);
   const { member } = contributed_by;
 
