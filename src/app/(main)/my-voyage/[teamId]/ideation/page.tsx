@@ -2,14 +2,18 @@
 
 import "reflect-metadata";
 import Image from "next/image";
-import { useFinalizedIdeationStateSelector } from "@/features/ideation/hooks/useIdeationStateSelector";
+import { Banner } from "@chingu-x/components/banner";
+import { BannerContainer } from "@chingu-x/components/banner-container";
+import {
+  useFinalizedIdeationStateSelector,
+  useIdeationStateSelector,
+} from "@/features/ideation/hooks/useIdeationStateSelector";
 import IdeationContainer from "@/features/ideation/components/IdeationContainer";
 import FinalizedIdeationCard from "@/features/ideation/components/FinalizedIdeationCard";
 import ContributionCard from "@/features/ideation/components/ContributionCard";
 import CreateIdeationContainer from "@/features/ideation/components/CreateIdeationContainer";
-import { Banner } from "@chingu-x/components/banner";
 import VoteCard from "@/features/ideation/components/VoteCard";
-import { BannerContainer } from "@chingu-x/components/banner-container";
+import { useFetchIdeationQuery } from "@/features/ideation/hooks/useFetchIdeationQuery";
 
 interface IdeationPageProps {
   params: {
@@ -20,6 +24,8 @@ interface IdeationPageProps {
 export default function IdeationPage({ params }: IdeationPageProps) {
   const { teamId } = params;
   const finalizedIdeation = useFinalizedIdeationStateSelector();
+  useFetchIdeationQuery({ teamId });
+  const { projectIdeas } = useIdeationStateSelector();
 
   function renderProjects() {
     if (finalizedIdeation) {

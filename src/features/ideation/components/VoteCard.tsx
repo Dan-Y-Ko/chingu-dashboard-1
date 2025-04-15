@@ -8,10 +8,7 @@ import { Tooltip } from "@chingu-x/components/tooltip";
 import { Button } from "@chingu-x/components/button";
 import { cn } from "@chingu-x/components/tw-merge";
 import { Spinner } from "@chingu-x/components/spinner";
-import {
-  type ProjectIdeaVotes,
-  setProjectIdeasLoadingTrue,
-} from "@/features/ideation/store/ideationSlice";
+import type { ProjectIdeaVotes } from "@chingu-x/modules/ideation";
 import { useAppDispatch, useIdeation, useModal, useUser } from "@/store/hooks";
 import useServerAction from "@/shared/hooks/useServerAction";
 import {
