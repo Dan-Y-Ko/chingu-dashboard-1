@@ -3,6 +3,7 @@ import { TYPES } from "@chingu-x/modules/di-types";
 import type {
   AddIdeationClientRequestDto,
   AddIdeationVoteClientRequestDto,
+  DeleteIdeationClientRequestDto,
   EditIdeationClientRequestDto,
   FetchIdeationClientRequestDto,
   Ideation,
@@ -113,4 +114,13 @@ export function useAddIdeation() {
     await ideationAdapter.addIdeation({ teamId, title, description, vision });
 
   return { addIdeation };
+}
+
+export function useDeleteIdeation() {
+  const deleteIdeation = async ({
+    ideationId,
+  }: DeleteIdeationClientRequestDto) =>
+    await ideationAdapter.deleteIdeation({ ideationId });
+
+  return { deleteIdeation };
 }
