@@ -1,12 +1,11 @@
-"use client";
-
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Button } from "@chingu-x/components/button";
-import routePaths from "@/utils/routePaths";
+import routePaths from "@/shared/utils/routePaths";
 
 export default function AddProjectIdeaButton() {
   const { teamId } = useParams<{ teamId: string }>();
+
   return (
     <Link href={routePaths.addIdeationPage(teamId)} className="w-full">
       <Button size="lg" className="w-full">

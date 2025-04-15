@@ -1,14 +1,12 @@
-"use client";
-
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Button } from "@chingu-x/components/button";
-import routePaths from "@/utils/routePaths";
-import { useIdeation } from "@/store/hooks";
+import { useIdeationStateSelector } from "@/features/ideation/hooks/useIdeationStateSelector";
+import routePaths from "@/shared/utils/routePaths";
 
 export default function FinalizeIdeationButton() {
   const { teamId } = useParams<{ teamId: string }>();
-  const ideation = useIdeation().projectIdeas;
+  const { projectIdeas } = useIdeationStateSelector();
 
   return (
     <Link href={routePaths.finalizeIdeationPage(teamId)} className="w-full">
@@ -17,8 +15,8 @@ export default function FinalizeIdeationButton() {
         size="lg"
         className="w-full"
         disabled={
-          ideation.length === 0 ||
-          !ideation.some((i) => i.projectIdeaVotes.length > 0)
+          projectIdeas.length === 0 ||
+          !projectIdeas.some((i) => i.projectIdeaVotes.length > 0)
         }
       >
         Finalize Selection
