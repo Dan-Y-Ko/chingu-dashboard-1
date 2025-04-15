@@ -20,7 +20,7 @@ export function useAddFeatureMutation({
   setIsEditing,
 }: UseAddFeatureMutationProps) {
   const dispatch = useAppDispatch();
-  const { getFeatureQuery } = useFetchFeatureQuery({ id });
+  const { getFeatureQueryFn } = useFetchFeatureQuery({ id });
   const { addFeature } = useAddFeature();
 
   const { mutate: addFeatureMutation, isPending: isAddFeaturePending } =
@@ -29,7 +29,7 @@ export function useAddFeatureMutation({
         mutationFn: addFeatureMutationFn,
         onSuccess: async (data) => {
           try {
-            const feature = await getFeatureQuery(data.id);
+            const feature = await getFeatureQueryFn(data.id);
             dispatch(addFeatureState(feature));
           } catch (error) {
             dispatch(

@@ -22,11 +22,11 @@ export function useFetchSprintMeetingQuery({
     data,
   } = useQuery({
     queryKey: [CacheTag.sprintMeetingId, { meetingId }],
-    queryFn: fetchMeetingQuery,
+    queryFn: fetchMeetingQueryFn,
     staleTime: 1000 * 60 * 5,
   });
 
-  async function fetchMeetingQuery() {
+  async function fetchMeetingQueryFn() {
     return await fetchMeeting({ meetingId });
   }
 
@@ -40,5 +40,6 @@ export function useFetchSprintMeetingQuery({
     isFetchSprintMeetingPendng,
     isFetchSprintMeetingError,
     fetchSprintMeetingError,
+    fetchMeetingQueryFn,
   };
 }

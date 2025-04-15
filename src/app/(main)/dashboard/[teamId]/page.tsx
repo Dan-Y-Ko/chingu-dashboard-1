@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import VoyageDashboardPage from "@/app/(main)/dashboard/components/voyage-dashboard/VoyageDashboardPage";
-import PreVoyageDashboard from "@/app/(main)/dashboard/components/pre-voyage-dashboard/PreVoyageDashboard";
+import PreVoyageDashboard from "@/app/(main)/my-voyage/[teamId]/voyage-dashboard/pre-voyage/page";
 import { getCurrentVoyageTeam } from "@/shared/utils/getCurrentVoyageTeam";
 import routePaths from "@/shared/utils/routePaths";
 

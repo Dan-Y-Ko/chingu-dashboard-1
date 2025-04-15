@@ -49,4 +49,6 @@ export function useFetchTechStackQuery({
       </div>
     );
   }
+
+  return { fetchTechStackFn };
 }

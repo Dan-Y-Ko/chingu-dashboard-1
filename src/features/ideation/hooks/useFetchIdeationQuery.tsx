@@ -47,4 +47,6 @@ export function useFetchIdeationQuery({ teamId }: UseFetchIdeationQueryProps) {
       </div>
     );
   }
+
+  return { fetchIdeationFn };
 }

@@ -20,10 +20,10 @@ export function useFetchSprintsQuery({ teamId }: UseFetchSprintsQueryProps) {
     data,
   } = useQuery({
     queryKey: [CacheTag.sprints, { teamId }],
-    queryFn: fetchSprintsQuery,
+    queryFn: fetchSprintsQueryFn,
   });
 
-  async function fetchSprintsQuery() {
+  async function fetchSprintsQueryFn() {
     return await fetchSprints({ teamId });
   }
 
@@ -37,5 +37,6 @@ export function useFetchSprintsQuery({ teamId }: UseFetchSprintsQueryProps) {
     isFetchSprintsPending,
     isFetchSprintsError,
     fetchSprintsError,
+    fetchSprintsQueryFn,
   };
 }

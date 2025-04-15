@@ -7,15 +7,15 @@ import {
   CloudIcon,
   ServerStackIcon,
 } from "@heroicons/react/24/solid";
-import DashboardWidget from "./DashboardWidget";
-import CheckInWidget from "./CheckInWidget";
+import DashboardWidget from "../../../../../features/voyage-overview-widgets/components/DashboardWidget";
+import CheckInWidget from "../../../../../features/weekly-checkin-widget/components/CheckInWidget";
 import CalendarWidget from "./CalendarWidget";
-import IdeationStateContent from "./IdeationStateContent";
-import FeaturesStateContent from "./FeaturesStateContent";
-import TechStackStateContent from "./TechStackStateContent";
-import ResourcesStateContent from "./ResourcesStateContent";
+import IdeationStateContent from "../../../../../features/voyage-overview-widgets/components/IdeationStateContent";
+import FeaturesStateContent from "../../../../../features/voyage-overview-widgets/components/FeaturesStateContent";
+import TechStackStateContent from "../../../../../features/voyage-overview-widgets/components/TechStackStateContent";
+import ResourcesStateContent from "../../../../../features/voyage-overview-widgets/components/ResourcesStateContent";
 import { type Event, getDashboardData } from "./getDashboardData";
-import VoyageSupport from "@/app/(main)/dashboard/components/shared/VoyageSupport";
+import VoyageSupport from "@/features/support/components/VoyageSupport";
 // import EmptySprintProvider from "@/app/(main)/my-voyage/[teamId]/sprints/providers/EmptySprintProvider";
 import { getUser } from "@/utils/getUser";
 import type { Sprint, Voyage } from "@/features/sprints/store/sprintSlice";
@@ -30,6 +30,7 @@ import TechStackProvider from "@/features/tech-stack/components/TechStackProvide
 import routePaths from "@/utils/routePaths";
 import { type ErrorType } from "@/utils/error";
 import ErrorComponent from "@/shared/components/Error";
+import MyVoyageOverviewContainer from "@/features/voyage-overview-widgets/components/MyVoyageOverviewContainer";
 
 interface VoyageDashboardProps {
   teamId?: string;
@@ -122,67 +123,7 @@ async function VoyageDashboard({ teamId }: VoyageDashboardProps) {
         />
         <VoyageSupport />
       </div>
-      <div className="col-span-1 flex w-full grow flex-col rounded-2xl border-2 border-base-100 bg-base-200 p-4">
-        <p className="mb-[23px] text-[25px] font-semibold">
-          My Voyage Overview
-        </p>
-        <div className="flex flex-col gap-y-4">
-          <DashboardWidget
-            imageLight="/img/discover_light.png"
-            imageDark="/img/discover_dark.png"
-            title="What is your Voyage project idea & vision?"
-            link={routePaths.ideationPage(teamId ?? "")}
-            headerTitle="Ideation"
-            buttonTitle="Go to Ideation"
-            description="Share your ideas on what the team Voyage should be. Describe your vision and finalize your choice to capture what the benefit it will bring to users."
-          >
-            {projectIdeas.length > 0 ? (
-              <IdeationStateContent contentObject={projectIdeas[0]} />
-            ) : null}
-          </DashboardWidget>
-          <div className="flex flex-row justify-between gap-x-4 max-[1200px]:flex-col max-[1200px]:gap-y-4">
-            <div className="flex w-full grow">
-              <DashboardWidget
-                title="What features will you develop?"
-                link={routePaths.featuresPage(teamId ?? "")}
-                headerTitle="Features"
-                buttonTitle="Go to Features"
-                description="Brainstorm and prioritize the features that will be included in the scope of your project."
-              >
-                {featureList.length > 0 ? (
-                  <FeaturesStateContent contentObject={featureList} />
-                ) : null}
-              </DashboardWidget>
-            </div>
-            <div className="flex w-full grow">
-              <DashboardWidget
-                title="Choose your tech stack"
-                link={routePaths.techStackPage(teamId ?? "")}
-                headerTitle="Tech Stack"
-                buttonTitle="Go to Tech Stack"
-                description="The final choices for the programming languages, frameworks, and tools that will serve as the foundation of your project will appear here."
-              >
-                {techStackList.some((item) => item.value) ? (
-                  <TechStackStateContent contentObject={techStackList} />
-                ) : null}
-              </DashboardWidget>
-            </div>
-          </div>
-          <DashboardWidget
-            imageLight="/img/share_link_light.png"
-            imageDark="/img/share_link_dark.png"
-            title="Share resources with your team"
-            link={routePaths.voyageResourcesPage(teamId ?? "")}
-            headerTitle="Resources"
-            buttonTitle="Go to Resources"
-            description="Share links of helpful resources to your team for the Voyage. Contribute to the collective knowledgebase to empower your team."
-          >
-            {resourceList.length > 0 ? (
-              <ResourcesStateContent contentObject={resourceList} />
-            ) : null}
-          </DashboardWidget>
-        </div>
-      </div>
+      <MyVoyageOverviewContainer />
       {/* <EmptySprintProvider voyage={voyageData} /> */}
       <ResourcesProvider payload={projectResources} />
       <FeaturesProvider payload={features} />

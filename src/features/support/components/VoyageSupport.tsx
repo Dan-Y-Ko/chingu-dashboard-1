@@ -2,8 +2,8 @@
 
 import React from "react";
 import { Button } from "@chingu-x/components/button";
-import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { useAppDispatch } from "@/shared/store";
 
 function VoyageSupport() {
   const dispatch = useAppDispatch();

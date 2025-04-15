@@ -1,10 +1,10 @@
 "use client";
 
+import "reflect-metadata";
 import { Banner } from "@chingu-x/components/banner";
 import Image from "next/image";
 import { BannerContainer } from "@chingu-x/components/banner-container";
 import { useVoyageResourceStateSelector } from "@/features/voyage-resources/hooks/useVoyageResourceStateSelector";
-import "reflect-metadata";
 import ResourcesContainer from "@/features/voyage-resources/components/ResourcesContainer";
 import { useFetchVoyageResourcesQuery } from "@/features/voyage-resources/hooks/useFetchVoyageResourcesQuery";
 

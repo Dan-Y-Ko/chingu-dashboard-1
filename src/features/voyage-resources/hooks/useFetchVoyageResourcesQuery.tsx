@@ -49,4 +49,6 @@ export function useFetchVoyageResourcesQuery({
       </div>
     );
   }
+
+  return { fetchVoyageResourcesFn };
 }

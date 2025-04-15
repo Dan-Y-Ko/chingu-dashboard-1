@@ -18,10 +18,10 @@ export function useFetchFeaturesQuery({ teamId }: UseFetchFeaturesQueryProps) {
 
   const { isPending, isError, error, data } = useQuery({
     queryKey: [CacheTag.features, { teamId }],
-    queryFn: () => getFeaturesQuery(),
+    queryFn: () => getFeaturesQueryFn(),
   });
 
-  async function getFeaturesQuery() {
+  async function getFeaturesQueryFn() {
     return await fetchFeatures({ teamId });
   }
 
@@ -47,4 +47,6 @@ export function useFetchFeaturesQuery({ teamId }: UseFetchFeaturesQueryProps) {
       </div>
     );
   }
+
+  return { getFeaturesQueryFn };
 }

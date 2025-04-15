@@ -11,15 +11,15 @@ export function useFetchFeatureQuery({ id }: UseFetchFeatureQueryProps) {
 
   useQuery({
     queryKey: [CacheTag.feature, id],
-    queryFn: () => getFeatureQuery(id),
+    queryFn: () => getFeatureQueryFn(id),
     enabled: false,
   });
 
-  async function getFeatureQuery(featureId: number) {
+  async function getFeatureQueryFn(featureId: number) {
     return await fetchFeature({ featureId });
   }
 
   return {
-    getFeatureQuery,
+    getFeatureQueryFn,
   };
 }

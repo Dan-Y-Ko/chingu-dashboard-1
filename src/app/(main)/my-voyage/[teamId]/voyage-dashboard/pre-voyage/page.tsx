@@ -1,7 +1,26 @@
+import React from "react";
 import { Banner } from "@chingu-x/components/banner";
 import Image from "next/image";
+import VoyageSupport from "@/features/support/components/VoyageSupport";
+import KnowldgeBaseWidget from "@/features/knowledge-base/components/KnowldgeBaseWidget";
 
-export default function PreVoyageBanner() {
+function PreVoyageDashboard() {
+  return (
+    <div className="flex flex-row gap-x-6">
+      <div className="flex w-full grow flex-col gap-y-6">
+        <KnowldgeBaseWidget />
+        <VoyageSupport />
+      </div>
+      <div className="flex w-full grow border-2 border-base-100">
+        <PreVoyageBanner />
+      </div>
+    </div>
+  );
+}
+
+export default PreVoyageDashboard;
+
+function PreVoyageBanner() {
   return (
     <div className="flex w-full grow flex-col rounded-2xl bg-base-200 px-[80px] pb-6 pt-[70px]">
       <Banner
