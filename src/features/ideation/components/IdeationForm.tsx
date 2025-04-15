@@ -9,10 +9,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
 import { Textarea, TextInput } from "@chingu-x/components/inputs";
-import type {
-  EditIdeationClientRequestDto,
-  Ideation,
-} from "@chingu-x/modules/ideation";
+import type { EditIdeationClientRequestDto } from "@chingu-x/modules/ideation";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
 import { useGetIdeationById } from "@/features/ideation/hooks/useIdeationAdapters";
@@ -56,7 +53,6 @@ export default function IdeationForm() {
   const ideationIdNumber = Number(ideationId);
   const { ideation } = useGetIdeationById({ ideationId: ideationIdNumber });
   const [editMode, setEditMode] = useState<boolean>(false);
-  const [ideationData, setIdeationData] = useState<Ideation>();
 
   const { isAddIdeationPending, addIdeationMutation } = useAddIdeationMutation({
     teamId,
@@ -71,14 +67,11 @@ export default function IdeationForm() {
     register,
     handleSubmit,
     reset,
-    watch,
     formState: { errors, isDirty, isValid, dirtyFields },
   } = useForm<ValidationSchema>({
     mode: "onTouched",
     resolver: zodResolver(validationSchema),
   });
-
-  const { title, description, vision } = watch();
 
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     if (editMode) {
@@ -131,18 +124,17 @@ export default function IdeationForm() {
         router.push(routePaths.ideationPage(teamId.toString()));
       }
 
-      setIdeationData(ideation);
       setEditMode(true);
     }
   }, [ideation, router, teamId, ideationId]);
 
   useEffect(() => {
     reset({
-      title: ideationData?.title,
-      description: ideationData?.description,
-      vision: ideationData?.vision,
+      title: ideation?.title,
+      description: ideation?.description,
+      vision: ideation?.vision,
     });
-  }, [ideationData, reset]);
+  }, [ideation, reset]);
 
   // purge won't work as expected in dev with strict mode enabled. Works
   // as intended in prod
@@ -183,7 +175,7 @@ export default function IdeationForm() {
             {...register("title")}
             errorMessage={errors.title?.message}
             maxLength={50}
-            defaultValue={ideationData?.title ?? ""}
+            defaultValue={ideation?.title ?? ""}
           />
           <Textarea
             id="description"
@@ -191,7 +183,7 @@ export default function IdeationForm() {
             placeholder="Describe your idea. What problem or challenge do you aim to address or solve? What is the primary purpose and goal of your idea? Who are your intemded users?"
             {...register("description")}
             errorMessage={errors.description?.message}
-            defaultValue={ideationData?.description ?? ""}
+            defaultValue={ideation?.description ?? ""}
           />
           <Textarea
             id="visionStatement"
@@ -199,7 +191,7 @@ export default function IdeationForm() {
             placeholder="Share your inspiring vision. How will you provide value and benefits to users? What long term impact do you hope to achieve?"
             {...register("vision")}
             errorMessage={errors.vision?.message}
-            defaultValue={ideationData?.vision ?? ""}
+            defaultValue={ideation?.vision ?? ""}
           />
           <div className="flex w-full gap-x-10">
             {editMode && (

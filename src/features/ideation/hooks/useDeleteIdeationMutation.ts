@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useDeleteIdeation } from "./useIdeationAdapters";
 import { useAppDispatch } from "@/shared/store";
 import { CacheTag } from "@/shared/utils/cacheTag";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";
 import routePaths from "@/shared/utils/routePaths";
 
 interface UseDeleteIdeationMutationProps {
@@ -33,6 +33,7 @@ export function useDeleteIdeationMutation({
         queryKey: [CacheTag.ideation, { teamId }],
       });
 
+      dispatch(onCloseModal());
       router.push(routePaths.ideationPage(teamId.toString()));
     },
     onError: (error: Error) => {
