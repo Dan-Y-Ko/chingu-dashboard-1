@@ -8,17 +8,19 @@ import { TrashIcon } from "@heroicons/react/20/solid";
 import { useState, useEffect } from "react";
 import { Button } from "@chingu-x/components/button";
 import { Spinner } from "@chingu-x/components/spinner";
-import { TextInput } from "@chingu-x/components/inputs";
-import { onOpenModal } from "@/store/features/modal/modalSlice";
-import { validateTextInput } from "@/shared/utils/form/validateInput";
-import { useIdeationStateSelector } from "../hooks/useIdeationStateSelector";
-import { useGetIdeationById } from "../hooks/useIdeationAdapters";
-import routePaths from "@/shared/utils/routePaths";
-import { persistor } from "@/shared/store";
-import {
+import { Textarea, TextInput } from "@chingu-x/components/inputs";
+import type {
   EditIdeationClientRequestDto,
   Ideation,
 } from "@chingu-x/modules/ideation";
+import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { validateTextInput } from "@/shared/utils/form/validateInput";
+import { useGetIdeationById } from "@/features/ideation/hooks/useIdeationAdapters";
+import routePaths from "@/shared/utils/routePaths";
+import { persistor, useAppDispatch } from "@/shared/store";
+import { useDeleteIdeationMutation } from "@/features/ideation/hooks/useDeleteIdeationMutation";
+import { useAddIdeationMutation } from "@/features/ideation/hooks/useAddIdeationMutation";
+import { useEditIdeationMutation } from "@/features/ideation/hooks/useEditIdeationMutation";
 
 const validationSchema = z.object({
   title: validateTextInput({
@@ -46,26 +48,24 @@ type ValidationSchema = z.infer<typeof validationSchema>;
 
 export default function IdeationForm() {
   const router = useRouter();
-  const params = useParams<{ teamId: string; ideationId: string }>();
-  const teamId = +params.teamId;
-  const ideationId = Number(params.ideationId);
-  const { ideation } = useGetIdeationById({ ideationId });
+  const dispatch = useAppDispatch();
+  const { teamId, ideationId } = useParams<{
+    teamId: string;
+    ideationId: string;
+  }>();
+  const ideationIdNumber = Number(ideationId);
+  const { ideation } = useGetIdeationById({ ideationId: ideationIdNumber });
   const [editMode, setEditMode] = useState<boolean>(false);
   const [ideationData, setIdeationData] = useState<Ideation>();
-  const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null);
-  const dispatch = useAppDispatch();
 
-  const {
-    runAction: editIdeationAction,
-    isLoading: editIdeationLoading,
-    setIsLoading: setEditIdeationLoading,
-  } = useServerAction(editIdeation);
+  const { isAddIdeationPending, addIdeationMutation } = useAddIdeationMutation({
+    teamId,
+  });
 
-  const {
-    runAction: addIdeationAction,
-    isLoading: addIdeationLoading,
-    setIsLoading: setAddIdeationLoading,
-  } = useServerAction(addIdeation);
+  const { isEditIdeationPending, editIdeationMutation } =
+    useEditIdeationMutation({ teamId });
+
+  const { deleteIdeationMutation } = useDeleteIdeationMutation({ teamId });
 
   const {
     register,
@@ -80,16 +80,14 @@ export default function IdeationForm() {
 
   const { title, description, vision } = watch();
 
-  const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     if (editMode) {
-      const ideationId = +params.ideationId;
-
       interface MyObject extends EditIdeationClientRequestDto {
         [key: string]: unknown;
       }
 
       const filteredData: MyObject = {
-        ideationId,
+        ideationId: ideationIdNumber,
       };
 
       for (const key in dirtyFields) {
@@ -98,39 +96,15 @@ export default function IdeationForm() {
         }
       }
 
-      const [res, error] = await editIdeationAction(filteredData);
-
-      if (res) {
-        router.push(routePaths.ideationPage(teamId.toString()));
-      }
-
-      if (error) {
-        dispatch(
-          onOpenModal({ type: "error", content: { message: error.message } }),
-        );
-
-        setEditIdeationLoading(false);
-      }
+      editIdeationMutation(filteredData);
     } else {
       const payload = { ...data, teamId };
 
-      const [res, error] = await addIdeationAction(payload);
-
-      if (res) {
-        router.push(routePaths.ideationPage(teamId.toString()));
-      }
-
-      if (error) {
-        dispatch(
-          onOpenModal({ type: "error", content: { message: error.message } }),
-        );
-        setAddIdeationLoading(false);
-      }
+      addIdeationMutation(payload);
     }
   };
 
   function handleDelete() {
-    const route = routePaths.ideationPage(teamId.toString());
     dispatch(
       onOpenModal({
         type: "confirmation",
@@ -143,23 +117,24 @@ export default function IdeationForm() {
         },
         payload: {
           params: {
-            ideationId,
+            ideationId: ideationIdNumber,
           },
-          redirect: { router, route },
-          deleteFunction: deleteIdeation,
+          deleteFunction: deleteIdeationMutation,
         },
       }),
     );
   }
 
   useEffect(() => {
-    if (!ideation) {
-      router.push(routePaths.ideationPage(teamId.toString()));
-    }
+    if (ideationId) {
+      if (!ideation) {
+        router.push(routePaths.ideationPage(teamId.toString()));
+      }
 
-    setIdeationData(ideation);
-    setEditMode(true);
-  }, [ideation, router, teamId]);
+      setIdeationData(ideation);
+      setEditMode(true);
+    }
+  }, [ideation, router, teamId, ideationId]);
 
   useEffect(() => {
     reset({
@@ -179,7 +154,7 @@ export default function IdeationForm() {
   );
 
   function renderButtonContent() {
-    if (editIdeationLoading || addIdeationLoading) {
+    if (isAddIdeationPending || isEditIdeationPending) {
       return <Spinner />;
     }
 
@@ -246,8 +221,8 @@ export default function IdeationForm() {
               disabled={
                 !isDirty ||
                 !isValid ||
-                editIdeationLoading ||
-                addIdeationLoading
+                isAddIdeationPending ||
+                isEditIdeationPending
               }
               size="lg"
               variant="primary"
