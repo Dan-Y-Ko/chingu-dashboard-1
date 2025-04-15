@@ -6,6 +6,7 @@ import type {
   DeleteIdeationClientRequestDto,
   EditIdeationClientRequestDto,
   FetchIdeationClientRequestDto,
+  FinalizeIdeationClientRequestDto,
   Ideation,
   IdeationClientAdapter,
   RemoveIdeationVoteClientRequestDto,
@@ -123,4 +124,14 @@ export function useDeleteIdeation() {
     await ideationAdapter.deleteIdeation({ ideationId });
 
   return { deleteIdeation };
+}
+
+export function useFinalizeIdeation() {
+  const finalizeIdeation = async ({
+    teamId,
+    ideationId,
+  }: FinalizeIdeationClientRequestDto) =>
+    await ideationAdapter.finalizeIdeation({ teamId, ideationId });
+
+  return { finalizeIdeation };
 }

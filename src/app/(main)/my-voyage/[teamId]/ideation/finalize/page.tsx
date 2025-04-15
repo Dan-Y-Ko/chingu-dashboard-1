@@ -1,37 +1,11 @@
-import { redirect } from "next/navigation";
-import FinalizeIdeationBanner from "../../../../../../features/ideation/components/FinalizeIdeationBanner";
-import FinalizeIdeationList from "../../../../../../features/ideation/components/FinalizeIdeationList";
-import { getUser } from "@/utils/getUser";
-import { getCurrentVoyageTeam } from "@/utils/getCurrentVoyageTeam";
-import routePaths from "@/utils/routePaths";
+import FinalizeIdeationBanner from "@/features/ideation/components/FinalizeIdeationBanner";
+import FinalizeIdeationList from "@/features/ideation/components/FinalizeIdeationList";
 
-interface FinalizeIdeationPageProps {
-  params: {
-    teamId: string;
-  };
-}
-
-export default async function FinalizeIdeationPage({
-  params,
-}: FinalizeIdeationPageProps) {
-  const teamId = Number(params.teamId);
-
-  const [user, error] = await getUser();
-
-  const { currentTeam, err } = getCurrentVoyageTeam({ user, error, teamId });
-
-  if (err) {
-    return err;
-  }
-
-  if (currentTeam) {
-    return (
-      <div className="flex w-full flex-col items-center gap-y-10">
-        <FinalizeIdeationBanner />
-        <FinalizeIdeationList />
-      </div>
-    );
-  }
-
-  redirect(routePaths.dashboardPage());
+export default function FinalizeIdeationPage() {
+  return (
+    <div className="flex w-full flex-col items-center gap-y-10">
+      <FinalizeIdeationBanner />
+      <FinalizeIdeationList />
+    </div>
+  );
 }

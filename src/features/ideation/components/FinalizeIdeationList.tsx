@@ -1,15 +1,16 @@
 "use client";
 
+import "reflect-metadata";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@chingu-x/components/button";
+import type { Ideation } from "@chingu-x/modules/ideation";
 import FinalizeIdeationItem from "./FinalizeIdeationItem";
 import ConfirmationButton from "./ConfirmationButton";
-import { useIdeation } from "@/store/hooks";
-import routePaths from "@/utils/routePaths";
-import { type IdeationData } from "@/features/ideation/store/ideationSlice";
+import { useIdeationStateSelector } from "@/features/ideation/hooks/useIdeationStateSelector";
+import routePaths from "@/shared/utils/routePaths";
 
-function getHighestVoteProjects(projectIdeas: IdeationData[]) {
+function getHighestVoteProjects(projectIdeas: Ideation[]) {
   const maxVotes = Math.max(
     ...projectIdeas.map((obj) => obj.projectIdeaVotes.length),
   );
@@ -23,7 +24,7 @@ export interface FinalizedIdeation {
 }
 
 export default function FinalizeIdeationList() {
-  const { projectIdeas } = useIdeation();
+  const { projectIdeas } = useIdeationStateSelector();
   const finalizeProjectList = getHighestVoteProjects(projectIdeas);
   const [finalizedIdeation, setFinalizedIdeation] = useState<FinalizedIdeation>(
     { id: finalizeProjectList[0]?.id, title: finalizeProjectList[0]?.title },
