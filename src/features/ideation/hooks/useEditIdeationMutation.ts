@@ -8,13 +8,13 @@ import { useAppDispatch } from "@/shared/store";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { CacheTag } from "@/shared/utils/cacheTag";
 
-interface UseRemoveIdeationVoteMutationProps {
+interface UseEditIdeationMutationProps {
   teamId: string;
 }
 
 export function useEditIdeationMutation({
   teamId,
-}: UseRemoveIdeationVoteMutationProps) {
+}: UseEditIdeationMutationProps) {
   const dispatch = useAppDispatch();
   const { editIdeation } = useEditIdeation();
   const queryClient = useQueryClient();
@@ -36,9 +36,15 @@ export function useEditIdeationMutation({
 
   async function editIdeationMutationFn({
     ideationId,
+    title,
+    description,
+    vision,
   }: EditIdeationClientRequestDto): Promise<EditIdeationResponseDto> {
     return await editIdeation({
       ideationId,
+      title,
+      description,
+      vision,
     });
   }
 

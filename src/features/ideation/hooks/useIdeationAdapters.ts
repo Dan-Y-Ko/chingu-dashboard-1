@@ -1,6 +1,7 @@
 import { resolve } from "@chingu-x/modules/resolver";
 import { TYPES } from "@chingu-x/modules/di-types";
 import type {
+  AddIdeationClientRequestDto,
   AddIdeationVoteClientRequestDto,
   EditIdeationClientRequestDto,
   FetchIdeationClientRequestDto,
@@ -100,4 +101,16 @@ export function useEditIdeation() {
     });
 
   return { editIdeation };
+}
+
+export function useAddIdeation() {
+  const addIdeation = async ({
+    teamId,
+    title,
+    description,
+    vision,
+  }: AddIdeationClientRequestDto) =>
+    await ideationAdapter.addIdeation({ teamId, title, description, vision });
+
+  return { addIdeation };
 }
