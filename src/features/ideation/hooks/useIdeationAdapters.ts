@@ -5,6 +5,7 @@ import type {
   FetchIdeationClientRequestDto,
   Ideation,
   IdeationClientAdapter,
+  RemoveIdeationVoteClientRequestDto,
 } from "@chingu-x/modules/ideation";
 import { useIdeationStateSelector } from "./useIdeationStateSelector";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
@@ -57,4 +58,13 @@ export function useAddIdeationVote() {
     await ideationAdapter.addIdeationVote({ ideationId });
 
   return { addIdeationVote };
+}
+
+export function useRemoveIdeationVote() {
+  const removeIdeationVote = async ({
+    ideationId,
+  }: RemoveIdeationVoteClientRequestDto) =>
+    await ideationAdapter.removeIdeationVote({ ideationId });
+
+  return { removeIdeationVote };
 }

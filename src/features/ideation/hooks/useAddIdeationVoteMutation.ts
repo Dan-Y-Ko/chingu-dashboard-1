@@ -8,13 +8,13 @@ import { useAppDispatch } from "@/shared/store";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 
-interface UseAddTechStackMutationProps {
+interface UseAddIdeationVoteMutationProps {
   teamId: string;
 }
 
 export function useAddIdeationVoteMutation({
   teamId,
-}: UseAddTechStackMutationProps) {
+}: UseAddIdeationVoteMutationProps) {
   const dispatch = useAppDispatch();
   const { addIdeationVote } = useAddIdeationVote();
   const queryClient = useQueryClient();
