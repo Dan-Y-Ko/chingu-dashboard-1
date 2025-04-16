@@ -7,6 +7,7 @@ import type {
   SortVoyageResourcesClientRequestDto,
   VoyageResourcesClientAdapter,
 } from "@chingu-x/modules/voyage-resources";
+import { useVoyageResourceStateSelector } from "./useVoyageResourceStateSelector";
 
 export const voyageResourcesAdapter = resolve<VoyageResourcesClientAdapter>(
   TYPES.VoyageResourcesClientAdapter,
@@ -49,4 +50,13 @@ export function useSortVoyageResources() {
     voyageResourcesAdapter.sortVoyageResources({ order, voyageResources });
 
   return { sortVoyageResources };
+}
+
+export function useGetTopFiveVoyageResources() {
+  const { voyageResources } = useVoyageResourceStateSelector();
+
+  const topFiveVoyageResources =
+    voyageResourcesAdapter.getTopFiveVoyageResources({ voyageResources });
+
+  return { topFiveVoyageResources };
 }

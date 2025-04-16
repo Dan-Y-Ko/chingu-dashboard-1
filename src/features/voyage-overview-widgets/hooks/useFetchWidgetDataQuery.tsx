@@ -3,6 +3,7 @@ import type { FetchIdeationResponseDto } from "@chingu-x/modules/ideation";
 import { useFetchIdeationQuery } from "@/features/ideation/hooks/useFetchIdeationQuery";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { useFetchFeaturesQuery } from "@/features/features/hooks/useFetchFeaturesQuery";
+import { useFetchVoyageResourcesQuery } from "@/features/voyage-resources/hooks/useFetchVoyageResourcesQuery";
 
 interface UseFetchWidgetDataQueryProps {
   teamId: string;
@@ -13,6 +14,7 @@ export function useFetchWidgetDataQuery({
 }: UseFetchWidgetDataQueryProps) {
   useFetchIdeationQuery({ teamId });
   useFetchFeaturesQuery({ teamId });
+  useFetchVoyageResourcesQuery({ teamId });
   // const { fetchIdeationFn } = useFetchIdeationQuery({ teamId }) as {
   //   fetchIdeationFn: () => Promise<FetchIdeationResponseDto>;
   // };

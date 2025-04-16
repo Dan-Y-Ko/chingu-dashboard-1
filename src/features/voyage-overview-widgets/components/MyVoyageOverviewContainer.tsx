@@ -9,12 +9,15 @@ import FeaturesStateContent from "./FeaturesStateContent";
 import { useFetchWidgetDataQuery } from "../hooks/useFetchWidgetDataQuery";
 import { useGetFinalizedIdeation } from "@/features/ideation/hooks/useIdeationAdapters";
 import { useGetMustHaveFeatures } from "@/features/features/hooks/useFeaturesAdapters";
+import ResourcesStateContent from "./ResourcesStateContent";
+import { useGetTopFiveVoyageResources } from "@/features/voyage-resources/hooks/useVoyageResourcesAdapters";
 
 export default function MyVoyageOverviewContainer() {
   const { teamId } = useParams<{ teamId: string }>();
   useFetchWidgetDataQuery({ teamId });
   const { finalizedIdeation } = useGetFinalizedIdeation();
   const { mustHaveFeatures } = useGetMustHaveFeatures();
+  const { topFiveVoyageResources } = useGetTopFiveVoyageResources();
 
   return (
     <div className="col-span-1 flex w-full grow flex-col rounded-2xl border-2 border-base-100 bg-base-200 p-4">
@@ -61,7 +64,7 @@ export default function MyVoyageOverviewContainer() {
             </DashboardWidget>
           </div> */}
         </div>
-        {/* <DashboardWidget
+        <DashboardWidget
           imageLight="/img/share_link_light.png"
           imageDark="/img/share_link_dark.png"
           title="Share resources with your team"
@@ -70,10 +73,10 @@ export default function MyVoyageOverviewContainer() {
           buttonTitle="Go to Resources"
           description="Share links of helpful resources to your team for the Voyage. Contribute to the collective knowledgebase to empower your team."
         >
-          {resourceList.length > 0 ? (
-            <ResourcesStateContent contentObject={resourceList} />
+          {topFiveVoyageResources.length > 0 ? (
+            <ResourcesStateContent contentObject={topFiveVoyageResources} />
           ) : null}
-        </DashboardWidget> */}
+        </DashboardWidget>
       </div>
     </div>
   );

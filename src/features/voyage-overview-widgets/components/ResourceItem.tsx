@@ -1,12 +1,10 @@
-"use client";
-
 import React from "react";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 import { Badge } from "@chingu-x/components/badge";
 import { Avatar } from "@chingu-x/components/avatar";
 import Image from "next/image";
-import { useAppDispatch } from "@/store/hooks";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
+import { useAppDispatch } from "@/shared/store";
 
 interface ResourceItemProps {
   id: number;

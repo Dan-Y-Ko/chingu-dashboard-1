@@ -4,9 +4,7 @@ import MyVoyageOverviewContainer from "@/features/voyage-overview-widgets/compon
 interface VoyageDashboardProps {
   teamId: string;
 }
-export default async function VoyageDashboardPage({
-  teamId,
-}: VoyageDashboardProps) {
+export default function VoyageDashboardPage({ teamId }: VoyageDashboardProps) {
   // let currentSprintNumber: number | null = null;
   // let sprintsData: Sprint[] = [];
   // let meetingsData: Event[] = [];
@@ -37,12 +35,6 @@ export default async function VoyageDashboardPage({
   // if (errorMessage && errorType) {
   //   return <ErrorComponent errorType={errorType} message={errorMessage} />;
   // }
-
-  // const featureList = features
-  //   .filter((item) => item.categoryName === "must have")
-  //   .flatMap((category) =>
-  //     category.features.map((feature) => feature.description),
-  //   );
 
   // const resourceList = projectResources.map((resource) => ({
   //   id: resource.id,
