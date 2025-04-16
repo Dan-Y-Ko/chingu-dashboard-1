@@ -8,9 +8,12 @@ import MyVoyageOverviewContainer from "@/features/voyage-overview-widgets/compon
 import CheckInWidget from "@/features/weekly-checkin-widget/components/CheckInWidget";
 
 interface VoyageDashboardProps {
-  teamId: string;
+  params: {
+    teamId: string;
+  };
 }
-export default function VoyageDashboardPage({ teamId }: VoyageDashboardProps) {
+export default function VoyageDashboardPage({ params }: VoyageDashboardProps) {
+  const { teamId } = params;
   // let currentSprintNumber: number | null = null;
   // let sprintsData: Sprint[] = [];
   // let meetingsData: Event[] = [];
