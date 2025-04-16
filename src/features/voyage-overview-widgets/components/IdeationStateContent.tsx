@@ -1,8 +1,8 @@
+import type { Ideation } from "@chingu-x/modules/ideation";
 import React from "react";
-import { type IdeationData } from "@/features/ideation/store/ideationSlice";
 
 interface IdeationStateContentProps {
-  contentObject?: IdeationData;
+  contentObject?: Ideation;
 }
 function IdeationStateContent({ contentObject }: IdeationStateContentProps) {
   return (

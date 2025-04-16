@@ -4,11 +4,8 @@ import "reflect-metadata";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { Spinner } from "@chingu-x/components/spinner";
 import { BannerContainer } from "@chingu-x/components/banner-container";
 import { Banner } from "@chingu-x/components/banner";
-import { ErrorType } from "@/shared/utils/error";
-import ErrorComponent from "@/shared/components/Error";
 import routePaths from "@/shared/utils/routePaths";
 import VoyageSubmittedMessage from "@/features/sprints/components/VoyageSubmittedMessage";
 import { useIsVoyageProjectSubmittedStatus } from "@/features/voyage-team/hooks/useVoyageTeamAdapters";
@@ -29,10 +26,9 @@ export default function SprintsPage({ params }: SprintsPageProps) {
   const router = useRouter();
   const sprints = useSprintStateSelector();
   const { currentSprint } = useGetCurrentSprint();
-  const { isFetchSprintsPending, isFetchSprintsError, fetchSprintsError } =
-    useFetchSprintsQuery({
-      teamId,
-    });
+  useFetchSprintsQuery({
+    teamId,
+  });
   const { isVoyageProjectSubmitted } = useIsVoyageProjectSubmittedStatus({
     teamId,
   });
@@ -70,23 +66,6 @@ export default function SprintsPage({ params }: SprintsPageProps) {
     currentSprint,
     teamId,
   ]);
-
-  if (isFetchSprintsPending) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Spinner />
-      </div>
-    );
-  }
-
-  if (isFetchSprintsError) {
-    return (
-      <ErrorComponent
-        errorType={ErrorType.FETCH_SPRINT}
-        message={fetchSprintsError!.message}
-      />
-    );
-  }
 
   if (isVoyageProjectSubmitted) {
     return (

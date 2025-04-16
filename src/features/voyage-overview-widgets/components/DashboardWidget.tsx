@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState } from "react";
 import { ChevronDoubleRightIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";

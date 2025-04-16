@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { Button } from "@chingu-x/components/button";
 import { onOpenModal } from "@/store/features/modal/modalSlice";

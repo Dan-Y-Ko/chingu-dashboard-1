@@ -1,15 +1,12 @@
-"use client";
-
-import "reflect-metadata";
 import { useParams } from "next/navigation";
 import DashboardWidget from "./DashboardWidget";
-import routePaths from "@/shared/utils/routePaths";
+import ResourcesStateContent from "./ResourcesStateContent";
 import IdeationStateContent from "./IdeationStateContent";
 import FeaturesStateContent from "./FeaturesStateContent";
-import { useFetchWidgetDataQuery } from "../hooks/useFetchWidgetDataQuery";
+import routePaths from "@/shared/utils/routePaths";
+import { useFetchWidgetDataQuery } from "@/features/voyage-overview-widgets/hooks/useFetchWidgetDataQuery";
 import { useGetFinalizedIdeation } from "@/features/ideation/hooks/useIdeationAdapters";
 import { useGetMustHaveFeatures } from "@/features/features/hooks/useFeaturesAdapters";
-import ResourcesStateContent from "./ResourcesStateContent";
 import { useGetTopFiveVoyageResources } from "@/features/voyage-resources/hooks/useVoyageResourcesAdapters";
 
 export default function MyVoyageOverviewContainer() {
@@ -18,6 +15,29 @@ export default function MyVoyageOverviewContainer() {
   const { finalizedIdeation } = useGetFinalizedIdeation();
   const { mustHaveFeatures } = useGetMustHaveFeatures();
   const { topFiveVoyageResources } = useGetTopFiveVoyageResources();
+
+  // const iconMapping = {
+  //   Frontend: ComputerDesktopIcon,
+  //   "CSS Library": SwatchIcon,
+  //   Backend: CodeBracketSquareIcon,
+  //   "Project Management": ChartPieIcon,
+  //   "Cloud Provider": CloudIcon,
+  //   Hosting: ServerStackIcon,
+  // };
+
+  // type TechStackName =
+  //   | "Frontend"
+  //   | "CSS Library"
+  //   | "Backend"
+  //   | "Project Management"
+  //   | "Cloud Provider"
+  //   | "Hosting";
+
+  // const techStackList = techStackDatas.map((techStackData) => ({
+  //   title: techStackData.name,
+  //   icon: iconMapping[techStackData.name as TechStackName],
+  //   value: techStackData.teamTechStackItems.map((item) => item.name).join(", "),
+  // }));
 
   return (
     <div className="col-span-1 flex w-full grow flex-col rounded-2xl border-2 border-base-100 bg-base-200 p-4">
@@ -53,7 +73,7 @@ export default function MyVoyageOverviewContainer() {
           {/* <div className="flex w-full grow">
             <DashboardWidget
               title="Choose your tech stack"
-              link={routePaths.techStackPage(teamId ?? "")}
+              link={routePaths.techStackPage(teamId)}
               headerTitle="Tech Stack"
               buttonTitle="Go to Tech Stack"
               description="The final choices for the programming languages, frameworks, and tools that will serve as the foundation of your project will appear here."
@@ -68,7 +88,7 @@ export default function MyVoyageOverviewContainer() {
           imageLight="/img/share_link_light.png"
           imageDark="/img/share_link_dark.png"
           title="Share resources with your team"
-          link={routePaths.voyageResourcesPage(teamId ?? "")}
+          link={routePaths.voyageResourcesPage(teamId)}
           headerTitle="Resources"
           buttonTitle="Go to Resources"
           description="Share links of helpful resources to your team for the Voyage. Contribute to the collective knowledgebase to empower your team."

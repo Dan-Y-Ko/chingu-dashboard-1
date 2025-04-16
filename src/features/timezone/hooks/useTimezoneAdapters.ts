@@ -2,9 +2,9 @@ import { resolve } from "@chingu-x/modules/resolver";
 import { TYPES } from "@chingu-x/modules/di-types";
 import type { TimezoneClientAdapter } from "@chingu-x/modules/timezone";
 import type { Meeting } from "@chingu-x/modules/sprint-meeting";
+import type { VoyageResource } from "@chingu-x/modules/voyage-resources";
 import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
-import { VoyageResource } from "@chingu-x/modules/voyage-resources";
 
 export const timezoneAdapter = resolve<TimezoneClientAdapter>(
   TYPES.TimezoneClientAdapter,

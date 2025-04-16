@@ -1,37 +1,29 @@
-"use client";
-
 import { ArrowRightIcon, DocumentCheckIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import Link from "next/link";
 import { isSameDay, sub } from "date-fns";
-import { type User } from "@chingu-x/modules/user";
 import { Badge } from "@chingu-x/components/badge";
 import { Button } from "@chingu-x/components/button";
-import routePaths from "@/utils/routePaths";
-import { getSprintCheckinIsStatus } from "@/utils/getFormStatus";
-import { useUser } from "@/store/hooks";
-import convertStringToDate from "@/utils/convertStringToDate";
-import { useSprintStateSelector } from "@/features/sprints/hooks/useSprintStateSelector";
+import type { Sprint } from "@chingu-x/modules/sprints";
+import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
+import routePaths from "@/shared/utils/routePaths";
+import { useGetSprintCheckinStatus } from "@/features/sprints/hooks/useSprintsAdapters";
+import { useGetSprintEndDate } from "@/features/timezone/hooks/useTimezoneAdapters";
 
 interface CheckInWidgetProps {
-  user: User | null;
-  currentSprintNumber: number | null;
+  currentSprint: Sprint;
   teamId: string;
 }
-function CheckInWidget({
-  user,
-  currentSprintNumber,
-  teamId,
-}: CheckInWidgetProps) {
-  const { timezone, currentDateInUserTimezone } = useUser();
-  const sprintsData = useSprintStateSelector();
+function CheckInWidget({ currentSprint, teamId }: CheckInWidgetProps) {
+  const user = useUserStateSelector();
+  const { currentDateInUserTimezone } = user;
   const userDate = currentDateInUserTimezone ?? new Date();
-
-  const sprintCheckinIsSubmitted = getSprintCheckinIsStatus(
-    user,
-    Number(currentSprintNumber),
-  );
+  const { number, id } = currentSprint;
+  const { sprintCheckinIsSubmitted } = useGetSprintCheckinStatus({ id });
+  const { sprintEndDate } = useGetSprintEndDate({
+    sprintNumber: number.toString(),
+  });
 
   function renderWeeklyCheckinButton() {
     if (sprintCheckinIsSubmitted) {
@@ -58,24 +50,10 @@ function CheckInWidget({
   }
 
   const getBadgeValue = (userDate: Date): string => {
-    const currentSprintEndDate = sprintsData.sprints.find(
-      (sprint) => sprint.number === currentSprintNumber,
-    )?.endDate;
-
-    if (currentSprintEndDate) {
-      const currentSprintEndDateInUserTimezone = convertStringToDate(
-        currentSprintEndDate,
-        timezone,
-      );
-
-      if (isSameDay(userDate, currentSprintEndDateInUserTimezone)) {
+    if (sprintEndDate) {
+      if (isSameDay(userDate, sprintEndDate)) {
         return "Due today";
-      } else if (
-        isSameDay(
-          userDate,
-          sub(currentSprintEndDateInUserTimezone, { days: 1 }),
-        )
-      ) {
+      } else if (isSameDay(userDate, sub(sprintEndDate, { days: 1 }))) {
         return "Pending Submission";
       }
     }
@@ -100,10 +78,7 @@ function CheckInWidget({
         How did that last sprint with your team go?
       </p>
       <Link
-        href={routePaths.weeklyCheckInPage(
-          teamId,
-          currentSprintNumber?.toString() ?? "",
-        )}
+        href={routePaths.weeklyCheckInPage(teamId, number.toString())}
         className="self-center"
       >
         {renderWeeklyCheckinButton()}

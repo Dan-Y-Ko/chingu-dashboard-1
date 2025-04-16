@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { Spinner } from "@chingu-x/components/spinner";
 import { useFetchMyTeam } from "./useMyTeamAdapters";
 import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector";
 import { useAppDispatch } from "@/shared/store";
 import { CacheTag } from "@/shared/utils/cacheTag";
 import { fetchTeamDirectory } from "@/features/voyage-team/store/myTeamSlice";
+import ErrorComponent from "@/shared/components/Error";
+import { ErrorType } from "@/shared/utils/error";
 
 interface UseFetchMyTeamQueryProps {
   teamId: string;
@@ -35,9 +38,18 @@ export function useFetchMyTeamQuery({ teamId }: UseFetchMyTeamQueryProps) {
     }
   }, [data, dispatch]);
 
-  return {
-    isFetchMyTeamPending,
-    isFetchMyTeamError,
-    fetchMyTeamError,
-  };
+  if (isFetchMyTeamError) {
+    <ErrorComponent
+      errorType={ErrorType.FETCH_MY_TEAM}
+      message={fetchMyTeamError.message}
+    />;
+  }
+
+  if (isFetchMyTeamPending) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 }
