@@ -10,6 +10,7 @@ import { useUserStateSelector } from "@/features/user/hooks/useUserStateSelector
 import routePaths from "@/shared/utils/routePaths";
 import { useGetSprintCheckinStatus } from "@/features/sprints/hooks/useSprintsAdapters";
 import { useGetSprintEndDate } from "@/features/timezone/hooks/useTimezoneAdapters";
+import { useFetchMyTeamQuery } from "@/features/voyage-team/hooks/useFetchMyTeamQuery";
 
 interface CheckInWidgetProps {
   currentSprint: Sprint;
@@ -17,6 +18,7 @@ interface CheckInWidgetProps {
 }
 function CheckInWidget({ currentSprint, teamId }: CheckInWidgetProps) {
   const user = useUserStateSelector();
+  useFetchMyTeamQuery({ teamId });
   const { currentDateInUserTimezone } = user;
   const userDate = currentDateInUserTimezone ?? new Date();
   const { number, id } = currentSprint;
