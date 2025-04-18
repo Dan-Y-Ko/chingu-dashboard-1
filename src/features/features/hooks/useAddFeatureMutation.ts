@@ -2,45 +2,36 @@ import type {
   AddFeatureClientRequestDto,
   AddFeatureClientResponseDto,
 } from "@chingu-x/modules/features";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Dispatch, SetStateAction } from "react";
-import { useFetchFeatureQuery } from "./useFetchFeatureQuery";
 import { useAddFeature } from "./useFeaturesAdapters";
-import { addFeatureState } from "@/features/features/store/featuresSlice";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { useAppDispatch } from "@/shared/store";
+import { CacheTag } from "@/shared/utils/cacheTag";
 
 interface UseAddFeatureMutationProps {
-  id: number;
+  teamId: string;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
 }
 
 export function useAddFeatureMutation({
-  id,
+  teamId,
   setIsEditing,
 }: UseAddFeatureMutationProps) {
   const dispatch = useAppDispatch();
-  const { getFeatureQueryFn } = useFetchFeatureQuery({ id });
+  const queryClient = useQueryClient();
   const { addFeature } = useAddFeature();
 
   const { mutate: addFeatureMutation, isPending: isAddFeaturePending } =
     useMutation<AddFeatureClientResponseDto, Error, AddFeatureClientRequestDto>(
       {
         mutationFn: addFeatureMutationFn,
-        onSuccess: async (data) => {
-          try {
-            const feature = await getFeatureQueryFn(data.id);
-            dispatch(addFeatureState(feature));
-          } catch (error) {
-            dispatch(
-              onOpenModal({
-                type: "error",
-                content: { message: (error as Error).message },
-              }),
-            );
-          } finally {
-            setIsEditing(false);
-          }
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({
+            queryKey: [CacheTag.features, { teamId }],
+          });
+
+          setIsEditing(false);
         },
         onError: (error: Error) => {
           dispatch(

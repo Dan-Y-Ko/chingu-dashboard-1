@@ -2,20 +2,21 @@ import type {
   DeleteFeatureClientRequestDto,
   DeleteFeatureClientResponseDto,
 } from "@chingu-x/modules/features";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDeleteFeature } from "./useFeaturesAdapters";
-import { deleteFeatureState } from "@/features/features/store/featuresSlice";
 import { onCloseModal, onOpenModal } from "@/store/features/modal/modalSlice";
 import { useAppDispatch } from "@/shared/store";
+import { CacheTag } from "@/shared/utils/cacheTag";
 
 interface UseDeleteFeatureMutationProps {
-  featureId: number;
+  teamId: string;
 }
 
 export function useDeleteFeatureMutation({
-  featureId,
+  teamId,
 }: UseDeleteFeatureMutationProps) {
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
   const { deleteFeature } = useDeleteFeature();
 
   const { mutate: deleteFeatureMutation } = useMutation<
@@ -24,8 +25,10 @@ export function useDeleteFeatureMutation({
     DeleteFeatureClientRequestDto
   >({
     mutationFn: deleteFeatureMutationFn,
-    onSuccess: () => {
-      dispatch(deleteFeatureState({ featureId }));
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [CacheTag.features, { teamId }],
+      });
       dispatch(onCloseModal());
     },
     onError: (error: Error) => {

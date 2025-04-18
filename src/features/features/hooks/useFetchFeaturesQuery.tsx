@@ -47,6 +47,4 @@ export function useFetchFeaturesQuery({ teamId }: UseFetchFeaturesQueryProps) {
       </div>
     );
   }
-
-  return { getFeaturesQueryFn };
 }

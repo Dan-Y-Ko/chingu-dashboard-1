@@ -5,7 +5,6 @@ import type {
   DeleteFeatureClientRequestDto,
   EditFeatureClientRequestDto,
   FeaturesClientAdapter,
-  FetchFeatureClientRequestDto,
   FetchFeaturesClientRequestDto,
   SaveOrderClientRequestDto,
 } from "@chingu-x/modules/features";
@@ -57,13 +56,6 @@ export function useDeleteFeature() {
     await featuresAdapter.deleteFeature({ featureId });
 
   return { deleteFeature };
-}
-
-export function useFetchFeature() {
-  const fetchFeature = async ({ featureId }: FetchFeatureClientRequestDto) =>
-    await featuresAdapter.fetchFeature({ featureId });
-
-  return { fetchFeature };
 }
 
 export function useAddFeature() {

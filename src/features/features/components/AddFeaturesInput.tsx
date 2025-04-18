@@ -35,7 +35,7 @@ export default function AddFeaturesInput({
   const { teamId } = useParams<{ teamId: string }>();
   const { isAddFeaturePending, addFeatureMutation } = useAddFeatureMutation({
     setIsEditing,
-    id,
+    teamId,
   });
 
   const {

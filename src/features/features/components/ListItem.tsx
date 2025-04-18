@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { Spinner } from "@chingu-x/components/spinner";
 import { TextInput } from "@chingu-x/components/inputs";
 import type { Feature } from "@chingu-x/modules/features";
+import { useParams } from "next/navigation";
 import Card from "./Card";
 import { validateTextInput } from "@/shared/utils/form/validateInput";
 import { useEditFeatureMutation } from "@/features/features/hooks/useEditFeatureMutation";
@@ -24,10 +25,12 @@ interface ListItemProps {
 }
 
 export default function ListItem({ feature, index }: ListItemProps) {
+  const { teamId } = useParams<{ teamId: string }>();
   const [editMode, setEditMode] = useState<boolean>(false);
   const listItemRef = useRef<HTMLDivElement>(null);
   const { id, description, teamMemberId } = feature;
   const { isEditFeaturePending, editFeatureMutation } = useEditFeatureMutation({
+    teamId,
     setEditMode,
   });
 

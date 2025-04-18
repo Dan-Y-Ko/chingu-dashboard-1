@@ -1,4 +1,5 @@
 import { type Dispatch, type SetStateAction } from "react";
+import { useParams } from "next/navigation";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import EditMenu from "@/shared/components/EditMenu";
 import { useAppDispatch } from "@/shared/store";
@@ -16,7 +17,8 @@ export default function EditPopover({
   featureId,
 }: EditPopoverProps) {
   const dispatch = useAppDispatch();
-  const { deleteFeatureMutation } = useDeleteFeatureMutation({ featureId });
+  const { teamId } = useParams<{ teamId: string }>();
+  const { deleteFeatureMutation } = useDeleteFeatureMutation({ teamId });
 
   function handleClick() {
     setEditMode(true);

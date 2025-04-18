@@ -2,21 +2,24 @@ import type {
   EditFeatureClientRequestDto,
   EditFeatureClientResponseDto,
 } from "@chingu-x/modules/features";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Dispatch, SetStateAction } from "react";
 import { useEditFeature } from "./useFeaturesAdapters";
-import { editFeatureState } from "@/features/features/store/featuresSlice";
 import { onOpenModal } from "@/store/features/modal/modalSlice";
 import { useAppDispatch } from "@/shared/store";
+import { CacheTag } from "@/shared/utils/cacheTag";
 
 interface UseEditFeatureMutationProps {
+  teamId: string;
   setEditMode: Dispatch<SetStateAction<boolean>>;
 }
 
 export function useEditFeatureMutation({
+  teamId,
   setEditMode,
 }: UseEditFeatureMutationProps) {
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
   const { editFeature } = useEditFeature();
 
   const { mutate: editFeatureMutation, isPending: isEditFeaturePending } =
@@ -26,8 +29,10 @@ export function useEditFeatureMutation({
       EditFeatureClientRequestDto
     >({
       mutationFn: editFeatureMutationFn,
-      onSuccess: (data) => {
-        dispatch(editFeatureState(data));
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: [CacheTag.features, { teamId }],
+        });
         setEditMode(false);
       },
       onError: (error: Error) => {
