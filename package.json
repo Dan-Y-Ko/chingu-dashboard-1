@@ -14,7 +14,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@chingu-x/components": "file:C:\\Users\\DK379\\Documents\\web_pages\\chingu_packages\\components",
+    "@chingu-x/components": "file:\\Users\\timothydehof\\Dev\\Projects\\Web\\chingu\\chingu-dashboard-components",
     "@hello-pangea/dnd": "^16.3.0",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.1",
