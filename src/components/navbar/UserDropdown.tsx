@@ -16,7 +16,9 @@ export default function UserDropDown({ openState }: { openState?: boolean }) {
   );
 
   const currentVoyage = activeVoyage?.voyageTeam.name
-    ? `Team - Tier ${activeVoyage.voyageTeam.name.split("-")[1].split("tier")[1]
+    ? `Team - Tier ${activeVoyage.voyageTeam.name
+      .split("-")[1]
+      .split("tier")[1]
       .toUpperCase()} ${activeVoyage.voyageTeam.name.split("-")[0].toUpperCase()}`
     : "Please join a voyage to see your status information.";
 
