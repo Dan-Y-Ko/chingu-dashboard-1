@@ -100,12 +100,14 @@ export default function MeetingForm() {
 
     const { title, description, dateTime, meetingLink } = watch();
 
-    const setCustomValue = (id: "dateTime", value: Date) => {
-        setValue(id, value, {
-            shouldDirty: true,
-            shouldTouch: true,
-            shouldValidate: true,
-        });
+    const setCustomValue = (id: "dateTime", value: Date | null) => {
+        if (value) {
+            setValue(id, value, {
+                shouldDirty: true,
+                shouldTouch: true,
+                shouldValidate: true,
+            });
+        }
     };
 
     const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
@@ -346,7 +348,7 @@ export default function MeetingForm() {
                     selectedValue={dateTime}
                     {...register("dateTime")}
                     errorMessage={errors?.dateTime?.message}
-                    onChange={(value: Date) =>
+                    onChange={(value: Date | null) =>
                         setCustomValue("dateTime", value)
                     }
                 />
