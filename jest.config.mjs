@@ -15,6 +15,9 @@ const sharedConfig = {
     "^@/(.*)$": "<rootDir>/src/$1",
     "^@chingu-x/components/(.*)$": "<rootDir>/node_modules/@chingu-x/components/dist/$1",
   },
+  transform: {
+    "^.+\\.(js|jsx|ts|tsx)$": ["@swc/jest"],
+  },
 };
 
 const clientTestConfig = {
