@@ -119,12 +119,6 @@
         "no-console": "off",
         "@typescript-eslint/consistent-type-imports": "off"
       }
-    },
-    {
-      "files": ["**/*"],
-      "languageOptions": {
-        "indent": 4
-      }
     }
   ]
 }
