@@ -13,45 +13,34 @@ jest.mock("@/store/hooks", () => ({
     useUser: jest.fn(),
 }));
 jest.mock("@hello-pangea/dnd", () => ({
-    DragDropContext: ({ children }: { children: React.ReactNode }) => (
-        <div>{children}</div>
+    DragDropContext: jest.fn(
+        ({ children }: { children: React.ReactNode }) => children,
     ),
-    Droppable: ({
-        children,
-    }: {
-        children: (provided: {
-            droppableProps: Record<string, unknown>;
-            innerRef: React.RefObject<HTMLDivElement>;
-        }) => React.ReactNode;
-    }) => (
-        <div>
-            {children({
-                droppableProps: {},
-                innerRef: React.createRef<HTMLDivElement>(),
-            })}
-        </div>
+    Droppable: jest.fn(
+        ({
+            children,
+        }: {
+            children: (provided: Record<string, unknown>) => React.ReactNode;
+        }) => children({ droppableProps: {}, innerRef: {} }),
     ),
-    Draggable: ({
-        children,
-    }: {
-        children: (provided: {
-            draggableProps: Record<string, unknown>;
-            dragHandleProps: Record<string, unknown>;
-            innerRef: React.RefObject<HTMLDivElement>;
-        }) => React.ReactNode;
-    }) => (
-        <div>
-            {children({
-                draggableProps: {},
-                dragHandleProps: {},
-                innerRef: React.createRef<HTMLDivElement>(),
-            })}
-        </div>
+    Draggable: jest.fn(
+        ({
+            children,
+        }: {
+            children: (provided: Record<string, unknown>) => React.ReactNode;
+        }) =>
+            children({ draggableProps: {}, dragHandleProps: {}, innerRef: {} }),
     ),
 }));
 jest.mock("@chingu-x/components/avatar", () => ({
-    Avatar: jest.fn(({ children }) => <div>{children}</div>),
+    Avatar: jest.fn(({ children }: { children: React.ReactNode }) => (
+        <div>{children}</div>
+    )),
 }));
+// eslint-disable-next-line @next/next/no-img-element
+jest.mock("next/image", () =>
+    jest.fn(({ alt }: { alt: string }) => <img alt={alt} />),
+);
 
 // "current user" id is 25b7b76c-1567-4910-9d50-e78819daccf1
 const renderWithStore = (feature: Feature, userId: string) => {

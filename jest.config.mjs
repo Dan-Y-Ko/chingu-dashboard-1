@@ -23,9 +23,5 @@ const clientTestConfig = {
   testMatch: ["**/src/{app,components,store}/**/*.test.ts?(x)"],
 };
 
-const config = {
-  // Add more setup options before each test is run
-  projects: [createJestConfig(clientTestConfig)()],
-};
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
-export default config;
+export default createJestConfig(clientTestConfig);
