@@ -1,34 +1,32 @@
 "use client";
 
 import React from "react";
-import DatePicker, { type ReactDatePickerProps } from "react-datepicker";
+import ReactDatePicker from "react-datepicker";
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 
 import "react-datepicker/dist/react-datepicker.css";
 
 import TextInput from "./TextInput";
 
-export interface DatePickerInputProps extends ReactDatePickerProps {
+export interface DatePickerInputProps {
   id: string;
   label: string;
   selectedValue: Date;
   placeholder: string;
   errorMessage?: string | undefined;
+  className?: string;
+  onChange?: (date: Date | null) => void;
 }
 
-const DateTimePicker = React.forwardRef<DatePicker, DatePickerInputProps>(
-  (
-    {
-      id,
-      label,
-      selectedValue,
-      placeholder,
-      errorMessage,
-      className,
-      ...props
-    },
-    ref,
-  ) => {
+function DateTimePicker({
+  id,
+  label,
+  selectedValue,
+  placeholder,
+  errorMessage,
+  className,
+  ...props
+}: DatePickerInputProps) {
     const filterPassedTime = (time: Date) => {
       const currentDate = new Date();
       const selectedDate = new Date(time);
@@ -36,7 +34,7 @@ const DateTimePicker = React.forwardRef<DatePicker, DatePickerInputProps>(
     };
     return (
       <div className="flex w-full flex-col">
-        <DatePicker
+        <ReactDatePicker
           id={id}
           selected={selectedValue}
           placeholderText={placeholder}
@@ -56,13 +54,11 @@ const DateTimePicker = React.forwardRef<DatePicker, DatePickerInputProps>(
               className={className}
             />
           }
-          ref={ref}
           {...props}
         />
       </div>
     );
-  },
-);
+}
 
 DateTimePicker.displayName = "DateTimePicker";
 
