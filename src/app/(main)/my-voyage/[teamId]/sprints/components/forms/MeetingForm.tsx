@@ -117,10 +117,10 @@ export default function MeetingForm() {
       data.meetingLink === ""
         ? { description: data.description, title: data.title }
         : {
-            description: data.description,
-            title: data.title,
-            meetingLink: data.meetingLink,
-          };
+          description: data.description,
+          title: data.title,
+          meetingLink: data.meetingLink,
+        };
 
     if (editMode) {
       const [res, error] = await editMeetingAction({
@@ -229,7 +229,7 @@ export default function MeetingForm() {
           if (
             watchedData.hasOwnProperty(key) &&
             meetingData[key as keyof Meeting] !==
-              watchedData[key as keyof typeof watchedData]
+            watchedData[key as keyof typeof watchedData]
           ) {
             modifiedObject[key as keyof Meeting] =
               watchedData[key as keyof typeof watchedData];
