@@ -8,7 +8,7 @@ import { Feature, features } from "./fixtures/Features";
 import { rootReducer } from "@/store/store";
 import { useUser } from "@/store/hooks";
 
-jest.mock("./EditPopover", () => <div>mock child component</div>);
+jest.mock("./EditPopover", () => "div");
 jest.mock("@/store/hooks", () => ({
     useUser: jest.fn(),
 }));
