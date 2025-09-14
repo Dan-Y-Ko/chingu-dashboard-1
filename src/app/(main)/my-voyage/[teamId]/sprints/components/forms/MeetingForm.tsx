@@ -117,10 +117,10 @@ export default function MeetingForm() {
       data.meetingLink === ""
         ? { description: data.description, title: data.title }
         : {
-            description: data.description,
-            title: data.title,
-            meetingLink: data.meetingLink,
-          };
+          description: data.description,
+          title: data.title,
+          meetingLink: data.meetingLink,
+        };
 
     if (editMode) {
       const [res, error] = await editMeetingAction({
@@ -142,7 +142,10 @@ export default function MeetingForm() {
 
       if (error) {
         dispatch(
-          onOpenModal({ type: "error", content: { message: error.message } }),
+          onOpenModal({
+            type: "error",
+            content: { message: error.message },
+          }),
         );
 
         setEditMeetingLoading(false);
@@ -164,7 +167,10 @@ export default function MeetingForm() {
 
       if (error) {
         dispatch(
-          onOpenModal({ type: "error", content: { message: error.message } }),
+          onOpenModal({
+            type: "error",
+            content: { message: error.message },
+          }),
         );
         setAddMeetingLoading(false);
       }
@@ -229,7 +235,7 @@ export default function MeetingForm() {
           if (
             watchedData.hasOwnProperty(key) &&
             meetingData[key as keyof Meeting] !==
-              watchedData[key as keyof typeof watchedData]
+            watchedData[key as keyof typeof watchedData]
           ) {
             modifiedObject[key as keyof Meeting] =
               watchedData[key as keyof typeof watchedData];
@@ -312,7 +318,8 @@ export default function MeetingForm() {
             {editMode ? "Edit" : "Create"} Meeting
           </h2>
           <p className="text-lg font-medium text-base-300">
-            {editMode ? "Edit the" : "Create a new"} meeting for your team.
+            {editMode ? "Edit the" : "Create a new"} meeting for
+            your team.
           </p>
         </div>
         <TextInput
@@ -339,7 +346,9 @@ export default function MeetingForm() {
           selectedValue={dateTime}
           {...register("dateTime")}
           errorMessage={errors?.dateTime?.message}
-          onChange={(value: Date) => setCustomValue("dateTime", value)}
+          onChange={(value: Date) =>
+            setCustomValue("dateTime", value)
+          }
         />
         <TextInput
           id="meetingLink"
@@ -354,7 +363,10 @@ export default function MeetingForm() {
           type="submit"
           title="submit"
           disabled={
-            !isDirty || !isValid || editMeetingLoading || addMeetingLoading
+            !isDirty ||
+            !isValid ||
+            editMeetingLoading ||
+            addMeetingLoading
           }
           size="lg"
           variant="primary"
