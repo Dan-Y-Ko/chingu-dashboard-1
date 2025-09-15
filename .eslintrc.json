@@ -90,7 +90,7 @@
     ],
     "guard-for-in": 2,
     "no-await-in-loop": 2,
-    "indent": [2, 2],
+    "indent": "off",
     "brace-style": 2,
     "no-multiple-empty-lines": 2,
     "eol-last": [2, "always"],
