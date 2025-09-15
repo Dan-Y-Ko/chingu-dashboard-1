@@ -18,17 +18,15 @@ export interface DatePickerInputProps {
   onChange?: (date: Date | null) => void;
 }
 
-function DateTimePicker(
-  {
-    id,
-    label,
-    selectedValue,
-    placeholder,
-    errorMessage,
-    className = "",
-    ...props
-  }: DatePickerInputProps
-) {
+function DateTimePicker({
+  id,
+  label,
+  selectedValue,
+  placeholder,
+  errorMessage,
+  className = "",
+  ...props
+}: DatePickerInputProps) {
   const filterPassedTime = (time: Date) => {
     const currentDate = new Date();
     const selectedDate = new Date(time);
@@ -46,7 +44,6 @@ function DateTimePicker(
         timeIntervals={15}
         popperClassName="ml-1"
         popperPlacement="bottom-start"
-
         customInput={
           <TextInput
             id={id}

@@ -117,10 +117,10 @@ export default function MeetingForm() {
       data.meetingLink === ""
         ? { description: data.description, title: data.title }
         : {
-            description: data.description,
-            title: data.title,
-            meetingLink: data.meetingLink,
-          };
+          description: data.description,
+          title: data.title,
+          meetingLink: data.meetingLink,
+        };
 
     if (editMode) {
       const [res, error] = await editMeetingAction({
@@ -229,7 +229,7 @@ export default function MeetingForm() {
           if (
             watchedData.hasOwnProperty(key) &&
             meetingData[key as keyof Meeting] !==
-              watchedData[key as keyof typeof watchedData]
+            watchedData[key as keyof typeof watchedData]
           ) {
             modifiedObject[key as keyof Meeting] =
               watchedData[key as keyof typeof watchedData];
@@ -340,7 +340,9 @@ export default function MeetingForm() {
           className=""
           {...register("dateTime")}
           errorMessage={errors?.dateTime?.message}
-          onChange={(value: Date | null) => value && setCustomValue("dateTime", value)}
+          onChange={(value: Date | null) =>
+            value && setCustomValue("dateTime", value)
+          }
         />
         <TextInput
           id="meetingLink"
