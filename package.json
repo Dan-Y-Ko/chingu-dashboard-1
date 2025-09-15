@@ -14,7 +14,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@chingu-x/components": "file:C:\\Users\\DK379\\Documents\\web_pages\\chingu_packages\\components",
+    "@chingu-x/components": "0.11.0",
     "@hello-pangea/dnd": "^16.3.0",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.1",
@@ -26,7 +26,7 @@
     "next": "^14.0.3",
     "next-themes": "^0.2.1",
     "react": "^18.2.0",
-    "react-datepicker": "^6.1.0",
+    "react-datepicker": "^8.7.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.46.2",
     "react-redux": "^8.1.2",
@@ -34,12 +34,18 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.4",
+    "@babel/preset-env": "^7.28.3",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
     "@next/eslint-plugin-next": "^13.4.12",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^11.0.1",
+    "@swc/core": "^1.13.5",
+    "@swc/jest": "^0.2.39",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
     "@types/node": "20.4.5",
@@ -49,7 +55,7 @@
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
     "autoprefixer": "10.4.14",
-    "cypress": "^12.17.3",
+    "cypress": "^13.0.0",
     "eslint": "8.46.0",
     "eslint-config-next": "^14.0.3",
     "eslint-config-prettier": "^8.10.0",
@@ -68,5 +74,5 @@
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "5.3.3"
   },
-  "packageManager": "yarn@4.0.2"
+  "packageManager": "yarn@1.22.22"
 }

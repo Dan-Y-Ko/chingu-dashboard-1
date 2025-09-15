@@ -337,9 +337,10 @@ export default function MeetingForm() {
           placeholder="Select meeting date and time"
           label="Date & Time"
           selectedValue={dateTime}
+          className=""
           {...register("dateTime")}
           errorMessage={errors?.dateTime?.message}
-          onChange={(value: Date) => setCustomValue("dateTime", value)}
+          onChange={(value: Date | null) => value && setCustomValue("dateTime", value)}
         />
         <TextInput
           id="meetingLink"
