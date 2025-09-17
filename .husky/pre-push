@@ -3,3 +3,4 @@ yarn format:changed
 yarn lint --strict
 yarn test
 yarn build
+yarn cypress

@@ -3,8 +3,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import React from "react";
 import Card from "./Card";
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
-import { Feature, features } from "./fixtures/Features";
+import { features } from "./fixtures/Features";
+import type { Feature } from "./fixtures/Features";
 import { rootReducer } from "@/store/store";
 import { useUser } from "@/store/hooks";
 
