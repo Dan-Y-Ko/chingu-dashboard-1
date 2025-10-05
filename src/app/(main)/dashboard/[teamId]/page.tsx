@@ -6,34 +6,37 @@ import { getCurrentVoyageTeam } from "@/utils/getCurrentVoyageTeam";
 import routePaths from "@/utils/routePaths";
 
 interface VoyageMemberDashboardPageProps {
-  params: {
-    teamId: string;
-  };
-  searchParams: {
-    [key: string]: string | string[] | undefined;
-  };
+    params: {
+        teamId: string;
+    };
+    searchParams: {
+        [key: string]: string | string[] | undefined;
+    };
 }
 async function VoyageMemberDashboardPage({
-  params,
-  searchParams
+    params,
+    searchParams,
 }: VoyageMemberDashboardPageProps) {
-  const [user, error] = await getUser();
-  const teamId = Number(params.teamId);
-  const { currentTeam, isStarted } = getCurrentVoyageTeam({
-    user,
-    error,
-    teamId,
-  });
+    const [user, error] = await getUser();
+    const teamId = Number(params.teamId);
+    const { currentTeam, isStarted } = getCurrentVoyageTeam({
+        user,
+        error,
+        teamId,
+    });
 
-  if (!currentTeam) {
-    redirect(routePaths.dashboardPage());
-  }
+    if (!currentTeam) {
+        redirect(routePaths.dashboardPage());
+    }
 
-  return isStarted ? (
-    <VoyageDashboardPage teamId={params.teamId} searchParams={searchParams} />
-  ) : (
-    <PreVoyageDashboard />
-  );
+    return isStarted ? (
+        <VoyageDashboardPage
+            teamId={params.teamId}
+            searchParams={searchParams}
+        />
+    ) : (
+        <PreVoyageDashboard />
+    );
 }
 
 export default VoyageMemberDashboardPage;
