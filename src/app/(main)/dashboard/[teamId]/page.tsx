@@ -9,9 +9,13 @@ interface VoyageMemberDashboardPageProps {
   params: {
     teamId: string;
   };
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  };
 }
 async function VoyageMemberDashboardPage({
   params,
+  searchParams
 }: VoyageMemberDashboardPageProps) {
   const [user, error] = await getUser();
   const teamId = Number(params.teamId);
@@ -26,7 +30,7 @@ async function VoyageMemberDashboardPage({
   }
 
   return isStarted ? (
-    <VoyageDashboardPage teamId={params.teamId} />
+    <VoyageDashboardPage teamId={params.teamId} searchParams={searchParams} />
   ) : (
     <PreVoyageDashboard />
   );
