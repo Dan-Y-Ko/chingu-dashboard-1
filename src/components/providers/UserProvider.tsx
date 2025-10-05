@@ -6,21 +6,21 @@ import { getUserState } from "@/store/features/user/userSlice";
 import type { User } from "@/store/features/user/userSlice";
 
 function UserProvider({
-  user,
-  mockDate
+    user,
+    mockDate,
 }: {
-  user: User | null;
-  mockDate?: Date;
+    user: User | null;
+    mockDate?: Date;
 }) {
-  const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (user) {
-      dispatch(getUserState({ ...user, currentDate: mockDate || null }));
-    }
-  }, [user, mockDate, dispatch]);
+    useEffect(() => {
+        if (user) {
+            dispatch(getUserState({ ...user, currentDate: mockDate || null }));
+        }
+    }, [user, mockDate, dispatch]);
 
-  return null;
+    return null;
 }
 
 export default UserProvider;
