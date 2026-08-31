@@ -1,7 +1,7 @@
 ![Architecture Diagram](architecture-diagram.png)
 
-The application is organized around Next.js App Router routes and feature-oriented UI components. Pages compose feature-specific components and shared components, with custom hooks providing access to client-side state managed through Redux Toolkit.
+The application is organized around the Next.js App Router and feature-oriented UI components. Pages compose feature-specific and shared components, while custom hooks provide access to client-side state managed through Redux Toolkit.
 
-Backend interactions are handled through server-side actions and services, which centralize communication with the Chingu API. This separates UI concerns from backend integration while providing a consistent boundary for data access and server-side operations.
+Backend interactions are handled through server-side actions and services, which provide a consistent interface for communicating with the Chingu API. These services also handle server-side operations such as cache revalidation where required.
 
-Shared utilities and types are reused across the application to keep common functionality consistent between features.
+Shared utilities and types are reused across features to provide common functionality and maintain consistency throughout the application.
