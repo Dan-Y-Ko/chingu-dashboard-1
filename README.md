@@ -13,6 +13,15 @@ The first phase of the Dashboard focused on improving the onboarding experience
 for new members and providing a central platform for managing their participation
 in Chingu projects.
 
+## Project History
+
+Development was carried out by a rotating volunteer engineering team over
+multiple development cycles. The frontend team typically consisted of 5–6
+developers within a larger cross-functional organization.
+
+The project progressed through planning, feature implementation, code review,
+integration, and internal alpha testing.
+
 ## Status
 
 This project reached an internal alpha and was deployed to a Vercel production
